@@ -1,0 +1,85 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { NgxsModule } from '@ngxs/store';
+
+import { AppComponent } from './app.component';
+
+import { BetComponent } from './components/bet/bet.component';
+import { BetterComponent } from './components/better/better.component';
+
+import { RankingComponent } from './components/ranking/ranking.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+
+import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+import { BetState } from './store/state/bet.state';
+
+import { FormsModule } from '@angular/forms';
+
+import { BetCategoryComponent } from './components/bet/bet-category/bet-category.component';
+import { BetContestComponent } from './components/bet/bet-contest/bet-contest.component';
+import { BetDurationComponent } from './components/bet/bet-duration/bet-duration.component';
+import { BetPlayerComponent } from './components/bet/bet-player/bet-player.component';
+import { BetSummaryComponent } from './components/bet/bet-summary/bet-summary.component';
+
+import { BetService } from './services/rest/bet.service';
+import { CommonService } from './services/rest/common.service';
+import { PlayerService } from './services/rest/player.service';
+import { UtilsService } from './services/utils.service';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    BetComponent,
+    ToolbarComponent,
+    RankingComponent,
+    BetterComponent,
+    BetContestComponent,
+    BetCategoryComponent,
+    BetPlayerComponent,
+    BetSummaryComponent,
+    BetDurationComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    
+    NgxsModule.forRoot([BetState], {
+      
+    }),
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+
+    MatButtonModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatListModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatTabsModule,
+    MatToolbarModule
+  ],
+  providers: [BetService, CommonService, PlayerService, UtilsService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

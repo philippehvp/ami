@@ -1,0 +1,9 @@
+<div *ngFor="let contest of contests$ | async">
+    <span>{{ contest.shortName }}</span>
+    <span>
+        <button mat-flat-button class="category" [color]="getColor(category)" *ngFor="let category of contest.categories" (click)="changeCategory(category.id)">
+            {{ category.shortName }}
+        </button>
+    </span>
+</div>
+

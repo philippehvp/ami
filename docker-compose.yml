@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: cpi-db
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: cpi
+      MYSQL_ROOT_PASSWORD: Allezlom2014
+      # MYSQL_USER: root
+      MYSQL_PASSWORD: Allezlom2014
+      TZ: Europe/Paris
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-volume:/var/lib/mysql/
+    tty: true
+
+  phpmyadmin:
+    container_name: cpi-phpmyadmin
+    image: phpmyadmin:latest
+    ports:
+      - "8000:80"
+    links:
+      - db:db
+    depends_on:
+      - db
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Allezlom2014
+      MYSQL_ROOT_PASSWORD: Allezlom2014
+      UPLOAD_LIMIT: 72000000
+    hostname: cpi-phpmyadmin
+
+  php:
+    container_name: cpi-php-backend
+    build: ./php_rest
+    # command: /usr/sbin/apache2ctl -D FOREGROUND
+    ports:
+      - "8080:80"
+    volumes:
+      - ./php_rest:/var/www/html/
+
+  angular:
+    container_name: cpi-angular
+    build: ./angular
+    command: ng serve --host 0.0.0.0
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./angular:/src
+
+  # backend:
+  #   container_name: cpi-node-backend
+  #   build: ./server
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+
+volumes:
+  db-volume:
+    driver: local

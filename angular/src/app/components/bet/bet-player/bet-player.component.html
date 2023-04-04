@@ -1,0 +1,11 @@
+<a *ngFor="let player of players$ | async">
+    <div>
+        <button mat-flat-button
+            [color]="getColor(player.id)"
+            (click)="changePlayer(player.id)"
+            [disabled]="isDisabled(player.id)">
+            {{ player.playerName1 }} - {{ player.playerName2 }}
+        </button>
+    </div>
+    
+</a>
