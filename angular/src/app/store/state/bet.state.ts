@@ -29,7 +29,7 @@ export class BetStateModel {
     contests: IContest[] | undefined;
     category: ICategory | undefined;
     players: IPlayer[] | undefined;
-    bet: IBet | undefined;
+    currentBet: IBet | undefined;
     bets: IBet[] | undefined;
     winner: string | undefined;
     runnerUp: string | undefined;
@@ -45,7 +45,7 @@ export class BetStateModel {
     contests: undefined,
     category: undefined,
     players: undefined,
-    bet: undefined,
+    currentBet: undefined,
     bets: undefined,
     winner: undefined,
     runnerUp: undefined,
@@ -90,8 +90,8 @@ export class BetState {
   }
 
   @Selector()
-  static bet(state: BetStateModel) {
-    return state.bet;
+  static currentBet(state: BetStateModel) {
+    return state.currentBet;
   }
 
   @Selector()
@@ -109,6 +109,11 @@ export class BetState {
     return state.runnerUp;
   }
 
+  @Selector()
+  static duration(state: BetStateModel) {
+    return state.duration;
+  }
+
   @Action(BetActions.SetBetter)
   setBetter(state: StateContext<BetStateModel>, action: BetActions.SetBetter) {
     // Recherche du participant ayant l'identifiant passé en paramètre
@@ -116,7 +121,7 @@ export class BetState {
     if(better) {
         state.patchState({better: better});
     
-        // Lecture des concours auxquels est inscrit le participant
+        // Lecture des concours auxquels est inscrit le participant, des pronostics et du pronostic de durée
         state.dispatch([
           new BetActions.GetContests(better.id),
           new BetActions.GetBets(better.id),
@@ -139,7 +144,7 @@ export class BetState {
           state.patchState({ betters: readBetters });
 
           // PHU - On se met sur le premier des participants en phase de dév
-          state.dispatch([new BetActions.SetBetter(readBetters[1].id)]);
+          state.dispatch([new BetActions.SetBetter(readBetters[0].id)]);
         })
     );
   }
@@ -162,7 +167,10 @@ export class BetState {
         if (category.id === action.categoryId) {
           state.patchState( { category, contest });
           
-          state.dispatch([new BetActions.GetPlayers(category.id)]);
+          state.dispatch([
+            new BetActions.GetPlayers(category.id),
+            new BetActions.SetCurrentBet(action.categoryId)
+          ]);
         }
       });
     });
@@ -175,50 +183,25 @@ export class BetState {
     return this.playerService.getPlayers(action.categoryId).pipe(
       tap(readPlayers => {
         state.patchState({ players: readPlayers });
-        state.dispatch([new BetActions.GetBet(currentState.better?.id || 0, currentState.category?.id || 0)]);
       })
     );
   }
 
-  static setWinnerName(state: StateContext<BetStateModel>, playerId: number): void {
-    const player = state.getState().players?.find((player => {
-      return player.id === playerId;
-    }));
-    if (player) {
-      state.patchState({ winner: player.playerName1 + ' - ' + player.playerName2 });
-    } else {
-      state.patchState({ winner: '-' });
-    }
-  }
-
-  static setRunnerUpName(state: StateContext<BetStateModel>, playerId: number): void {
-    const player = state.getState().players?.find((player => {
-      return player.id === playerId;
-    }));
-    if (player) {
-      state.patchState({ runnerUp: player.playerName1 + ' - ' + player.playerName2 });
-    } else {
-      state.patchState({ runnerUp: '-' });
-    }
-  }
-
-  @Action(BetActions.GetBet)
-  getBet(state: StateContext<BetStateModel>, action: BetActions.GetBet) {
+  @Action(BetActions.SetCurrentBet)
+  setCurrentBet(state: StateContext<BetStateModel>, action: BetActions.SetCurrentBet) {
     const currentState = state.getState();
 
-    return this.betService.getBet(action.betterId, action.categoryId).pipe(
-      tap(readBet => {
-        state.patchState({ bet: readBet });
+    const currentBet = currentState.bets?.find(bet => {
+      return bet.categoryId === action.categoryId;
+    });
 
-        // Mise à jour du nom du vainqueur et du finaliste si les données sont renseignées
-        BetState.setWinnerName(state, readBet.winnerId);
-        BetState.setRunnerUpName(state, readBet.runnerUpId);
-      })
-    );
+    if(currentBet) {
+      state.patchState({ currentBet: currentBet });
+    }
   }
 
   @Action(BetActions.GetBets)
-  getBets(state: StateContext<BetStateModel>, action: BetActions.GetBet) {
+  getBets(state: StateContext<BetStateModel>, action: BetActions.GetBets) {
     const currentState = state.getState();
 
     return this.betService.getBets(action.betterId).pipe(
@@ -228,7 +211,11 @@ export class BetState {
         // Recherche du premier pronostic non renseigné
         const nextBetToFill = BetState.searchFirstBetToFill(state);
         if (nextBetToFill.category) {
-          state.dispatch([new BetActions.SetCategory(nextBetToFill.category)]);
+          state.dispatch([
+            new BetActions.SetCategory(nextBetToFill.category),
+            new BetActions.SetCurrentBet(nextBetToFill.category)
+          ]);
+
           if (nextBetToFill.focusOnWinner) {
             UtilsService.focusWinner();
           } else {
@@ -248,12 +235,16 @@ export class BetState {
   }
 
   static isBetFilled(bet: IBet): boolean {
-    return bet.winnerId !== 0 && bet.runnerUpId !== 0 ? true : false;
+    return (bet.winnerId !== 0 && bet.winnerId !== null &&
+      bet.runnerUpId !== 0 && bet.runnerUpId !== null) ? true : false;
   }
 
   static searchFirstBetToFill(state: StateContext<BetStateModel>): INextBetToFill {
     const currentState = state.getState();
-    const bet = currentState.bets?.find(bet => { return bet.winnerId === 0 || bet.runnerUpId === 0 });
+
+    const bet = currentState.bets?.find(bet => {
+      return bet.winnerId === 0 || bet.runnerUpId === 0 || bet.winnerId === null || bet.runnerUpId === null
+    });
     if (bet) {
       return {
         category: bet.categoryId,
@@ -262,7 +253,7 @@ export class BetState {
     } else {
       // Si aucun pronostic n'est à remplir, on se place sur le premier pronostic
       return <INextBetToFill>{
-        category: (state.getState().contests || [])[0]?.categories[0]?.id,
+        category: (currentState.contests || [])[0]?.categories[0]?.id || 0,
         focusOnWinner: true
       };
     }
@@ -298,7 +289,7 @@ export class BetState {
     if (currentBetIndex !== -1) {
       // On vérifie que dans le pronostic sur lequel on est, celui du vainqueur / finaliste est rempli ou non
       if (isFocusedOnWinner === true) {
-        if (currentState.bet?.runnerUpId === 0) {
+        if (currentState.currentBet?.runnerUpId === 0) {
           return {
             category,
             focusOnWinner: false
@@ -308,7 +299,7 @@ export class BetState {
           return BetState.searchNextBetToFill(state, currentBetIndex || 0);
         }
       } else {
-        if (currentState.bet?.winnerId === 0) {
+        if (currentState.currentBet?.winnerId === 0) {
           return {
             category,
             focusOnWinner: true
@@ -334,37 +325,37 @@ export class BetState {
       currentState.category?.id || 0,
       action.playerId).pipe(
       tap(() => {
-        const bet = currentState.bet;
-        state.patchState({
-          bet: {
-            betterId: bet?.betterId || 0,
-            categoryId: bet?.categoryId || 0,
-            winnerId: action.playerId,
-            runnerUpId: bet?.runnerUpId || 0
-          }
+        const bet = currentState.bets?.find(bet => {
+          return bet.categoryId === currentState.category?.id;
         });
-        state.setState(
-          patch({
-            bets: updateItem<IBet>(
-              (b) => b.categoryId === currentState.category?.id,
-              patch({
-                winnerId: action.playerId
-              })
-            ),
-          })
-        );
 
-        // Mise à jour du nom du vainqueur
-        BetState.setWinnerName(state, action.playerId);
+        if (bet) {
+          state.setState(
+            patch({
+              bets: updateItem<IBet>(
+                (b) => b.categoryId === currentState.category?.id,
+                patch({
+                  winnerId: action.playerId,
+                  runnerUpId: bet?.runnerUpId === action.playerId ? 0 : bet?.runnerUpId
+                })
+              ),
+              currentBet: {
+                ...bet,
+                winnerId: action.playerId,
+                  runnerUpId: bet?.runnerUpId === action.playerId ? 0 : bet?.runnerUpId
+              }
+            })
+          );
 
-        // Recherche du prochain pari à saisir
-        const nextBetToFill = BetState.searchBetToFill(state, currentState.category?.id || 0, true);
-        if (nextBetToFill.category) {
-          state.dispatch([new BetActions.SetCategory(nextBetToFill.category)]);
-          if (nextBetToFill.focusOnWinner) {
-            UtilsService.focusWinner();
-          } else {
-            UtilsService.focusRunnerUp();
+          // Recherche du prochain pari à saisir
+          const nextBetToFill = BetState.searchBetToFill(state, currentState.category?.id || 0, true);
+          if (nextBetToFill.category) {
+            state.dispatch([new BetActions.SetCategory(nextBetToFill.category)]);
+            if (nextBetToFill.focusOnWinner) {
+              UtilsService.focusWinner();
+            } else {
+              UtilsService.focusRunnerUp();
+            }
           }
         }
       })
@@ -381,40 +372,43 @@ export class BetState {
       currentState.contest?.id || 0,
       currentState.category?.id || 0,
       action.playerId).pipe(
-      tap(() => {
-        const bet = currentState.bet;
-        state.patchState({ bet: {
-          betterId: bet?.betterId || 0,
-          categoryId: bet?.categoryId || 0,
-          winnerId: bet?.winnerId || 0,
-          runnerUpId: action.playerId
-        }});
-        state.setState(
-          patch({
-            bets: updateItem<IBet>(
-              (b) => b.categoryId === currentState.category?.id,
+        tap(() => {
+          const bet = currentState.bets?.find(bet => {
+            return bet.categoryId === currentState.category?.id;
+          });
+
+          if (bet) {
+            state.setState(
               patch({
-                runnerUpId: action.playerId
+                bets: updateItem<IBet>(
+                  (b) => b.categoryId === currentState.category?.id,
+                  patch({
+                    runnerUpId: action.playerId,
+                    winnerId: bet?.winnerId === action.playerId ? 0 : bet?.winnerId
+                  })
+                ),
+                currentBet: {
+                  ...bet,
+                  runnerUpId: action.playerId,
+                    winnerId: bet?.winnerId === action.playerId ? 0 : bet?.winnerId
+                }
               })
-            ),
-          })
-        );
-
-        // Mise à jour du nom du finaliste
-        BetState.setRunnerUpName(state, action.playerId);
-
-        // Recherche du prochain pari à saisir
-        const nextBetToFill = BetState.searchBetToFill(state, currentState.category?.id || 0, false);
-        if (nextBetToFill.category) {
-          state.dispatch([new BetActions.SetCategory(nextBetToFill.category)]);
-          if (nextBetToFill.focusOnWinner) {
-            UtilsService.focusWinner();
-          }
-          else {
-            UtilsService.focusRunnerUp();
+            );
+    
+            // Recherche du prochain pari à saisir
+            const nextBetToFill = BetState.searchBetToFill(state, currentState.category?.id || 0, false);
+            if (nextBetToFill.category) {
+              state.dispatch([new BetActions.SetCategory(nextBetToFill.category)]);
+              if (nextBetToFill.focusOnWinner) {
+                UtilsService.focusWinner();
+              }
+              else {
+                UtilsService.focusRunnerUp();
+              }
+            }
           }
         }
-      })
+      )
     );
   }
 
@@ -433,7 +427,7 @@ export class BetState {
   setDuration(state: StateContext<BetStateModel>, action: BetActions.SetDuration) {
     const currentState = state.getState();
 
-    return this.betService.setDuration(action.betterId, currentState.contest?.id || 0, currentState.contest?.day || 0, action.duration).pipe(
+    return this.betService.setDuration(currentState.better?.id || 0, currentState.better?.isAdmin || false, currentState.contest?.id || 0, currentState.contest?.day || 0, action.duration).pipe(
       tap(() => {
         state.patchState({ duration: action.duration });
       })

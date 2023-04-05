@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -14,53 +14,44 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./bet-player.component.scss']
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
-  @Input()
-  isWinner: string | undefined;
-
   @Select(BetState.players)
   players$: Observable<IPlayer[]> | undefined;
 
-  @Select(BetState.bet)
-  bet$: Observable<IBet> | undefined;
+  @Select(BetState.currentBet)
+  currentBet$: Observable<IBet> | undefined;
 
-  private bet: IBet | undefined;
+  public displayedColumns: string[] | undefined;
 
-  private betSub: Subscription | undefined;
+  private currentBet: IBet | undefined;
 
-  public playerChosen: number | undefined;
+  private currentBetSub: Subscription | undefined;
 
-  public getColor(playerId: number): string {
-    return playerId === this.playerChosen ? 'primary' : 'basic';
-  }
-
-  public isDisabled(playerId: number): boolean {
-    if (this.isWinner === '1') {
-      return playerId === this.bet?.runnerUpId ? true : false;
+  public isChecked(playerId: number, isFocusedOnWinner: boolean): boolean {
+    if (isFocusedOnWinner) {
+      return playerId === this.currentBet?.winnerId ? true : false;
     } else {
-      return playerId === this.bet?.winnerId ? true : false;
+      return playerId === this.currentBet?.runnerUpId ? true : false;
     }
   }
-  constructor(private store: Store) {}
+
+  constructor(private store: Store) {
+    this.displayedColumns = ['winner', 'runnerUp', 'name'];
+  }
 
   public ngOnInit() {
-    this.betSub = this.bet$?.pipe(filter(bet => bet !== null && bet !== undefined)).subscribe(bet => {
-      this.bet = bet;
-      if (this.isWinner === '1') {
-        this.playerChosen = bet.winnerId;
-      } else {
-        this.playerChosen = bet.runnerUpId;
-      }
+    this.currentBetSub = this.currentBet$?.pipe(filter(bet => !!bet)).subscribe(bet => {
+      this.currentBet = bet;
     });
   }
 
   public ngOnDestroy() {
-    if (this.betSub) {
-      this.betSub.unsubscribe();
+    if (this.currentBetSub) {
+      this.currentBetSub.unsubscribe();
     }
   }
 
-  public changePlayer(playerId: number) {
-    if (this.isWinner === '1') {
+  public changePlayer(playerId: number, isFocusedOnWinner: boolean) {
+    if (isFocusedOnWinner) {
       this.store.dispatch([new BetActions.SetWinner(playerId)]);
     } else {
       this.store.dispatch([new BetActions.SetRunnerUp(playerId)]);

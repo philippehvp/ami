@@ -43,8 +43,8 @@
 
       // Création du pronostic sur la durée du match le plus long
       $query =
-        " INSERT INTO         duration(better_id, day_id, duration)" .
-        " SELECT DISTINCT     " . $better . ", contest.day, 0" .
+        " INSERT INTO         duration(better_id, contest_day, duration)" .
+        " SELECT DISTINCT     " . $better . ", contest.day, 30" .
         " FROM                contest" .
         " WHERE               DATE(contest.startDate) <= DATE(NOW())" .
         "                     AND   DATE(contest.endDate) >= DATE(NOW())";

@@ -1,35 +1,8 @@
 <bet-contest></bet-contest>
 
+<bet-duration></bet-duration>
+
 <div *ngIf="(contest$ | async) && (category$ | async)">
-    <bet-duration></bet-duration>
     <bet-category></bet-category>
-    <bet-summary></bet-summary>
-    <mat-tab-group [(selectedIndex)]="tab">
-        <mat-tab label="Vainqueurs">
-            <bet-player isWinner="1"></bet-player>
-        </mat-tab>
-        <mat-tab label="Finalistes">
-            <bet-player isWinner="0"></bet-player>
-        </mat-tab>
-    </mat-tab-group>
-
-    <!-- <mat-accordion>
-        <mat-expansion-panel [expanded]="isWinnerPanelFocused">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Vainqueurs
-                  </mat-panel-title>
-            </mat-expansion-panel-header>
-            <bet-player isWinner="1"></bet-player>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="!isWinnerPanelFocused">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Finalistes
-                  </mat-panel-title>
-            </mat-expansion-panel-header>
-            <bet-player isWinner="0"></bet-player>
-        </mat-expansion-panel>
-    </mat-accordion> -->
+    <bet-player></bet-player>
 </div>

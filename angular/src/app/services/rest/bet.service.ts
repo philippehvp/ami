@@ -74,9 +74,9 @@ export class BetService {
     return this.httpClient.get<IDuration>(url, { params });
   }
 
-  public setDuration(betterId: number, contestId: number, day: number, duration: number): Observable<void> {
+  public setDuration(betterId: number, isAdmin: boolean, contestId: number, day: number, duration: number): Observable<void> {
     const url = CommonService.getURL('bet/updateDuration');
-    return this.httpClient.put<void>(url, { better: betterId, contest: contestId, day, duration });
+    return this.httpClient.put<void>(url, { better: betterId, isAdmin, contest: contestId, day, duration });
   }
 
   public setWinner(betterId: number, isAdmin: boolean, contestId: number, categoryId: number, playerId: number): Observable<void> {

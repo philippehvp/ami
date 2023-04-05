@@ -37,9 +37,9 @@ export namespace BetActions {
     constructor(public categoryId: number) {}
   }
 
-  export class GetBet {
-    static readonly type = '[Bet] Get Bet';
-    constructor(public betterId: number, public categoryId: number) {}
+  export class SetCurrentBet {
+    static readonly type = '[Bet] Set Current Bet';
+    constructor(public categoryId: number) {}
   }
 
   export class GetBets {
@@ -54,7 +54,7 @@ export namespace BetActions {
 
   export class SetDuration {
     static readonly type = '[Bet] Set Duration';
-    constructor(public betterId: number, public duration: number) {}
+    constructor(public duration: number) {}
   }
 
   export class SetWinner {

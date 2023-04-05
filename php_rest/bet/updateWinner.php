@@ -12,11 +12,17 @@
     if (isUpdatable($db, $contest, $isAdmin)) {
       $query =
         " UPDATE            bet" .
-        " SET               winner_player_id = ?" .
+        " SET               winner_player_id = ?," .
+        "                   runnerUp_player_id =" .
+        "                   CASE" .
+        "                       WHEN    runnerUp_player_id = ?" .
+        "                       THEN    NULL" .
+        "                       ELSE    runnerUp_player_id" .
+        "                   END" .
         " WHERE             bet.better_id = ?" .
         "                   AND   bet.category_id = ?";
       $req = $db->prepare($query);
-      $req->execute(array($player, $better, $category));
+      $req->execute(array($player, $player, $better, $category));
 
       return http_response_code(200);
     }

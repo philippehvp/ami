@@ -1,11 +1,40 @@
-<a *ngFor="let player of players$ | async">
-    <div>
-        <button mat-flat-button
-            [color]="getColor(player.id)"
-            (click)="changePlayer(player.id)"
-            [disabled]="isDisabled(player.id)">
-            {{ player.playerName1 }} - {{ player.playerName2 }}
-        </button>
-    </div>
+<table mat-table [dataSource]="(players$ | async) || []">
+    <ng-container matColumnDef="winner">
+        <th class="action" mat-header-cell *matHeaderCellDef>
+            <span class="material-icons">emoji_events</span>
+        </th>
+        <td class="action" mat-cell *matCellDef="let player">
+            <mat-radio-group>
+                <mat-radio-button
+                [checked]="isChecked(player.id, true)"
+                value="W"
+                (click)="changePlayer(player.id, true)">
+            </mat-radio-button>
+            </mat-radio-group>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="runnerUp">
+        <th class="action" mat-header-cell *matHeaderCellDef>
+            <span class="material-icons">workspace_premium</span>
+        </th>
+        <td class="action" mat-cell *matCellDef="let player">
+            <mat-radio-group>
+                <mat-radio-button
+                [checked]="isChecked(player.id, false)"
+                value="R"
+                (click)="changePlayer(player.id, false)">
+            </mat-radio-button>
+            </mat-radio-group>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Joueurs</th>
+        <td mat-cell *matCellDef="let player"> ({{player.playerRanking1}}) {{ player.playerName1 }}<br>({{player.playerRanking1}}) {{ player.playerName2 }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     
-</a>
+</table>

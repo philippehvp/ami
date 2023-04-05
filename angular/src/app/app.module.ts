@@ -21,12 +21,16 @@ import {
 } from '@angular/common/http';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -38,7 +42,6 @@ import { BetCategoryComponent } from './components/bet/bet-category/bet-category
 import { BetContestComponent } from './components/bet/bet-contest/bet-contest.component';
 import { BetDurationComponent } from './components/bet/bet-duration/bet-duration.component';
 import { BetPlayerComponent } from './components/bet/bet-player/bet-player.component';
-import { BetSummaryComponent } from './components/bet/bet-summary/bet-summary.component';
 
 import { BetService } from './services/rest/bet.service';
 import { CommonService } from './services/rest/common.service';
@@ -55,7 +58,6 @@ import { UtilsService } from './services/utils.service';
     BetContestComponent,
     BetCategoryComponent,
     BetPlayerComponent,
-    BetSummaryComponent,
     BetDurationComponent
   ],
   imports: [
@@ -70,12 +72,16 @@ import { UtilsService } from './services/utils.service';
     BrowserAnimationsModule,
 
     MatButtonModule,
+    MatCardModule,
     MatDialogModule,
     MatExpansionModule,
     MatIconModule,
     MatListModule,
+    MatRadioModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSliderModule,
+    MatTableModule,
     MatTabsModule,
     MatToolbarModule
   ],

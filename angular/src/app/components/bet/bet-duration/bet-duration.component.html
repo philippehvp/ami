@@ -1,1 +1,10 @@
-Durée
+<div class="duration-container">
+    <label id="example-name-label" class="example-name-label">Durée match max. : {{duration$ | async}} minutes</label>
+    <mat-slider
+        max="120"
+        min="30"
+        step="1"
+        discrete="true">
+        <input matSliderThumb (valueChange)="changeDuration($event)" [ngModel]="duration$ | async">
+    </mat-slider>
+</div>

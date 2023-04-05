@@ -3,7 +3,7 @@
 
   function readPlayers($db, $category) {
     $query =
-      " SELECT      player.id, player.playerName1, player.playerName2" .
+      " SELECT      player.id, player.playerName1, player.playerRanking1, player.playerName2, player.playerRanking2" .
       " FROM        player" .
       " WHERE       player.category_id = " . $category;
 
