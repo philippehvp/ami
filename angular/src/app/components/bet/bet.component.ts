@@ -1,7 +1,7 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
 import { OfflineComponent } from '../offline/offline.component';
+import { BetActions } from 'src/app/store/action/bet.action';
 
 @Component({
   selector: 'bet',
@@ -27,7 +28,7 @@ export class BetComponent implements OnInit, OnDestroy {
 
   private isOfflineSub!: Subscription;
 
-  constructor(private dialog: Dialog) {}
+  constructor(private dialog: Dialog, private store: Store) {}
 
   public ngOnInit() {
     this.isOfflineSub = this.isOffline$
@@ -43,6 +44,8 @@ export class BetComponent implements OnInit, OnDestroy {
           this.dialog.open(OfflineComponent, config);
         }
       });
+
+    this.store.dispatch([new BetActions.GetBetters()]);
   }
 
   public ngOnDestroy() {

@@ -73,10 +73,17 @@ export class CreateBetterComponent implements OnInit {
       // Création du pronostiqueur
       this.betterService
         .createBetter(account, password, name, firstName, contact)
-        .subscribe((better: IBetter | IError) => {
-          if ('errorMessage' in better) {
+        .subscribe((ret: IBetter | IError) => {
+          if ('errorMessage' in ret) {
+            const config: MatDialogConfig = {
+              data: {
+                title: 'Erreur de création du compte',
+                message: ret.errorMessage,
+              },
+            };
+            this.dialog.open(InformationDialogComponent, config);
           } else {
-            this.store.dispatch([new BetActions.SetBetter(better)]);
+            this.store.dispatch([new BetActions.SetBetter(ret)]);
             this.router.navigate(['bet']);
           }
         });

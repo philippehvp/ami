@@ -26,7 +26,8 @@
         $req = $db->prepare($query);
         $req->execute(array($player, $player, $accessKey, $category));
   
-        return http_response_code(200);
+        $ret = array("player" => $player);
+        echo json_encode($ret, JSON_NUMERIC_CHECK);
       }
     } else {
       echo returnIsOffline();

@@ -143,6 +143,9 @@ export class BetState {
           state.dispatch([new ConnectionActions.IsOffline()]);
         } else {
           state.patchState({ betters: <IBetter[]>readBetters });
+
+          // PHU : temporaire
+          state.dispatch([new BetActions.SetBetter(readBetters[0])]);
         }
       })
     );

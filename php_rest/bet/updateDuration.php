@@ -25,7 +25,8 @@
         $req = $db->prepare($query);
         $req->execute(array($duration, $accessKey));
     
-        return http_response_code(200);
+        $ret = array("duration" => $duration);
+        echo json_encode($ret, JSON_NUMERIC_CHECK);
       } else {
         return http_response_code(204);  
       }
