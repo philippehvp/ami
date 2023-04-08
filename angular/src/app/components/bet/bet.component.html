@@ -1,13 +1,21 @@
-<mat-toolbar color="primary">
-    <toolbar></toolbar>
-  </mat-toolbar>
+<div class="bet-panel">
+  <div class="row header">
+    <mat-toolbar color="primary">
+      <toolbar></toolbar>
+    </mat-toolbar>
+  </div>
 
+  <div class="row header">
+    <bet-contest></bet-contest>
+  </div>
 
-<bet-contest></bet-contest>
+  <div class="row header">
+    <bet-duration
+      *ngIf="(contest$ | async) && (category$ | async)"
+    ></bet-duration>
+  </div>
 
-<bet-duration></bet-duration>
-
-<div *ngIf="(contest$ | async) && (category$ | async)">
-    <bet-category></bet-category>
-    <bet-player></bet-player>
+  <div class="row player">
+    <bet-player *ngIf="(contest$ | async) && (category$ | async)"></bet-player>
+  </div>
 </div>

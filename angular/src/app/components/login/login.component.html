@@ -2,7 +2,7 @@
   <div class="login-panel">
     <h2>Connexion</h2>
 
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (keydown.enter)="login()">
       <p>
         <mat-form-field>
           <mat-label>Login de connexion</mat-label>

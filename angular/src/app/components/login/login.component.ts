@@ -38,6 +38,8 @@ export class LoginComponent implements OnInit {
       account: ['', Validators.required],
       password: ['', Validators.required],
     });
+
+    window.localStorage.removeItem('better');
   }
 
   public login() {

@@ -27,6 +27,8 @@ export class BetStateModel {
   winner!: string | undefined;
   runnerUp!: string | undefined;
   duration!: number | undefined;
+  completedBets!: number | undefined;
+  allBetsDone!: boolean | undefined;
 }
 
 @State<BetStateModel>({
@@ -44,6 +46,8 @@ export class BetStateModel {
     winner: undefined,
     runnerUp: undefined,
     duration: undefined,
+    completedBets: undefined,
+    allBetsDone: undefined,
   },
 })
 @Injectable()
@@ -113,10 +117,22 @@ export class BetState {
     return state.duration;
   }
 
+  @Selector()
+  static completedBets(state: BetStateModel) {
+    return state.completedBets;
+  }
+
+  @Selector()
+  static allBetsDone(state: BetStateModel) {
+    return state.allBetsDone;
+  }
+
   @Action(BetActions.SetBetter)
   setBetter(state: StateContext<BetStateModel>, action: BetActions.SetBetter) {
     if (action.better) {
-      state.patchState({ better: action.better });
+      state.patchState({ isOffline: false, better: action.better });
+
+      window.localStorage.setItem('better', JSON.stringify(action.better));
 
       // Lecture des concours auxquels est inscrit le participant, des pronostics et du pronostic de durée
       state.dispatch([
@@ -142,7 +158,10 @@ export class BetState {
           // Hors connexion
           state.dispatch([new ConnectionActions.IsOffline()]);
         } else {
-          state.patchState({ betters: <IBetter[]>readBetters });
+          state.patchState({
+            isOffline: false,
+            betters: <IBetter[]>readBetters,
+          });
 
           // PHU : temporaire
           state.dispatch([new BetActions.SetBetter(readBetters[0])]);
@@ -162,7 +181,10 @@ export class BetState {
           // Hors connexion
           state.dispatch([new ConnectionActions.IsOffline()]);
         } else {
-          state.patchState({ contests: <IContest[]>readContests });
+          state.patchState({
+            isOffline: false,
+            contests: <IContest[]>readContests,
+          });
         }
       })
     );
@@ -228,7 +250,12 @@ export class BetState {
         if ('isOffline' in readBets) {
           state.dispatch([new ConnectionActions.IsOffline()]);
         } else {
-          state.patchState({ bets: <IBet[]>readBets });
+          state.patchState({
+            isOffline: false,
+            bets: <IBet[]>readBets,
+          });
+
+          BetState.calculateCompletedBets(state);
 
           // Recherche du premier pronostic non renseigné
           const categoryId = BetState.searchFirstBetToFill(state);
@@ -241,6 +268,19 @@ export class BetState {
         }
       })
     );
+  }
+
+  static calculateCompletedBets(state: StateContext<BetStateModel>) {
+    const currentState = state.getState();
+
+    // On compte le nombre de pronostics correctement renseignés
+    const completedBets = currentState.bets?.filter((bet) => {
+      return bet.winnerId !== 0 && bet.runnerUpId !== 0;
+    });
+
+    state.patchState({
+      completedBets: completedBets?.length || 0,
+    });
   }
 
   static getNextBet(
@@ -297,6 +337,7 @@ export class BetState {
 
     if (nextBetIndex === currentBetIndex) {
       // On a fait le tour, sans trouver de pronostic à saisir
+      state.dispatch([new BetActions.AllBetsDone()]);
       return -1;
     } else {
       return bet.categoryId;
@@ -360,6 +401,7 @@ export class BetState {
             if (bet) {
               state.setState(
                 patch({
+                  isOffline: false,
                   bets: updateItem<IBet>(
                     (b) => b.categoryId === currentState.category?.id,
                     patch({
@@ -378,6 +420,8 @@ export class BetState {
                   },
                 })
               );
+
+              BetState.calculateCompletedBets(state);
 
               // Recherche du prochain pari à saisir
               const categoryId = BetState.searchBetToFill(
@@ -420,6 +464,7 @@ export class BetState {
             if (bet) {
               state.setState(
                 patch({
+                  isOffline: false,
                   bets: updateItem<IBet>(
                     (b) => b.categoryId === currentState.category?.id,
                     patch({
@@ -436,6 +481,8 @@ export class BetState {
                   },
                 })
               );
+
+              BetState.calculateCompletedBets(state);
 
               // Recherche du prochain pari à saisir
               const categoryId = BetState.searchBetToFill(
@@ -464,7 +511,10 @@ export class BetState {
         if ('isOffline' in readDuration) {
           state.dispatch([new ConnectionActions.IsOffline()]);
         } else {
-          state.patchState({ duration: (<IDuration>readDuration).duration });
+          state.patchState({
+            isOffline: false,
+            duration: (<IDuration>readDuration).duration,
+          });
         }
       })
     );
@@ -489,16 +539,40 @@ export class BetState {
           if ('isOffline' in ret) {
             state.dispatch([new ConnectionActions.IsOffline()]);
           } else {
-            state.patchState({ duration: action.duration });
+            state.patchState({ isOffline: false, duration: action.duration });
           }
         })
       );
+  }
+
+  @Action(BetActions.AllBetsDone)
+  allBetsDone(state: StateContext<BetStateModel>) {
+    state.patchState({
+      allBetsDone: true,
+    });
   }
 
   @Action(ConnectionActions.IsOffline)
   isOffline(state: StateContext<BetStateModel>) {
     state.patchState({
       isOffline: true,
+    });
+  }
+
+  @Action(ConnectionActions.Logout)
+  logout(state: StateContext<BetStateModel>) {
+    state.patchState({
+      better: undefined,
+      betters: undefined,
+      contest: undefined,
+      contests: undefined,
+      category: undefined,
+      players: undefined,
+      currentBet: undefined,
+      bets: undefined,
+      winner: undefined,
+      runnerUp: undefined,
+      duration: undefined,
     });
   }
 }

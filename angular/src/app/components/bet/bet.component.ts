@@ -1,15 +1,15 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
-import { OfflineComponent } from '../offline/offline.component';
-import { BetActions } from 'src/app/store/action/bet.action';
+import { InformationDialogComponent } from '../information-dialog/information-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'bet',
@@ -23,34 +23,61 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.contest)
   contest$!: Observable<IContest>;
 
+  @Select(BetState.allBetsDone)
+  allBetsDone$!: Observable<boolean>;
+
   @Select(BetState.isOffline)
   isOffline$!: Observable<boolean>;
 
   private isOfflineSub!: Subscription;
+  private allBetsDoneSub!: Subscription;
 
-  constructor(private dialog: Dialog, private store: Store) {}
+  constructor(private dialog: MatDialog, private router: Router) {}
 
   public ngOnInit() {
     this.isOfflineSub = this.isOffline$
       ?.pipe(filter((isOffline) => !!isOffline))
       .subscribe((isOffline) => {
         if (isOffline) {
-          console.log('isOffline détectée');
           const config: MatDialogConfig = {
-            hasBackdrop: true,
-            backdropClass: 'blur',
+            data: {
+              title: 'Session expirée',
+              message: 'Votre session est expirée. Veuillez vous reconnecter',
+            },
           };
 
-          this.dialog.open(OfflineComponent, config);
+          this.dialog
+            .open(InformationDialogComponent, config)
+            .afterClosed()
+            .subscribe(() => {
+              return this.router.navigate(['login']);
+            });
         }
+        return;
       });
 
-    this.store.dispatch([new BetActions.GetBetters()]);
+    this.allBetsDoneSub = this.allBetsDone$.subscribe((allBetsDone) => {
+      if (allBetsDone) {
+        const config: MatDialogConfig = {
+          data: {
+            title: 'Pronostics saisis et validés',
+            message:
+              'Bravo. Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne',
+          },
+        };
+
+        this.dialog.open(InformationDialogComponent, config);
+      }
+    });
   }
 
   public ngOnDestroy() {
     if (this.isOfflineSub) {
       this.isOfflineSub.unsubscribe();
+    }
+
+    if (this.allBetsDoneSub) {
+      this.allBetsDoneSub.unsubscribe();
     }
   }
 }

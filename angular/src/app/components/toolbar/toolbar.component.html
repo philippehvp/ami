@@ -1,1 +1,5 @@
-{{ (better$ | async)?.firstName }} {{ (better$ | async)?.name }}
+<div class="toolbar">
+  <span>WINABAD</span>
+  <span>{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span>
+  <span class="material-icons" (click)="logout()">logout</span>
+</div>

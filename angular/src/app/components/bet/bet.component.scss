@@ -1,0 +1,20 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.bet-panel {
+  display: flex;
+  flex-flow: nowrap column;
+  height: 100vh;
+}
+
+.bet-panel .row.header {
+  flex: 0 1 auto;
+}
+
+.bet-panel .row.player {
+  flex: 1 1 auto;
+  overflow-y: scroll;
+}

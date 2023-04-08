@@ -65,4 +65,9 @@ export namespace BetActions {
     static readonly type = '[Bet] Set Runner Up';
     constructor(public playerId: number) {}
   }
+
+  export class AllBetsDone {
+    static readonly type = '[Bet] All Bets Done';
+    constructor() {}
+  }
 }

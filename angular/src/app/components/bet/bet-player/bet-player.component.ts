@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/internal/operators/filter';
 import { IBet } from 'src/app/models/bet';
+import { ICategory } from 'src/app/models/category';
+import { IContest } from 'src/app/models/contest';
 import { IPlayer } from 'src/app/models/player';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -19,6 +21,12 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   @Select(BetState.currentBet)
   currentBet$!: Observable<IBet>;
+
+  @Select(BetState.contest)
+  contest$!: Observable<IContest>;
+
+  @Select(BetState.category)
+  category$!: Observable<ICategory>;
 
   public displayedColumns: string[];
 

@@ -1,6 +1,6 @@
 <table mat-table [dataSource]="(players$ | async) || []">
   <ng-container matColumnDef="winner">
-    <th class="action" mat-header-cell *matHeaderCellDef>
+    <th class="action action-label" mat-header-cell *matHeaderCellDef>
       <span class="material-icons">emoji_events</span>
     </th>
     <td class="action" mat-cell *matCellDef="let player">
@@ -16,7 +16,7 @@
   </ng-container>
 
   <ng-container matColumnDef="runnerUp">
-    <th class="action" mat-header-cell *matHeaderCellDef>
+    <th class="action action-label" mat-header-cell *matHeaderCellDef>
       <span class="material-icons">workspace_premium</span>
     </th>
     <td class="action" mat-cell *matCellDef="let player">
@@ -32,7 +32,9 @@
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Joueurs</th>
+    <th mat-header-cell *matHeaderCellDef>
+      {{ (contest$ | async)?.longName }} - {{ (category$ | async)?.longName }}
+    </th>
     <td mat-cell *matCellDef="let player">
       {{ label(player, true) }}<br />{{ label(player, false) }}
     </td>
