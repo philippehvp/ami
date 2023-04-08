@@ -62,7 +62,7 @@ export class BetComponent implements OnInit, OnDestroy {
           data: {
             title: 'Pronostics saisis et validés',
             message:
-              'Bravo. Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne',
+              'Bravo. Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne.',
           },
         };
 

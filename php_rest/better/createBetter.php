@@ -31,7 +31,8 @@
         $endAccessKeyValidityDate = generateEndAccessValidityDate();
         $now = new DateTime();
         $accessKey = generateAccessKey($name . $firstName . $now->getTimestamp());
-        // Ajout du parieur dans la table des participants
+
+        // Ajout du pronostiqueur dans la table des participants
         $query =
           " INSERT INTO         better(better.account, better.password, better.name, better.firstName, better.isAdmin, better.accessKey, better.endAccessKeyValidityDate, better.contact)" .
           " VALUES              (?, ?, ?, ?, ?, ?, FROM_UNIXTIME(" . $endAccessKeyValidityDate->getTimeStamp() . "), ?)";
@@ -42,7 +43,7 @@
         // Identifiant du dernier enregistrement ajouté
         $better = $db->lastInsertId();
     
-        // Inscription du parieur dans la table de participation (des deux journées si on est le premier jour également)
+        // Inscription du pronostiqueur dans la table de participation (des deux journées si on est le premier jour également)
         $query =
           " INSERT INTO         betting(better_id, contest_id)" .
           " SELECT              " . $better . ", contest.id" .
@@ -67,6 +68,12 @@
           " FROM                contest" .
           " WHERE               contest.endDate > NOW()";
         $db->exec($query);
+
+        // Création des points des pronostiqueurs (des deux journées si on est le premier jour également)
+        $query =
+          " INSERT INTO         points(better_id, category_id, points)" .
+          " SELECT              " . $better . ", category.id, 0" .
+          " FROM                contest";
 
         $better = array(
           "accessKey" => $accessKey,

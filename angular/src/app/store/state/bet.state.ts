@@ -318,7 +318,12 @@ export class BetState {
       return bet.categoryId;
     } else {
       // Si aucun pronostic n'est à remplir, on se place sur le premier pronostic
-      return (currentState.contests || [])[0]?.categories[0]?.id || 0;
+      const contests = currentState.contests;
+      if (contests && contests.length) {
+        return contests[0].categories[0].id;
+      } else {
+        return -1;
+      }
     }
   }
 
@@ -357,21 +362,16 @@ export class BetState {
     })!;
 
     if (currentBetIndex !== -1) {
-      // On vérifie que dans le pronostic sur lequel on est, celui du vainqueur / finaliste est rempli ou non
-      if (isFocusedOnWinner === true) {
-        if (currentState.currentBet?.runnerUpId === 0) {
-          return -1;
-        } else {
-          // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
-          return BetState.searchNextBetToFill(state, currentBetIndex || 0);
-        }
+      // On vérifie que les deux pronostics (vainqueur et finaliste) soient remplis
+      if (
+        currentState.currentBet?.winnerId === 0 ||
+        currentState.currentBet?.runnerUpId === 0
+      ) {
+        // L'un des deux pronostics n'est pas renseigné, on reste donc sur cette série
+        return -1;
       } else {
-        if (currentState.currentBet?.winnerId === 0) {
-          return -1;
-        } else {
-          // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
-          return BetState.searchNextBetToFill(state, currentBetIndex || 0);
-        }
+        // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
+        return BetState.searchNextBetToFill(state, currentBetIndex || 0);
       }
     }
 
