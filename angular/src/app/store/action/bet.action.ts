@@ -1,7 +1,6 @@
-import { IBetter } from "src/app/models/better";
+import { IBetter } from 'src/app/models/better';
 
 export namespace BetActions {
-
   export class GetBetters {
     static readonly type = '[Bet] Get Betters';
     constructor() {}
@@ -14,12 +13,12 @@ export namespace BetActions {
 
   export class SetBetter {
     static readonly type = '[Bet] Set Better';
-    constructor(public betterId: number) {}
+    constructor(public better: IBetter) {}
   }
 
   export class GetContests {
     static readonly type = '[Bet] Get Contests';
-    constructor(public betterId: number) {}
+    constructor(public accessKey: string) {}
   }
 
   export class GetCategories {
@@ -44,12 +43,12 @@ export namespace BetActions {
 
   export class GetBets {
     static readonly type = '[Bet] Get Bets';
-    constructor(public betterId: number) {}
+    constructor(public accessKey: string) {}
   }
 
   export class GetDuration {
     static readonly type = '[Bet] Get Duration';
-    constructor(public betterId: number) {}
+    constructor(public accessKey: string) {}
   }
 
   export class SetDuration {

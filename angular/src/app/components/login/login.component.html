@@ -1,0 +1,46 @@
+<div class="login">
+  <div class="login-panel">
+    <h2>Connexion</h2>
+
+    <form [formGroup]="formGroup">
+      <p>
+        <mat-form-field>
+          <mat-label>Login de connexion</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input
+            matInput
+            type="text"
+            formControlName="account"
+            required
+            autocomplete="on"
+          />
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <mat-label>Mot de passe</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            required
+            autocomplete="on"
+          />
+        </mat-form-field>
+      </p>
+    </form>
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="login-button"
+      (click)="login()"
+    >
+      Se connecter
+    </button>
+
+    <a class="create-account" (click)="createBetter()">Créer un compte</a>
+  </div>
+</div>

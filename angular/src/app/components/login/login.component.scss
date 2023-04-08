@@ -1,0 +1,28 @@
+.login {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 0 2em;
+
+  border-color: #dadce0;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.login-button {
+  margin-bottom: 0.7em;
+}
+
+.create-account {
+  margin-bottom: 1em;
+}

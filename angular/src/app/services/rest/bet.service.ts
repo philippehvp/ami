@@ -1,32 +1,30 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBetter, IBetterRaw } from 'src/app/models/better';
 import { CommonService } from './common.service';
 import { IContest } from 'src/app/models/contest';
 import { map } from 'rxjs/internal/operators/map';
-import { ICategory } from 'src/app/models/category';
 import { IBet } from 'src/app/models/bet';
 import { IDuration } from 'src/app/models/duration';
-
-
+import { IEmpty, IOffline } from 'src/app/models/utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BetService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  public getBetters(): Observable<IBetter[]> {
+  public getBetters(): Observable<IBetter[] | IOffline> {
     return this.getBettersRaw().pipe(
-      map(bettersRaw => {
-        return bettersRaw.map(betterRaw => {
+      map((bettersRaw) => {
+        return bettersRaw.map((betterRaw) => {
           return {
-            id: betterRaw.id,
+            accessKey: betterRaw.accessKey,
             firstName: betterRaw.firstName,
             name: betterRaw.name,
             club: betterRaw.club,
-            isAdmin: betterRaw.isAdmin === 1 ? true : false
+            isAdmin: betterRaw.isAdmin === 1 ? true : false,
           };
         });
       })
@@ -38,54 +36,63 @@ export class BetService {
     return this.httpClient.get<IBetterRaw[]>(url);
   }
 
-  public getContests(betterId: number): Observable<IContest[]> {
+  public getContests(accessKey: string): Observable<IContest[] | IOffline> {
     const url = CommonService.getURL('contest/contests');
-    const params: HttpParams = new HttpParams()
-      .set('better', betterId);
-    return this.httpClient.get<IContest[]>(url, { params });
+    return this.httpClient.post<IContest[]>(url, { accessKey });
   }
 
-  public getCategories(contestId: number): Observable<ICategory[]> {
-    const url = CommonService.getURL('category/categories');
-    const params: HttpParams = new HttpParams()
-      .set('contest', contestId);
-    return this.httpClient.get<ICategory[]>(url, { params });
-  }
-
-  public getBet(betterId: number, categoryId: number): Observable<IBet> {
-    const url = CommonService.getURL('bet/bet');
-    const params: HttpParams = new HttpParams()
-      .set('better', betterId)
-      .set('category', categoryId);
-    return this.httpClient.get<IBet>(url, { params });
-  }
-
-  public getBets(betterId: number): Observable<IBet[]> {
+  public getBets(accessKey: string): Observable<IBet[] | IOffline> {
     const url = CommonService.getURL('bet/bets');
-    const params: HttpParams = new HttpParams()
-      .set('better', betterId)
-    return this.httpClient.get<IBet[]>(url, { params });
+    return this.httpClient.post<IBet[]>(url, { accessKey });
   }
 
-  public getDuration(betterId: number): Observable<IDuration> {
+  public getDuration(accessKey: string): Observable<IDuration | IOffline> {
     const url = CommonService.getURL('bet/duration');
-    const params: HttpParams = new HttpParams()
-      .set('better', betterId);
-    return this.httpClient.get<IDuration>(url, { params });
+    return this.httpClient.post<IDuration>(url, { accessKey });
   }
 
-  public setDuration(betterId: number, isAdmin: boolean, contestId: number, day: number, duration: number): Observable<void> {
+  public setDuration(
+    accessKey: string,
+    contestId: number,
+    day: number,
+    duration: number
+  ): Observable<IEmpty | IOffline> {
     const url = CommonService.getURL('bet/updateDuration');
-    return this.httpClient.put<void>(url, { better: betterId, isAdmin, contest: contestId, day, duration });
+    return this.httpClient.put<IEmpty>(url, {
+      accessKey: accessKey,
+      contest: contestId,
+      day,
+      duration,
+    });
   }
 
-  public setWinner(betterId: number, isAdmin: boolean, contestId: number, categoryId: number, playerId: number): Observable<void> {
+  public setWinner(
+    accessKey: string,
+    contestId: number,
+    categoryId: number,
+    playerId: number
+  ): Observable<IEmpty | IOffline> {
     const url = CommonService.getURL('bet/updateWinner');
-    return this.httpClient.put<void>(url, { better: betterId, isAdmin, contest: contestId, category: categoryId, player: playerId });
+    return this.httpClient.put<IEmpty>(url, {
+      accessKey: accessKey,
+      contest: contestId,
+      category: categoryId,
+      player: playerId,
+    });
   }
 
-  public setRunnerUp(betterId: number, isAdmin: boolean, contestId: number, categoryId: number, playerId: number): Observable<void> {
+  public setRunnerUp(
+    accessKey: string,
+    contestId: number,
+    categoryId: number,
+    playerId: number
+  ): Observable<IEmpty | IOffline> {
     const url = CommonService.getURL('bet/updateRunnerUp');
-    return this.httpClient.put<void>(url, { better: betterId, isAdmin, contest: contestId, category: categoryId, player: playerId });
+    return this.httpClient.put<IEmpty>(url, {
+      accessKey: accessKey,
+      contest: contestId,
+      category: categoryId,
+      player: playerId,
+    });
   }
 }

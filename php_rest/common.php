@@ -1,13 +1,16 @@
 <?php
 	session_start();
+
+	const VALIDITY_DURATION = 15;
 	
 	function getContestStartDate($db, $contest) {
 		$query =
 			"   SELECT        contest.startDate" .
 			"   FROM          contest" .
-			"   WHERE         contest.id = " . $contest;
+			"   WHERE         contest.id = ?";
 		
-		$req = $db->query($query);
+		$req = $db->prepare($query);
+    $req->execute(array($contest));
 		$res = $req->fetchAll(PDO::FETCH_ASSOC);
 		return new DateTime($res[0]["startDate"]);
 	}
@@ -16,29 +19,108 @@
 		$query =
 			"   SELECT        contest.endDate" .
 			"   FROM          contest" .
-			"   WHERE         contest.id = " . $contest;
+			"   WHERE         contest.id = ?";
 		
-		$req = $db->query($query);
+      $req = $db->prepare($query);
+      $req->execute(array($contest));
 		$res = $req->fetchAll(PDO::FETCH_ASSOC);
 		return new DateTime($res[0]["endDate"]);
 	}
 
-	function isUpdatable($db, $contest, $isAdmin) {
-		if ($isAdmin) {
-			return true;
-		}
-		
-	    $contestStartDate = getContestStartDate($db, $contest);
+  function isAdmin($db, $accessKey) {
+    $query =
+      " SELECT        better.isAdmin" .
+      " FROM          better" .
+      " WHERE         better.accessKey = ?";
+
+      $req = $db->prepare($query);
+      $req->execute(array($accessKey));
+      $res = $req->fetchAll(PDO::FETCH_ASSOC);
+      return $res[0]["isAdmin"] == 1 ? true : false;
+  }
+
+	function isUpdatable($db, $contest, $accessKey) {
+    $contestStartDate = getContestStartDate($db, $contest);
 		$contestEndDate = getContestEndDate($db, $contest);
 
-    	$contestStartDateTS = $contestStartDate ? $contestStartDate->getTimestamp() : 0;
+    $contestStartDateTS = $contestStartDate ? $contestStartDate->getTimestamp() : 0;
 		$contestEndDateTS = $contestEndDate ? $contestEndDate->getTimestamp() : 0;
 
-    	$now = new DateTime();
-    	$nowTS = $now ? $now->getTimestamp() : 1;
+    $now = new DateTime();
+    $nowTS = $now ? $now->getTimestamp() : 1;
 
-		return $contestStartDateTS <= $nowTS && $nowTS <= $contestEndDateTS ? true : false;
+		if ($contestStartDateTS <= $nowTS && $nowTS <= $contestEndDateTS) {
+      return true;
+    } else {
+      // S'il n'est plus possible de faire la mise à jour,
+      // on vérifie tout de même que l'utilisateur ne soit pas un administrateur
+      return isAdmin($db, $accessKey);
+    }
 	}
+
+  function isDurationUpdatable($db, $accessKey) {
+    $query =
+      " SELECT DISTINCT       contest.day" .
+      " FROM                  contest" .
+      " WHERE                 DATE(contest.startDate) <= DATE(NOW())" .
+      "                       AND   DATE(contest.endDate) >= DATE(NOW())";
+
+      $req = $db->query($query);
+      $res = $req->fetchAll(PDO::FETCH_ASSOC);
+      if ($res[0]["day"] != 0) {
+        return true;
+      } else {
+        // S'il n'est plus possible de faire la mise à jour,
+        // on vérifie tout de même que l'utilisateur ne soit pas un administrateur
+        return isAdmin($db, $accessKey);
+      }
+  }
+
+	function isAccessKeyValid($db, $accessKey) {
+    $query =
+      " SELECT      CASE" .
+      "                 WHEN    endAccessKeyValidityDate < NOW() AND better.isAdmin <> 1" .
+      "                 THEN    0" .
+      "                 ELSE    1" .
+      "             END AS accessKeyValid" .
+      " FROM        better" .
+      " WHERE       better.accessKey = ?";
+
+      $req = $db->prepare($query);
+      $req->execute(array($accessKey));
+      $res = $req->fetchAll(PDO::FETCH_ASSOC);
+      if ($res[0]["accessKeyValid"] == 1) {
+        extendEndAccessValidityDate($db, $accessKey);
+        return true;
+      }
+
+      return false;
+	}
+
+	function extendEndAccessValidityDate($db, $accessKey) {
+		$query =
+      " UPDATE      better" .
+      " SET         better.endAccessKeyValidityDate = DATE_ADD(NOW(), INTERVAL 15 MINUTE)" .
+      " WHERE       better.accessKey = ?";
+
+      $req = $db->prepare($query);
+      $req->execute(array($accessKey));
+	}
+
+  function generateEndAccessValidityDate() {
+    $now = new DateTime();
+    $dateInterval = new DateInterval("PT" . VALIDITY_DURATION . "M");
+    $endAccessKeyValidityDate = $now->add($dateInterval);
+    return $endAccessKeyValidityDate;
+  }
+
+	function generateAccessKey($input) {
+		return password_hash($input, null);
+	}
+
+  function returnIsOffline() {
+    echo json_encode(array("isOffline" => 1));
+  }
 	
 	// Connexion à la base de données
 	try {

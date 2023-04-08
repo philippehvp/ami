@@ -1,5 +1,5 @@
 export interface IBetter {
-    id: number;
+    accessKey: string;
     firstName: string;
     name: string;
     club: string;
@@ -7,7 +7,7 @@ export interface IBetter {
 }
 
 export interface IBetterRaw {
-    id: number;
+    accessKey: string;
     firstName: string;
     name: string;
     club: string;

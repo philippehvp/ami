@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content style="height: calc(100% - 6em)">
+  <p>{{ data.message }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="cancel()" cdkFocusInitial>
+    Fermer
+  </button>
+</mat-dialog-actions>

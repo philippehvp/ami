@@ -11,20 +11,20 @@ import { BetState } from 'src/app/store/state/bet.state';
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
-  styleUrls: ['./bet-player.component.scss']
+  styleUrls: ['./bet-player.component.scss'],
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
   @Select(BetState.players)
-  players$: Observable<IPlayer[]> | undefined;
+  players$!: Observable<IPlayer[]>;
 
   @Select(BetState.currentBet)
-  currentBet$: Observable<IBet> | undefined;
+  currentBet$!: Observable<IBet>;
 
-  public displayedColumns: string[] | undefined;
+  public displayedColumns: string[];
 
-  private currentBet: IBet | undefined;
+  private currentBet!: IBet;
 
-  private currentBetSub: Subscription | undefined;
+  private currentBetSub!: Subscription;
 
   public isChecked(playerId: number, isFocusedOnWinner: boolean): boolean {
     if (isFocusedOnWinner) {
@@ -39,9 +39,11 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.currentBetSub = this.currentBet$?.pipe(filter(bet => !!bet)).subscribe(bet => {
-      this.currentBet = bet;
-    });
+    this.currentBetSub = this.currentBet$
+      ?.pipe(filter((bet) => !!bet))
+      .subscribe((bet) => {
+        this.currentBet = bet;
+      });
   }
 
   public ngOnDestroy() {
@@ -58,5 +60,19 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  public label(player: IPlayer, isFirstPlayer: boolean): string {
+    if (isFirstPlayer) {
+      if (player.playerRanking1) {
+        return '(' + player.playerRanking1 + ') ' + player.playerName1;
+      } else {
+        return player.playerName1;
+      }
+    } else {
+      if (player.playerRanking2) {
+        return '(' + player.playerRanking2 + ') ' + player.playerName2;
+      } else {
+        return player.playerName2;
+      }
+    }
+  }
 }

@@ -19,6 +19,6 @@
     $res = readPlayers($db, $category);
     echo json_encode($res, JSON_NUMERIC_CHECK);
   } else {
-    echo json_encode(json_decode("[]"));
+    echo json_encode([]);
   }
 ?>

@@ -2,29 +2,35 @@
   include_once("../common.php");
 
   $data = json_decode(file_get_contents("php://input"), true);
-  $better = json_decode($data["better"]);
-  $isAdmin = json_decode($data["isAdmin"]);
-  $contest = json_decode($data["contest"]);
-  $category = json_decode($data["category"]);
-  $player = json_decode($data["player"]);
+  $accessKey = json_decode($data["accessKey"]) ? json_decode($data["accessKey"]) : $data["accessKey"];
+  $contest = json_decode($data["contest"]) ? json_decode($data["contest"]) : $data["contest"];
+  $category = json_decode($data["category"]) ? json_decode($data["category"]) : $data["category"];
+  $player = json_decode($data["player"]) ? json_decode($data["player"]) : $data["player"];
 
-  if ($better && $contest && $category) {
-    if (isUpdatable($db, $contest, $isAdmin)) {
-      $query =
-        " UPDATE            bet" .
-        " SET               runnerUp_player_id = ?," .
-        "                   winner_player_id =" .
-        "                   CASE" .
-        "                       WHEN    winner_player_id = ?" .
-        "                       THEN    NULL" .
-        "                       ELSE    winner_player_id" .
-        "                   END" .
-        " WHERE             bet.better_id = ?" .
-        "                   AND   bet.category_id = ?";
-      $req = $db->prepare($query);
-      $req->execute(array($player, $player, $better, $category));
-
-      return http_response_code(200);    }
+  if ($accessKey && $contest && $category) {
+    if (isAccessKeyValid($db, $accessKey)) {
+      if (isUpdatable($db, $contest, $accessKey)) {
+        $query =
+          " UPDATE            bet" .
+          " JOIN              better" .
+          "                   ON    bet.better_id = better.id" .
+          " SET               bet.runnerUp_player_id = ?," .
+          "                   bet.winner_player_id =" .
+          "                   CASE" .
+          "                       WHEN    bet.winner_player_id = ?" .
+          "                       THEN    NULL" .
+          "                       ELSE    bet.winner_player_id" .
+          "                   END" .
+          " WHERE             better.accessKey = ?" .
+          "                   AND   bet.category_id = ?";
+        $req = $db->prepare($query);
+        $req->execute(array($player, $player, $accessKey, $category));
+  
+        return http_response_code(200);
+      }
+    } else {
+      echo returnIsOffline();
+    }
   } else {
     return http_response_code(204);
   }

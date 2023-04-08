@@ -24,7 +24,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -37,6 +39,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BetState } from './store/state/bet.state';
 
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { BetCategoryComponent } from './components/bet/bet-category/bet-category.component';
 import { BetContestComponent } from './components/bet/bet-contest/bet-contest.component';
@@ -47,6 +50,10 @@ import { BetService } from './services/rest/bet.service';
 import { CommonService } from './services/rest/common.service';
 import { PlayerService } from './services/rest/player.service';
 import { UtilsService } from './services/utils.service';
+import { OfflineComponent } from './components/offline/offline.component';
+import { LoginComponent } from './components/login/login.component';
+import { InformationDialogComponent } from './components/information-dialog/information-dialog.component';
+import { CreateBetterComponent } from './components/create-better/create-better.component';
 
 @NgModule({
   declarations: [
@@ -58,24 +65,29 @@ import { UtilsService } from './services/utils.service';
     BetContestComponent,
     BetCategoryComponent,
     BetPlayerComponent,
-    BetDurationComponent
+    BetDurationComponent,
+    OfflineComponent,
+    LoginComponent,
+    InformationDialogComponent,
+    CreateBetterComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    
-    NgxsModule.forRoot([BetState], {
-      
-    }),
+
+    NgxsModule.forRoot([BetState], {}),
     AppRoutingModule,
-    FormsModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatExpansionModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
     MatRadioModule,
     MatSelectModule,
@@ -83,9 +95,9 @@ import { UtilsService } from './services/utils.service';
     MatSliderModule,
     MatTableModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
   providers: [BetService, CommonService, PlayerService, UtilsService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

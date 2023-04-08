@@ -2,7 +2,7 @@
   include_once("../common.php");
 
   $query =
-    " SELECT DISTINCT     better.id, better.name, better.firstName, better.club, better.isAdmin" .
+    " SELECT DISTINCT     better.accessKey, better.name, better.firstName, better.isAdmin" .
     " FROM                better" .
     " JOIN                betting" .
     "                     ON    better.id = betting.better_id" .

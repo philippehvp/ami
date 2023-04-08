@@ -1,5 +1,5 @@
 export interface IBet {
-    betterId: number;
+    betterAccessKey: string;
     categoryId: number;
     winnerId: number;
     runnerUpId: number;

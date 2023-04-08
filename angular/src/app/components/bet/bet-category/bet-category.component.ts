@@ -8,12 +8,12 @@ import { BetState } from 'src/app/store/state/bet.state';
 @Component({
   selector: 'bet-category',
   templateUrl: './bet-category.component.html',
-  styleUrls: ['./bet-category.component.scss']
+  styleUrls: ['./bet-category.component.scss'],
 })
 export class BetCategoryComponent {
   @Select(BetState.category)
-  category$: Observable<ICategory> | undefined;
+  category$!: Observable<ICategory>;
 
   @Select(BetState.contest)
-  contest$: Observable<IContest> | undefined;
+  contest$!: Observable<IContest>;
 }

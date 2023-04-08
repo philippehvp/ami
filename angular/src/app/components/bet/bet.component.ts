@@ -1,47 +1,53 @@
-import { Component } from '@angular/core';
+import { Dialog } from '@angular/cdk/dialog';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialogConfig } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { filter } from 'rxjs/operators';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
-import { UtilsService } from 'src/app/services/utils.service';
 import { BetState } from 'src/app/store/state/bet.state';
+import { OfflineComponent } from '../offline/offline.component';
 
 @Component({
   selector: 'bet',
   templateUrl: './bet.component.html',
-  styleUrls: ['./bet.component.scss']
+  styleUrls: ['./bet.component.scss'],
 })
-export class BetComponent {
+export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.category)
-  category$: Observable<ICategory> | undefined;
+  category$!: Observable<ICategory>;
 
   @Select(BetState.contest)
-  contest$: Observable<IContest> | undefined;
+  contest$!: Observable<IContest>;
 
-  public get tab(): number {
-    return UtilsService.isFocusedOnWinner() ? 0 : 1;
+  @Select(BetState.isOffline)
+  isOffline$!: Observable<boolean>;
+
+  private isOfflineSub!: Subscription;
+
+  constructor(private dialog: Dialog) {}
+
+  public ngOnInit() {
+    this.isOfflineSub = this.isOffline$
+      ?.pipe(filter((isOffline) => !!isOffline))
+      .subscribe((isOffline) => {
+        if (isOffline) {
+          console.log('isOffline détectée');
+          const config: MatDialogConfig = {
+            hasBackdrop: true,
+            backdropClass: 'blur',
+          };
+
+          this.dialog.open(OfflineComponent, config);
+        }
+      });
   }
 
-  public set tab(selectedIndex: number) {
-    if (selectedIndex == 0) {
-      UtilsService.focusWinner();
-    } else {
-      UtilsService.focusRunnerUp();
+  public ngOnDestroy() {
+    if (this.isOfflineSub) {
+      this.isOfflineSub.unsubscribe();
     }
   }
-
-  public get isWinnerPanelFocused(): boolean {
-    return UtilsService.isFocusedOnWinner();
-  }
-
-  public set isWinnerPanelFocused(isWinnerPanelFocused: boolean) {
-    if (isWinnerPanelFocused) {
-      UtilsService.focusWinner();
-    } else {
-      UtilsService.focusRunnerUp();
-    }
-  }
-
-  constructor() {}
 }
-

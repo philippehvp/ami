@@ -7,16 +7,15 @@ import { BetState } from 'src/app/store/state/bet.state';
 @Component({
   selector: 'bet-duration',
   templateUrl: './bet-duration.component.html',
-  styleUrls: ['./bet-duration.component.scss']
+  styleUrls: ['./bet-duration.component.scss'],
 })
 export class BetDurationComponent {
   @Select(BetState.duration)
-  duration$: Observable<number> | undefined;
+  duration$!: Observable<number>;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   public changeDuration(duration: number) {
-    console.log('Nouvelle durée', duration);
     this.store.dispatch([new BetActions.SetDuration(duration)]);
   }
 }
