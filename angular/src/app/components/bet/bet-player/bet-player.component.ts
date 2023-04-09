@@ -42,6 +42,13 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
+  public iconLabel(playerId: number, isFocusedOnWinner: boolean): string {
+    if (this.isChecked(playerId, isFocusedOnWinner)) {
+      return 'expand_circle_down';
+    }
+    return 'radio_button_unchecked';
+  }
+
   constructor(private store: Store) {
     this.displayedColumns = ['winner', 'runnerUp', 'name'];
   }
@@ -68,8 +75,8 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public label(player: IPlayer, isFirstPlayer: boolean): string {
-    if (isFirstPlayer) {
+  public label(player: IPlayer, isFocusedOnWinner: boolean): string {
+    if (isFocusedOnWinner) {
       if (player.playerRanking1) {
         return '(' + player.playerRanking1 + ') ' + player.playerName1;
       } else {

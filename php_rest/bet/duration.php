@@ -8,15 +8,23 @@
   if ($accessKey) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT DISTINCT     duration.duration" .
+        " SELECT DISTINCT     duration.duration," .
+        "                     CASE" .
+        "                       WHEN better.isAdmin = 1 AND contest.startDate <= NOW() AND NOW() <= contest.endAdminDate THEN 1" .
+        "                       WHEN better.isAdmin = 0 AND contest.startDate <= NOW() AND NOW() <= contest.endBetDate THEN 1" .
+        "                       ELSE 0" .
+        "                     END AS isDurationUpdatable" .
         " FROM                duration" .
         " JOIN                (" .
-        "                       SELECT DISTINCT       contest.day" .
+        "                       SELECT DISTINCT       contest.day," .
+        "                                             contest.startDate," .
+        "                                             contest.endBetDate, contest.endAdminDate" .
         "                       FROM                  contest" .
         "                       WHERE                 contest.startDate <= NOW()" .
-        "                                             AND   contest.endDate >= NOW()" .
-        "                     ) day" .
-        "                     ON    duration.contest_day = day.day" .
+        "                                             AND   NOW() <= contest.endAdminDate" .
+        "                       LIMIT 1" .
+        "                     ) contest" .
+        "                     ON    duration.contest_day = contest.day" .
         " JOIN                better" .
         "                     ON    duration.better_id = better.id" .
         " WHERE               better.accessKey = ?";

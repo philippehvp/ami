@@ -6,7 +6,7 @@ import { CommonService } from './common.service';
 import { IContest } from 'src/app/models/contest';
 import { map } from 'rxjs/internal/operators/map';
 import { IBet } from 'src/app/models/bet';
-import { IDuration } from 'src/app/models/duration';
+import { IDuration, IDurationRaw } from 'src/app/models/duration';
 import { IEmpty, IOffline } from 'src/app/models/utils';
 
 @Injectable({
@@ -47,8 +47,24 @@ export class BetService {
   }
 
   public getDuration(accessKey: string): Observable<IDuration | IOffline> {
+    return this.getDurationRaw(accessKey).pipe(
+      map((durationRaw: IDurationRaw | IOffline) => {
+        return {
+          duration: (<IDurationRaw>durationRaw).duration,
+          isDurationUpdatable:
+            (<IDurationRaw>durationRaw).isDurationUpdatable === 1
+              ? true
+              : false,
+        };
+      })
+    );
+  }
+
+  private getDurationRaw(
+    accessKey: string
+  ): Observable<IDurationRaw | IOffline> {
     const url = CommonService.getURL('bet/duration');
-    return this.httpClient.post<IDuration>(url, { accessKey });
+    return this.httpClient.post<IDurationRaw>(url, { accessKey });
   }
 
   public setDuration(

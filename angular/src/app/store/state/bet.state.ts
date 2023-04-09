@@ -26,7 +26,7 @@ export class BetStateModel {
   bets!: IBet[] | undefined;
   winner!: string | undefined;
   runnerUp!: string | undefined;
-  duration!: number | undefined;
+  duration!: IDuration | undefined;
   completedBets!: number | undefined;
   allBetsDone!: boolean | undefined;
 }
@@ -162,9 +162,6 @@ export class BetState {
             isOffline: false,
             betters: <IBetter[]>readBetters,
           });
-
-          // PHU : temporaire
-          state.dispatch([new BetActions.SetBetter(readBetters[0])]);
         }
       })
     );
@@ -184,6 +181,26 @@ export class BetState {
           state.patchState({
             isOffline: false,
             contests: <IContest[]>readContests,
+          });
+
+          // Vérification de la possibilité de mettre à jour les pronostics
+          const now = new Date();
+          state.getState().contests?.map((contest) => {
+            const startDate = new Date(contest.startDate);
+            const endBetDate = new Date(contest.endBetDate);
+            const isAdmin = state.getState().better?.isAdmin;
+            const isUpdatable = startDate <= now && endBetDate >= now;
+
+            state.setState(
+              patch({
+                contests: updateItem<IContest>(
+                  (c) => c.id === contest.id,
+                  patch({
+                    isUpdatable: isAdmin ? true : isUpdatable,
+                  })
+                ),
+              })
+            );
           });
         }
       })
@@ -255,7 +272,7 @@ export class BetState {
             bets: <IBet[]>readBets,
           });
 
-          BetState.calculateCompletedBets(state);
+          BetState.calculateCompletedBetsOnLoad(state);
 
           // Recherche du premier pronostic non renseigné
           const categoryId = BetState.searchFirstBetToFill(state);
@@ -270,13 +287,38 @@ export class BetState {
     );
   }
 
-  static calculateCompletedBets(state: StateContext<BetStateModel>) {
+  static calculateCompletedBetsOnLoad(state: StateContext<BetStateModel>) {
     const currentState = state.getState();
 
     // On compte le nombre de pronostics correctement renseignés
     const completedBets = currentState.bets?.filter((bet) => {
       return bet.winnerId !== 0 && bet.runnerUpId !== 0;
     });
+
+    state.patchState({
+      completedBets: completedBets?.length || 0,
+    });
+  }
+
+  static calculateCompletedBetsOnUpdate(state: StateContext<BetStateModel>) {
+    // On compte le nombre de pronostics correctement renseignés
+    const completedBets = state.getState().bets?.filter((bet) => {
+      return bet.winnerId !== 0 && bet.runnerUpId !== 0;
+    });
+
+    // Si le nombre de pronostics saisis est égal au nombre de pronostics total (tout a été pronostiqué)
+    // et que le nombre précédent de pronostics saisis était inférieur, alors on vient tout juste de saisir
+    // tous les pronostics ==> on le signale au pronostiqueur
+    const completedBetsCount = completedBets?.length || 0;
+    const totalBetsCount = state.getState().bets?.length || 0;
+    const oldCompletedBetsCount = state.getState().completedBets || 0;
+
+    if (
+      completedBetsCount === totalBetsCount &&
+      oldCompletedBetsCount < completedBetsCount
+    ) {
+      state.dispatch([new BetActions.AllBetsDone()]);
+    }
 
     state.patchState({
       completedBets: completedBets?.length || 0,
@@ -314,6 +356,7 @@ export class BetState {
         bet.runnerUpId === null
       );
     });
+
     if (bet) {
       return bet.categoryId;
     } else {
@@ -342,7 +385,6 @@ export class BetState {
 
     if (nextBetIndex === currentBetIndex) {
       // On a fait le tour, sans trouver de pronostic à saisir
-      state.dispatch([new BetActions.AllBetsDone()]);
       return -1;
     } else {
       return bet.categoryId;
@@ -351,8 +393,7 @@ export class BetState {
 
   static searchBetToFill(
     state: StateContext<BetStateModel>,
-    category: number,
-    isFocusedOnWinner: boolean
+    category: number
   ): number {
     const currentState = state.getState();
 
@@ -421,13 +462,12 @@ export class BetState {
                 })
               );
 
-              BetState.calculateCompletedBets(state);
+              BetState.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir
               const categoryId = BetState.searchBetToFill(
                 state,
-                currentState.category?.id || 0,
-                true
+                currentState.category?.id || 0
               );
               if (categoryId !== -1) {
                 state.dispatch([new BetActions.SetCategory(categoryId)]);
@@ -482,13 +522,12 @@ export class BetState {
                 })
               );
 
-              BetState.calculateCompletedBets(state);
+              BetState.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir
               const categoryId = BetState.searchBetToFill(
                 state,
-                currentState.category?.id || 0,
-                false
+                currentState.category?.id || 0
               );
               if (categoryId !== -1) {
                 state.dispatch([new BetActions.SetCategory(categoryId)]);
@@ -513,7 +552,7 @@ export class BetState {
         } else {
           state.patchState({
             isOffline: false,
-            duration: (<IDuration>readDuration).duration,
+            duration: <IDuration>readDuration,
           });
         }
       })
@@ -539,7 +578,12 @@ export class BetState {
           if ('isOffline' in ret) {
             state.dispatch([new ConnectionActions.IsOffline()]);
           } else {
-            state.patchState({ isOffline: false, duration: action.duration });
+            const duration: IDuration = {
+              duration: action.duration,
+              isDurationUpdatable:
+                currentState.duration?.isDurationUpdatable || true,
+            };
+            state.patchState({ isOffline: false, duration: duration });
           }
         })
       );
@@ -573,6 +617,8 @@ export class BetState {
       winner: undefined,
       runnerUp: undefined,
       duration: undefined,
+      completedBets: undefined,
+      allBetsDone: undefined,
     });
   }
 }

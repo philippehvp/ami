@@ -8,7 +8,7 @@
   if($accessKey) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      contest.id, contest.shortName, contest.longName, contest.startDate, contest.endDate, contest.day" .
+        " SELECT      contest.id, contest.shortName, contest.longName, contest.startDate, contest.endBetDate, contest.day" .
         " FROM        contest" .
         " JOIN        betting" .
         "             ON    contest.id = betting.contest_id" .
@@ -16,7 +16,7 @@
         "             ON    betting.better_id = better.id" .
         " WHERE       better.accessKey = ?" .
         "             AND   contest.startDate <= NOW()" .
-        "             AND   contest.endDate >= NOW()";
+        "             AND   contest.endAdminDate >= NOW()";
     
       $req = $db->prepare($query);
       $req->execute(array($accessKey));

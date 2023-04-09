@@ -15,14 +15,22 @@
 		return new DateTime($res[0]["startDate"]);
 	}
 
-	function getContestEndDate($db, $contest) {
+	function getContestEndDate($db, $contest, $accessKey) {
 		$query =
-			"   SELECT        contest.endDate" .
+			"   SELECT        CASE" .
+      "                   WHEN better.isAdmin = 1 THEN contest.endAdminDate" .
+      "                   ELSE contest.endBetDate" .
+      "                 END AS endDate" .
 			"   FROM          contest" .
-			"   WHERE         contest.id = ?";
+      "   JOIN          betting" .
+      "                 ON    contest.id = betting.contest_id" .
+      "   JOIN          better" .
+      "                 ON    betting.better_id = better.id" .
+			"   WHERE         contest.id = ?" .
+      "                 AND   better.accessKey = ?";
 		
-      $req = $db->prepare($query);
-      $req->execute(array($contest));
+    $req = $db->prepare($query);
+    $req->execute(array($contest, $accessKey));
 		$res = $req->fetchAll(PDO::FETCH_ASSOC);
 		return new DateTime($res[0]["endDate"]);
 	}
@@ -41,7 +49,7 @@
 
 	function isUpdatable($db, $contest, $accessKey) {
     $contestStartDate = getContestStartDate($db, $contest);
-		$contestEndDate = getContestEndDate($db, $contest);
+		$contestEndDate = getContestEndDate($db, $contest, $accessKey);
 
     $contestStartDateTS = $contestStartDate ? $contestStartDate->getTimestamp() : 0;
 		$contestEndDateTS = $contestEndDate ? $contestEndDate->getTimestamp() : 0;
@@ -51,28 +59,32 @@
 
 		if ($contestStartDateTS <= $nowTS && $nowTS <= $contestEndDateTS) {
       return true;
-    } else {
-      // S'il n'est plus possible de faire la mise à jour,
-      // on vérifie tout de même que l'utilisateur ne soit pas un administrateur
-      return isAdmin($db, $accessKey);
     }
 	}
 
   function isDurationUpdatable($db, $accessKey) {
     $query =
-      " SELECT DISTINCT       contest.day" .
+      " SELECT DISTINCT       CASE" .
+      "                         WHEN better.isAdmin = 1 AND contest.startDate <= NOW() AND NOW() <= contest.endAdminDate THEN 1" .
+      "                         WHEN better.isAdmin = 0 AND contest.startDate <= NOW() AND NOW() <= contest.endBetDate THEN 1" .
+      "                         ELSE 0" .
+      "                       END isDurationUpdatable" .
       " FROM                  contest" .
-      " WHERE                 DATE(contest.startDate) <= DATE(NOW())" .
-      "                       AND   DATE(contest.endDate) >= DATE(NOW())";
+      " JOIN                  betting" .
+      "                       ON    contest.id = betting.contest_id" .
+      " JOIN                  better" .
+      "                       ON    betting.better_id = better.id" .
+      " WHERE                 contest.startDate <= NOW()" .
+      "                       AND   contest.endAdminDate >= NOW()" .
+      "                       AND   better.accessKey = ?";
 
-      $req = $db->query($query);
+      $req = $db->prepare($query);
+      $req->execute(array($accessKey));
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
-      if ($res[0]["day"] != 0) {
+      if ($res[0]["isDurationUpdatable"] == 1) {
         return true;
       } else {
-        // S'il n'est plus possible de faire la mise à jour,
-        // on vérifie tout de même que l'utilisateur ne soit pas un administrateur
-        return isAdmin($db, $accessKey);
+        return false;
       }
   }
 
@@ -89,7 +101,7 @@
       $req = $db->prepare($query);
       $req->execute(array($accessKey));
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
-      if ($res[0]["accessKeyValid"] == 1) {
+      if ($res && sizeof($res) && $res[0]["accessKeyValid"] == 1) {
         extendEndAccessValidityDate($db, $accessKey);
         return true;
       }

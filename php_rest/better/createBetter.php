@@ -48,7 +48,7 @@
           " INSERT INTO         betting(better_id, contest_id)" .
           " SELECT              " . $better . ", contest.id" .
           " FROM                contest" .
-          " WHERE               contest.endDate > NOW()";
+          " WHERE               contest.endBetDate > NOW()";
         $db->exec($query);
 
         // Création de tous les pronostics (des deux journées si on est le premier jour également)
@@ -58,7 +58,7 @@
           " FROM                contest" .
           " JOIN                category" .
           "                     ON    contest.id = category.contest_id" .
-          " WHERE               contest.endDate > NOW()";
+          " WHERE               contest.endBetDate > NOW()";
         $db->exec($query);
 
         // Création du pronostic sur la durée du match le plus long (des deux journées si on est le premier jour également)
@@ -66,7 +66,7 @@
           " INSERT INTO         duration(better_id, contest_day, duration)" .
           " SELECT DISTINCT     " . $better . ", contest.day, 30" .
           " FROM                contest" .
-          " WHERE               contest.endDate > NOW()";
+          " WHERE               contest.endBetDate > NOW()";
         $db->exec($query);
 
         // Création des points des pronostiqueurs (des deux journées si on est le premier jour également)

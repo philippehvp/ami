@@ -1,4 +1,5 @@
 import { IBetter } from 'src/app/models/better';
+import { IDuration } from 'src/app/models/duration';
 
 export namespace BetActions {
   export class GetBetters {

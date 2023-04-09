@@ -13,8 +13,8 @@
           " JOIN              (" .
           "                       SELECT DISTINCT       contest.day" .
           "                       FROM                  contest" .
-          "                       WHERE                 DATE(contest.startDate) <= DATE(NOW())" .
-          "                                             AND   DATE(contest.endDate) >= DATE(NOW())" .
+          "                       WHERE                 contest.startDate <= NOW()" .
+          "                                             AND   NOW() <= contest.endAdminDate" .
           "                   ) day" .
           "                   ON    duration.contest_day = day.day" .
           " JOIN              better" .

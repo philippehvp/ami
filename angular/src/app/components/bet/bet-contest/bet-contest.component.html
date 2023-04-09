@@ -1,9 +1,15 @@
-<div *ngFor="let contest of contests$ | async">
-    <span>{{ contest.shortName }}</span>
-    <span>
-        <button mat-flat-button class="category" [color]="getColor(category)" *ngFor="let category of contest.categories" (click)="changeCategory(category.id)">
-            {{ category.shortName }}
-        </button>
-    </span>
+<div *ngFor="let contest of contests$ | async" class="contest-panel">
+  <span class="contest-label">{{ contest.shortName }}</span>
+  <span>
+    <mat-chip-listbox>
+      <mat-chip-option
+        *ngFor="let category of contest.categories"
+        (click)="changeCategory(category.id)"
+        [selected]="category.id === (category$ | async)?.id"
+        class="category"
+      >
+        {{ category.shortName }}
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </span>
 </div>
-

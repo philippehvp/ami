@@ -1,7 +1,17 @@
+.contest-panel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contest-label {
+  margin-right: 1em;
+}
+
 .category {
-    font-size: 0.75em;
+  font-size: 0.75em;
 }
 
 .mat-button.mat-small {
-    min-width: 1%;
+  min-width: 1%;
 }

@@ -9,7 +9,8 @@
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
         " SELECT      category.id AS categoryId," .
-        "             IFNULL(bet.winner_player_id, 0) AS winnerId, IFNULL(bet.runnerUp_player_id, 0) AS runnerUpId" .
+        "             IFNULL(bet.winner_player_id, 0) AS winnerId," .
+        "             IFNULL(bet.runnerUp_player_id, 0) AS runnerUpId" .
         " FROM        contest" .
         " JOIN        category" .
         "             ON      contest.id = category.contest_id" .
@@ -19,7 +20,7 @@
         "             ON    bet.better_id = better.id" .
         " WHERE       better.accessKey = ?" .
         "             AND     contest.startDate <= NOW()" .
-        "             AND     contest.endDate >= NOW()";
+        "             AND     NOW() <= contest.endAdminDate";
     
       $req = $db->prepare($query);
       $req->execute(array($accessKey));

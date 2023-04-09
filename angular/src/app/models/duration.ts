@@ -1,5 +1,9 @@
 export interface IDuration {
-    betterId: number;
-    day: number;
-    duration: number;
+  duration: number;
+  isDurationUpdatable: boolean;
+}
+
+export interface IDurationRaw {
+  duration: number;
+  isDurationUpdatable: number;
 }

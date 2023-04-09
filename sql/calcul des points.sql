@@ -15,7 +15,7 @@ JOIN                category
 JOIN                contest
                     ON      category.contest_id = contest.id
 WHERE               contest.startDate <= NOW()
-                    AND     NOW() <= contest.endDate
+                    AND     NOW() <= contest.endAdminDate
                     AND     bet.better_id = l_admin
                     AND     bet.winner_player_id <> 0
                     AND     bet.runnerUp_player_id <> 0;
@@ -30,7 +30,7 @@ JOIN        (
                 JOIN        contest
                             ON      category.contest_id = contest.id
                 WHERE       contest.startDate <= NOW()
-                            AND     NOW() <= contest.endDate
+                            AND     NOW() <= contest.endAdminDate
                             AND     bet.better_id = l_admin
                             AND     bet.winner_player_id <> 0
                             AND     bet.runnerUp_player_id <> 0
@@ -61,7 +61,7 @@ JOIN        (
                 JOIN        contest
                             ON      category.contest_id = contest.id
                 WHERE       contest.startDate <= NOW()
-                            AND     NOW() <= contest.endDate
+                            AND     NOW() <= contest.endAdminDate
                             AND     bet.better_id = 19
                             AND     bet.winner_player_id <> 0
                             AND     bet.runnerUp_player_id <> 0

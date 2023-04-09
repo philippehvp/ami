@@ -1,6 +1,6 @@
 <div class="create-better">
   <div class="create-better-panel">
-    <h2>Création d'un compte</h2>
+    <h3>Création d'un compte Winabad</h3>
 
     <form [formGroup]="formGroup">
       <p>
@@ -57,15 +57,16 @@
 
       <p>
         <mat-form-field>
-          <mat-label>Contact</mat-label>
-          <input
+          <mat-label>Contact (200 car. max)</mat-label>
+          <textarea
             matInput
             type="text"
+            maxlength="200"
             formControlName="contact"
             required
             autocomplete="on"
-          />
-          <mat-hint>Comment vous contacter</mat-hint>
+          ></textarea>
+          <mat-hint>Comment me contacter</mat-hint>
         </mat-form-field>
       </p>
     </form>

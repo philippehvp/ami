@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
+import { IDuration } from 'src/app/models/duration';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 
@@ -11,7 +12,7 @@ import { BetState } from 'src/app/store/state/bet.state';
 })
 export class BetDurationComponent {
   @Select(BetState.duration)
-  duration$!: Observable<number>;
+  duration$!: Observable<IDuration>;
 
   constructor(private store: Store) {}
 

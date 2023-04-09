@@ -56,19 +56,21 @@ export class BetComponent implements OnInit, OnDestroy {
         return;
       });
 
-    this.allBetsDoneSub = this.allBetsDone$.subscribe((allBetsDone) => {
-      if (allBetsDone) {
-        const config: MatDialogConfig = {
-          data: {
-            title: 'Pronostics saisis et validés',
-            message:
-              'Bravo. Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne.',
-          },
-        };
+    this.allBetsDoneSub = this.allBetsDone$
+      .pipe(filter((allBetsDone) => !!allBetsDone))
+      .subscribe((allBetsDone) => {
+        if (allBetsDone) {
+          const config: MatDialogConfig = {
+            data: {
+              title: 'Pronostics saisis et validés',
+              message:
+                'Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne.',
+            },
+          };
 
-        this.dialog.open(InformationDialogComponent, config);
-      }
-    });
+          this.dialog.open(InformationDialogComponent, config);
+        }
+      });
   }
 
   public ngOnDestroy() {

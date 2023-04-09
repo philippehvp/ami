@@ -10,7 +10,11 @@
     "                     ON    better.id = betting.better_id" .
     "                           AND   betting.contest_id = contest.id" .
     " WHERE               contest.startDate <= NOW()" .
-    "                     AND   contest.endDate >= NOW()";
+    "                     AND   NOW() <=" .
+    "                             CASE" .
+    "                               WHEN better.isAdmin = 1 THEN contest.endAdminDate" .
+    "                               ELSE contest.endADminDate" .
+    "                             END";
 
   $req = $db->query($query);
   $res = $req->fetchAll(PDO::FETCH_ASSOC);

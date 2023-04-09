@@ -1,33 +1,41 @@
 <table mat-table [dataSource]="(players$ | async) || []">
   <ng-container matColumnDef="winner">
-    <th class="action action-label" mat-header-cell *matHeaderCellDef>
+    <th class="action" mat-header-cell *matHeaderCellDef>
       <span class="material-icons">emoji_events</span>
     </th>
     <td class="action" mat-cell *matCellDef="let player">
-      <mat-radio-group>
-        <mat-radio-button
-          [checked]="isChecked(player.id, true)"
-          value="W"
-          (click)="changePlayer(player.id, true)"
-        >
-        </mat-radio-button>
-      </mat-radio-group>
+      <mat-icon
+        *ngIf="(contest$ | async)?.isUpdatable"
+        class="material-icons enabled"
+        (click)="changePlayer(player.id, true)"
+        >{{ iconLabel(player.id, true) }}</mat-icon
+      >
+
+      <mat-icon
+        *ngIf="!(contest$ | async)?.isUpdatable && isChecked(player.id, true)"
+        class="material-icons disabled"
+        >expand_circle_down</mat-icon
+      >
     </td>
   </ng-container>
 
   <ng-container matColumnDef="runnerUp">
-    <th class="action action-label" mat-header-cell *matHeaderCellDef>
+    <th class="action" mat-header-cell *matHeaderCellDef>
       <span class="material-icons">workspace_premium</span>
     </th>
     <td class="action" mat-cell *matCellDef="let player">
-      <mat-radio-group>
-        <mat-radio-button
-          [checked]="isChecked(player.id, false)"
-          value="R"
-          (click)="changePlayer(player.id, false)"
-        >
-        </mat-radio-button>
-      </mat-radio-group>
+      <mat-icon
+        *ngIf="(contest$ | async)?.isUpdatable"
+        (click)="changePlayer(player.id, false)"
+        class="material-icons enabled"
+        >{{ iconLabel(player.id, false) }}</mat-icon
+      >
+
+      <mat-icon
+        *ngIf="!(contest$ | async)?.isUpdatable && isChecked(player.id, false)"
+        class="material-icons disabled"
+        >expand_circle_down</mat-icon
+      >
     </td>
   </ng-container>
 
