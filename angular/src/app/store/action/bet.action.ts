@@ -71,4 +71,9 @@ export namespace BetActions {
     static readonly type = '[Bet] All Bets Done';
     constructor() {}
   }
+
+  export class CalculatePointsAndRanking {
+    static readonly type = '[Bet] Calculate Points And Ranking';
+    constructor() {}
+  }
 }

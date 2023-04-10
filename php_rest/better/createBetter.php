@@ -51,7 +51,7 @@
           " WHERE               contest.endBetDate > NOW()";
         $db->exec($query);
 
-        // Création de tous les pronostics (des deux journées si on est le premier jour également)
+        // Création des lignes dans la table des pronostics (des deux journées si on est le premier jour également)
         $query =
           " INSERT INTO         bet(better_id, category_id, winner_player_id, runnerUp_player_id)" .
           " SELECT              " . $better . ", category.id, NULL, NULL" .
@@ -61,7 +61,7 @@
           " WHERE               contest.endBetDate > NOW()";
         $db->exec($query);
 
-        // Création du pronostic sur la durée du match le plus long (des deux journées si on est le premier jour également)
+        // Création de la ligne dans la table de la durée du match le plus long (des deux journées si on est le premier jour également)
         $query =
           " INSERT INTO         duration(better_id, contest_day, duration)" .
           " SELECT DISTINCT     " . $better . ", contest.day, 30" .
@@ -69,11 +69,23 @@
           " WHERE               contest.endBetDate > NOW()";
         $db->exec($query);
 
-        // Création des points des pronostiqueurs (des deux journées si on est le premier jour également)
+        // Création de la ligne dans la table des points (des deux journées si on est le premier jour également)
         $query =
-          " INSERT INTO         points(better_id, category_id, points)" .
+          " INSERT INTO         point(better_id, category_id, points)" .
           " SELECT              " . $better . ", category.id, 0" .
-          " FROM                contest";
+          " FROM                category" .
+          " JOIN                contest" .
+          "                     ON    category.contest_id = contest.id" .
+          " WHERE               contest.endBetDate > NOW()";
+        $db->exec($query);
+
+        // Création de la ligne dans la table des classements (des deux journées si on est le premier jour également)
+        $query =
+          " INSERT INTO         ranking(better_id, contest_day, points, ranking)" .
+          " SELECT DISTINCT     " . $better . ", contest.day, 0, 0" .
+          " FROM                contest" .
+          " WHERE               contest.endBetDate > NOW()";
+        $db->exec($query);
 
         $better = array(
           "accessKey" => $accessKey,

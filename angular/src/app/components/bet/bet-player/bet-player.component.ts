@@ -4,10 +4,12 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/internal/operators/filter';
 import { IBet } from 'src/app/models/bet';
+import { IBetter } from 'src/app/models/better';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { IPlayer } from 'src/app/models/player';
 import { BetActions } from 'src/app/store/action/bet.action';
+import { RankingActions } from 'src/app/store/action/point.action';
 import { BetState } from 'src/app/store/state/bet.state';
 
 @Component({
@@ -16,6 +18,9 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./bet-player.component.scss'],
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
+  @Select(BetState.better)
+  better$!: Observable<IBetter>;
+
   @Select(BetState.players)
   players$!: Observable<IPlayer[]>;
 
@@ -89,5 +94,15 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
         return player.playerName2;
       }
     }
+  }
+
+  public calculate() {
+    this.store
+      .dispatch([new BetActions.CalculatePointsAndRanking()])
+      .subscribe(() => {
+        this.store.dispatch([
+          new RankingActions.CategoryToDisplay(this.currentBet.categoryId),
+        ]);
+      });
   }
 }

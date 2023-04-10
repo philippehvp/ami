@@ -19,28 +19,13 @@ export class BetContestComponent implements OnInit, OnDestroy {
   @Select(BetState.category)
   category$!: Observable<ICategory>;
 
-  private categorySub!: Subscription;
-  public category!: ICategory;
-
   constructor(private store: Store) {}
-
-  public getColor(category: ICategory): string {
-    return category === this.category ? 'primary' : 'basic';
-  }
 
   public changeCategory(categoryId: number) {
     this.store.dispatch([new BetActions.SetCategory(categoryId)]);
   }
 
-  public ngOnInit() {
-    this.categorySub = this.category$?.subscribe(
-      (category) => (this.category = category)
-    );
-  }
+  public ngOnInit() {}
 
-  public ngOnDestroy() {
-    if (this.categorySub) {
-      this.categorySub.unsubscribe();
-    }
-  }
+  public ngOnDestroy() {}
 }

@@ -49,8 +49,10 @@ import { PlayerService } from './services/rest/player.service';
 import { UtilsService } from './services/utils.service';
 import { OfflineComponent } from './components/offline/offline.component';
 import { LoginComponent } from './components/login/login.component';
-import { InformationDialogComponent } from './components/information-dialog/information-dialog.component';
+import { InformationComponent } from './components/information-dialog/information.component';
 import { CreateBetterComponent } from './components/create-better/create-better.component';
+import { PointState } from './store/state/point.state';
+import { BetterPointComponent } from './components/better-point/better-point.component';
 
 @NgModule({
   declarations: [
@@ -65,14 +67,15 @@ import { CreateBetterComponent } from './components/create-better/create-better.
     BetDurationComponent,
     OfflineComponent,
     LoginComponent,
-    InformationDialogComponent,
+    InformationComponent,
     CreateBetterComponent,
+    BetterPointComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
 
-    NgxsModule.forRoot([BetState], {}),
+    NgxsModule.forRoot([BetState, PointState], {}),
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,

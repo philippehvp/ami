@@ -8,8 +8,10 @@ import { filter } from 'rxjs/operators';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
-import { InformationDialogComponent } from '../information-dialog/information-dialog.component';
+import { InformationComponent } from '../information-dialog/information.component';
 import { Router } from '@angular/router';
+import { PointState } from 'src/app/store/state/point.state';
+import { BetterPointComponent } from '../better-point/better-point.component';
 
 @Component({
   selector: 'bet',
@@ -29,8 +31,12 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.isOffline)
   isOffline$!: Observable<boolean>;
 
+  @Select(PointState.categoryToDisplay)
+  categoryToDisplay$!: Observable<number>;
+
   private isOfflineSub!: Subscription;
   private allBetsDoneSub!: Subscription;
+  private categoryToDisplaySub!: Subscription;
 
   constructor(private dialog: MatDialog, private router: Router) {}
 
@@ -42,12 +48,12 @@ export class BetComponent implements OnInit, OnDestroy {
           const config: MatDialogConfig = {
             data: {
               title: 'Session expirée',
-              message: 'Votre session est expirée. Veuillez vous reconnecter',
+              message: 'Votre session est expirée. Veuillez vous reconnecter.',
             },
           };
 
           this.dialog
-            .open(InformationDialogComponent, config)
+            .open(InformationComponent, config)
             .afterClosed()
             .subscribe(() => {
               return this.router.navigate(['login']);
@@ -68,7 +74,20 @@ export class BetComponent implements OnInit, OnDestroy {
             },
           };
 
-          this.dialog.open(InformationDialogComponent, config);
+          this.dialog.open(InformationComponent, config);
+        }
+      });
+
+    this.categoryToDisplaySub = this.categoryToDisplay$
+      .pipe(
+        filter(
+          (categoryToDisplay) =>
+            categoryToDisplay !== null && categoryToDisplay !== undefined
+        )
+      )
+      .subscribe((categoryToDisplay) => {
+        if (categoryToDisplay !== null && categoryToDisplay !== undefined) {
+          this.dialog.open(BetterPointComponent);
         }
       });
   }
@@ -80,6 +99,10 @@ export class BetComponent implements OnInit, OnDestroy {
 
     if (this.allBetsDoneSub) {
       this.allBetsDoneSub.unsubscribe();
+    }
+
+    if (this.categoryToDisplaySub) {
+      this.categoryToDisplaySub.unsubscribe();
     }
   }
 }

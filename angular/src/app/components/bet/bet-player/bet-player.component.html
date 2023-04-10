@@ -41,13 +41,18 @@
 
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>
-      {{ (contest$ | async)?.longName }} - {{ (category$ | async)?.longName }}
+      <span class="player-header">
+        {{ (contest$ | async)?.longName }} - {{ (category$ | async)?.longName }}
+        <span *ngIf="(better$ | async)?.isAdmin" class="calculate">
+          <mat-icon (click)="calculate()">calculate</mat-icon>
+        </span>
+      </span>
     </th>
     <td mat-cell *matCellDef="let player">
       {{ label(player, true) }}<br />{{ label(player, false) }}
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>

@@ -213,19 +213,22 @@ export class BetState {
     action: BetActions.SetCategory
   ) {
     const currentState = state.getState();
+    if (currentState.category?.id !== action.categoryId) {
+      return currentState.contests?.map((contest) => {
+        contest.categories?.map((category) => {
+          if (category.id === action.categoryId) {
+            state.patchState({ category, contest });
 
-    return currentState.contests?.map((contest) => {
-      contest.categories?.map((category) => {
-        if (category.id === action.categoryId) {
-          state.patchState({ category, contest });
-
-          state.dispatch([
-            new BetActions.GetPlayers(category.id),
-            new BetActions.SetCurrentBet(action.categoryId),
-          ]);
-        }
+            state.dispatch([
+              new BetActions.GetPlayers(category.id),
+              new BetActions.SetCurrentBet(action.categoryId),
+            ]);
+          }
+        });
       });
-    });
+    } else {
+      return;
+    }
   }
 
   @Action(BetActions.GetPlayers)
@@ -348,6 +351,10 @@ export class BetState {
   static searchFirstBetToFill(state: StateContext<BetStateModel>): number {
     const currentState = state.getState();
 
+    if (currentState.better?.isAdmin) {
+      return -1;
+    }
+
     const bet = currentState.bets?.find((bet) => {
       return (
         bet.winnerId === 0 ||
@@ -396,6 +403,10 @@ export class BetState {
     category: number
   ): number {
     const currentState = state.getState();
+
+    if (currentState.better?.isAdmin) {
+      return -1;
+    }
 
     // On cherche dans le tableau des pronostics à quel index on se trouve
     let currentBetIndex: number = currentState.bets?.findIndex((bet) => {
@@ -594,6 +605,16 @@ export class BetState {
     state.patchState({
       allBetsDone: true,
     });
+  }
+
+  @Action(BetActions.CalculatePointsAndRanking)
+  calculatepointsAndRanking(
+    state: StateContext<BetStateModel>,
+    action: BetActions.CalculatePointsAndRanking
+  ) {
+    return this.betService
+      .calculatepointsAndRanking(state.getState().better?.accessKey || '0')
+      .subscribe(() => {});
   }
 
   @Action(ConnectionActions.IsOffline)

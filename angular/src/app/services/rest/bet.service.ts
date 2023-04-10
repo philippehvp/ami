@@ -24,7 +24,7 @@ export class BetService {
             firstName: betterRaw.firstName,
             name: betterRaw.name,
             club: betterRaw.club,
-            isAdmin: betterRaw.isAdmin === 1 ? true : false,
+            isAdmin: betterRaw.isAdmin === 1 ? true : false
           };
         });
       })
@@ -54,7 +54,7 @@ export class BetService {
           isDurationUpdatable:
             (<IDurationRaw>durationRaw).isDurationUpdatable === 1
               ? true
-              : false,
+              : false
         };
       })
     );
@@ -78,7 +78,7 @@ export class BetService {
       accessKey: accessKey,
       contest: contestId,
       day,
-      duration,
+      duration
     });
   }
 
@@ -93,7 +93,7 @@ export class BetService {
       accessKey: accessKey,
       contest: contestId,
       category: categoryId,
-      player: playerId,
+      player: playerId
     });
   }
 
@@ -108,7 +108,15 @@ export class BetService {
       accessKey: accessKey,
       contest: contestId,
       category: categoryId,
-      player: playerId,
+      player: playerId
     });
+  }
+
+  public calculatepointsAndRanking(accessKey: string): Observable<IEmpty | IOffline> {
+    const url = CommonService.getURL('bet/calculatePointsAndRanking');
+    return this.httpClient.put<IEmpty>(url, {
+      accessKey: accessKey
+    });
+
   }
 }

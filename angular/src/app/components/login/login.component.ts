@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { InformationDialogComponent } from '../information-dialog/information-dialog.component';
+import { InformationComponent } from '../information-dialog/information.component';
 import {
   FormBuilder,
   FormGroup,
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
             "Le login de connexion et/ou le mot de passe n'a pas été renseigné",
         },
       };
-      this.dialog.open(InformationDialogComponent, config);
+      this.dialog.open(InformationComponent, config);
     } else {
       // Demande de connexion au site
       this.betterService.login(account, password).subscribe((better) => {
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
                 "Le login de connexion n'est pas reconnu et/ou le mot de passe est incorrect",
             },
           };
-          this.dialog.open(InformationDialogComponent, config);
+          this.dialog.open(InformationComponent, config);
         }
       });
     }

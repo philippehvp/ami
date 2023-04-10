@@ -6,9 +6,12 @@
 
   if ($category) {
     $query =
-      " SELECT      player.id, player.playerName1, player.playerRanking1, player.playerName2, player.playerRanking2" .
-      " FROM        player" .
-      " WHERE       player.category_id = ?";
+      " SELECT      better.name, better.firstName, point.points" .
+      " FROM        better" .
+      " JOIN        point" .
+      "             ON    better.id = point.better_id" .
+      " WHERE       point.category_id = ?" .
+      "             AND   better.isAdmin <> 1";
 
     $req = $db->prepare($query);
     $req->execute(array($category));

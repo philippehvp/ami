@@ -8,7 +8,7 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { InformationDialogComponent } from '../information-dialog/information-dialog.component';
+import { InformationComponent } from '../information-dialog/information.component';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { IError } from 'src/app/models/utils';
 import { IBetter } from 'src/app/models/better';
@@ -68,7 +68,7 @@ export class CreateBetterComponent implements OnInit {
             "Un ou plusieurs des champs obligatoires n'a/n'ont pas été renseigné(s)",
         },
       };
-      this.dialog.open(InformationDialogComponent, config);
+      this.dialog.open(InformationComponent, config);
     } else {
       // Création du pronostiqueur
       this.betterService
@@ -81,7 +81,7 @@ export class CreateBetterComponent implements OnInit {
                 message: ret.errorMessage,
               },
             };
-            this.dialog.open(InformationDialogComponent, config);
+            this.dialog.open(InformationComponent, config);
           } else {
             this.store.dispatch([new BetActions.SetBetter(ret)]);
             this.router.navigate(['bet']);
