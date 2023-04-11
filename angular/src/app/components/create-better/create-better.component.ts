@@ -8,7 +8,7 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { InformationComponent } from '../information-dialog/information.component';
+import { InformationComponent } from '../information/information.component';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { IError } from 'src/app/models/utils';
 import { IBetter } from 'src/app/models/better';

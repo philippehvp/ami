@@ -49,33 +49,33 @@ import { PlayerService } from './services/rest/player.service';
 import { UtilsService } from './services/utils.service';
 import { OfflineComponent } from './components/offline/offline.component';
 import { LoginComponent } from './components/login/login.component';
-import { InformationComponent } from './components/information-dialog/information.component';
+import { InformationComponent } from './components/information/information.component';
 import { CreateBetterComponent } from './components/create-better/create-better.component';
-import { PointState } from './store/state/point.state';
-import { BetterPointComponent } from './components/better-point/better-point.component';
+import { BetterPointState as BetterPointState } from './store/state/better-point.state';
+import { BetPointComponent } from './components/bet/bet-point/bet-point.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BetComponent,
-    ToolbarComponent,
-    RankingComponent,
-    BetterComponent,
-    BetContestComponent,
     BetCategoryComponent,
-    BetPlayerComponent,
+    BetContestComponent,
+    BetComponent,
     BetDurationComponent,
-    OfflineComponent,
-    LoginComponent,
-    InformationComponent,
+    BetPlayerComponent,
+    BetPointComponent,
+    BetterComponent,
     CreateBetterComponent,
-    BetterPointComponent,
+    InformationComponent,
+    LoginComponent,
+    OfflineComponent,
+    RankingComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
 
-    NgxsModule.forRoot([BetState, PointState], {}),
+    NgxsModule.forRoot([BetState, BetterPointState], {}),
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,

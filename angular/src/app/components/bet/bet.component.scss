@@ -10,11 +10,15 @@ body {
   height: 100vh;
 }
 
-.bet-panel .row.header {
+.bet-panel .row.no-growing {
   flex: 0 1 auto;
 }
 
-.bet-panel .row.player {
+.bet-panel .row.growing {
   flex: 1 1 auto;
   overflow-y: scroll;
+}
+
+.bet-panel .row.footer {
+  flex: 0 1 40px;
 }

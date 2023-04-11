@@ -9,7 +9,7 @@ import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { IPlayer } from 'src/app/models/player';
 import { BetActions } from 'src/app/store/action/bet.action';
-import { RankingActions } from 'src/app/store/action/point.action';
+import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { BetState } from 'src/app/store/state/bet.state';
 
 @Component({
@@ -101,7 +101,7 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
       .dispatch([new BetActions.CalculatePointsAndRanking()])
       .subscribe(() => {
         this.store.dispatch([
-          new RankingActions.CategoryToDisplay(this.currentBet.categoryId),
+          new BetterPointActions.CategoryToDisplay(this.currentBet.categoryId),
         ]);
       });
   }

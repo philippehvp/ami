@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { InformationComponent } from '../information-dialog/information.component';
+import { InformationComponent } from '../information/information.component';
 import {
   FormBuilder,
   FormGroup,

@@ -1,21 +1,32 @@
 <div class="bet-panel">
-  <div class="row header">
+  <div class="row no-growing">
     <mat-toolbar color="primary">
       <toolbar></toolbar>
     </mat-toolbar>
   </div>
 
-  <div class="row header">
+  <div class="row no-growing">
     <bet-contest></bet-contest>
   </div>
 
-  <div class="row header">
+  <div class="row no-growing">
     <bet-duration
       *ngIf="(contest$ | async) && (category$ | async)"
     ></bet-duration>
   </div>
 
-  <div class="row player">
+  <div *ngIf="!displayBetterPoints; else displayPoints" class="row growing">
     <bet-player *ngIf="(contest$ | async) && (category$ | async)"></bet-player>
   </div>
+
+  <ng-template #displayPoints>
+    <div class="row growing">
+      <bet-point></bet-point>
+    </div>
+    <div class="row footer">
+      <button mat-button (click)="closeBetterPoints()" cdkFocusInitial>
+        Fermer
+      </button>
+    </div>
+  </ng-template>
 </div>

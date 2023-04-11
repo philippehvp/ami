@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { RankingActions } from '../action/point.action';
+import { BetterPointActions } from '../action/better-point.action';
 import { IBetterPoint } from 'src/app/models/point';
 import { PointService } from 'src/app/services/rest/point.service';
 import { tap } from 'rxjs';
-import { IEmpty, IOffline } from 'src/app/models/utils';
+import { IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
 
-export class PointModel {
+export class BetterPointModel {
   categoryToDisplay!: number | undefined;
   betterPoints!: IBetterPoint[] | undefined;
 }
 
-@State<PointModel>({
+@State<BetterPointModel>({
   name: 'point',
   defaults: {
     categoryToDisplay: undefined,
@@ -20,23 +20,23 @@ export class PointModel {
   },
 })
 @Injectable()
-export class PointState {
+export class BetterPointState {
   constructor(private pointService: PointService) {}
 
   @Selector()
-  static categoryToDisplay(state: PointModel) {
+  static categoryToDisplay(state: BetterPointModel) {
     return state.categoryToDisplay;
   }
 
   @Selector()
-  static betterPoints(state: PointModel) {
+  static betterPoints(state: BetterPointModel) {
     return state.betterPoints;
   }
 
-  @Action(RankingActions.CategoryToDisplay)
+  @Action(BetterPointActions.CategoryToDisplay)
   categoryToDisplay(
-    state: StateContext<PointModel>,
-    action: RankingActions.CategoryToDisplay
+    state: StateContext<BetterPointModel>,
+    action: BetterPointActions.CategoryToDisplay
   ) {
     return this.pointService.getBetterPoints(action.categoryId).pipe(
       tap((readBetterPoints: IBetterPoint[] | IOffline) => {

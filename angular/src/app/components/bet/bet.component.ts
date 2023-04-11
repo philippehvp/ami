@@ -1,17 +1,16 @@
-import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
-import { InformationComponent } from '../information-dialog/information.component';
+import { InformationComponent } from '../information/information.component';
 import { Router } from '@angular/router';
-import { PointState } from 'src/app/store/state/point.state';
-import { BetterPointComponent } from '../better-point/better-point.component';
+import { BetterPointState } from 'src/app/store/state/better-point.state';
+import { BetterPointActions } from 'src/app/store/action/better-point.action';
 
 @Component({
   selector: 'bet',
@@ -31,14 +30,24 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.isOffline)
   isOffline$!: Observable<boolean>;
 
-  @Select(PointState.categoryToDisplay)
+  @Select(BetterPointState.categoryToDisplay)
   categoryToDisplay$!: Observable<number>;
 
   private isOfflineSub!: Subscription;
   private allBetsDoneSub!: Subscription;
   private categoryToDisplaySub!: Subscription;
 
-  constructor(private dialog: MatDialog, private router: Router) {}
+  private categoryToDisplay!: number;
+
+  constructor(
+    private store: Store,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
+
+  public get displayBetterPoints(): boolean {
+    return !!this.categoryToDisplay;
+  }
 
   public ngOnInit() {
     this.isOfflineSub = this.isOffline$
@@ -78,18 +87,10 @@ export class BetComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.categoryToDisplaySub = this.categoryToDisplay$
-      .pipe(
-        filter(
-          (categoryToDisplay) =>
-            categoryToDisplay !== null && categoryToDisplay !== undefined
-        )
-      )
-      .subscribe((categoryToDisplay) => {
-        if (categoryToDisplay !== null && categoryToDisplay !== undefined) {
-          this.dialog.open(BetterPointComponent);
-        }
-      });
+    this.categoryToDisplaySub = this.categoryToDisplay$.subscribe(
+      (betterPointsCategoryToDisplay) =>
+        (this.categoryToDisplay = betterPointsCategoryToDisplay)
+    );
   }
 
   public ngOnDestroy() {
@@ -104,5 +105,9 @@ export class BetComponent implements OnInit, OnDestroy {
     if (this.categoryToDisplaySub) {
       this.categoryToDisplaySub.unsubscribe();
     }
+  }
+
+  public closeBetterPoints() {
+    this.store.dispatch([new BetterPointActions.CategoryToDisplay(0)]);
   }
 }
