@@ -13,7 +13,7 @@ export class BetterPointModel {
 }
 
 @State<BetterPointModel>({
-  name: 'point',
+  name: 'betterPoint',
   defaults: {
     categoryToDisplay: undefined,
     betterPoints: undefined,

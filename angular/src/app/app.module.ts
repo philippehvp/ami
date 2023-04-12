@@ -6,9 +6,8 @@ import { NgxsModule } from '@ngxs/store';
 import { AppComponent } from './app.component';
 
 import { BetComponent } from './components/bet/bet.component';
-import { BetterComponent } from './components/better/better.component';
+import { BetterBetComponent } from './components/better-bet/better-bet.component';
 
-import { RankingComponent } from './components/ranking/ranking.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -47,12 +46,12 @@ import { BetService } from './services/rest/bet.service';
 import { CommonService } from './services/rest/common.service';
 import { PlayerService } from './services/rest/player.service';
 import { UtilsService } from './services/utils.service';
-import { OfflineComponent } from './components/offline/offline.component';
 import { LoginComponent } from './components/login/login.component';
 import { InformationComponent } from './components/information/information.component';
 import { CreateBetterComponent } from './components/create-better/create-better.component';
 import { BetterPointState as BetterPointState } from './store/state/better-point.state';
 import { BetPointComponent } from './components/bet/bet-point/bet-point.component';
+import { BetterBetState } from './store/state/better-bet.state';
 
 @NgModule({
   declarations: [
@@ -63,19 +62,17 @@ import { BetPointComponent } from './components/bet/bet-point/bet-point.componen
     BetDurationComponent,
     BetPlayerComponent,
     BetPointComponent,
-    BetterComponent,
+    BetterBetComponent,
     CreateBetterComponent,
     InformationComponent,
     LoginComponent,
-    OfflineComponent,
-    RankingComponent,
     ToolbarComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
 
-    NgxsModule.forRoot([BetState, BetterPointState], {}),
+    NgxsModule.forRoot([BetState, BetterPointState, BetterBetState], {}),
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subscription } from 'rxjs/internal/Subscription';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetActions } from 'src/app/store/action/bet.action';

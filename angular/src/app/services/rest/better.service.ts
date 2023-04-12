@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { CommonService } from './common.service';
 import { IError } from 'src/app/models/utils';
+import { IBetterBet } from 'src/app/models/better-bet';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +32,10 @@ export class BetterService {
       firstName,
       contact,
     });
+  }
+
+  public getBetterBet(): Observable<IBetterBet> {
+    const url = CommonService.getURL('better/betterBet');
+    return this.httpClient.get<IBetterBet>(url);
   }
 }

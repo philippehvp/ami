@@ -49,4 +49,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       this.router.navigate(['login']);
     });
   }
+
+  public displayBetterBet() {
+    this.router.navigate(['better-bet']);
+  }
 }
