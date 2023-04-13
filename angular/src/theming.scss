@@ -1,0 +1,48 @@
+@import "@angular/material/theming";
+
+@include mat-core();
+
+$md-cpi: (
+  50: #ebe5ed,
+  100: #cebdd2,
+  200: #ad92b5,
+  300: #8c6697,
+  400: #734580,
+  500: #5a246a,
+  600: #522062,
+  700: #481b57,
+  800: #3f164d,
+  900: #2e0d3c,
+  A100: #d176ff,
+  A200: #c043ff,
+  A400: #af10ff,
+  A700: #a400f6,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$cpi-theme-primary: mat-palette($md-cpi);
+$cpi-theme-accent: mat-palette($md-cpi, A200, A100, A400);
+$cpi-theme-warn: mat-palette($md-cpi);
+
+$cpi-theme: mat-light-theme(
+  $cpi-theme-primary,
+  $cpi-theme-accent,
+  $cpi-theme-warn
+);
+
+@include angular-material-theme($cpi-theme);

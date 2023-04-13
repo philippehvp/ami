@@ -6,14 +6,15 @@
     <td class="action" mat-cell *matCellDef="let player">
       <mat-icon
         *ngIf="(contest$ | async)?.isUpdatable"
-        class="material-icons enabled"
+        class="material-icons"
+        color="primary"
         (click)="changePlayer(player.id, true)"
         >{{ iconLabel(player.id, true) }}</mat-icon
       >
 
       <mat-icon
         *ngIf="!(contest$ | async)?.isUpdatable && isChecked(player.id, true)"
-        class="material-icons disabled"
+        class="material-icons"
         >expand_circle_down</mat-icon
       >
     </td>
@@ -27,13 +28,14 @@
       <mat-icon
         *ngIf="(contest$ | async)?.isUpdatable"
         (click)="changePlayer(player.id, false)"
-        class="material-icons enabled"
+        color="primary"
+        class="material-icons"
         >{{ iconLabel(player.id, false) }}</mat-icon
       >
 
       <mat-icon
         *ngIf="!(contest$ | async)?.isUpdatable && isChecked(player.id, false)"
-        class="material-icons disabled"
+        class="material-icons"
         >expand_circle_down</mat-icon
       >
     </td>

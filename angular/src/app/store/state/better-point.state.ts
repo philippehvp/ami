@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { BetterPointActions } from '../action/better-point.action';
-import { IBetterPoint } from 'src/app/models/point';
-import { PointService } from 'src/app/services/rest/point.service';
+import { IBetterPoint } from 'src/app/models/better-point';
+import { BetterPointService } from 'src/app/services/rest/better-point.service';
 import { tap } from 'rxjs';
 import { IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
@@ -21,7 +21,7 @@ export class BetterPointModel {
 })
 @Injectable()
 export class BetterPointState {
-  constructor(private pointService: PointService) {}
+  constructor(private pointService: BetterPointService) {}
 
   @Selector()
   static categoryToDisplay(state: BetterPointModel) {
@@ -33,22 +33,24 @@ export class BetterPointState {
     return state.betterPoints;
   }
 
-  @Action(BetterPointActions.CategoryToDisplay)
+  @Action(BetterPointActions.GetBetterPoint)
   categoryToDisplay(
     state: StateContext<BetterPointModel>,
-    action: BetterPointActions.CategoryToDisplay
+    action: BetterPointActions.GetBetterPoint
   ) {
-    return this.pointService.getBetterPoints(action.categoryId).pipe(
-      tap((readBetterPoints: IBetterPoint[] | IOffline) => {
-        if (readBetterPoints && 'isOffline' in readBetterPoints) {
-          state.dispatch([new ConnectionActions.IsOffline()]);
-        } else {
-          state.patchState({
-            categoryToDisplay: action.categoryId,
-            betterPoints: <IBetterPoint[]>readBetterPoints,
-          });
-        }
-      })
-    );
+    return this.pointService
+      .getBettersPoints(action.accessKey, action.categoryId)
+      .pipe(
+        tap((readBetterPoints: IBetterPoint[] | IOffline) => {
+          if (readBetterPoints && 'isOffline' in readBetterPoints) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            state.patchState({
+              categoryToDisplay: action.categoryId,
+              betterPoints: <IBetterPoint[]>readBetterPoints,
+            });
+          }
+        })
+      );
   }
 }

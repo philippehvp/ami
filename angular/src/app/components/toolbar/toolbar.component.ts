@@ -23,26 +23,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
 
-  private betterSub!: Subscription;
-  public nameAndFirstName!: string;
-
   constructor(private store: Store, private router: Router) {}
 
-  public ngOnInit() {
-    this.betterSub = this.better$
-      .pipe(filter((better) => !!better))
-      .subscribe((better) => {
-        this.nameAndFirstName = (
-          better.firstName[0] + better.name[0]
-        ).toUpperCase();
-      });
-  }
+  public ngOnInit() {}
 
-  public ngOnDestroy() {
-    if (this.betterSub) {
-      this.betterSub.unsubscribe();
-    }
-  }
+  public ngOnDestroy() {}
 
   public logout() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
@@ -50,7 +35,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     });
   }
 
-  public displayBetterBet() {
+  public displayBettersBet() {
     this.router.navigate(['better-bet']);
+  }
+
+  public displayBettersRanking() {
+    this.router.navigate(['better-ranking']);
   }
 }

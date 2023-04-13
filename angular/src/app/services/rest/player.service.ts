@@ -8,18 +8,20 @@ import { map } from 'rxjs/internal/operators/map';
 import { ICategory } from 'src/app/models/category';
 import { IPlayer } from 'src/app/models/player';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlayerService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  public getPlayers(categoryId: number): Observable<IPlayer[]> {
+  public getPlayers(
+    accessKey: string,
+    categoryId: number
+  ): Observable<IPlayer[]> {
     const url = CommonService.getURL('player/players');
-    const params: HttpParams = new HttpParams()
-      .set('category', categoryId)
-    return this.httpClient.get<IPlayer[]>(url, { params });
+    return this.httpClient.post<IPlayer[]>(url, {
+      accessKey,
+      category: categoryId,
+    });
   }
 }

@@ -1,7 +1,7 @@
 <?php
   include_once("../common.php");
 
-  // Lecture des paramètres
+    // Lecture du paramètre
   $data = json_decode(file_get_contents("php://input"), true);
   $accessKey = json_decode($data["accessKey"]) ? json_decode($data["accessKey"]) : $data["accessKey"];
   $category = json_decode($data["category"]) ? json_decode($data["category"]) : $data["category"];
@@ -9,9 +9,12 @@
   if ($accessKey && $category) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      player.id, player.playerName1, player.playerRanking1, player.playerName2, player.playerRanking2" .
-        " FROM        player" .
-        " WHERE       player.category_id = ?";
+        " SELECT      better.name, better.firstName, point.points" .
+        " FROM        better" .
+        " JOIN        point" .
+        "             ON    better.id = point.better_id" .
+        " WHERE       point.category_id = ?" .
+        "             AND   better.isAdmin <> 1";
 
       $req = $db->prepare($query);
       $req->execute(array($category));

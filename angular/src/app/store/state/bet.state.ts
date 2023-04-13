@@ -133,6 +133,7 @@ export class BetState {
       state.patchState({ isOffline: false, better: action.better });
 
       window.localStorage.setItem('better', JSON.stringify(action.better));
+      console.log('Dans setBetter');
 
       // Lecture des concours auxquels est inscrit le participant, des pronostics et du pronostic de durée
       state.dispatch([
@@ -220,7 +221,10 @@ export class BetState {
             state.patchState({ category, contest });
 
             state.dispatch([
-              new BetActions.GetPlayers(category.id),
+              new BetActions.GetPlayers(
+                currentState.better?.accessKey || '',
+                category.id
+              ),
               new BetActions.SetCurrentBet(action.categoryId),
             ]);
           }
@@ -238,11 +242,13 @@ export class BetState {
   ) {
     const currentState = state.getState();
 
-    return this.playerService.getPlayers(action.categoryId).pipe(
-      tap((readPlayers) => {
-        state.patchState({ players: readPlayers });
-      })
-    );
+    return this.playerService
+      .getPlayers(action.accessKey, action.categoryId)
+      .pipe(
+        tap((readPlayers) => {
+          state.patchState({ players: readPlayers });
+        })
+      );
   }
 
   @Action(BetActions.SetCurrentBet)

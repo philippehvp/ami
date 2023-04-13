@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, filter } from 'rxjs';
+import { IBetter } from 'src/app/models/better';
 import { IBetterBet, IPlayerBet } from 'src/app/models/better-bet';
-import { BetterBetActions } from 'src/app/store/action/better-bet';
+import { BetActions } from 'src/app/store/action/bet.action';
+import { BetState } from 'src/app/store/state/bet.state';
 import { BetterBetState } from 'src/app/store/state/better-bet.state';
 
 @Component({
@@ -14,7 +16,11 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   @Select(BetterBetState.betterBet)
   betterBet$!: Observable<IBetterBet[]>;
 
+  @Select(BetState.better)
+  better$!: Observable<IBetter>;
+
   private betterBetSub!: Subscription;
+  private betterSub!: Subscription;
 
   public displayedColumns: string[] = [];
 
@@ -23,7 +29,11 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   public ngOnInit() {
-    this.store.dispatch([new BetterBetActions.GetBetterBet()]);
+    this.betterSub = this.better$
+      .pipe(filter((better) => !!better))
+      .subscribe((better) => {
+        this.store.dispatch([new BetActions.GetBetterBet(better.accessKey)]);
+      });
 
     this.betterBetSub = this.betterBet$.subscribe((betterBet) => {
       if (betterBet && betterBet.length) {
@@ -45,6 +55,10 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     if (this.betterBetSub) {
       this.betterBetSub.unsubscribe();
+    }
+
+    if (this.betterSub) {
+      this.betterSub.unsubscribe();
     }
   }
 
@@ -81,7 +95,11 @@ export class BetterBetComponent implements OnInit, OnDestroy {
     } else if (index % 2 === 1) {
       return column;
     } else {
-      return 'Pts';
+      return '';
     }
+  }
+
+  public breakSymbol(): string {
+    return '<br>';
   }
 }

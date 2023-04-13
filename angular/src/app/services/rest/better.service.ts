@@ -33,9 +33,4 @@ export class BetterService {
       contact,
     });
   }
-
-  public getBetterBet(): Observable<IBetterBet> {
-    const url = CommonService.getURL('better/betterBet');
-    return this.httpClient.get<IBetterBet>(url);
-  }
 }

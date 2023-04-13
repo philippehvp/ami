@@ -52,6 +52,9 @@ import { CreateBetterComponent } from './components/create-better/create-better.
 import { BetterPointState as BetterPointState } from './store/state/better-point.state';
 import { BetPointComponent } from './components/bet/bet-point/bet-point.component';
 import { BetterBetState } from './store/state/better-bet.state';
+import { BetterRankingService } from './services/rest/better-ranking.service';
+import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
+import { BetterRankingState } from './store/state/better-ranking.state';
 
 @NgModule({
   declarations: [
@@ -67,12 +70,16 @@ import { BetterBetState } from './store/state/better-bet.state';
     InformationComponent,
     LoginComponent,
     ToolbarComponent,
+    BetterRankingComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
 
-    NgxsModule.forRoot([BetState, BetterPointState, BetterBetState], {}),
+    NgxsModule.forRoot(
+      [BetState, BetterPointState, BetterBetState, BetterRankingState],
+      {}
+    ),
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -95,7 +102,13 @@ import { BetterBetState } from './store/state/better-bet.state';
     MatTabsModule,
     MatToolbarModule,
   ],
-  providers: [BetService, CommonService, PlayerService, UtilsService],
+  providers: [
+    BetService,
+    CommonService,
+    PlayerService,
+    UtilsService,
+    BetterRankingService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

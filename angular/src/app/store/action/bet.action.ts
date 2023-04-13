@@ -34,7 +34,7 @@ export namespace BetActions {
 
   export class GetPlayers {
     static readonly type = '[Bet] Get Players';
-    constructor(public categoryId: number) {}
+    constructor(public accessKey: string, public categoryId: number) {}
   }
 
   export class SetCurrentBet {
@@ -75,5 +75,10 @@ export namespace BetActions {
   export class CalculatePointsAndRanking {
     static readonly type = '[Bet] Calculate Points And Ranking';
     constructor() {}
+  }
+
+  export class GetBetterBet {
+    static readonly type = '[Bet] Get Better Bet';
+    constructor(public accessKey: string) {}
   }
 }

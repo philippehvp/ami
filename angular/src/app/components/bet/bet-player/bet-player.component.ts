@@ -37,7 +37,10 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   private currentBet!: IBet;
 
+  private betterSub!: Subscription;
   private currentBetSub!: Subscription;
+
+  private better!: IBetter;
 
   public isChecked(playerId: number, isFocusedOnWinner: boolean): boolean {
     if (isFocusedOnWinner) {
@@ -64,11 +67,19 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
       .subscribe((bet) => {
         this.currentBet = bet;
       });
+
+    this.betterSub = this.better$
+      .pipe(filter((better) => !!better))
+      .subscribe((better) => (this.better = better));
   }
 
   public ngOnDestroy() {
     if (this.currentBetSub) {
       this.currentBetSub.unsubscribe();
+    }
+
+    if (this.betterSub) {
+      this.betterSub.unsubscribe();
     }
   }
 
@@ -101,7 +112,10 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
       .dispatch([new BetActions.CalculatePointsAndRanking()])
       .subscribe(() => {
         this.store.dispatch([
-          new BetterPointActions.CategoryToDisplay(this.currentBet.categoryId),
+          new BetterPointActions.GetBetterPoint(
+            this.better.accessKey,
+            this.currentBet.categoryId
+          ),
         ]);
       });
   }

@@ -1,8 +1,11 @@
 <div class="toolbar">
+  <span class="isb"></span>
   <span>WINABAD</span>
-  <span *ngIf="(better$ | async)?.isAdmin" (click)="displayBetterBet()"
-    >Pronos</span
-  >
+  <span *ngIf="(better$ | async)?.isAdmin">
+    <span (click)="displayBettersBet()">Pronos</span>
+    <span>&nbsp;|&nbsp;</span>
+    <span (click)="displayBettersRanking()">Clts</span>
+  </span>
   <span>{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span>
   <span class="material-icons" (click)="logout()">logout</span>
 </div>

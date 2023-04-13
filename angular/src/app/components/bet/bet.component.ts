@@ -11,6 +11,7 @@ import { InformationComponent } from '../information/information.component';
 import { Router } from '@angular/router';
 import { BetterPointState } from 'src/app/store/state/better-point.state';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
+import { IBetter } from 'src/app/models/better';
 
 @Component({
   selector: 'bet',
@@ -18,6 +19,9 @@ import { BetterPointActions } from 'src/app/store/action/better-point.action';
   styleUrls: ['./bet.component.scss'],
 })
 export class BetComponent implements OnInit, OnDestroy {
+  @Select(BetState.better)
+  better$!: Observable<IBetter>;
+
   @Select(BetState.category)
   category$!: Observable<ICategory>;
 
@@ -36,8 +40,11 @@ export class BetComponent implements OnInit, OnDestroy {
   private isOfflineSub!: Subscription;
   private allBetsDoneSub!: Subscription;
   private categoryToDisplaySub!: Subscription;
+  private betterSub!: Subscription;
 
   private categoryToDisplay!: number;
+
+  private better!: IBetter;
 
   constructor(
     private store: Store,
@@ -91,6 +98,10 @@ export class BetComponent implements OnInit, OnDestroy {
       (betterPointsCategoryToDisplay) =>
         (this.categoryToDisplay = betterPointsCategoryToDisplay)
     );
+
+    this.betterSub = this.better$
+      .pipe(filter((better) => !!better))
+      .subscribe((better) => (this.better = better));
   }
 
   public ngOnDestroy() {
@@ -105,9 +116,15 @@ export class BetComponent implements OnInit, OnDestroy {
     if (this.categoryToDisplaySub) {
       this.categoryToDisplaySub.unsubscribe();
     }
+
+    if (this.betterSub) {
+      this.betterSub.unsubscribe();
+    }
   }
 
   public closeBetterPoints() {
-    this.store.dispatch([new BetterPointActions.CategoryToDisplay(0)]);
+    this.store.dispatch([
+      new BetterPointActions.GetBetterPoint(this.better.accessKey, 0),
+    ]);
   }
 }

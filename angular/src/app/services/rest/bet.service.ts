@@ -8,6 +8,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { IBet } from 'src/app/models/bet';
 import { IDuration, IDurationRaw } from 'src/app/models/duration';
 import { IEmpty, IOffline } from 'src/app/models/utils';
+import { IBetterBet } from 'src/app/models/better-bet';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class BetService {
             firstName: betterRaw.firstName,
             name: betterRaw.name,
             club: betterRaw.club,
-            isAdmin: betterRaw.isAdmin === 1 ? true : false
+            isAdmin: betterRaw.isAdmin === 1 ? true : false,
           };
         });
       })
@@ -54,7 +55,7 @@ export class BetService {
           isDurationUpdatable:
             (<IDurationRaw>durationRaw).isDurationUpdatable === 1
               ? true
-              : false
+              : false,
         };
       })
     );
@@ -78,7 +79,7 @@ export class BetService {
       accessKey: accessKey,
       contest: contestId,
       day,
-      duration
+      duration,
     });
   }
 
@@ -93,7 +94,7 @@ export class BetService {
       accessKey: accessKey,
       contest: contestId,
       category: categoryId,
-      player: playerId
+      player: playerId,
     });
   }
 
@@ -108,15 +109,21 @@ export class BetService {
       accessKey: accessKey,
       contest: contestId,
       category: categoryId,
-      player: playerId
+      player: playerId,
     });
   }
 
-  public calculatepointsAndRanking(accessKey: string): Observable<IEmpty | IOffline> {
+  public calculatepointsAndRanking(
+    accessKey: string
+  ): Observable<IEmpty | IOffline> {
     const url = CommonService.getURL('bet/calculatePointsAndRanking');
     return this.httpClient.put<IEmpty>(url, {
-      accessKey: accessKey
+      accessKey: accessKey,
     });
+  }
 
+  public getBetterBet(accessKey: string): Observable<IBetterBet> {
+    const url = CommonService.getURL('bet/bettersBets');
+    return this.httpClient.post<IBetterBet>(url, { accessKey });
   }
 }

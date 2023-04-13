@@ -1,0 +1,38 @@
+<table mat-table [dataSource]="(bettersRanking$ | async) || []">
+  <ng-container matColumnDef="ranking">
+    <th mat-header-cell *matHeaderCellDef>Classement</th>
+    <td mat-cell *matCellDef="let ranking">
+      {{ ranking.ranking }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>
+      <span>Pronostiqueurs</span>
+    </th>
+    <td mat-cell *matCellDef="let ranking">
+      {{ ranking.name }} - {{ ranking.firstName }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="points">
+    <th mat-header-cell *matHeaderCellDef>
+      <span>Points</span>
+    </th>
+    <td mat-cell *matCellDef="let ranking">
+      {{ ranking.points }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <th mat-header-cell *matHeaderCellDef>
+      <span>Durée</span>
+    </th>
+    <td mat-cell *matCellDef="let ranking">
+      {{ ranking.duration }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
