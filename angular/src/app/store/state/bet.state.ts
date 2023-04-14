@@ -11,7 +11,7 @@ import { PlayerService } from 'src/app/services/rest/player.service';
 import { IBet } from 'src/app/models/bet';
 import { updateItem, patch } from '@ngxs/store/operators';
 import { IDuration } from 'src/app/models/duration';
-import { IEmpty, IOffline } from 'src/app/models/utils';
+import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
 
 export class BetStateModel {
@@ -436,6 +436,17 @@ export class BetState {
     return -1;
   }
 
+  static handleError(
+    state: StateContext<BetStateModel>,
+    ret: IOffline | INotUpdatable
+  ) {
+    if ('isOffline' in ret) {
+      state.dispatch([new ConnectionActions.IsOffline()]);
+    } else if ('isNotUpdatable' in ret) {
+      state.dispatch([new BetActions.IsNotUpdatable()]);
+    }
+  }
+
   @Action(BetActions.SetWinner)
   setWinner(state: StateContext<BetStateModel>, action: BetActions.SetWinner) {
     const currentState = state.getState();
@@ -448,9 +459,9 @@ export class BetState {
         action.playerId
       )
       .pipe(
-        tap((ret: IEmpty | IOffline) => {
-          if (ret && 'isOffline' in ret) {
-            state.dispatch([new ConnectionActions.IsOffline()]);
+        tap((ret: IEmpty | IOffline | INotUpdatable) => {
+          if (ret && ('isOffline' in ret || 'isNotUpdatable' in ret)) {
+            BetState.handleError(state, ret);
           } else {
             const bet = currentState.bets?.find((bet) => {
               return bet.categoryId === currentState.category?.id;
@@ -510,9 +521,9 @@ export class BetState {
         action.playerId
       )
       .pipe(
-        tap((ret: IEmpty | IOffline) => {
-          if (ret && 'isOffline' in ret) {
-            state.dispatch([new ConnectionActions.IsOffline()]);
+        tap((ret: IEmpty | IOffline | INotUpdatable) => {
+          if (ret && ('isOffline' in ret || 'isNotUpdatable' in ret)) {
+            BetState.handleError(state, ret);
           } else {
             const bet = currentState.bets?.find((bet) => {
               return bet.categoryId === currentState.category?.id;
@@ -591,9 +602,9 @@ export class BetState {
         action.duration
       )
       .pipe(
-        tap((ret: IEmpty | IOffline) => {
-          if ('isOffline' in ret) {
-            state.dispatch([new ConnectionActions.IsOffline()]);
+        tap((ret: IEmpty | IOffline | INotUpdatable) => {
+          if (ret && ('isOffline' in ret || 'isNotUpdatable' in ret)) {
+            BetState.handleError(state, ret);
           } else {
             const duration: IDuration = {
               duration: action.duration,

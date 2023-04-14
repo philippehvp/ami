@@ -35,31 +35,46 @@
 		return new DateTime($res[0]["endDate"]);
 	}
 
-  function isAdmin($db, $accessKey) {
-    $query =
-      " SELECT        better.isAdmin" .
-      " FROM          better" .
-      " WHERE         better.accessKey = ?";
+  // function isAdmin($db, $accessKey) {
+  //   $query =
+  //     " SELECT        better.isAdmin" .
+  //     " FROM          better" .
+  //     " WHERE         better.accessKey = ?";
 
-      $req = $db->prepare($query);
-      $req->execute(array($accessKey));
-      $res = $req->fetchAll(PDO::FETCH_ASSOC);
-      return $res[0]["isAdmin"] == 1 ? true : false;
-  }
+  //     $req = $db->prepare($query);
+  //     $req->execute(array($accessKey));
+  //     $res = $req->fetchAll(PDO::FETCH_ASSOC);
+  //     return $res[0]["isAdmin"] == 1 ? true : false;
+  // }
 
 	function isUpdatable($db, $contest, $accessKey) {
-    $contestStartDate = getContestStartDate($db, $contest);
-		$contestEndDate = getContestEndDate($db, $contest, $accessKey);
+    $query =
+      " SELECT    CASE" .
+      "               WHEN    contest.startDate <= NOW()" .
+      "                       AND   NOW() <=" .
+      "                             CASE    WHEN    better.isAdmin = 1" .
+      "                                     THEN    contest.endAdminDate" .
+      "                                     ELSE    contest.endBetDate" .
+      "                             END" .
+      "               THEN    1" .
+      "               ELSE    0" .
+      "           END AS isUpdatable" .
+      " FROM      contest" .
+      " JOIN      betting" .
+      "           ON    contest.id = betting.contest_id" .
+      " JOIN      better" .
+      "           ON    betting.better_id = better.id" .
+      " WHERE     contest.id = ?" .
+      "           AND   better.accessKey = ?";
 
-    $contestStartDateTS = $contestStartDate ? $contestStartDate->getTimestamp() : 0;
-		$contestEndDateTS = $contestEndDate ? $contestEndDate->getTimestamp() : 0;
-
-    $now = new DateTime();
-    $nowTS = $now ? $now->getTimestamp() : 1;
-
-		if ($contestStartDateTS <= $nowTS && $nowTS <= $contestEndDateTS) {
-      return true;
+    $req = $db->prepare($query);
+    $req->execute(array($contest, $accessKey));
+    $res = $req->fetchAll(PDO::FETCH_ASSOC);
+    if ($res && sizeof($res)) {
+      return $res[0]["isUpdatable"] == 1;
     }
+
+    return false;
 	}
 
   function isDurationUpdatable($db, $accessKey) {
@@ -132,6 +147,10 @@
 
   function returnIsOffline() {
     echo json_encode(array("isOffline" => 1));
+  }
+
+  function returnIsNotUpdatable() {
+    echo json_encode(array("isNotUpdatable" => 1));
   }
 	
 	// Connexion à la base de données

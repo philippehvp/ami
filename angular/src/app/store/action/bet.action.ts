@@ -81,4 +81,9 @@ export namespace BetActions {
     static readonly type = '[Bet] Get Better Bet';
     constructor(public accessKey: string) {}
   }
+
+  export class IsNotUpdatable {
+    static readonly type = '[Bet] Is Not Updatable';
+    constructor() {}
+  }
 }

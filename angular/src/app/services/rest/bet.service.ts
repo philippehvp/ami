@@ -7,7 +7,7 @@ import { IContest } from 'src/app/models/contest';
 import { map } from 'rxjs/internal/operators/map';
 import { IBet } from 'src/app/models/bet';
 import { IDuration, IDurationRaw } from 'src/app/models/duration';
-import { IEmpty, IOffline } from 'src/app/models/utils';
+import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { IBetterBet } from 'src/app/models/better-bet';
 
 @Injectable({
@@ -73,9 +73,9 @@ export class BetService {
     contestId: number,
     day: number,
     duration: number
-  ): Observable<IEmpty | IOffline> {
+  ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/updateDuration');
-    return this.httpClient.put<IEmpty>(url, {
+    return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
       accessKey: accessKey,
       contest: contestId,
       day,
@@ -88,9 +88,9 @@ export class BetService {
     contestId: number,
     categoryId: number,
     playerId: number
-  ): Observable<IEmpty | IOffline> {
+  ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/updateWinner');
-    return this.httpClient.put<IEmpty>(url, {
+    return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
       accessKey: accessKey,
       contest: contestId,
       category: categoryId,
@@ -103,9 +103,9 @@ export class BetService {
     contestId: number,
     categoryId: number,
     playerId: number
-  ): Observable<IEmpty | IOffline> {
+  ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/updateRunnerUp');
-    return this.httpClient.put<IEmpty>(url, {
+    return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
       accessKey: accessKey,
       contest: contestId,
       category: categoryId,
@@ -115,15 +115,15 @@ export class BetService {
 
   public calculatepointsAndRanking(
     accessKey: string
-  ): Observable<IEmpty | IOffline> {
+  ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/calculatePointsAndRanking');
-    return this.httpClient.put<IEmpty>(url, {
+    return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
       accessKey: accessKey,
     });
   }
 
-  public getBetterBet(accessKey: string): Observable<IBetterBet> {
+  public getBetterBet(accessKey: string): Observable<IBetterBet | IOffline> {
     const url = CommonService.getURL('bet/bettersBets');
-    return this.httpClient.post<IBetterBet>(url, { accessKey });
+    return this.httpClient.post<IBetterBet | IOffline>(url, { accessKey });
   }
 }

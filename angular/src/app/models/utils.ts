@@ -9,3 +9,7 @@ export interface IEmpty {
 export interface IError {
   errorMessage: string;
 }
+
+export interface INotUpdatable {
+  isNotUpdatable: boolean;
+}

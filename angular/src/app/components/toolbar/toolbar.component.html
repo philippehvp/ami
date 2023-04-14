@@ -1,6 +1,8 @@
 <div class="toolbar">
-  <span class="isb"></span>
-  <span>WINABAD</span>
+  <span class="title-area">
+    <span class="isb"></span>
+    <span class="title">WINABAD</span>
+  </span>
   <span *ngIf="(better$ | async)?.isAdmin">
     <span (click)="displayBettersBet()">Pronos</span>
     <span>&nbsp;|&nbsp;</span>

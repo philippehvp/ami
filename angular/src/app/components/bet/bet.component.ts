@@ -84,7 +84,7 @@ export class BetComponent implements OnInit, OnDestroy {
         if (allBetsDone) {
           const config: MatDialogConfig = {
             data: {
-              title: 'Pronostics saisis et validés',
+              title: 'Pronostics entièrement saisis',
               message:
                 'Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne.',
             },

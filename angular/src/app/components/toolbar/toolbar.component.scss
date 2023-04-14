@@ -5,6 +5,15 @@
   align-items: center;
 }
 
+.title-area {
+  display: flex;
+  align-items: center;
+
+  .title {
+    margin-left: 10px;
+  }
+}
+
 .isb {
   width: 33px;
   height: 36px;

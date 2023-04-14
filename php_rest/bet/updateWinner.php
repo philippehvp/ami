@@ -28,6 +28,8 @@
   
         $ret = array("player" => $player);
         echo json_encode($ret, JSON_NUMERIC_CHECK);
+      } else {
+        echo returnIsNotUpdatable();
       }
     } else {
       echo returnIsOffline();

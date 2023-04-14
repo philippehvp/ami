@@ -28,7 +28,7 @@
         $ret = array("duration" => $duration);
         echo json_encode($ret, JSON_NUMERIC_CHECK);
       } else {
-        return http_response_code(204);  
+        echo returnIsNotUpdatable();
       }
     } else {
       echo returnIsOffline();
