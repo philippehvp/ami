@@ -20,19 +20,23 @@
     // Si le pronostiqueur a été trouvé, alors on lui génère une nouvelle clé et on met à jour la date de fin de validité
     if ($res && sizeof($res)) {
       $better = $res[0];
+      $betterId = $better["id"];
       $now = new DateTime();
       $accessKey = generateAccessKey($better["name"] . $better["firstName"] . $now->getTimestamp());
-      $endAccessKeyValidityDate = generateEndAccessValidityDate();
 
+      // Création des lignes dans les tables de pronostics
+      $query =
+        " CALL sp_create_missing_bets(" . $betterId . ")";
+      $db->exec($query);
 
       $query =
         " UPDATE          better" .
         " SET             better.accessKey = ?," .
-        "                 better.endAccessKeyValidityDate = FROM_UNIXTIME(" . $endAccessKeyValidityDate->getTimeStamp() . ")" .
+        "                 better.endAccessKeyValidityDate = fn_connection_validity()" .
         " WHERE           better.id = ?";
   
       $req = $db->prepare($query);
-      $req->execute(array($accessKey, $better["id"]));
+      $req->execute(array($accessKey, $betterId));
 
       $ret = array("accessKey" => $accessKey, "name" => $better["name"], "firstName" => $better["firstName"], "isAdmin" => $better["isAdmin"]);
 

@@ -133,7 +133,6 @@ export class BetState {
       state.patchState({ isOffline: false, better: action.better });
 
       window.localStorage.setItem('better', JSON.stringify(action.better));
-      console.log('Dans setBetter');
 
       // Lecture des concours auxquels est inscrit le participant, des pronostics et du pronostic de durée
       state.dispatch([

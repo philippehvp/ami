@@ -37,7 +37,6 @@ import { BetState } from './store/state/bet.state';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { BetCategoryComponent } from './components/bet/bet-category/bet-category.component';
 import { BetContestComponent } from './components/bet/bet-contest/bet-contest.component';
 import { BetDurationComponent } from './components/bet/bet-duration/bet-duration.component';
 import { BetPlayerComponent } from './components/bet/bet-player/bet-player.component';
@@ -59,7 +58,6 @@ import { BetterRankingState } from './store/state/better-ranking.state';
 @NgModule({
   declarations: [
     AppComponent,
-    BetCategoryComponent,
     BetContestComponent,
     BetComponent,
     BetDurationComponent,

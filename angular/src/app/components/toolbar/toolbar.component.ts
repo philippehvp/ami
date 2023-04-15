@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Subscription, filter } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
 import { IBetter } from 'src/app/models/better';
@@ -13,7 +12,7 @@ import { BetState } from 'src/app/store/state/bet.state';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
@@ -24,10 +23,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   bets$!: Observable<IBet[]>;
 
   constructor(private store: Store, private router: Router) {}
-
-  public ngOnInit() {}
-
-  public ngOnDestroy() {}
 
   public logout() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {

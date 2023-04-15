@@ -134,13 +134,6 @@
       $req->execute(array($accessKey));
 	}
 
-  function generateEndAccessValidityDate() {
-    $now = new DateTime();
-    $dateInterval = new DateInterval("PT" . VALIDITY_DURATION . "M");
-    $endAccessKeyValidityDate = $now->add($dateInterval);
-    return $endAccessKeyValidityDate;
-  }
-
 	function generateAccessKey($input) {
 		return password_hash($input, null);
 	}

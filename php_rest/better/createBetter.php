@@ -28,73 +28,32 @@
         $ret = array("errorMessage" => "Pronostiqueur existant");
         echo json_encode($ret);
       } else {
-        $endAccessKeyValidityDate = generateEndAccessValidityDate();
         $now = new DateTime();
         $accessKey = generateAccessKey($name . $firstName . $now->getTimestamp());
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
           " INSERT INTO         better(better.account, better.password, better.name, better.firstName, better.isAdmin, better.accessKey, better.endAccessKeyValidityDate, better.contact)" .
-          " VALUES              (?, ?, ?, ?, ?, ?, FROM_UNIXTIME(" . $endAccessKeyValidityDate->getTimeStamp() . "), ?)";
+          " VALUES              (?, ?, ?, ?, ?, ?, fn_connection_validity(), ?)";
     
         $req = $db->prepare($query);
         $req->execute(array($account, $password, $name, $firstName, 0, $accessKey, $contact));
     
         // Identifiant du dernier enregistrement ajouté
-        $better = $db->lastInsertId();
+        $betterId = $db->lastInsertId();
     
-        // Inscription du pronostiqueur dans la table de participation (des deux journées si on est le premier jour également)
+        // Création des lignes dans les tables de pronostics
         $query =
-          " INSERT INTO         betting(better_id, contest_id)" .
-          " SELECT              " . $better . ", contest.id" .
-          " FROM                contest" .
-          " WHERE               contest.endBetDate > NOW()";
+          " CALL sp_create_missing_bets(" . $betterId . ")";
         $db->exec($query);
 
-        // Création des lignes dans la table des pronostics (des deux journées si on est le premier jour également)
-        $query =
-          " INSERT INTO         bet(better_id, category_id, winner_player_id, runnerUp_player_id)" .
-          " SELECT              " . $better . ", category.id, NULL, NULL" .
-          " FROM                contest" .
-          " JOIN                category" .
-          "                     ON    contest.id = category.contest_id" .
-          " WHERE               contest.endBetDate > NOW()";
-        $db->exec($query);
-
-        // Création de la ligne dans la table de la durée du match le plus long (des deux journées si on est le premier jour également)
-        $query =
-          " INSERT INTO         duration(better_id, contest_day, duration)" .
-          " SELECT DISTINCT     " . $better . ", contest.day, 30" .
-          " FROM                contest" .
-          " WHERE               contest.endBetDate > NOW()";
-        $db->exec($query);
-
-        // Création de la ligne dans la table des points (des deux journées si on est le premier jour également)
-        $query =
-          " INSERT INTO         point(better_id, category_id, points)" .
-          " SELECT              " . $better . ", category.id, 0" .
-          " FROM                category" .
-          " JOIN                contest" .
-          "                     ON    category.contest_id = contest.id" .
-          " WHERE               contest.endBetDate > NOW()";
-        $db->exec($query);
-
-        // Création de la ligne dans la table des classements (des deux journées si on est le premier jour également)
-        $query =
-          " INSERT INTO         ranking(better_id, contest_day, points, ranking)" .
-          " SELECT DISTINCT     " . $better . ", contest.day, 0, 0" .
-          " FROM                contest" .
-          " WHERE               contest.endBetDate > NOW()";
-        $db->exec($query);
-
-        $better = array(
+        $ret = array(
           "accessKey" => $accessKey,
           "name" => $name,
           "firstName" => $firstName,
-          "isAdmin" => 0,
-          "endAccessKeyValidityDate" => $endAccessKeyValidityDate->getTimestamp()
+          "isAdmin" => 0
         );
-        echo json_encode($better, JSON_NUMERIC_CHECK);
+        echo json_encode($ret, JSON_NUMERIC_CHECK);
       }
     } catch(PDOException $e) {
       $error = array("message" => $dbh->errorInfo());

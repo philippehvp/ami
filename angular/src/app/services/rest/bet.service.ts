@@ -24,7 +24,6 @@ export class BetService {
             accessKey: betterRaw.accessKey,
             firstName: betterRaw.firstName,
             name: betterRaw.name,
-            club: betterRaw.club,
             isAdmin: betterRaw.isAdmin === 1 ? true : false,
           };
         });
