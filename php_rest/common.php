@@ -35,18 +35,6 @@
 		return new DateTime($res[0]["endDate"]);
 	}
 
-  // function isAdmin($db, $accessKey) {
-  //   $query =
-  //     " SELECT        better.isAdmin" .
-  //     " FROM          better" .
-  //     " WHERE         better.accessKey = ?";
-
-  //     $req = $db->prepare($query);
-  //     $req->execute(array($accessKey));
-  //     $res = $req->fetchAll(PDO::FETCH_ASSOC);
-  //     return $res[0]["isAdmin"] == 1 ? true : false;
-  // }
-
 	function isUpdatable($db, $contest, $accessKey) {
     $query =
       " SELECT    CASE" .
@@ -106,7 +94,7 @@
 	function isAccessKeyValid($db, $accessKey) {
     $query =
       " SELECT      CASE" .
-      "                 WHEN    endAccessKeyValidityDate < NOW() AND better.isAdmin <> 1" .
+      "                 WHEN    endAccessKeyValidityDate < NOW()" .
       "                 THEN    0" .
       "                 ELSE    1" .
       "             END AS accessKeyValid" .
