@@ -86,4 +86,9 @@ export namespace BetActions {
     static readonly type = '[Bet] Is Not Updatable';
     constructor() {}
   }
+
+  export class IsLoadingPlayer {
+    static readonly type = '[Bet] Is Loading Player';
+    constructor(public isLoadingPlayer: boolean) {}
+  }
 }

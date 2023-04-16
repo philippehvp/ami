@@ -17,11 +17,13 @@
 
     <span *ngIf="isBetColumn(i)">
       <td mat-cell *matCellDef="let bet">
-        {{ getBetDetail(i, bet, true, true) }}{{ breakSymbol()
-        }}{{ getBetDetail(i, bet, true, false) }}
+        {{ getBetDetail(i, bet, true, true) }}
         <br />
-        {{ getBetDetail(i, bet, false, true) }}{{ breakSymbol()
-        }}{{ getBetDetail(i, bet, false, false) }}
+        {{ getBetDetail(i, bet, true, false) }}
+        <br />
+        {{ getBetDetail(i, bet, false, true) }}
+        <br />
+        {{ getBetDetail(i, bet, false, false) }}
       </td>
     </span>
 

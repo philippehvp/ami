@@ -35,11 +35,11 @@ export class BetComponent implements OnInit, OnDestroy {
   isOffline$!: Observable<boolean>;
 
   @Select(BetterPointState.categoryToDisplay)
-  categoryToDisplay$!: Observable<number>;
+  betterPointsCategoryToDisplay$!: Observable<number>;
 
   private isOfflineSub!: Subscription;
   private allBetsDoneSub!: Subscription;
-  private categoryToDisplaySub!: Subscription;
+  private betterPointsCategoryToDisplay!: Subscription;
   private betterSub!: Subscription;
 
   private categoryToDisplay!: number;
@@ -94,10 +94,11 @@ export class BetComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.categoryToDisplaySub = this.categoryToDisplay$.subscribe(
-      (betterPointsCategoryToDisplay) =>
-        (this.categoryToDisplay = betterPointsCategoryToDisplay)
-    );
+    this.betterPointsCategoryToDisplay =
+      this.betterPointsCategoryToDisplay$.subscribe(
+        (betterPointsCategoryToDisplay) =>
+          (this.categoryToDisplay = betterPointsCategoryToDisplay)
+      );
 
     this.betterSub = this.better$
       .pipe(filter((better) => !!better))
@@ -113,8 +114,8 @@ export class BetComponent implements OnInit, OnDestroy {
       this.allBetsDoneSub.unsubscribe();
     }
 
-    if (this.categoryToDisplaySub) {
-      this.categoryToDisplaySub.unsubscribe();
+    if (this.betterPointsCategoryToDisplay) {
+      this.betterPointsCategoryToDisplay.unsubscribe();
     }
 
     if (this.betterSub) {

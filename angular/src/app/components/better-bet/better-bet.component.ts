@@ -98,8 +98,4 @@ export class BetterBetComponent implements OnInit, OnDestroy {
       return '';
     }
   }
-
-  public breakSymbol(): string {
-    return '<br>';
-  }
 }

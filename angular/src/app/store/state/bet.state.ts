@@ -29,25 +29,27 @@ export class BetStateModel {
   duration!: IDuration | undefined;
   completedBets!: number | undefined;
   allBetsDone!: boolean | undefined;
+  isLoadingPlayer!: boolean | undefined;
 }
 
 @State<BetStateModel>({
   name: 'bet',
   defaults: {
-    isOffline: undefined,
+    isOffline: false,
     better: undefined,
-    betters: undefined,
+    betters: [],
     contest: undefined,
-    contests: undefined,
+    contests: [],
     category: undefined,
-    players: undefined,
+    players: [],
     currentBet: undefined,
-    bets: undefined,
+    bets: [],
     winner: undefined,
     runnerUp: undefined,
     duration: undefined,
-    completedBets: undefined,
-    allBetsDone: undefined,
+    completedBets: 0,
+    allBetsDone: false,
+    isLoadingPlayer: false,
   },
 })
 @Injectable()
@@ -127,6 +129,11 @@ export class BetState {
     return state.allBetsDone;
   }
 
+  @Selector()
+  static isLoadingPlayer(state: BetStateModel) {
+    return state.isLoadingPlayer;
+  }
+
   @Action(BetActions.SetBetter)
   setBetter(state: StateContext<BetStateModel>, action: BetActions.SetBetter) {
     if (action.better) {
@@ -135,11 +142,7 @@ export class BetState {
       window.localStorage.setItem('better', JSON.stringify(action.better));
 
       // Lecture des concours auxquels est inscrit le participant, des pronostics et du pronostic de durée
-      state.dispatch([
-        new BetActions.GetContests(action.better.accessKey),
-        new BetActions.GetBets(action.better.accessKey),
-        new BetActions.GetDuration(action.better.accessKey),
-      ]);
+      state.dispatch([new BetActions.GetContests(action.better.accessKey)]);
     } else {
       return;
     }
@@ -201,6 +204,10 @@ export class BetState {
                 ),
               })
             );
+
+            state.dispatch([
+              new BetActions.GetBets(state.getState().better?.accessKey || ''),
+            ]);
           });
         }
       })
@@ -286,6 +293,7 @@ export class BetState {
           const categoryId = BetState.searchFirstBetToFill(state);
           if (categoryId !== -1) {
             state.dispatch([
+              new BetActions.GetDuration(currentState.better?.accessKey || ''),
               new BetActions.SetCategory(categoryId),
               new BetActions.SetCurrentBet(categoryId),
             ]);
@@ -497,7 +505,11 @@ export class BetState {
                 currentState.category?.id || 0
               );
               if (categoryId !== -1) {
-                state.dispatch([new BetActions.SetCategory(categoryId)]);
+                state
+                  .dispatch([new BetActions.IsLoadingPlayer(true)])
+                  .subscribe(() =>
+                    state.dispatch([new BetActions.SetCategory(categoryId)])
+                  );
               }
             }
           }
@@ -557,7 +569,11 @@ export class BetState {
                 currentState.category?.id || 0
               );
               if (categoryId !== -1) {
-                state.dispatch([new BetActions.SetCategory(categoryId)]);
+                state
+                  .dispatch([new BetActions.IsLoadingPlayer(true)])
+                  .subscribe(() =>
+                    state.dispatch([new BetActions.SetCategory(categoryId)])
+                  );
               }
             }
           }
@@ -657,5 +673,13 @@ export class BetState {
       completedBets: undefined,
       allBetsDone: undefined,
     });
+  }
+
+  @Action(BetActions.IsLoadingPlayer)
+  isLoadingPlayer(
+    state: StateContext<BetStateModel>,
+    action: BetActions.IsLoadingPlayer
+  ) {
+    state.patchState({ isLoadingPlayer: action.isLoadingPlayer });
   }
 }

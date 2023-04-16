@@ -24,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -72,6 +73,7 @@ import { BetterRankingState } from './store/state/better-ranking.state';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
 
     NgxsModule.forRoot(
@@ -79,7 +81,6 @@ import { BetterRankingState } from './store/state/better-ranking.state';
       {}
     ),
     AppRoutingModule,
-    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
 
@@ -92,6 +93,7 @@ import { BetterRankingState } from './store/state/better-ranking.state';
     MatIconModule,
     MatInputModule,
     MatListModule,
+    MatProgressSpinnerModule,
     MatRadioModule,
     MatSelectModule,
     MatSidenavModule,

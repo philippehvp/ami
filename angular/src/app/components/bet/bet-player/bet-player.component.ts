@@ -33,29 +33,18 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   @Select(BetState.category)
   category$!: Observable<ICategory>;
 
+  @Select(BetState.isLoadingPlayer)
+  isLoadingPlayer$!: Observable<boolean>;
+
   public displayedColumns: string[];
 
   private currentBet!: IBet;
 
   private betterSub!: Subscription;
   private currentBetSub!: Subscription;
+  private playersSub!: Subscription;
 
   private better!: IBetter;
-
-  public isChecked(playerId: number, isFocusedOnWinner: boolean): boolean {
-    if (isFocusedOnWinner) {
-      return playerId === this.currentBet?.winnerId ? true : false;
-    } else {
-      return playerId === this.currentBet?.runnerUpId ? true : false;
-    }
-  }
-
-  public iconLabel(playerId: number, isFocusedOnWinner: boolean): string {
-    if (this.isChecked(playerId, isFocusedOnWinner)) {
-      return 'expand_circle_down';
-    }
-    return 'radio_button_unchecked';
-  }
 
   constructor(private store: Store) {
     this.displayedColumns = ['winner', 'runnerUp', 'name'];
@@ -71,6 +60,15 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     this.betterSub = this.better$
       .pipe(filter((better) => !!better))
       .subscribe((better) => (this.better = better));
+
+    this.playersSub = this.players$
+      .pipe(filter((players) => !!players))
+      .subscribe(() => {
+        setTimeout(
+          () => this.store.dispatch([new BetActions.IsLoadingPlayer(false)]),
+          500
+        );
+      });
   }
 
   public ngOnDestroy() {
@@ -81,6 +79,25 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     if (this.betterSub) {
       this.betterSub.unsubscribe();
     }
+
+    if (this.playersSub) {
+      this.playersSub.unsubscribe();
+    }
+  }
+
+  public isChecked(playerId: number, isFocusedOnWinner: boolean): boolean {
+    if (isFocusedOnWinner) {
+      return playerId === this.currentBet?.winnerId ? true : false;
+    } else {
+      return playerId === this.currentBet?.runnerUpId ? true : false;
+    }
+  }
+
+  public iconLabel(playerId: number, isFocusedOnWinner: boolean): string {
+    if (this.isChecked(playerId, isFocusedOnWinner)) {
+      return 'expand_circle_down';
+    }
+    return 'radio_button_unchecked';
   }
 
   public changePlayer(playerId: number, isFocusedOnWinner: boolean) {
