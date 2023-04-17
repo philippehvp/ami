@@ -1,5 +1,5 @@
 .action {
-  padding: 0 0 0 8px;
+  padding: 0 0 0 7px;
   width: 1em;
 }
 
@@ -16,4 +16,9 @@
   height: 50vh;
   justify-content: center;
   align-items: center;
+}
+
+td,
+th {
+  vertical-align: middle;
 }

@@ -154,7 +154,7 @@
 		if(substr($_SERVER['HTTP_HOST'], 0, 9) == 'localhost') {
 			$db = new PDO('mysql:host=db;port=3306;dbname=cpi', 'root', 'Allezlom2014', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 		} else {
-			$db = new PDO('mysql:host=lepoulpeg.mysql.db;dbname=cpi', 'lepoulpeg', 'Allezlom2014', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+			$db = new PDO('mysql:host=istresspruisb.mysql.db;dbname=istresspruisb', 'istresspruisb', 'Istripotes13800', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 		}
 		if($db) {
 			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

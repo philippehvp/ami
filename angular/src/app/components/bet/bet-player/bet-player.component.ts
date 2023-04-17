@@ -11,18 +11,42 @@ import { IPlayer } from 'src/app/models/player';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { BetState } from 'src/app/store/state/bet.state';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+
+const fadeOutIn = trigger('fadeOutIn', [
+  state(
+    'loading',
+    style({
+      color: '#fff',
+      backgroundColor: '#5a246a',
+    })
+  ),
+  state(
+    'loadComplete',
+    style({
+      color: 'inherit',
+      backgroundColor: 'inherit',
+    })
+  ),
+  transition('loading => loadComplete', [animate('1s')]),
+  transition('loadComplete => loading', [animate('0.5s ease-out')]),
+]);
 
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
   styleUrls: ['./bet-player.component.scss'],
+  animations: [fadeOutIn],
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
-
-  @Select(BetState.players)
-  players$!: Observable<IPlayer[]>;
 
   @Select(BetState.currentBet)
   currentBet$!: Observable<IBet>;
@@ -32,6 +56,9 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   @Select(BetState.category)
   category$!: Observable<ICategory>;
+
+  @Select(BetState.players)
+  players$!: Observable<IPlayer[]>;
 
   @Select(BetState.isLoadingPlayer)
   isLoadingPlayer$!: Observable<boolean>;
@@ -64,10 +91,9 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     this.playersSub = this.players$
       .pipe(filter((players) => !!players))
       .subscribe(() => {
-        setTimeout(
-          () => this.store.dispatch([new BetActions.IsLoadingPlayer(false)]),
-          500
-        );
+        setTimeout(() => {
+          this.store.dispatch([new BetActions.IsLoadingPlayer(false)]);
+        }, 500);
       });
   }
 

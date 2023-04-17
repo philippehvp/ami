@@ -227,6 +227,7 @@ export class BetState {
             state.patchState({ category, contest });
 
             state.dispatch([
+              new BetActions.IsLoadingPlayer(true),
               new BetActions.GetPlayers(
                 currentState.better?.accessKey || '',
                 category.id
@@ -505,11 +506,7 @@ export class BetState {
                 currentState.category?.id || 0
               );
               if (categoryId !== -1) {
-                state
-                  .dispatch([new BetActions.IsLoadingPlayer(true)])
-                  .subscribe(() =>
-                    state.dispatch([new BetActions.SetCategory(categoryId)])
-                  );
+                state.dispatch([new BetActions.SetCategory(categoryId)]);
               }
             }
           }
@@ -569,11 +566,7 @@ export class BetState {
                 currentState.category?.id || 0
               );
               if (categoryId !== -1) {
-                state
-                  .dispatch([new BetActions.IsLoadingPlayer(true)])
-                  .subscribe(() =>
-                    state.dispatch([new BetActions.SetCategory(categoryId)])
-                  );
+                state.dispatch([new BetActions.SetCategory(categoryId)]);
               }
             }
           }
