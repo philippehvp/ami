@@ -8,26 +8,26 @@
   if ($accessKey) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT DISTINCT     duration.duration," .
+        " SELECT DISTINCT     cpi_duration.duration," .
         "                     CASE" .
-        "                       WHEN better.isAdmin = 1 AND contest.startDate <= NOW() AND NOW() <= contest.endAdminDate THEN 1" .
-        "                       WHEN better.isAdmin = 0 AND contest.startDate <= NOW() AND NOW() <= contest.endBetDate THEN 1" .
+        "                       WHEN cpi_better.isAdmin = 1 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endAdminDate THEN 1" .
+        "                       WHEN cpi_better.isAdmin = 0 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endBetDate THEN 1" .
         "                       ELSE 0" .
         "                     END AS isDurationUpdatable" .
-        " FROM                duration" .
+        " FROM                cpi_duration" .
         " JOIN                (" .
-        "                       SELECT DISTINCT       contest.day," .
-        "                                             contest.startDate," .
-        "                                             contest.endBetDate, contest.endAdminDate" .
-        "                       FROM                  contest" .
-        "                       WHERE                 contest.startDate <= NOW()" .
-        "                                             AND   NOW() <= contest.endAdminDate" .
+        "                       SELECT DISTINCT       cpi_contest.day," .
+        "                                             cpi_contest.startDate," .
+        "                                             cpi_contest.endBetDate, cpi_contest.endAdminDate" .
+        "                       FROM                  cpi_contest" .
+        "                       WHERE                 cpi_contest.startDate <= NOW()" .
+        "                                             AND   NOW() <= cpi_contest.endAdminDate" .
         "                       LIMIT 1" .
-        "                     ) contest" .
-        "                     ON    duration.contest_day = contest.day" .
-        " JOIN                better" .
-        "                     ON    duration.better_id = better.id" .
-        " WHERE               better.accessKey = ?";
+        "                     ) cpi_contest" .
+        "                     ON    cpi_duration.contest_day = cpi_contest.day" .
+        " JOIN                cpi_better" .
+        "                     ON    cpi_duration.better_id = cpi_better.id" .
+        " WHERE               cpi_better.accessKey = ?";
     
       $req = $db->prepare($query);
       $req->execute(array($accessKey));

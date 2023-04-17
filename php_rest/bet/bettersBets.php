@@ -8,48 +8,48 @@
   if ($accessKey) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT          contest.shortName AS contestName, category.shortName AS categoryName" .
-        " FROM            contest" .
-        " JOIN            category" .
-        "                 ON      contest.id = category.contest_id" .
-        " WHERE           contest.startDate <= NOW()" .
-        "                 AND   NOW() <= contest.endAdminDate";
+        " SELECT          cpi_contest.shortName AS contestName, cpi_category.shortName AS categoryName" .
+        " FROM            cpi_contest" .
+        " JOIN            cpi_category" .
+        "                 ON      cpi_contest.id = cpi_category.contest_id" .
+        " WHERE           cpi_contest.startDate <= NOW()" .
+        "                 AND   NOW() <= cpi_contest.endAdminDate";
       $req = $db->query($query);
       $header = $req->fetchAll(PDO::FETCH_ASSOC);
 
       $query =
-        " SELECT          CONCAT(better.name, ' ', better.firstName) AS name" .
-        " FROM            better" .
-        " WHERE           better.isAdmin = 0" .
-        " ORDER BY        better.name, better.firstName, better.id";
+        " SELECT          CONCAT(cpi_better.name, ' ', cpi_better.firstName) AS name" .
+        " FROM            cpi_better" .
+        " WHERE           cpi_better.isAdmin = 0" .
+        " ORDER BY        cpi_better.name, cpi_better.firstName, cpi_better.id";
       $req = $db->query($query);
       $betters = $req->fetchAll(PDO::FETCH_ASSOC);
 
       $query =
         " SELECT          winner.playerName1 AS winner_playerName1, winner.playerName2 AS winner_playerName2," .
         "                 runnerUp.playerName1 AS runnerUp_playerName1, runnerUp.playerName2 AS runnerUp_playerName2" .
-        " FROM            better" .
-        " JOIN            betting" .
-        "                 ON    better.id = betting.better_id" .
-        " JOIN            contest" .
-        "                 ON    better.id = betting.better_id" .
-        "                       AND   betting.contest_id = contest.id" .
-        " JOIN            category" .
-        "                 ON    contest.id = category.contest_id" .
-        " JOIN            bet" .
-        "                 ON    better.id = bet.better_id" .
-        "                       AND   category.id = bet.category_id" .
-        " JOIN            player winner" .
-        "                 ON    bet.winner_player_id = winner.id" .
-        " JOIN            player runnerUp" .
-        "                 ON    bet.runnerUp_player_id = runnerUp.id" .
-        " WHERE           better.isAdmin = 0" .
-        "                 AND   contest.startDate <= NOW()" .
-        "                 AND   NOW() <= contest.endAdminDate" .
-        " ORDER BY        better.name, better.firstName, better.id";
-        $req = $db->query($query);
-        $betsRaw = $req->fetchAll(PDO::FETCH_ASSOC);
-        $countOfCategories = sizeof($betsRaw);
+        " FROM            cpi_better" .
+        " JOIN            cpi_betting" .
+        "                 ON    cpi_better.id = cpi_betting.better_id" .
+        " JOIN            cpi_contest" .
+        "                 ON    cpi_better.id = cpi_betting.better_id" .
+        "                       AND   cpi_betting.contest_id = cpi_contest.id" .
+        " JOIN            cpi_category" .
+        "                 ON    cpi_contest.id = cpi_category.contest_id" .
+        " JOIN            cpi_bet" .
+        "                 ON    cpi_better.id = cpi_bet.better_id" .
+        "                       AND   cpi_category.id = cpi_bet.category_id" .
+        " JOIN            cpi_player winner" .
+        "                 ON    cpi_bet.winner_player_id = winner.id" .
+        " JOIN            cpi_player runnerUp" .
+        "                 ON    cpi_bet.runnerUp_player_id = runnerUp.id" .
+        " WHERE           cpi_better.isAdmin = 0" .
+        "                 AND   cpi_contest.startDate <= NOW()" .
+        "                 AND   NOW() <= cpi_contest.endAdminDate" .
+        " ORDER BY        cpi_better.name, cpi_better.firstName, cpi_better.id";
+      $req = $db->query($query);
+      $betsRaw = $req->fetchAll(PDO::FETCH_ASSOC);
+      $countOfCategories = sizeof($betsRaw);
 
       $bets = array();
 
@@ -73,6 +73,10 @@
               "playerName2" => $betsRaw[$i]["runnerUp_playerName2"]        
             )
           );
+
+          if ($i == $countOfCategories - 1) {
+
+          }
         }
 
         array_push(

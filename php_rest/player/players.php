@@ -9,9 +9,9 @@
   if ($accessKey && $category) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      player.id, player.playerName1, player.playerRanking1, player.playerName2, player.playerRanking2" .
-        " FROM        player" .
-        " WHERE       player.category_id = ?";
+        " SELECT      cpi_player.id, cpi_player.playerName1, cpi_player.playerRanking1, cpi_player.playerName2, cpi_player.playerRanking2" .
+        " FROM        cpi_player" .
+        " WHERE       cpi_player.category_id = ?";
 
       $req = $db->prepare($query);
       $req->execute(array($category));

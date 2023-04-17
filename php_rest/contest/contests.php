@@ -8,15 +8,15 @@
   if($accessKey) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      contest.id, contest.shortName, contest.longName, contest.startDate, contest.endBetDate, contest.day" .
-        " FROM        contest" .
-        " JOIN        betting" .
-        "             ON    contest.id = betting.contest_id" .
-        " JOIN        better" .
-        "             ON    betting.better_id = better.id" .
-        " WHERE       better.accessKey = ?" .
-        "             AND   contest.startDate <= NOW()" .
-        "             AND   contest.endAdminDate >= NOW()";
+        " SELECT      cpi_contest.id, cpi_contest.shortName, cpi_contest.longName, cpi_contest.startDate, cpi_contest.endBetDate, cpi_contest.day" .
+        " FROM        cpi_contest" .
+        " JOIN        cpi_betting" .
+        "             ON    cpi_contest.id = cpi_betting.contest_id" .
+        " JOIN        cpi_better" .
+        "             ON    cpi_betting.better_id = cpi_better.id" .
+        " WHERE       cpi_better.accessKey = ?" .
+        "             AND   cpi_contest.startDate <= NOW()" .
+        "             AND   cpi_contest.endAdminDate >= NOW()";
     
       $req = $db->prepare($query);
       $req->execute(array($accessKey));
@@ -25,9 +25,9 @@
       // Lecture des séries de chaque concours
       foreach($res as $contest => &$c) {
         $query =
-          " SELECT    category.id, category.shortName, category.longName" .
-          " FROM      category" .
-          " WHERE     category.contest_id = " . $c["id"];
+          " SELECT    cpi_category.id, cpi_category.shortName, cpi_category.longName" .
+          " FROM      cpi_category" .
+          " WHERE     cpi_category.contest_id = " . $c["id"];
     
           $req = $db->query($query);
           $categories = $req->fetchAll(PDO::FETCH_ASSOC);

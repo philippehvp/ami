@@ -7,6 +7,8 @@
     <span (click)="displayBettersBet()">Pronos</span>
     <span>&nbsp;|&nbsp;</span>
     <span (click)="displayBettersRanking()">Clts</span>
+    <span>&nbsp;|&nbsp;</span>
+    <span (click)="displayBettersOrderedByName()">Récap</span>
   </span>
   <span>{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span>
   <span class="material-icons" (click)="logout()">logout</span>

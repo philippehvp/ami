@@ -4,27 +4,33 @@
   // Lecture du paramètre
   $data = json_decode(file_get_contents("php://input"), true);
   $accessKey = json_decode($data["accessKey"]) ? json_decode($data["accessKey"]) : $data["accessKey"];
+  $byRanking = json_decode($data["byRanking"]) ? json_decode($data["byRanking"]) : $data["byRanking"];
 
-  if ($accessKey) {
+  if ($accessKey && ($byRanking == 0 || $byRanking == 1)) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      better.name, better.firstName, ranking.points, ranking.ranking, duration.duration" .
-        " FROM        better" .
-        " JOIN        ranking" .
-        "             ON    better.id = ranking.better_id" .
+        " SELECT      cpi_better.name, cpi_better.firstName, cpi_ranking.points, cpi_ranking.ranking, cpi_duration.duration" .
+        " FROM        cpi_better" .
+        " JOIN        cpi_ranking" .
+        "             ON    cpi_better.id = cpi_ranking.better_id" .
         " JOIN        (" .
-        "                 SELECT DISTINCT       contest.day" .
-        "                 FROM                  contest" .
-        "                 WHERE                 contest.startDate <= NOW()" .
-        "                                       AND   NOW() <= contest.endAdminDate" .
+        "                 SELECT DISTINCT       cpi_contest.day" .
+        "                 FROM                  cpi_contest" .
+        "                 WHERE                 cpi_contest.startDate <= NOW()" .
+        "                                       AND   NOW() <= cpi_contest.endAdminDate" .
         "                 LIMIT 1" .
-        "             ) contest" .
-        "             ON    ranking.contest_day = contest.day" .
-        " JOIN        duration" .
-        "             ON    better.id = duration.better_id" .
-        "                   AND   contest.day = duration.contest_day" .
-        " WHERE       better.isAdmin <> 1" .
-        " ORDER BY    ranking.ranking, better.name, better.firstName";
+        "             ) cpi_contest" .
+        "             ON    cpi_ranking.contest_day = cpi_contest.day" .
+        " JOIN        cpi_duration" .
+        "             ON    cpi_better.id = cpi_duration.better_id" .
+        "                   AND   cpi_contest.day = cpi_duration.contest_day" .
+        " WHERE       cpi_better.isAdmin <> 1";
+
+      if ($byRanking == 1) {
+        $query .= " ORDER BY    cpi_ranking.ranking, cpi_better.name, cpi_better.firstName";
+      } else {
+        $query .= " ORDER BY    cpi_better.name, cpi_better.firstName, cpi_better.id";
+      }
 
       $req = $db->query($query);
       $res = $req->fetchAll(PDO::FETCH_ASSOC);

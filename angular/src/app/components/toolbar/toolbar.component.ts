@@ -37,4 +37,8 @@ export class ToolbarComponent {
   public displayBettersRanking() {
     this.router.navigate(['better-ranking']);
   }
+
+  public displayBettersOrderedByName() {
+    this.router.navigate(['better-name']);
+  }
 }

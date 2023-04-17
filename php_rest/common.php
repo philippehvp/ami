@@ -5,9 +5,9 @@
 	
 	function getContestStartDate($db, $contest) {
 		$query =
-			"   SELECT        contest.startDate" .
-			"   FROM          contest" .
-			"   WHERE         contest.id = ?";
+			"   SELECT        cpi_contest.startDate" .
+			"   FROM          cpi_contest" .
+			"   WHERE         cpi_contest.id = ?";
 		
 		$req = $db->prepare($query);
     $req->execute(array($contest));
@@ -18,16 +18,16 @@
 	function getContestEndDate($db, $contest, $accessKey) {
 		$query =
 			"   SELECT        CASE" .
-      "                   WHEN better.isAdmin = 1 THEN contest.endAdminDate" .
-      "                   ELSE contest.endBetDate" .
+      "                   WHEN cpi_better.isAdmin = 1 THEN cpi_contest.endAdminDate" .
+      "                   ELSE cpi_contest.endBetDate" .
       "                 END AS endDate" .
-			"   FROM          contest" .
-      "   JOIN          betting" .
-      "                 ON    contest.id = betting.contest_id" .
-      "   JOIN          better" .
-      "                 ON    betting.better_id = better.id" .
-			"   WHERE         contest.id = ?" .
-      "                 AND   better.accessKey = ?";
+			"   FROM          cpi_contest" .
+      "   JOIN          cpi_betting" .
+      "                 ON    cpi_contest.id = cpi_betting.contest_id" .
+      "   JOIN          cpi_better" .
+      "                 ON    cpi_betting.better_id = cpi_better.id" .
+			"   WHERE         cpi_contest.id = ?" .
+      "                 AND   cpi_better.accessKey = ?";
 		
     $req = $db->prepare($query);
     $req->execute(array($contest, $accessKey));
@@ -38,22 +38,22 @@
 	function isUpdatable($db, $contest, $accessKey) {
     $query =
       " SELECT    CASE" .
-      "               WHEN    contest.startDate <= NOW()" .
+      "               WHEN    cpi_contest.startDate <= NOW()" .
       "                       AND   NOW() <=" .
-      "                             CASE    WHEN    better.isAdmin = 1" .
-      "                                     THEN    contest.endAdminDate" .
-      "                                     ELSE    contest.endBetDate" .
+      "                             CASE    WHEN    cpi_better.isAdmin = 1" .
+      "                                     THEN    cpi_contest.endAdminDate" .
+      "                                     ELSE    cpi_contest.endBetDate" .
       "                             END" .
       "               THEN    1" .
       "               ELSE    0" .
       "           END AS isUpdatable" .
-      " FROM      contest" .
-      " JOIN      betting" .
-      "           ON    contest.id = betting.contest_id" .
-      " JOIN      better" .
-      "           ON    betting.better_id = better.id" .
-      " WHERE     contest.id = ?" .
-      "           AND   better.accessKey = ?";
+      " FROM      cpi_contest" .
+      " JOIN      cpi_betting" .
+      "           ON    cpi_contest.id = cpi_betting.contest_id" .
+      " JOIN      cpi_better" .
+      "           ON    cpi_betting.better_id = cpi_better.id" .
+      " WHERE     cpi_contest.id = ?" .
+      "           AND   cpi_better.accessKey = ?";
 
     $req = $db->prepare($query);
     $req->execute(array($contest, $accessKey));
@@ -68,18 +68,18 @@
   function isDurationUpdatable($db, $accessKey) {
     $query =
       " SELECT DISTINCT       CASE" .
-      "                         WHEN better.isAdmin = 1 AND contest.startDate <= NOW() AND NOW() <= contest.endAdminDate THEN 1" .
-      "                         WHEN better.isAdmin = 0 AND contest.startDate <= NOW() AND NOW() <= contest.endBetDate THEN 1" .
+      "                         WHEN cpi_better.isAdmin = 1 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endAdminDate THEN 1" .
+      "                         WHEN cpi_better.isAdmin = 0 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endBetDate THEN 1" .
       "                         ELSE 0" .
       "                       END isDurationUpdatable" .
-      " FROM                  contest" .
-      " JOIN                  betting" .
-      "                       ON    contest.id = betting.contest_id" .
-      " JOIN                  better" .
-      "                       ON    betting.better_id = better.id" .
-      " WHERE                 contest.startDate <= NOW()" .
-      "                       AND   contest.endAdminDate >= NOW()" .
-      "                       AND   better.accessKey = ?";
+      " FROM                  cpi_contest" .
+      " JOIN                  cpi_betting" .
+      "                       ON    cpi_contest.id = cpi_betting.contest_id" .
+      " JOIN                  cpi_better" .
+      "                       ON    cpi_betting.better_id = cpi_better.id" .
+      " WHERE                 cpi_contest.startDate <= NOW()" .
+      "                       AND   cpi_contest.endAdminDate >= NOW()" .
+      "                       AND   cpi_better.accessKey = ?";
 
       $req = $db->prepare($query);
       $req->execute(array($accessKey));
@@ -94,12 +94,12 @@
 	function isAccessKeyValid($db, $accessKey) {
     $query =
       " SELECT      CASE" .
-      "                 WHEN    endAccessKeyValidityDate < NOW()" .
+      "                 WHEN    cpi_better.endAccessKeyValidityDate < NOW()" .
       "                 THEN    0" .
       "                 ELSE    1" .
       "             END AS accessKeyValid" .
-      " FROM        better" .
-      " WHERE       better.accessKey = ?";
+      " FROM        cpi_better" .
+      " WHERE       cpi_better.accessKey = ?";
 
       $req = $db->prepare($query);
       $req->execute(array($accessKey));
@@ -114,16 +114,16 @@
 
 	function extendEndAccessValidityDate($db, $accessKey) {
 		$query =
-      " UPDATE      better" .
-      " SET         better.endAccessKeyValidityDate = DATE_ADD(NOW(), INTERVAL 15 MINUTE)" .
-      " WHERE       better.accessKey = ?";
+      " UPDATE      cpi_better" .
+      " SET         cpi_better.endAccessKeyValidityDate = fn_connection_validity()" .
+      " WHERE       cpi_better.accessKey = ?";
 
       $req = $db->prepare($query);
       $req->execute(array($accessKey));
 	}
 
 	function generateAccessKey($input) {
-		return password_hash($input, null);
+		return password_hash($input, PASSWORD_DEFAULT);
 	}
 
   function returnIsOffline() {

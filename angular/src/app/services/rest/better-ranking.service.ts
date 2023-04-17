@@ -12,11 +12,13 @@ export class BetterRankingService {
   constructor(private httpClient: HttpClient) {}
 
   public getBettersRanking(
-    accessKey: string
+    accessKey: string,
+    byRanking: boolean
   ): Observable<IBetterRanking[] | IOffline> {
     const url = CommonService.getURL('ranking/bettersRanking');
     return this.httpClient.post<IBetterRanking[]>(url, {
       accessKey,
+      byRanking: byRanking === true ? 1 : 0,
     });
   }
 }

@@ -9,12 +9,13 @@
   if ($accessKey && $category) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      better.name, better.firstName, point.points" .
-        " FROM        better" .
-        " JOIN        point" .
-        "             ON    better.id = point.better_id" .
-        " WHERE       point.category_id = ?" .
-        "             AND   better.isAdmin <> 1";
+        " SELECT      cpi_better.name, cpi_better.firstName, cpi_point.points" .
+        " FROM        cpi_better" .
+        " JOIN        cpi_point" .
+        "             ON    cpi_better.id = cpi_point.better_id" .
+        " WHERE       cpi_point.category_id = ?" .
+        "             AND   cpi_better.isAdmin <> 1" .
+        " ORDER BY    cpi_better.name, cpi_better.firstName, cpi_better.id";
 
       $req = $db->prepare($query);
       $req->execute(array($category));

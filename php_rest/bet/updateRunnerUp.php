@@ -11,18 +11,18 @@
     if (isAccessKeyValid($db, $accessKey)) {
       if (isUpdatable($db, $contest, $accessKey)) {
         $query =
-          " UPDATE            bet" .
-          " JOIN              better" .
-          "                   ON    bet.better_id = better.id" .
-          " SET               bet.runnerUp_player_id = ?," .
-          "                   bet.winner_player_id =" .
+          " UPDATE            cpi_bet" .
+          " JOIN              cpi_better" .
+          "                   ON    cpi_bet.better_id = cpi_better.id" .
+          " SET               cpi_bet.runnerUp_player_id = ?," .
+          "                   cpi_bet.winner_player_id =" .
           "                   CASE" .
-          "                       WHEN    bet.winner_player_id = ?" .
+          "                       WHEN    cpi_bet.winner_player_id = ?" .
           "                       THEN    NULL" .
-          "                       ELSE    bet.winner_player_id" .
+          "                       ELSE    cpi_bet.winner_player_id" .
           "                   END" .
-          " WHERE             better.accessKey = ?" .
-          "                   AND   bet.category_id = ?";
+          " WHERE             cpi_better.accessKey = ?" .
+          "                   AND   cpi_bet.category_id = ?";
         $req = $db->prepare($query);
         $req->execute(array($player, $player, $accessKey, $category));
   

@@ -14,7 +14,16 @@ const routes: Routes = [
   { path: 'create-better', component: CreateBetterComponent },
   { path: 'better-point', component: BetPointComponent },
   { path: 'better-bet', component: BetterBetComponent },
-  { path: 'better-ranking', component: BetterRankingComponent },
+  {
+    path: 'better-ranking',
+    component: BetterRankingComponent,
+    data: { byRanking: 1 },
+  },
+  {
+    path: 'better-name',
+    component: BetterRankingComponent,
+    data: { byRanking: 0 },
+  },
   { path: '**', component: BetComponent },
 ];
 

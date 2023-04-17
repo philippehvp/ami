@@ -31,16 +31,18 @@ export class BetterRankingState {
     state: StateContext<BetterRankingModel>,
     action: BetterRankingActions.GetBetterRanking
   ) {
-    return this.rankingService.getBettersRanking(action.accessKey).pipe(
-      tap((readBettersRanking: IBetterRanking[] | IOffline) => {
-        if (readBettersRanking && 'isOffline' in readBettersRanking) {
-          state.dispatch([new ConnectionActions.IsOffline()]);
-        } else {
-          state.patchState({
-            bettersRanking: <IBetterRanking[]>readBettersRanking,
-          });
-        }
-      })
-    );
+    return this.rankingService
+      .getBettersRanking(action.accessKey, action.byRanking)
+      .pipe(
+        tap((readBettersRanking: IBetterRanking[] | IOffline) => {
+          if (readBettersRanking && 'isOffline' in readBettersRanking) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            state.patchState({
+              bettersRanking: <IBetterRanking[]>readBettersRanking,
+            });
+          }
+        })
+      );
   }
 }

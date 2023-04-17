@@ -9,18 +9,18 @@
     if (isAccessKeyValid($db, $accessKey)) {
       if (isDurationUpdatable($db, $accessKey)) {
         $query =
-          " UPDATE            duration" .
+          " UPDATE            cpi_duration" .
           " JOIN              (" .
-          "                       SELECT DISTINCT       contest.day" .
-          "                       FROM                  contest" .
-          "                       WHERE                 contest.startDate <= NOW()" .
-          "                                             AND   NOW() <= contest.endAdminDate" .
-          "                   ) day" .
-          "                   ON    duration.contest_day = day.day" .
-          " JOIN              better" .
-          "                   ON    duration.better_id = better.id" .
-          " SET               duration.duration = ?" .
-          " WHERE             better.accessKey = ?";
+          "                       SELECT DISTINCT       cpi_contest.day" .
+          "                       FROM                  cpi_contest" .
+          "                       WHERE                 cpi_contest.startDate <= NOW()" .
+          "                                             AND   NOW() <= cpi_contest.endAdminDate" .
+          "                   ) cpi_day" .
+          "                   ON    cpi_duration.contest_day = cpi_day.day" .
+          " JOIN              cpi_better" .
+          "                   ON    cpi_duration.better_id = cpi_better.id" .
+          " SET               cpi_duration.duration = ?" .
+          " WHERE             cpi_better.accessKey = ?";
     
         $req = $db->prepare($query);
         $req->execute(array($duration, $accessKey));

@@ -15,9 +15,9 @@
     try {
       // On vérifie que le pronostiqueur ayant ce login de connexion ne soit pas existant dans la base
       $query =
-        " SELECT    better.id" .
-        " FROM      better" .
-        " WHERE     better.account = ?";
+        " SELECT    cpi_better.id" .
+        " FROM      cpi_better" .
+        " WHERE     cpi_better.account = ?";
       
       $req = $db->prepare($query);
       $req->execute(array($account));
@@ -33,7 +33,7 @@
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
-          " INSERT INTO         better(better.account, better.password, better.name, better.firstName, better.isAdmin, better.accessKey, better.endAccessKeyValidityDate, better.contact)" .
+          " INSERT INTO         cpi_better(cpi_better.account, cpi_better.password, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin, cpi_better.accessKey, cpi_better.endAccessKeyValidityDate, cpi_cpi_better.contact)" .
           " VALUES              (?, ?, ?, ?, ?, ?, fn_connection_validity(), ?)";
     
         $req = $db->prepare($query);

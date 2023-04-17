@@ -8,10 +8,10 @@
 
   if ($account && $password) {
     $query =
-      " SELECT DISTINCT     better.accessKey, better.id, better.name, better.firstName, better.isAdmin" .
-      " FROM                better" .
-      " WHERE               better.account = ?" .
-      "                     AND   better.password = ?";
+      " SELECT DISTINCT     cpi_better.accessKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin" .
+      " FROM                cpi_better" .
+      " WHERE               cpi_better.account = ?" .
+      "                     AND   cpi_better.password = ?";
   
     $req = $db->prepare($query);
     $req->execute(array($account, $password));
@@ -30,10 +30,10 @@
       $db->exec($query);
 
       $query =
-        " UPDATE          better" .
-        " SET             better.accessKey = ?," .
-        "                 better.endAccessKeyValidityDate = fn_connection_validity()" .
-        " WHERE           better.id = ?";
+        " UPDATE          cpi_better" .
+        " SET             cpi_better.accessKey = ?," .
+        "                 cpi_better.endAccessKeyValidityDate = fn_connection_validity()" .
+        " WHERE           cpi_better.id = ?";
   
       $req = $db->prepare($query);
       $req->execute(array($accessKey, $betterId));
