@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { BetterPointState } from 'src/app/store/state/better-point.state';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { IBetter } from 'src/app/models/better';
+import { TutorialComponent } from '../tutorial/tutorial.component';
 
 @Component({
   selector: 'bet',
@@ -102,7 +103,9 @@ export class BetComponent implements OnInit, OnDestroy {
 
     this.betterSub = this.better$
       .pipe(filter((better) => !!better))
-      .subscribe((better) => (this.better = better));
+      .subscribe((better) => {
+        this.better = better;
+      });
   }
 
   public ngOnDestroy() {
@@ -128,6 +131,4 @@ export class BetComponent implements OnInit, OnDestroy {
       new BetterPointActions.GetBetterPoint(this.better.accessKey, 0),
     ]);
   }
-
-  public onAnimationDone(event: any) {}
 }

@@ -33,9 +33,8 @@
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
-          " INSERT INTO         cpi_better(cpi_better.account, cpi_better.password, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin, cpi_better.accessKey, cpi_better.endAccessKeyValidityDate, cpi_cpi_better.contact)" .
-          " VALUES              (?, ?, ?, ?, ?, ?, fn_connection_validity(), ?)";
-    
+          " INSERT INTO         cpi_better(account, password, name, firstName, isAdmin, accessKey, endAccessKeyValidityDate, contact, isTutorialDone)" .
+          " VALUES              (?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, 0)";
         $req = $db->prepare($query);
         $req->execute(array($account, $password, $name, $firstName, 0, $accessKey, $contact));
     
@@ -56,7 +55,7 @@
         echo json_encode($ret, JSON_NUMERIC_CHECK);
       }
     } catch(PDOException $e) {
-      $error = array("message" => $dbh->errorInfo());
+      $error = array("message" => $db->errorInfo());
       echo json_encode($error);
       return http_response_code(400);
     }

@@ -8,7 +8,7 @@
 
   if ($account && $password) {
     $query =
-      " SELECT DISTINCT     cpi_better.accessKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin" .
+      " SELECT DISTINCT     cpi_better.accessKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin, cpi_better.isTutorialDone" .
       " FROM                cpi_better" .
       " WHERE               cpi_better.account = ?" .
       "                     AND   cpi_better.password = ?";
@@ -38,7 +38,7 @@
       $req = $db->prepare($query);
       $req->execute(array($accessKey, $betterId));
 
-      $ret = array("accessKey" => $accessKey, "name" => $better["name"], "firstName" => $better["firstName"], "isAdmin" => $better["isAdmin"]);
+      $ret = array("accessKey" => $accessKey, "name" => $better["name"], "firstName" => $better["firstName"], "isAdmin" => $better["isAdmin"], "isTutorialDone" => $better["isTutorialDone"]);
 
       echo json_encode($ret, JSON_NUMERIC_CHECK);
     }

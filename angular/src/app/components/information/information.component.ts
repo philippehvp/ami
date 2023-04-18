@@ -13,7 +13,7 @@ export class InformationComponent {
     private dialogRef: MatDialogRef<InformationComponent>
   ) {}
 
-  public cancel() {
+  public close() {
     this.dialogRef.close();
   }
 }

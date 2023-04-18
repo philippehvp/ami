@@ -60,7 +60,10 @@ export class LoginComponent implements OnInit {
       this.betterService.login(account, password).subscribe((better) => {
         if (better) {
           this.store.dispatch([new BetActions.SetBetter(better)]);
-          this.router.navigate(['bet']);
+          const navigation: string[] = better.isTutorialDone
+            ? ['bet']
+            : ['tutorial'];
+          this.router.navigate(navigation);
         } else {
           const config: MatDialogConfig = {
             data: {

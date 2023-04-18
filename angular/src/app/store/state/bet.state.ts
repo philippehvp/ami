@@ -13,6 +13,7 @@ import { updateItem, patch } from '@ngxs/store/operators';
 import { IDuration } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
+import { BetterService } from 'src/app/services/rest/better.service';
 
 export class BetStateModel {
   isOffline!: boolean | undefined;
@@ -56,6 +57,7 @@ export class BetStateModel {
 export class BetState {
   constructor(
     private betService: BetService,
+    private betterService: BetterService,
     private playerService: PlayerService
   ) {}
 
@@ -146,6 +148,20 @@ export class BetState {
     } else {
       return;
     }
+  }
+
+  @Action(BetActions.SetTutorialDone)
+  setTutorialDone(state: StateContext<BetStateModel>) {
+    return this.betterService
+      .setIsTutorialDone(state.getState().better?.accessKey || '')
+      .pipe(
+        tap((ret: IEmpty | IOffline) => {
+          if (ret && 'isOffline' in ret) {
+            // Hors connexion
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          }
+        })
+      );
   }
 
   @Action(BetActions.Betters)
@@ -252,8 +268,12 @@ export class BetState {
     return this.playerService
       .getPlayers(action.accessKey, action.categoryId)
       .pipe(
-        tap((readPlayers) => {
-          state.patchState({ players: readPlayers });
+        tap((readPlayers: IPlayer[] | IOffline) => {
+          if ('isOffline' in readPlayers) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            state.patchState({ players: <IPlayer[]>readPlayers });
+          }
         })
       );
   }
@@ -339,6 +359,7 @@ export class BetState {
 
     state.patchState({
       completedBets: completedBets?.length || 0,
+      allBetsDone: completedBetsCount === totalBetsCount,
     });
   }
 

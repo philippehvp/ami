@@ -3,6 +3,7 @@ export interface IBetter {
   firstName: string;
   name: string;
   isAdmin: boolean;
+  isTutorialDone: boolean;
 }
 
 export interface IBetterRaw {
@@ -10,4 +11,5 @@ export interface IBetterRaw {
   firstName: string;
   name: string;
   isAdmin: number;
+  isTutorialDone: number;
 }

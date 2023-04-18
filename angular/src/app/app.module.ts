@@ -55,6 +55,8 @@ import { BetterBetState } from './store/state/better-bet.state';
 import { BetterRankingService } from './services/rest/better-ranking.service';
 import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
 import { BetterRankingState } from './store/state/better-ranking.state';
+import { BetterService } from './services/rest/better.service';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { BetterRankingState } from './store/state/better-ranking.state';
     LoginComponent,
     ToolbarComponent,
     BetterRankingComponent,
+    TutorialComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,6 +107,7 @@ import { BetterRankingState } from './store/state/better-ranking.state';
   ],
   providers: [
     BetService,
+    BetterService,
     CommonService,
     PlayerService,
     UtilsService,

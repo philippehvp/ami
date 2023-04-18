@@ -17,6 +17,11 @@ export namespace BetActions {
     constructor(public better: IBetter) {}
   }
 
+  export class SetTutorialDone {
+    static readonly type = '[Bet] Set Tutorial Done';
+    constructor() {}
+  }
+
   export class GetContests {
     static readonly type = '[Bet] Get Contests';
     constructor(public accessKey: string) {}

@@ -84,7 +84,7 @@ export class CreateBetterComponent implements OnInit {
             this.dialog.open(InformationComponent, config);
           } else {
             this.store.dispatch([new BetActions.SetBetter(ret)]);
-            this.router.navigate(['bet']);
+            this.router.navigate(['tutorial']);
           }
         });
     }
