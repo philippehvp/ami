@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 import { BetterPointState } from 'src/app/store/state/better-point.state';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { IBetter } from 'src/app/models/better';
-import { TutorialComponent } from '../tutorial/tutorial.component';
+import { WelcomeComponent } from '../welcome/welcome.component';
+import { BetActions } from 'src/app/store/action/bet.action';
 
 @Component({
   selector: 'bet',
@@ -105,6 +106,9 @@ export class BetComponent implements OnInit, OnDestroy {
       .pipe(filter((better) => !!better))
       .subscribe((better) => {
         this.better = better;
+        if (!this.better.isTutorialDone) {
+          this.displayTutorial1();
+        }
       });
   }
 
@@ -130,5 +134,65 @@ export class BetComponent implements OnInit, OnDestroy {
     this.store.dispatch([
       new BetterPointActions.GetBetterPoint(this.better.accessKey, 0),
     ]);
+  }
+
+  private displayTutorial1() {
+    const contestsArea: HTMLElement | null =
+      document.getElementById('contests-area');
+    if (contestsArea) {
+      const tutorial1: HTMLElement | null =
+        document.getElementById('tutorial1');
+      if (tutorial1) {
+        tutorial1.style.display = 'block';
+      }
+    }
+  }
+
+  public gotoTutorial2() {
+    const tutorial1: HTMLElement | null = document.getElementById('tutorial1');
+    if (tutorial1) {
+      tutorial1.style.display = 'none';
+      this.displayTutorial2();
+    }
+  }
+
+  private displayTutorial2() {
+    const durationArea: HTMLElement | null =
+      document.getElementById('duration-area');
+    if (durationArea) {
+      const tutorial2: HTMLElement | null =
+        document.getElementById('tutorial2');
+      if (tutorial2) {
+        tutorial2.style.display = 'block';
+      }
+    }
+  }
+
+  public gotoTutorial3() {
+    const tutorial2: HTMLElement | null = document.getElementById('tutorial2');
+    if (tutorial2) {
+      tutorial2.style.display = 'none';
+      this.displayTutorial3();
+    }
+  }
+
+  private displayTutorial3() {
+    const playersArea: HTMLElement | null =
+      document.getElementById('players-area');
+    if (playersArea) {
+      const tutorial3: HTMLElement | null =
+        document.getElementById('tutorial3');
+      if (tutorial3) {
+        tutorial3.style.display = 'block';
+      }
+    }
+  }
+
+  public closeTutorial3() {
+    const tutorial3: HTMLElement | null = document.getElementById('tutorial3');
+    if (tutorial3) {
+      tutorial3.style.display = 'none';
+      this.store.dispatch([new BetActions.SetTutorialDone()]);
+    }
   }
 }

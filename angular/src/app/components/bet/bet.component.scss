@@ -21,3 +21,32 @@ body {
 .bet-panel .row.footer {
   flex: 0 1 40px;
 }
+
+.tutorial-wrap {
+  position: relative;
+}
+
+.tutorial1,
+.tutorial2,
+.tutorial3 {
+  display: none;
+  position: absolute;
+  background-color: rgba(90, 36, 106, 0.95);
+  color: white;
+  width: 90vw;
+  z-index: 1000;
+  padding: 0.75em;
+}
+
+.tutorial1,
+.tutorial2 {
+  top: 0.5em;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.tutorial3 {
+  top: 5em;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

@@ -56,7 +56,7 @@ import { BetterRankingService } from './services/rest/better-ranking.service';
 import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
 import { BetterRankingState } from './store/state/better-ranking.state';
 import { BetterService } from './services/rest/better.service';
-import { TutorialComponent } from './components/tutorial/tutorial.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,7 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
     LoginComponent,
     ToolbarComponent,
     BetterRankingComponent,
-    TutorialComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

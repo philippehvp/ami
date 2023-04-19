@@ -6,17 +6,55 @@
   </div>
 
   <div class="row no-growing">
-    <bet-contest></bet-contest>
+    <bet-contest id="contests-area"></bet-contest>
+  </div>
+
+  <div class="tutorial-wrap">
+    <div id="tutorial1" class="tutorial1">
+      <p>
+        La ou les catégories et leurs séries (de S1 à Sn) apparaissent
+        ci-dessus. Cliquez sur les noms des séries pour passer de l'une à
+        l'autre.
+      </p>
+      <button mat-flat-button (click)="gotoTutorial2()">Suivant</button>
+    </div>
   </div>
 
   <div class="row no-growing">
     <bet-duration
       *ngIf="(contest$ | async) && (category$ | async)"
+      id="duration-area"
     ></bet-duration>
   </div>
 
+  <div class="tutorial-wrap">
+    <div id="tutorial2" class="tutorial2">
+      <p>
+        Vous pouvez modifier la durée du match le plus long en déplaçant la
+        jauge ci-dessus (de 30 à 120 minutes).
+      </p>
+      <button mat-flat-button (click)="gotoTutorial3()">Suivant</button>
+    </div>
+  </div>
+
+  <div class="tutorial-wrap">
+    <div id="tutorial3" class="tutorial3">
+      <p>
+        Ici apparaît la liste des joueurs de la série en cours. Choisissez le
+        vainqueur et le finaliste en cliquant dans la première ou la deuxième
+        colonne du tableau.
+      </p>
+
+      <h4>Bons pronostics à vous !</h4>
+      <button mat-flat-button (click)="closeTutorial3()">Fermer</button>
+    </div>
+  </div>
+
   <div *ngIf="!displayBetterPoints; else displayPoints" class="row growing">
-    <bet-player *ngIf="(contest$ | async) && (category$ | async)"></bet-player>
+    <bet-player
+      *ngIf="(contest$ | async) && (category$ | async)"
+      id="players-area"
+    ></bet-player>
   </div>
 
   <ng-template #displayPoints>
