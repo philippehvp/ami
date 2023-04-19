@@ -16,7 +16,8 @@
         "             ON    cpi_betting.better_id = cpi_better.id" .
         " WHERE       cpi_better.accessKey = ?" .
         "             AND   cpi_contest.startDate <= NOW()" .
-        "             AND   cpi_contest.endAdminDate >= NOW()";
+        "             AND   cpi_contest.endAdminDate >= NOW()" .
+        " ORDER BY    cpi_contest.id";
     
       $req = $db->prepare($query);
       $req->execute(array($accessKey));
