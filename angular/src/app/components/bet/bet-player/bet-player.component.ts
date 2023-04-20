@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { filter } from 'rxjs/internal/operators/filter';
 import { IBet } from 'src/app/models/bet';
 import { IBetter } from 'src/app/models/better';
 import { ICategory } from 'src/app/models/category';
@@ -11,40 +9,40 @@ import { IPlayer } from 'src/app/models/player';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { BetState } from 'src/app/store/state/bet.state';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+// import {
+//   animate,
+//   state,
+//   style,
+//   transition,
+//   trigger,
+// } from '@angular/animations';
 
-const fadeOutIn = trigger('fadeOutIn', [
-  state(
-    'loading',
-    style({
-      color: '#fff',
-      backgroundColor: '#5a246a',
-    })
-  ),
-  state(
-    'loadComplete',
-    style({
-      color: 'inherit',
-      backgroundColor: 'inherit',
-    })
-  ),
-  transition('loading => loadComplete', [animate('1s')]),
-  transition('loadComplete => loading', [animate('0.5s ease-out')]),
-]);
+// const fadeOutIn = trigger('fadeOutIn', [
+//   state(
+//     'loading',
+//     style({
+//       color: '#fff',
+//       backgroundColor: '#5a246a',
+//     })
+//   ),
+//   state(
+//     'loadComplete',
+//     style({
+//       color: 'inherit',
+//       backgroundColor: 'inherit',
+//     })
+//   ),
+//   transition('loading => loadComplete', [animate('1s')]),
+//   transition('loadComplete => loading', [animate('0.5s ease-out')]),
+// ]);
 
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
   styleUrls: ['./bet-player.component.scss'],
-  animations: [fadeOutIn],
+  // animations: [fadeOutIn],
 })
-export class BetPlayerComponent implements OnInit, OnDestroy {
+export class BetPlayerComponent {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
@@ -65,62 +63,32 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[];
 
-  private currentBet!: IBet;
-
-  private betterSub!: Subscription;
-  private currentBetSub!: Subscription;
-  private playersSub!: Subscription;
-
-  private better!: IBetter;
-
   constructor(private store: Store) {
     this.displayedColumns = ['winner', 'runnerUp', 'name'];
   }
 
-  public ngOnInit() {
-    this.currentBetSub = this.currentBet$
-      ?.pipe(filter((bet) => !!bet))
-      .subscribe((bet) => {
-        this.currentBet = bet;
-      });
+  public isChecked(
+    currentBet: IBet | undefined,
+    playerId: number,
+    isFocusedOnWinner: boolean
+  ): boolean {
+    if (currentBet) {
+      if (isFocusedOnWinner) {
+        return playerId === currentBet?.winnerId ? true : false;
+      } else {
+        return playerId === currentBet?.runnerUpId ? true : false;
+      }
+    }
 
-    this.betterSub = this.better$
-      .pipe(filter((better) => !!better))
-      .subscribe((better) => (this.better = better));
-
-    this.playersSub = this.players$
-      .pipe(filter((players) => !!players))
-      .subscribe(() => {
-        setTimeout(() => {
-          this.store.dispatch([new BetActions.IsLoadingPlayer(false)]);
-        }, 500);
-      });
+    return false;
   }
 
-  public ngOnDestroy() {
-    if (this.currentBetSub) {
-      this.currentBetSub.unsubscribe();
-    }
-
-    if (this.betterSub) {
-      this.betterSub.unsubscribe();
-    }
-
-    if (this.playersSub) {
-      this.playersSub.unsubscribe();
-    }
-  }
-
-  public isChecked(playerId: number, isFocusedOnWinner: boolean): boolean {
-    if (isFocusedOnWinner) {
-      return playerId === this.currentBet?.winnerId ? true : false;
-    } else {
-      return playerId === this.currentBet?.runnerUpId ? true : false;
-    }
-  }
-
-  public iconLabel(playerId: number, isFocusedOnWinner: boolean): string {
-    if (this.isChecked(playerId, isFocusedOnWinner)) {
+  public iconLabel(
+    currentBet: IBet | undefined,
+    playerId: number,
+    isFocusedOnWinner: boolean
+  ): string {
+    if (this.isChecked(currentBet, playerId, isFocusedOnWinner)) {
       return 'expand_circle_down';
     }
     return 'radio_button_unchecked';
@@ -150,20 +118,22 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public gotoNextCategory() {
-    this.store.dispatch([
-      new BetActions.GotoNextCategory(this.currentBet.categoryId),
-    ]);
+  public gotoNextCategory(currentBet: IBet | undefined) {
+    if (currentBet) {
+      this.store.dispatch([
+        new BetActions.GotoNextCategory(currentBet.categoryId),
+      ]);
+    }
   }
 
-  public calculate() {
+  public calculate(better: IBetter | undefined, currentBet: IBet | undefined) {
     this.store
       .dispatch([new BetActions.CalculatePointsAndRanking()])
       .subscribe(() => {
         this.store.dispatch([
           new BetterPointActions.GetBetterPoint(
-            this.better.accessKey,
-            this.currentBet.categoryId
+            better?.accessKey || '',
+            currentBet?.categoryId || 0
           ),
         ]);
       });

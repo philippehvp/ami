@@ -26,11 +26,7 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = [];
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  constructor(private store: Store, private route: ActivatedRoute) {
     this.displayedColumns = ['ranking', 'name', 'points', 'duration'];
   }
 

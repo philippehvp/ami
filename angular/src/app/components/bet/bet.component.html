@@ -1,94 +1,107 @@
-<div class="bet-panel">
-  <div class="row no-growing">
-    <mat-toolbar color="primary">
-      <toolbar></toolbar>
-    </mat-toolbar>
-  </div>
-
-  <div class="tutorial-wrap">
-    <div id="triangle4" class="triangle triangle4"></div>
-    <div id="tutorial4" class="tutorial4">
-      <h5>Remplissage des pronostics (4/4)</h5>
-      <p>
-        La couleur des pastilles des séries ainsi que la mention x/y au-dessus
-        permettent de savoir si tous les pronostics ont été réalisés
-      </p>
-
-      <h4>Bons pronostics à vous !</h4>
-      <button mat-flat-button (click)="closeTutorial4()">Fermer</button>
+<div
+  *ngIf="{
+    betterPointsCategoryToDisplay: betterPointsCategoryToDisplay$ | async,
+    currentBetter: better$ | async
+  } as data"
+>
+  <div class="bet-panel">
+    <div class="row no-growing">
+      <mat-toolbar color="primary">
+        <toolbar></toolbar>
+      </mat-toolbar>
     </div>
-  </div>
 
-  <div class="row no-growing">
-    <bet-contest id="contests-area"></bet-contest>
-  </div>
+    <div class="tutorial-wrap">
+      <div id="triangle4" class="triangle triangle4"></div>
+      <div id="tutorial4" class="tutorial4">
+        <h5>Remplissage des pronostics (4/4)</h5>
+        <p>
+          La couleur des pastilles des séries ainsi que la mention x/y au-dessus
+          permettent de savoir si tous les pronostics ont été saisis.
+        </p>
 
-  <div class="tutorial-wrap">
-    <div id="triangle1" class="triangle triangle1"></div>
-    <div id="tutorial1" class="tutorial1">
-      <h5>Catégories et séries (1/4)</h5>
-      <p>
-        La ou les catégories et leurs séries (de S1 à Sn) apparaissent
-        ci-dessus. Cliquez sur les noms des séries pour passer de l'une à
-        l'autre.
-      </p>
-      <button mat-flat-button (click)="gotoTutorial2()">Suivant</button>
+        <h4>Bons pronostics à vous !</h4>
+        <button mat-flat-button (click)="closeTutorial4()">Fermer</button>
+      </div>
     </div>
-  </div>
 
-  <div class="row no-growing">
-    <bet-duration
-      *ngIf="(contest$ | async) && (category$ | async)"
-      id="duration-area"
-    ></bet-duration>
-  </div>
-
-  <div class="tutorial-wrap">
-    <div id="triangle2" class="triangle triangle2"></div>
-    <div id="tutorial2" class="tutorial2">
-      <h5>Durée du match (2/4)</h5>
-      <p>
-        Vous pouvez modifier la durée du match le plus long en déplaçant la
-        jauge ci-dessus (de 30 à 120 minutes).
-      </p>
-      <button mat-flat-button (click)="gotoTutorial3()">Suivant</button>
+    <div class="row no-growing">
+      <bet-contest id="contests-area"></bet-contest>
     </div>
-  </div>
 
-  <div class="tutorial-wrap">
-    <div id="triangle3" class="triangle triangle3"></div>
-    <div id="tutorial3" class="tutorial3">
-      <h5>Pronostiquer vainqueurs et finalistes (3/4)</h5>
-      <p>
-        Ici apparaît la liste des joueurs de la série en cours. Choisissez le
-        vainqueur et le finaliste en cliquant dans la première ou la deuxième
-        colonne du tableau.
-      </p>
-
-      <button mat-flat-button (click)="gotoTutorial4()">Suivant</button>
+    <div class="tutorial-wrap">
+      <div id="triangle1" class="triangle triangle1"></div>
+      <div id="tutorial1" class="tutorial1">
+        <h5>Catégories et séries (1/4)</h5>
+        <p>
+          La ou les catégories et leurs séries (de S1 à Sn) apparaissent
+          ci-dessus. Cliquez sur les noms des séries pour passer de l'une à
+          l'autre.
+        </p>
+        <button mat-flat-button (click)="gotoTutorial2()">Suivant</button>
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="!displayBetterPoints; else displayPoints" class="row growing">
-    <bet-player
-      *ngIf="(contest$ | async) && (category$ | async)"
-      id="players-area"
-    ></bet-player>
-  </div>
+    <div class="row no-growing">
+      <bet-duration
+        *ngIf="(contest$ | async) && (category$ | async)"
+        id="duration-area"
+      ></bet-duration>
+    </div>
 
-  <ng-template #displayPoints>
-    <div class="row growing">
-      <bet-point></bet-point>
+    <div class="tutorial-wrap">
+      <div id="triangle2" class="triangle triangle2"></div>
+      <div id="tutorial2" class="tutorial2">
+        <h5>Durée du match le plus long (2/4)</h5>
+        <p>
+          Vous pouvez modifier la durée du match le plus long en déplaçant la
+          jauge ci-dessus (de 30 à 120 minutes).
+        </p>
+        <button mat-flat-button (click)="gotoTutorial3()">Suivant</button>
+      </div>
     </div>
-    <div class="row footer">
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="closeBetterPoints()"
-        cdkFocusInitial
-      >
-        Fermer
-      </button>
+
+    <div class="tutorial-wrap">
+      <div id="triangle3" class="triangle triangle3"></div>
+      <div id="tutorial3" class="tutorial3">
+        <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
+        <p>
+          Ici apparaît la liste des joueurs de la série en cours. Choisissez le
+          vainqueur et le finaliste en cliquant dans la première ou la deuxième
+          colonne du tableau.
+        </p>
+
+        <button mat-flat-button (click)="gotoTutorial4()">Suivant</button>
+      </div>
     </div>
-  </ng-template>
+
+    <div
+      *ngIf="
+        !displayBetterPoints(data.betterPointsCategoryToDisplay || 0);
+        else displayPoints
+      "
+      class="row growing"
+    >
+      <bet-player
+        *ngIf="(contest$ | async) && (category$ | async)"
+        id="players-area"
+      ></bet-player>
+    </div>
+
+    <ng-template #displayPoints>
+      <div class="row growing">
+        <bet-point></bet-point>
+      </div>
+      <div class="row footer">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="closeBetterPoints(data.currentBetter || undefined)"
+          cdkFocusInitial
+        >
+          Fermer
+        </button>
+      </div>
+    </ng-template>
+  </div>
 </div>

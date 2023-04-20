@@ -159,6 +159,16 @@ export class BetState {
           if (ret && 'isOffline' in ret) {
             // Hors connexion
             state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            // const modifiedBetter: IBetter = state.getState().better;
+            // state.patchState({
+            //   better: { ...modifiedBetter },
+            // });
+            // console.log(modifiedBetter);
+            // window.localStorage.setItem(
+            //   'better',
+            //   JSON.stringify(state.getState().better)
+            // );
           }
         })
       );
@@ -385,10 +395,6 @@ export class BetState {
 
   static searchFirstBetToFill(state: StateContext<BetStateModel>): number {
     const currentState = state.getState();
-
-    if (currentState.better?.isAdmin) {
-      return -1;
-    }
 
     const bet = currentState.bets?.find((bet) => {
       return (

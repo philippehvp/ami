@@ -1,27 +1,20 @@
-<div *ngFor="let contest of contests$ | async" class="contest-panel">
-  <span class="contest-label">{{ contest.shortName }}</span>
-  <span
-    *ngFor="let category of contest.categories"
-    (click)="changeCategory(category.id)"
-    [class]="getCategoryClass(category)"
-  >
-    {{ category.shortName }}
-  </span>
-</div>
-
-<!-- <mat-chip-listbox>
+<div
+  *ngIf="{ currentCategory: category$ | async, bets: bets$ | async } as data"
+>
   <div *ngFor="let contest of contests$ | async" class="contest-panel">
     <span class="contest-label">{{ contest.shortName }}</span>
-    <span>
-      <mat-chip
-        *ngFor="let category of contest.categories"
-        (click)="changeCategory(category.id)"
-        color="primary"
-        [highlighted]="category.id === (category$ | async)?.id"
-        class="category"
-      >
-        {{ category.shortName }}
-      </mat-chip>
+    <span
+      *ngFor="let category of contest.categories"
+      (click)="changeCategory(category.id)"
+      [class]="
+        getCategoryClass(
+          data.bets || [],
+          category,
+          data.currentCategory || undefined
+        )
+      "
+    >
+      {{ category.shortName }}
     </span>
   </div>
-</mat-chip-listbox> -->
+</div>

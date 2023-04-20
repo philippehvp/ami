@@ -6,6 +6,10 @@
   margin-left: 0.5em;
 }
 
-.duration {
+.duration-label {
+  white-space: nowrap;
+}
+
+.duration-slider {
   min-width: 150px;
 }

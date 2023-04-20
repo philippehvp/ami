@@ -41,12 +41,7 @@ export class BetComponent implements OnInit, OnDestroy {
 
   private isOfflineSub!: Subscription;
   private allBetsDoneSub!: Subscription;
-  private betterPointsCategoryToDisplaySub!: Subscription;
   private betterSub!: Subscription;
-
-  private betterPointsCategoryToDisplay!: number;
-
-  private better!: IBetter;
 
   constructor(
     private store: Store,
@@ -54,8 +49,10 @@ export class BetComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  public get displayBetterPoints(): boolean {
-    return !!this.betterPointsCategoryToDisplay;
+  public displayBetterPoints(
+    betterPointsCategoryToDisplay: number | undefined
+  ): boolean {
+    return !!betterPointsCategoryToDisplay;
   }
 
   public ngOnInit() {
@@ -96,17 +93,10 @@ export class BetComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.betterPointsCategoryToDisplaySub =
-      this.betterPointsCategoryToDisplay$.subscribe(
-        (betterPointsCategoryToDisplay) =>
-          (this.betterPointsCategoryToDisplay = betterPointsCategoryToDisplay)
-      );
-
     this.betterSub = this.better$
       .pipe(filter((better) => !!better))
       .subscribe((better) => {
-        this.better = better;
-        if (!this.better.isTutorialDone) {
+        if (!better.isTutorialDone) {
           this.displayTutorial1();
         }
       });
@@ -121,18 +111,14 @@ export class BetComponent implements OnInit, OnDestroy {
       this.allBetsDoneSub.unsubscribe();
     }
 
-    if (this.betterPointsCategoryToDisplaySub) {
-      this.betterPointsCategoryToDisplaySub.unsubscribe();
-    }
-
     if (this.betterSub) {
       this.betterSub.unsubscribe();
     }
   }
 
-  public closeBetterPoints() {
+  public closeBetterPoints(better: IBetter | undefined) {
     this.store.dispatch([
-      new BetterPointActions.GetBetterPoint(this.better.accessKey, 0),
+      new BetterPointActions.GetBetterPoint(better?.accessKey || '', 0),
     ]);
   }
 
