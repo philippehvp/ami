@@ -522,13 +522,13 @@ export class BetState {
               BetState.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir
-              const categoryId = BetState.searchBetToFill(
-                state,
-                currentState.category?.id || 0
-              );
-              if (categoryId !== -1) {
-                state.dispatch([new BetActions.SetCategory(categoryId)]);
-              }
+              // const categoryId = BetState.searchBetToFill(
+              //   state,
+              //   currentState.category?.id || 0
+              // );
+              // if (categoryId !== -1) {
+              //   state.dispatch([new BetActions.SetCategory(categoryId)]);
+              // }
             }
           }
         })
@@ -582,13 +582,13 @@ export class BetState {
               BetState.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir
-              const categoryId = BetState.searchBetToFill(
-                state,
-                currentState.category?.id || 0
-              );
-              if (categoryId !== -1) {
-                state.dispatch([new BetActions.SetCategory(categoryId)]);
-              }
+              // const categoryId = BetState.searchBetToFill(
+              //   state,
+              //   currentState.category?.id || 0
+              // );
+              // if (categoryId !== -1) {
+              //   state.dispatch([new BetActions.SetCategory(categoryId)]);
+              // }
             }
           }
         })
@@ -695,5 +695,26 @@ export class BetState {
     action: BetActions.IsLoadingPlayer
   ) {
     state.patchState({ isLoadingPlayer: action.isLoadingPlayer });
+  }
+
+  @Action(BetActions.GotoNextCategory)
+  gotoNextCategory(
+    state: StateContext<BetStateModel>,
+    action: BetActions.GotoNextCategory
+  ) {
+    const currentCategoryIndex = state.getState().bets?.findIndex((bet) => {
+      return bet.categoryId === action.currentCategoryId;
+    });
+
+    if (currentCategoryIndex !== -1) {
+      const nextBetCategoryId = BetState.getNextBet(
+        state,
+        currentCategoryIndex || 0
+      );
+
+      const nextCategoryId = (state.getState().bets || [])[nextBetCategoryId]
+        .categoryId;
+      state.dispatch([new BetActions.SetCategory(nextCategoryId)]);
+    }
   }
 }

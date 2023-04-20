@@ -137,61 +137,77 @@ export class BetComponent implements OnInit, OnDestroy {
   }
 
   private displayTutorial1() {
-    const contestsArea: HTMLElement | null =
-      document.getElementById('contests-area');
-    if (contestsArea) {
-      const tutorial1: HTMLElement | null =
-        document.getElementById('tutorial1');
-      if (tutorial1) {
-        tutorial1.style.display = 'block';
-      }
+    const tutorial1: HTMLElement | null = document.getElementById('tutorial1');
+    const triangle1: HTMLElement | null = document.getElementById('triangle1');
+    if (tutorial1 && triangle1) {
+      tutorial1.style.display = 'block';
+      triangle1.style.display = 'inline-block';
     }
   }
 
   public gotoTutorial2() {
     const tutorial1: HTMLElement | null = document.getElementById('tutorial1');
-    if (tutorial1) {
+    const triangle1: HTMLElement | null = document.getElementById('triangle1');
+    if (tutorial1 && triangle1) {
       tutorial1.style.display = 'none';
+      triangle1.style.display = 'none';
       this.displayTutorial2();
     }
   }
 
   private displayTutorial2() {
-    const durationArea: HTMLElement | null =
-      document.getElementById('duration-area');
-    if (durationArea) {
-      const tutorial2: HTMLElement | null =
-        document.getElementById('tutorial2');
-      if (tutorial2) {
-        tutorial2.style.display = 'block';
-      }
+    const tutorial2: HTMLElement | null = document.getElementById('tutorial2');
+    const triangle2: HTMLElement | null = document.getElementById('triangle2');
+    if (tutorial2 && triangle2) {
+      tutorial2.style.display = 'block';
+      triangle2.style.display = 'inline-block';
     }
   }
 
   public gotoTutorial3() {
     const tutorial2: HTMLElement | null = document.getElementById('tutorial2');
-    if (tutorial2) {
+    const triangle2: HTMLElement | null = document.getElementById('triangle2');
+    if (tutorial2 && triangle2) {
       tutorial2.style.display = 'none';
+      triangle2.style.display = 'none';
       this.displayTutorial3();
     }
   }
 
   private displayTutorial3() {
-    const playersArea: HTMLElement | null =
-      document.getElementById('players-area');
-    if (playersArea) {
-      const tutorial3: HTMLElement | null =
-        document.getElementById('tutorial3');
-      if (tutorial3) {
-        tutorial3.style.display = 'block';
-      }
+    const tutorial3: HTMLElement | null = document.getElementById('tutorial3');
+    const triangle3: HTMLElement | null = document.getElementById('triangle3');
+    if (tutorial3 && triangle3) {
+      tutorial3.style.display = 'block';
+      triangle3.style.display = 'inline-block';
     }
   }
 
-  public closeTutorial3() {
+  public gotoTutorial4() {
     const tutorial3: HTMLElement | null = document.getElementById('tutorial3');
-    if (tutorial3) {
+    const triangle3: HTMLElement | null = document.getElementById('triangle3');
+    if (tutorial3 && triangle3) {
       tutorial3.style.display = 'none';
+      triangle3.style.display = 'none';
+      this.displayTutorial4();
+    }
+  }
+
+  private displayTutorial4() {
+    const tutorial4: HTMLElement | null = document.getElementById('tutorial4');
+    const triangle4: HTMLElement | null = document.getElementById('triangle4');
+    if (tutorial4 && triangle4) {
+      tutorial4.style.display = 'block';
+      triangle4.style.display = 'inline-block';
+    }
+  }
+
+  public closeTutorial4() {
+    const tutorial4: HTMLElement | null = document.getElementById('tutorial4');
+    const triangle4: HTMLElement | null = document.getElementById('triangle4');
+    if (tutorial4 && triangle4) {
+      tutorial4.style.display = 'none';
+      triangle4.style.display = 'none';
       this.store.dispatch([new BetActions.SetTutorialDone()]);
     }
   }

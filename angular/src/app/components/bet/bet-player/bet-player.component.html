@@ -46,12 +46,22 @@
       mat-header-cell
       *matHeaderCellDef
       [@fadeOutIn]="(isLoadingPlayer$ | async) ? 'loading' : 'loadComplete'"
+      class="grow"
     >
       <span class="player-header">
         {{ (contest$ | async)?.longName }} -
         {{ (category$ | async)?.longName }}
         <span *ngIf="(better$ | async)?.isAdmin" class="calculate">
           <mat-icon (click)="calculate()">calculate</mat-icon>
+        </span>
+        <span>
+          <button
+            mat-flat-button
+            class="next-button"
+            (click)="gotoNextCategory()"
+          >
+            <span class="material-icons-outlined"> navigate_next </span>
+          </button>
         </span>
       </span>
     </th>

@@ -5,7 +5,7 @@
     <form [formGroup]="formGroup">
       <p>
         <mat-form-field>
-          <mat-label>Login de connexion</mat-label>
+          <mat-label>Pseudo</mat-label>
           <input
             matInput
             type="text"
@@ -18,13 +18,14 @@
 
       <p>
         <mat-form-field>
-          <mat-label>Mot de passe</mat-label>
+          <mat-label>Mot de passe (2 car. min)</mat-label>
           <input
             matInput
-            type="password"
+            type="text"
             formControlName="password"
             required
             autocomplete="on"
+            minlength="2"
           />
         </mat-form-field>
       </p>

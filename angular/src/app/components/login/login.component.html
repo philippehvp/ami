@@ -5,7 +5,7 @@
     <form [formGroup]="formGroup" (keydown.enter)="login()">
       <p>
         <mat-form-field>
-          <mat-label>Login de connexion</mat-label>
+          <mat-label>Pseudo</mat-label>
           <mat-icon matPrefix>person</mat-icon>
           <input
             matInput
@@ -23,7 +23,7 @@
           <mat-icon matPrefix>lock</mat-icon>
           <input
             matInput
-            type="password"
+            type="text"
             formControlName="password"
             required
             autocomplete="on"

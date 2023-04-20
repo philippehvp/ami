@@ -1,4 +1,15 @@
-<mat-chip-listbox>
+<div *ngFor="let contest of contests$ | async" class="contest-panel">
+  <span class="contest-label">{{ contest.shortName }}</span>
+  <span
+    *ngFor="let category of contest.categories"
+    (click)="changeCategory(category.id)"
+    [class]="getCategoryClass(category)"
+  >
+    {{ category.shortName }}
+  </span>
+</div>
+
+<!-- <mat-chip-listbox>
   <div *ngFor="let contest of contests$ | async" class="contest-panel">
     <span class="contest-label">{{ contest.shortName }}</span>
     <span>
@@ -13,4 +24,4 @@
       </mat-chip>
     </span>
   </div>
-</mat-chip-listbox>
+</mat-chip-listbox> -->

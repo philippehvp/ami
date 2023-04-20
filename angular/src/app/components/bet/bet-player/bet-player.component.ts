@@ -150,6 +150,12 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
+  public gotoNextCategory() {
+    this.store.dispatch([
+      new BetActions.GotoNextCategory(this.currentBet.categoryId),
+    ]);
+  }
+
   public calculate() {
     this.store
       .dispatch([new BetActions.CalculatePointsAndRanking()])

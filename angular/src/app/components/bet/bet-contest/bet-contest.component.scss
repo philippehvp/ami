@@ -17,3 +17,35 @@
 .mat-button.mat-small {
   min-width: 1%;
 }
+
+.complete,
+.uncomplete {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  color: rgb(33, 33, 33);
+  padding-left: 12px;
+  padding-right: 12px;
+  margin: 4px 0 4px 8px;
+  border-radius: 16px;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.complete {
+  background-color: #aac972;
+  border-color: #aac972;
+}
+
+.uncomplete {
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+}
+
+.complete-selected {
+  border-color: #809656;
+}
+
+.uncomplete-selected {
+  border-color: #adadad;
+}

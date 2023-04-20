@@ -37,6 +37,11 @@ export namespace BetActions {
     constructor(public categoryId: number) {}
   }
 
+  export class GotoNextCategory {
+    static readonly type = '[Bet] Goto Next Category';
+    constructor(public currentCategoryId: number) {}
+  }
+
   export class GetPlayers {
     static readonly type = '[Bet] Get Players';
     constructor(public accessKey: string, public categoryId: number) {}

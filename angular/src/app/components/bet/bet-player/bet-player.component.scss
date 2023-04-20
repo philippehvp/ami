@@ -5,6 +5,8 @@
 
 .player-header {
   display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .calculate {
@@ -21,4 +23,12 @@
 td,
 th {
   vertical-align: middle;
+}
+
+.grow {
+  width: 100%;
+}
+
+.next-button {
+  margin-left: 0.5em;
 }
