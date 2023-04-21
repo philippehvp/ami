@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,9 +15,8 @@ import { IBetter } from 'src/app/models/better';
 import { BetActions } from 'src/app/store/action/bet.action';
 
 export interface ICreateBetterFormGroup {
-  account: ValidationErrors;
-  password: ValidationErrors;
   name: ValidationErrors;
+  password: ValidationErrors;
   firstName: ValidationErrors;
 }
 
@@ -27,37 +26,32 @@ export interface ICreateBetterFormGroup {
   styleUrls: ['./create-better.component.scss'],
 })
 export class CreateBetterComponent implements OnInit {
-  public formGroup!: FormGroup;
+  private dialog = inject(MatDialog);
+  private fb = inject(FormBuilder);
+  private betterService = inject(BetterService);
+  private store = inject(Store);
+  private router = inject(Router);
 
-  constructor(
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private betterService: BetterService,
-    private store: Store,
-    private router: Router
-  ) {}
+  public formGroup!: FormGroup;
 
   public ngOnInit() {
     this.formGroup = this.fb.group({
-      account: ['', Validators.required],
-      password: ['', Validators.required],
       name: ['', Validators.required],
       firstName: ['', Validators.required],
+      password: ['', Validators.required],
       contact: ['', Validators.required],
     });
   }
 
   public createBetter() {
-    const account: string = this.formGroup?.get(['account'])?.value || '';
-    const password: string = this.formGroup?.get(['password'])?.value || '';
     const name: string = this.formGroup?.get(['name'])?.value || '';
     const firstName: string = this.formGroup?.get(['firstName'])?.value || '';
+    const password: string = this.formGroup?.get(['password'])?.value || '';
     const contact: string = this.formGroup?.get(['contact'])?.value || '';
 
     if (
-      account.trim() === '' ||
-      password.trim() === '' ||
       name.trim() === '' ||
+      password.trim() === '' ||
       firstName.trim() === '' ||
       contact.trim() === ''
     ) {
@@ -72,7 +66,7 @@ export class CreateBetterComponent implements OnInit {
     } else {
       // Création du pronostiqueur
       this.betterService
-        .createBetter(account, password, name, firstName, contact)
+        .createBetter(name, password, firstName, contact)
         .subscribe((ret: IBetter | IError) => {
           if ('errorMessage' in ret) {
             const config: MatDialogConfig = {
@@ -84,7 +78,7 @@ export class CreateBetterComponent implements OnInit {
             this.dialog.open(InformationComponent, config);
           } else {
             this.store.dispatch([new BetActions.SetBetter(ret)]);
-            this.router.navigate(['tutorial']);
+            this.router.navigate(['welcome']);
           }
         });
     }
@@ -92,5 +86,9 @@ export class CreateBetterComponent implements OnInit {
 
   public back() {
     this.router.navigate(['login']);
+  }
+
+  public checkPassword($event: any) {
+    $event.target.value = ($event.target.value || '').replace(/\D/g, '');
   }
 }

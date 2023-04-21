@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
@@ -43,6 +43,8 @@ import { BetState } from 'src/app/store/state/bet.state';
   // animations: [fadeOutIn],
 })
 export class BetPlayerComponent {
+  private store = inject(Store);
+
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
@@ -61,11 +63,7 @@ export class BetPlayerComponent {
   @Select(BetState.isLoadingPlayer)
   isLoadingPlayer$!: Observable<boolean>;
 
-  public displayedColumns: string[];
-
-  constructor(private store: Store) {
-    this.displayedColumns = ['winner', 'runnerUp', 'name'];
-  }
+  public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
 
   public isChecked(
     currentBet: IBet | undefined,

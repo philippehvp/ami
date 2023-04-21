@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription, filter } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
@@ -13,6 +13,8 @@ import { BetterBetState } from 'src/app/store/state/better-bet.state';
   styleUrls: ['./better-bet.component.scss'],
 })
 export class BetterBetComponent implements OnInit, OnDestroy {
+  private store = inject(Store);
+
   @Select(BetterBetState.betterBet)
   betterBet$!: Observable<IBetterBet[]>;
 
@@ -25,8 +27,6 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = [];
 
   public bets: IPlayerBet[] = [];
-
-  constructor(private store: Store) {}
 
   public ngOnInit() {
     this.betterSub = this.better$

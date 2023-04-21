@@ -3,18 +3,18 @@
 
   // Lecture des paramètres
   $data = json_decode(file_get_contents("php://input"), true);
-  $account = json_decode($data["account"]) ? json_decode($data["account"]) : $data["account"];
+  $name = json_decode($data["name"]) ? json_decode($data["name"]) : $data["name"];
   $password = json_decode($data["password"]) ? json_decode($data["password"]) : $data["password"];
 
-  if ($account && $password) {
+  if ($name && $password) {
     $query =
       " SELECT DISTINCT     cpi_better.accessKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin, cpi_better.isTutorialDone" .
       " FROM                cpi_better" .
-      " WHERE               cpi_better.account = ?" .
+      " WHERE               UPPER(cpi_better.name) = ?" .
       "                     AND   cpi_better.password = ?";
   
     $req = $db->prepare($query);
-    $req->execute(array($account, $password));
+    $req->execute(array(strtoupper($name), $password));
     $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
     // Si le pronostiqueur a été trouvé, alors on lui génère une nouvelle clé et on met à jour la date de fin de validité

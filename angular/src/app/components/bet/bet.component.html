@@ -11,7 +11,7 @@
       </mat-toolbar>
     </div>
 
-    <div class="tutorial-wrap">
+    <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
       <div id="triangle4" class="triangle triangle4"></div>
       <div id="tutorial4" class="tutorial4">
         <h5>Remplissage des pronostics (4/4)</h5>
@@ -21,7 +21,7 @@
         </p>
 
         <h4>Bons pronostics à vous !</h4>
-        <button mat-flat-button (click)="closeTutorial4()">Fermer</button>
+        <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
       <bet-contest id="contests-area"></bet-contest>
     </div>
 
-    <div class="tutorial-wrap">
+    <div *ngIf="tutorialStep === 1" class="tutorial-wrap">
       <div id="triangle1" class="triangle triangle1"></div>
       <div id="tutorial1" class="tutorial1">
         <h5>Catégories et séries (1/4)</h5>
@@ -38,7 +38,7 @@
           ci-dessus. Cliquez sur les noms des séries pour passer de l'une à
           l'autre.
         </p>
-        <button mat-flat-button (click)="gotoTutorial2()">Suivant</button>
+        <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
       </div>
     </div>
 
@@ -49,7 +49,7 @@
       ></bet-duration>
     </div>
 
-    <div class="tutorial-wrap">
+    <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
       <div id="triangle2" class="triangle triangle2"></div>
       <div id="tutorial2" class="tutorial2">
         <h5>Durée du match le plus long (2/4)</h5>
@@ -57,11 +57,11 @@
           Vous pouvez modifier la durée du match le plus long en déplaçant la
           jauge ci-dessus (de 30 à 120 minutes).
         </p>
-        <button mat-flat-button (click)="gotoTutorial3()">Suivant</button>
+        <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
       </div>
     </div>
 
-    <div class="tutorial-wrap">
+    <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
       <div id="triangle3" class="triangle triangle3"></div>
       <div id="tutorial3" class="tutorial3">
         <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
@@ -71,7 +71,7 @@
           colonne du tableau.
         </p>
 
-        <button mat-flat-button (click)="gotoTutorial4()">Suivant</button>
+        <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
       </div>
     </div>
 

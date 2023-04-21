@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'bet', component: BetComponent },
   { path: 'login', component: LoginComponent },
   { path: 'create-better', component: CreateBetterComponent },
-  { path: 'tutorial', component: WelcomeComponent },
+  { path: 'welcome', component: WelcomeComponent },
   { path: 'better-point', component: BetPointComponent },
   { path: 'better-bet', component: BetterBetComponent },
   {

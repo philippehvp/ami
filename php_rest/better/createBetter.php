@@ -3,24 +3,24 @@
 
   // Lecture des paramètres
   $data = json_decode(file_get_contents("php://input"), true);
-  $account = json_decode($data["account"]) ? json_decode($data["account"]) : $data["account"];
-  $password = json_decode($data["password"]) ? json_decode($data["password"]) : $data["password"];
   $name = json_decode($data["name"]) ? json_decode($data["name"]) : $data["name"];
   $firstName = json_decode($data["firstName"]) ? json_decode($data["firstName"]) : $data["firstName"];
+  $password = json_decode($data["password"]) ? json_decode($data["password"]) : $data["password"];
   $contact = json_decode($data["contact"]) ? json_decode($data["contact"]) : $data["contact"];
 
-  if (trim($account) == "" || trim($password) == "" || trim($name) == "" || trim($firstName) == "" || trim($contact) == "") {
+  if (trim($name) == "" || trim($firstName) == "" || trim($password) == "" || trim($contact) == "") {
     return http_response_code(400);
   } else {
     try {
-      // On vérifie que le pronostiqueur ayant ce login de connexion ne soit pas existant dans la base
+      // On vérifie que le pronostiqueur ayant ce login de connexion (nom + mot de passe) ne soit pas existant dans la base
       $query =
         " SELECT    cpi_better.id" .
         " FROM      cpi_better" .
-        " WHERE     cpi_better.account = ?";
+        " WHERE     UPPER(cpi_better.name) = ?" .
+        "           AND   cpi_better.password = ?";
       
       $req = $db->prepare($query);
-      $req->execute(array($account));
+      $req->execute(array(strtoupper($name), $password));
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
       if ($res && sizeof($res)) {
@@ -33,10 +33,10 @@
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
-          " INSERT INTO         cpi_better(account, password, name, firstName, isAdmin, accessKey, endAccessKeyValidityDate, contact, isTutorialDone)" .
-          " VALUES              (?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, 0)";
+          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, endAccessKeyValidityDate, contact, isTutorialDone)" .
+          " VALUES              (?, ?, ?, ?, ?, fn_connection_validity(), ?, 0)";
         $req = $db->prepare($query);
-        $req->execute(array($account, $password, $name, $firstName, 0, $accessKey, $contact));
+        $req->execute(array($name, $firstName, $password, 0, $accessKey, $contact));
     
         // Identifiant du dernier enregistrement ajouté
         $betterId = $db->lastInsertId();

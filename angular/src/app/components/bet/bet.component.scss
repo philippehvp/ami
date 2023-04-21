@@ -30,7 +30,7 @@ body {
 .tutorial2,
 .tutorial3,
 .tutorial4 {
-  display: none;
+  display: inline-block;
   position: absolute;
   background-color: rgba(90, 36, 106, 0.95);
   color: white;
@@ -57,7 +57,6 @@ body {
 }
 
 .triangle {
-  display: none;
   position: absolute;
   top: 0;
   height: 0;

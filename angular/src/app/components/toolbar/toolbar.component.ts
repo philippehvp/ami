@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
@@ -13,6 +13,9 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
+  private store = inject(Store);
+  private router = inject(Router);
+
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
@@ -22,10 +25,9 @@ export class ToolbarComponent {
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
 
-  constructor(private store: Store, private router: Router) {}
-
   public logout() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
+      window.localStorage.removeItem('better');
       this.router.navigate(['login']);
     });
   }

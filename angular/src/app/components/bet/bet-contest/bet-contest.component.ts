@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
@@ -13,6 +13,8 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./bet-contest.component.scss'],
 })
 export class BetContestComponent {
+  private store = inject(Store);
+
   @Select(BetState.contests)
   contests$!: Observable<IContest[]>;
 
@@ -21,8 +23,6 @@ export class BetContestComponent {
 
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
-
-  constructor(private store: Store) {}
 
   public changeCategory(categoryId: number) {
     this.store.dispatch([new BetActions.SetCategory(categoryId)]);

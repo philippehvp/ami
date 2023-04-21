@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 import { BetterPointState } from 'src/app/store/state/better-point.state';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { IBetter } from 'src/app/models/better';
-import { WelcomeComponent } from '../welcome/welcome.component';
 import { BetActions } from 'src/app/store/action/bet.action';
 
 @Component({
@@ -21,6 +20,10 @@ import { BetActions } from 'src/app/store/action/bet.action';
   styleUrls: ['./bet.component.scss'],
 })
 export class BetComponent implements OnInit, OnDestroy {
+  private store = inject(Store);
+  private dialog = inject(MatDialog);
+  private router = inject(Router);
+
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
@@ -43,11 +46,10 @@ export class BetComponent implements OnInit, OnDestroy {
   private allBetsDoneSub!: Subscription;
   private betterSub!: Subscription;
 
-  constructor(
-    private store: Store,
-    private dialog: MatDialog,
-    private router: Router
-  ) {}
+  private better!: IBetter;
+
+  public tutorialStep: number = 0;
+  public tutorialLastStep: number = 4;
 
   public displayBetterPoints(
     betterPointsCategoryToDisplay: number | undefined
@@ -96,8 +98,11 @@ export class BetComponent implements OnInit, OnDestroy {
     this.betterSub = this.better$
       .pipe(filter((better) => !!better))
       .subscribe((better) => {
-        if (!better.isTutorialDone) {
-          this.displayTutorial1();
+        this.better = better;
+        if (better.isTutorialDone) {
+          window.localStorage.setItem('better', JSON.stringify(this.better));
+        } else {
+          this.tutorialStep = 1;
         }
       });
   }
@@ -122,79 +127,17 @@ export class BetComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  private displayTutorial1() {
-    const tutorial1: HTMLElement | null = document.getElementById('tutorial1');
-    const triangle1: HTMLElement | null = document.getElementById('triangle1');
-    if (tutorial1 && triangle1) {
-      tutorial1.style.display = 'block';
-      triangle1.style.display = 'inline-block';
-    }
-  }
-
-  public gotoTutorial2() {
-    const tutorial1: HTMLElement | null = document.getElementById('tutorial1');
-    const triangle1: HTMLElement | null = document.getElementById('triangle1');
-    if (tutorial1 && triangle1) {
-      tutorial1.style.display = 'none';
-      triangle1.style.display = 'none';
-      this.displayTutorial2();
-    }
-  }
-
-  private displayTutorial2() {
-    const tutorial2: HTMLElement | null = document.getElementById('tutorial2');
-    const triangle2: HTMLElement | null = document.getElementById('triangle2');
-    if (tutorial2 && triangle2) {
-      tutorial2.style.display = 'block';
-      triangle2.style.display = 'inline-block';
-    }
-  }
-
-  public gotoTutorial3() {
-    const tutorial2: HTMLElement | null = document.getElementById('tutorial2');
-    const triangle2: HTMLElement | null = document.getElementById('triangle2');
-    if (tutorial2 && triangle2) {
-      tutorial2.style.display = 'none';
-      triangle2.style.display = 'none';
-      this.displayTutorial3();
-    }
-  }
-
-  private displayTutorial3() {
-    const tutorial3: HTMLElement | null = document.getElementById('tutorial3');
-    const triangle3: HTMLElement | null = document.getElementById('triangle3');
-    if (tutorial3 && triangle3) {
-      tutorial3.style.display = 'block';
-      triangle3.style.display = 'inline-block';
-    }
-  }
-
-  public gotoTutorial4() {
-    const tutorial3: HTMLElement | null = document.getElementById('tutorial3');
-    const triangle3: HTMLElement | null = document.getElementById('triangle3');
-    if (tutorial3 && triangle3) {
-      tutorial3.style.display = 'none';
-      triangle3.style.display = 'none';
-      this.displayTutorial4();
-    }
-  }
-
-  private displayTutorial4() {
-    const tutorial4: HTMLElement | null = document.getElementById('tutorial4');
-    const triangle4: HTMLElement | null = document.getElementById('triangle4');
-    if (tutorial4 && triangle4) {
-      tutorial4.style.display = 'block';
-      triangle4.style.display = 'inline-block';
-    }
-  }
-
-  public closeTutorial4() {
-    const tutorial4: HTMLElement | null = document.getElementById('tutorial4');
-    const triangle4: HTMLElement | null = document.getElementById('triangle4');
-    if (tutorial4 && triangle4) {
-      tutorial4.style.display = 'none';
-      triangle4.style.display = 'none';
+  public gotoNextTutorial() {
+    this.tutorialStep++;
+    if (this.tutorialStep === this.tutorialLastStep + 1) {
+      // Dernier tutoriel à afficher
+      this.storeBetterInLocalStorage();
       this.store.dispatch([new BetActions.SetTutorialDone()]);
     }
+  }
+
+  private storeBetterInLocalStorage() {
+    this.better.isTutorialDone = true;
+    window.localStorage.setItem('better', JSON.stringify(this.better));
   }
 }

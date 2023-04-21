@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
@@ -13,17 +13,15 @@ import { BetterPointState } from 'src/app/store/state/better-point.state';
   styleUrls: ['./bet-point.component.scss'],
 })
 export class BetPointComponent {
+  private store = inject(Store);
+
   @Select(BetterPointState.betterPoints)
   betterPoints$!: Observable<IBetterPoint[]>;
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
-  public displayedColumns: string[];
-
-  constructor(private store: Store) {
-    this.displayedColumns = ['better', 'points'];
-  }
+  public displayedColumns: string[] = ['better', 'points'];
 
   public closeBetterPoints(better: IBetter | undefined) {
     this.store.dispatch([

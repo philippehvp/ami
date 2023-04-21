@@ -14,6 +14,7 @@ export class AppComponent {
 
     if (better) {
       this.store.dispatch([new BetActions.SetBetter(JSON.parse(better))]);
+      this.router.navigate(['bet']);
     } else {
       this.router.navigate(['login']);
     }

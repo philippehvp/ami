@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription, filter } from 'rxjs';
@@ -14,6 +14,9 @@ import { BetterRankingState } from 'src/app/store/state/better-ranking.state';
   styleUrls: ['./better-ranking.component.scss'],
 })
 export class BetterRankingComponent implements OnInit, OnDestroy {
+  private store = inject(Store);
+  private route = inject(ActivatedRoute);
+
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
@@ -24,11 +27,7 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
   private routeSub!: Subscription;
   private better!: IBetter;
 
-  public displayedColumns: string[] = [];
-
-  constructor(private store: Store, private route: ActivatedRoute) {
-    this.displayedColumns = ['ranking', 'name', 'points', 'duration'];
-  }
+  public displayedColumns: string[] = ['ranking', 'name', 'points', 'duration'];
 
   public ngOnInit() {
     this.betterSub = this.better$

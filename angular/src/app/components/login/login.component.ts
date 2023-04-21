@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InformationComponent } from '../information/information.component';
 import {
@@ -13,7 +13,7 @@ import { BetActions } from 'src/app/store/action/bet.action';
 import { Router } from '@angular/router';
 
 export interface ILoginFormGroup {
-  account: ValidationErrors;
+  name: ValidationErrors;
   password: ValidationErrors;
 }
 
@@ -23,53 +23,49 @@ export interface ILoginFormGroup {
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  public formGroup!: FormGroup;
+  private dialog = inject(MatDialog);
+  private fb = inject(FormBuilder);
+  private betterService = inject(BetterService);
+  private store = inject(Store);
+  private router = inject(Router);
 
-  constructor(
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private betterService: BetterService,
-    private store: Store,
-    private router: Router
-  ) {}
+  public formGroup!: FormGroup;
 
   public ngOnInit() {
     this.formGroup = this.fb.group({
-      account: ['', Validators.required],
+      name: ['', Validators.required],
       password: ['', Validators.required],
     });
-
-    window.localStorage.removeItem('better');
   }
 
   public login() {
-    const account: string = this.formGroup?.get(['account'])?.value || '';
+    const name: string = this.formGroup?.get(['name'])?.value || '';
     const password: string = this.formGroup?.get(['password'])?.value || '';
 
-    if (account.trim() === '' || password.trim() === '') {
+    if (name.trim() === '' || password.trim() === '') {
       const config: MatDialogConfig = {
         data: {
           title: 'Erreur de saise',
-          message:
-            "Le login de connexion et/ou le mot de passe n'a pas été renseigné",
+          message: "Le nom et/ou le mot de passe n'a pas été renseigné",
         },
       };
       this.dialog.open(InformationComponent, config);
     } else {
       // Demande de connexion au site
-      this.betterService.login(account, password).subscribe((better) => {
+      this.betterService.login(name, password).subscribe((better) => {
         if (better) {
           this.store.dispatch([new BetActions.SetBetter(better)]);
+
           const navigation: string[] = better.isTutorialDone
             ? ['bet']
-            : ['tutorial'];
+            : ['welcome'];
           this.router.navigate(navigation);
         } else {
           const config: MatDialogConfig = {
             data: {
               title: 'Compte inconnu',
               message:
-                "Le login de connexion n'est pas reconnu et/ou le mot de passe est incorrect",
+                "Le nom n'est pas reconnu et/ou le mot de passe est incorrect",
             },
           };
           this.dialog.open(InformationComponent, config);
@@ -80,5 +76,9 @@ export class LoginComponent implements OnInit {
 
   public createBetter() {
     this.router.navigate(['create-better']);
+  }
+
+  public checkPassword($event: any) {
+    $event.target.value = ($event.target.value || '').replace(/\D/g, '');
   }
 }

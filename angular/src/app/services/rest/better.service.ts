@@ -11,37 +11,37 @@ import { IEmpty, IError, IOffline } from 'src/app/models/utils';
 export class BetterService {
   constructor(private httpClient: HttpClient) {}
 
-  public login(account: string, password: string): Observable<IBetter> {
-    return this.loginRaw(account, password).pipe(
-      map((betterRaw) => {
-        return {
-          accessKey: betterRaw.accessKey,
-          firstName: betterRaw.firstName,
-          name: betterRaw.name,
-          isAdmin: betterRaw.isAdmin === 1 ? true : false,
-          isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
-        };
+  public login(name: string, password: string): Observable<IBetter | null> {
+    return this.loginRaw(name, password).pipe(
+      map((betterRaw: IBetterRaw) => {
+        return betterRaw
+          ? {
+              accessKey: betterRaw.accessKey,
+              name: betterRaw.name,
+              firstName: betterRaw.firstName,
+              isAdmin: betterRaw.isAdmin === 1 ? true : false,
+              isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
+            }
+          : null;
       })
     );
   }
 
-  private loginRaw(account: string, password: string): Observable<IBetterRaw> {
+  private loginRaw(name: string, password: string): Observable<IBetterRaw> {
     const url = CommonService.getURL('better/better');
-    return this.httpClient.post<IBetterRaw>(url, { account, password });
+    return this.httpClient.post<IBetterRaw>(url, { name, password });
   }
 
   public createBetter(
-    account: string,
-    password: string,
     name: string,
+    password: string,
     firstName: string,
     contact: string
   ): Observable<IError | IBetter> {
     const url = CommonService.getURL('better/createBetter');
     return this.httpClient.post<IBetter>(url, {
-      account,
-      password,
       name,
+      password,
       firstName,
       contact,
     });

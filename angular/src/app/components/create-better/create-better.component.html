@@ -5,33 +5,6 @@
     <form [formGroup]="formGroup">
       <p>
         <mat-form-field>
-          <mat-label>Pseudo</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="account"
-            required
-            autocomplete="on"
-          />
-        </mat-form-field>
-      </p>
-
-      <p>
-        <mat-form-field>
-          <mat-label>Mot de passe (2 car. min)</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="password"
-            required
-            autocomplete="on"
-            minlength="2"
-          />
-        </mat-form-field>
-      </p>
-
-      <p>
-        <mat-form-field>
           <mat-label>Nom</mat-label>
           <input
             matInput
@@ -58,15 +31,31 @@
 
       <p>
         <mat-form-field>
+          <mat-label>Code à 4 chiffres</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="password"
+            required
+            autocomplete="on"
+            minlength="4"
+            maxlength="4"
+            (input)="checkPassword($event)"
+          />
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
           <mat-label>Mail / N° de téléphone</mat-label>
-          <textarea
+          <input
             matInput
             type="text"
             maxlength="200"
             formControlName="contact"
             required
             autocomplete="on"
-          ></textarea>
+          />
         </mat-form-field>
       </p>
     </form>

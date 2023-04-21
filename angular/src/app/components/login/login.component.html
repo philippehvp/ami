@@ -5,12 +5,12 @@
     <form [formGroup]="formGroup" (keydown.enter)="login()">
       <p>
         <mat-form-field>
-          <mat-label>Pseudo</mat-label>
+          <mat-label>Nom</mat-label>
           <mat-icon matPrefix>person</mat-icon>
           <input
             matInput
             type="text"
-            formControlName="account"
+            formControlName="name"
             required
             autocomplete="on"
           />
@@ -19,7 +19,7 @@
 
       <p>
         <mat-form-field>
-          <mat-label>Mot de passe</mat-label>
+          <mat-label>Code à 4 chiffres</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
           <input
             matInput
@@ -27,6 +27,10 @@
             formControlName="password"
             required
             autocomplete="on"
+            minlength="4"
+            maxlength="4"
+            pattern="[0-9]{4}"
+            (input)="checkPassword($event)"
           />
         </mat-form-field>
       </p>

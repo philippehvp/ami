@@ -141,8 +141,6 @@ export class BetState {
     if (action.better) {
       state.patchState({ isOffline: false, better: action.better });
 
-      window.localStorage.setItem('better', JSON.stringify(action.better));
-
       // Lecture des concours auxquels est inscrit le participant, des pronostics et du pronostic de durée
       state.dispatch([new BetActions.GetContests(action.better.accessKey)]);
     } else {
@@ -159,16 +157,6 @@ export class BetState {
           if (ret && 'isOffline' in ret) {
             // Hors connexion
             state.dispatch([new ConnectionActions.IsOffline()]);
-          } else {
-            // const modifiedBetter: IBetter = state.getState().better;
-            // state.patchState({
-            //   better: { ...modifiedBetter },
-            // });
-            // console.log(modifiedBetter);
-            // window.localStorage.setItem(
-            //   'better',
-            //   JSON.stringify(state.getState().better)
-            // );
           }
         })
       );

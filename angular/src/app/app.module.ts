@@ -42,20 +42,14 @@ import { BetContestComponent } from './components/bet/bet-contest/bet-contest.co
 import { BetDurationComponent } from './components/bet/bet-duration/bet-duration.component';
 import { BetPlayerComponent } from './components/bet/bet-player/bet-player.component';
 
-import { BetService } from './services/rest/bet.service';
-import { CommonService } from './services/rest/common.service';
-import { PlayerService } from './services/rest/player.service';
-import { UtilsService } from './services/utils.service';
 import { LoginComponent } from './components/login/login.component';
 import { InformationComponent } from './components/information/information.component';
 import { CreateBetterComponent } from './components/create-better/create-better.component';
 import { BetterPointState as BetterPointState } from './store/state/better-point.state';
 import { BetPointComponent } from './components/bet/bet-point/bet-point.component';
 import { BetterBetState } from './store/state/better-bet.state';
-import { BetterRankingService } from './services/rest/better-ranking.service';
 import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
 import { BetterRankingState } from './store/state/better-ranking.state';
-import { BetterService } from './services/rest/better.service';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 
 @NgModule({
@@ -105,14 +99,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     MatTabsModule,
     MatToolbarModule,
   ],
-  providers: [
-    BetService,
-    BetterService,
-    CommonService,
-    PlayerService,
-    UtilsService,
-    BetterRankingService,
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
