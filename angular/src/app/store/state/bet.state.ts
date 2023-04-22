@@ -30,7 +30,7 @@ export class BetStateModel {
   duration!: IDuration | undefined;
   completedBets!: number | undefined;
   allBetsDone!: boolean | undefined;
-  isLoadingPlayer!: boolean | undefined;
+  isLoadingData!: boolean | undefined;
 }
 
 @State<BetStateModel>({
@@ -50,7 +50,7 @@ export class BetStateModel {
     duration: undefined,
     completedBets: 0,
     allBetsDone: false,
-    isLoadingPlayer: false,
+    isLoadingData: false,
   },
 })
 @Injectable()
@@ -132,8 +132,8 @@ export class BetState {
   }
 
   @Selector()
-  static isLoadingPlayer(state: BetStateModel) {
-    return state.isLoadingPlayer;
+  static isLoadingData(state: BetStateModel) {
+    return state.isLoadingData;
   }
 
   @Action(BetActions.SetBetter)
@@ -241,7 +241,7 @@ export class BetState {
             state.patchState({ category, contest });
 
             state.dispatch([
-              new BetActions.IsLoadingPlayer(true),
+              new BetActions.IsLoadingData(true),
               new BetActions.GetPlayers(
                 currentState.better?.accessKey || '',
                 category.id
@@ -683,12 +683,12 @@ export class BetState {
     });
   }
 
-  @Action(BetActions.IsLoadingPlayer)
-  isLoadingPlayer(
+  @Action(BetActions.IsLoadingData)
+  isLoadingData(
     state: StateContext<BetStateModel>,
-    action: BetActions.IsLoadingPlayer
+    action: BetActions.IsLoadingData
   ) {
-    state.patchState({ isLoadingPlayer: action.isLoadingPlayer });
+    state.patchState({ isLoadingData: action.isLoadingData });
   }
 
   @Action(BetActions.GotoNextCategory)

@@ -2,7 +2,7 @@
   <div class="create-better-panel">
     <h3>Création d'un compte Winabad</h3>
 
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (keydown.enter)="createBetter()">
       <p>
         <mat-form-field>
           <mat-label>Nom</mat-label>

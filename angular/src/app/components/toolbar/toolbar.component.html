@@ -1,9 +1,12 @@
-<div class="toolbar" *ngIf="{ allBetsDone: allBetsDone$ | async } as data">
+<div
+  class="toolbar"
+  *ngIf="{ allBetsDone: allBetsDone$ | async, better: better$ | async } as data"
+>
   <span class="title-area">
     <span class="isb"></span>
     <span class="title">WINABAD</span>
   </span>
-  <span *ngIf="(better$ | async)?.isAdmin">
+  <span *ngIf="data.better?.isAdmin || false">
     <span (click)="displayBettersBet()">Pronos</span>
     <span>&nbsp;|&nbsp;</span>
     <span (click)="displayBettersRanking()">Clts</span>
@@ -11,7 +14,9 @@
     <span (click)="displayBettersOrderedByName()">Récap</span>
   </span>
   <span>{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span>
-  <span class="material-icons" (click)="logout(data.allBetsDone || false)"
+  <span
+    class="material-icons"
+    (click)="logout(data.allBetsDone || false, data.better?.isAdmin || false)"
     >logout</span
   >
 </div>

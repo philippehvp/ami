@@ -78,15 +78,24 @@ export class BetterBetComponent implements OnInit, OnDestroy {
     return bet.name;
   }
 
-  public getBetDetail(
-    index: number,
-    bet: IPlayerBet,
-    isFocusedOnWinner: boolean,
-    isPlayer1: boolean
-  ) {
+  public getWinnerFirstPlayerName(index: number, bet: IPlayerBet): string {
     const i = (index - 1) / 2;
-    const players = isFocusedOnWinner ? bet.winners : bet.runnersUp;
-    return isPlayer1 ? players[i].playerName1 : players[i].playerName2;
+    return bet.winners[i].playerName1;
+  }
+
+  public getWinnerSSecondPlayerName(index: number, bet: IPlayerBet): string {
+    const i = (index - 1) / 2;
+    return bet.winners[i].playerName2;
+  }
+
+  public getRunnerUpFirstPlayerName(index: number, bet: IPlayerBet): string {
+    const i = (index - 1) / 2;
+    return bet.runnersUp[i].playerName1;
+  }
+
+  public getRunnerUpSecondPlayerName(index: number, bet: IPlayerBet): string {
+    const i = (index - 1) / 2;
+    return bet.runnersUp[i].playerName2;
   }
 
   public getColumnLabel(index: number, column: string) {

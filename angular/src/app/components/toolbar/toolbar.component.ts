@@ -35,9 +35,9 @@ export class ToolbarComponent {
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
 
-  public logout(allBetsDone: boolean) {
+  public logout(allBetsDone: boolean, isAdmin: boolean) {
     // On vérifie que le pronostiqueur ait saisi tous ses pronostics
-    if (!allBetsDone) {
+    if (!allBetsDone && !isAdmin) {
       const config: MatDialogConfig<IInformationDialogConfig> = {
         data: {
           title: 'Pronostics incomplets',

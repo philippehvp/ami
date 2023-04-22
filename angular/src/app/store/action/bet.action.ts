@@ -97,8 +97,8 @@ export namespace BetActions {
     constructor() {}
   }
 
-  export class IsLoadingPlayer {
-    static readonly type = '[Bet] Is Loading Player';
-    constructor(public isLoadingPlayer: boolean) {}
+  export class IsLoadingData {
+    static readonly type = '[Bet] Is Loading Data';
+    constructor(public isLoadingData: boolean) {}
   }
 }

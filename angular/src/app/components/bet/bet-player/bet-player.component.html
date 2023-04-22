@@ -11,16 +11,16 @@
           *ngIf="(contest$ | async)?.isUpdatable"
           class="material-icons"
           color="primary"
-          (click)="changePlayer(player.id, true)"
+          (click)="changeWinner(player.id)"
           >{{
-            iconLabel(data.currentBet || undefined, player.id, true)
+            winnerIconLabel(data.currentBet || undefined, player.id)
           }}</mat-icon
         >
 
         <mat-icon
           *ngIf="
             !(contest$ | async)?.isUpdatable &&
-            isChecked(data.currentBet || undefined, player.id, true)
+            isWinnerChecked(data.currentBet || undefined, player.id)
           "
           class="material-icons"
           >expand_circle_down</mat-icon
@@ -35,18 +35,18 @@
       <td class="action" mat-cell *matCellDef="let player">
         <mat-icon
           *ngIf="(contest$ | async)?.isUpdatable"
-          (click)="changePlayer(player.id, false)"
+          (click)="changeRunnerUp(player.id)"
           color="primary"
           class="material-icons"
           >{{
-            iconLabel(data.currentBet || undefined, player.id, false)
+            runnerUpIconLabel(data.currentBet || undefined, player.id)
           }}</mat-icon
         >
 
         <mat-icon
           *ngIf="
             !(contest$ | async)?.isUpdatable &&
-            isChecked(data.currentBet || undefined, player.id, false)
+            isRunnerUpChecked(data.currentBet || undefined, player.id)
           "
           class="material-icons"
           >expand_circle_down</mat-icon
@@ -82,7 +82,7 @@
         </span>
       </th>
       <td mat-cell *matCellDef="let player">
-        {{ label(player, true) }}<br />{{ label(player, false) }}
+        {{ firstPlayerName(player) }}<br />{{ secondPlayerName(player) }}
       </td>
     </ng-container>
 

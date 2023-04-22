@@ -60,60 +60,59 @@ export class BetPlayerComponent {
   @Select(BetState.players)
   players$!: Observable<IPlayer[]>;
 
-  @Select(BetState.isLoadingPlayer)
-  isLoadingPlayer$!: Observable<boolean>;
+  @Select(BetState.isLoadingData)
+  isLoadingData$!: Observable<boolean>;
 
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
 
-  public isChecked(
+  public isWinnerChecked(
     currentBet: IBet | undefined,
-    playerId: number,
-    isFocusedOnWinner: boolean
+    playerId: number
   ): boolean {
-    if (currentBet) {
-      if (isFocusedOnWinner) {
-        return playerId === currentBet?.winnerId ? true : false;
-      } else {
-        return playerId === currentBet?.runnerUpId ? true : false;
-      }
-    }
-
-    return false;
+    return playerId === currentBet?.winnerId;
   }
 
-  public iconLabel(
+  public isRunnerUpChecked(
     currentBet: IBet | undefined,
-    playerId: number,
-    isFocusedOnWinner: boolean
+    playerId: number
+  ): boolean {
+    return playerId === currentBet?.runnerUpId;
+  }
+
+  public winnerIconLabel(
+    currentBet: IBet | undefined,
+    playerId: number
   ): string {
-    if (this.isChecked(currentBet, playerId, isFocusedOnWinner)) {
+    if (this.isWinnerChecked(currentBet, playerId)) {
       return 'expand_circle_down';
     }
     return 'radio_button_unchecked';
   }
 
-  public changePlayer(playerId: number, isFocusedOnWinner: boolean) {
-    if (isFocusedOnWinner) {
-      this.store.dispatch([new BetActions.SetWinner(playerId)]);
-    } else {
-      this.store.dispatch([new BetActions.SetRunnerUp(playerId)]);
+  public runnerUpIconLabel(
+    currentBet: IBet | undefined,
+    playerId: number
+  ): string {
+    if (this.isRunnerUpChecked(currentBet, playerId)) {
+      return 'expand_circle_down';
     }
+    return 'radio_button_unchecked';
   }
 
-  public label(player: IPlayer, isFocusedOnWinner: boolean): string {
-    if (isFocusedOnWinner) {
-      if (player.playerRanking1) {
-        return '(' + player.playerRanking1 + ') ' + player.playerName1;
-      } else {
-        return player.playerName1;
-      }
-    } else {
-      if (player.playerRanking2) {
-        return '(' + player.playerRanking2 + ') ' + player.playerName2;
-      } else {
-        return player.playerName2;
-      }
-    }
+  public changeWinner(playerId: number) {
+    this.store.dispatch([new BetActions.SetWinner(playerId)]);
+  }
+
+  public changeRunnerUp(playerId: number) {
+    this.store.dispatch([new BetActions.SetRunnerUp(playerId)]);
+  }
+
+  public firstPlayerName(player: IPlayer): string {
+    return '(' + player.playerRanking1 + ') ' + player.playerName1;
+  }
+
+  public secondPlayerName(player: IPlayer): string {
+    return '(' + player.playerRanking2 + ') ' + player.playerName2;
   }
 
   public gotoNextCategory(currentBet: IBet | undefined) {
