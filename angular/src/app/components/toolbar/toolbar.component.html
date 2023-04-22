@@ -1,4 +1,4 @@
-<div class="toolbar">
+<div class="toolbar" *ngIf="{ allBetsDone: allBetsDone$ | async } as data">
   <span class="title-area">
     <span class="isb"></span>
     <span class="title">WINABAD</span>
@@ -11,5 +11,7 @@
     <span (click)="displayBettersOrderedByName()">Récap</span>
   </span>
   <span>{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span>
-  <span class="material-icons" (click)="logout()">logout</span>
+  <span class="material-icons" (click)="logout(data.allBetsDone || false)"
+    >logout</span
+  >
 </div>

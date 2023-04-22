@@ -1,5 +1,9 @@
 import { Component, Inject, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  IInformationDialogConfig,
+  InformationDialogType,
+} from 'src/app/models/information-type';
 
 @Component({
   selector: 'information',
@@ -11,10 +15,22 @@ export class InformationComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { title: string; message: string }
+    public data: IInformationDialogConfig
   ) {}
+
+  public get isInformationType(): boolean {
+    return this.data.dialogType === InformationDialogType.Information;
+  }
 
   public close() {
     this.dialogRef.close();
+  }
+
+  public validate() {
+    this.dialogRef.close(true);
+  }
+
+  public cancel() {
+    this.dialogRef.close(false);
   }
 }

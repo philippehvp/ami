@@ -3,13 +3,16 @@
   <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button
-    mat-flat-button
-    mat-dialog-close
-    color="primary"
-    (click)="close()"
-    cdkFocusInitial
-  >
-    Fermer
-  </button>
+  <div *ngIf="isInformationType; else yesNo">
+    <button mat-flat-button color="primary" (click)="close()" cdkFocusInitial>
+      Fermer
+    </button>
+  </div>
+
+  <ng-template #yesNo>
+    <button mat-flat-button (click)="cancel()" cdkFocusInitial>Annuler</button>
+    <button mat-flat-button (click)="validate()" cdkFocusInitial>
+      Quitter
+    </button>
+  </ng-template>
 </mat-dialog-actions>

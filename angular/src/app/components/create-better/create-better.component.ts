@@ -13,6 +13,10 @@ import { BetterService } from 'src/app/services/rest/better.service';
 import { IError } from 'src/app/models/utils';
 import { IBetter } from 'src/app/models/better';
 import { BetActions } from 'src/app/store/action/bet.action';
+import {
+  IInformationDialogConfig,
+  InformationDialogType,
+} from 'src/app/models/information-type';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -55,11 +59,12 @@ export class CreateBetterComponent implements OnInit {
       firstName.trim() === '' ||
       contact.trim() === ''
     ) {
-      const config: MatDialogConfig = {
+      const config: MatDialogConfig<IInformationDialogConfig> = {
         data: {
           title: 'Erreur de saise',
           message:
             "Un ou plusieurs des champs obligatoires n'a/n'ont pas été renseigné(s)",
+          dialogType: InformationDialogType.Information,
         },
       };
       this.dialog.open(InformationComponent, config);
@@ -69,10 +74,11 @@ export class CreateBetterComponent implements OnInit {
         .createBetter(name, password, firstName, contact)
         .subscribe((ret: IBetter | IError) => {
           if ('errorMessage' in ret) {
-            const config: MatDialogConfig = {
+            const config: MatDialogConfig<IInformationDialogConfig> = {
               data: {
                 title: 'Erreur de création du compte',
                 message: ret.errorMessage,
+                dialogType: InformationDialogType.Information,
               },
             };
             this.dialog.open(InformationComponent, config);

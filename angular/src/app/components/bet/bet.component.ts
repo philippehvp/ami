@@ -13,6 +13,10 @@ import { BetterPointState } from 'src/app/store/state/better-point.state';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { IBetter } from 'src/app/models/better';
 import { BetActions } from 'src/app/store/action/bet.action';
+import {
+  IInformationDialogConfig,
+  InformationDialogType,
+} from 'src/app/models/information-type';
 
 @Component({
   selector: 'bet',
@@ -62,10 +66,11 @@ export class BetComponent implements OnInit, OnDestroy {
       ?.pipe(filter((isOffline) => !!isOffline))
       .subscribe((isOffline) => {
         if (isOffline) {
-          const config: MatDialogConfig = {
+          const config: MatDialogConfig<IInformationDialogConfig> = {
             data: {
               title: 'Session expirée',
               message: 'Votre session est expirée. Veuillez vous reconnecter.',
+              dialogType: InformationDialogType.Information,
             },
           };
 
@@ -83,11 +88,12 @@ export class BetComponent implements OnInit, OnDestroy {
       .pipe(filter((allBetsDone) => !!allBetsDone))
       .subscribe((allBetsDone) => {
         if (allBetsDone) {
-          const config: MatDialogConfig = {
+          const config: MatDialogConfig<IInformationDialogConfig> = {
             data: {
               title: 'Pronostics entièrement saisis',
               message:
                 'Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne.',
+              dialogType: InformationDialogType.Information,
             },
           };
 

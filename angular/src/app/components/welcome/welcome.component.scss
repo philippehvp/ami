@@ -1,6 +1,23 @@
 .welcome-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 100vh;
   padding: 0 2em;
+
+  p {
+    text-align: justify;
+  }
+
+  h2 {
+    text-align: center;
+  }
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .centered {

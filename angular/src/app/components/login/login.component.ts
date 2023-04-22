@@ -11,6 +11,10 @@ import { BetterService } from 'src/app/services/rest/better.service';
 import { Store } from '@ngxs/store';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { Router } from '@angular/router';
+import {
+  IInformationDialogConfig,
+  InformationDialogType,
+} from 'src/app/models/information-type';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -43,10 +47,11 @@ export class LoginComponent implements OnInit {
     const password: string = this.formGroup?.get(['password'])?.value || '';
 
     if (name.trim() === '' || password.trim() === '') {
-      const config: MatDialogConfig = {
+      const config: MatDialogConfig<IInformationDialogConfig> = {
         data: {
           title: 'Erreur de saise',
           message: "Le nom et/ou le mot de passe n'a pas été renseigné",
+          dialogType: InformationDialogType.Information,
         },
       };
       this.dialog.open(InformationComponent, config);
@@ -61,11 +66,12 @@ export class LoginComponent implements OnInit {
             : ['welcome'];
           this.router.navigate(navigation);
         } else {
-          const config: MatDialogConfig = {
+          const config: MatDialogConfig<IInformationDialogConfig> = {
             data: {
               title: 'Compte inconnu',
               message:
                 "Le nom n'est pas reconnu et/ou le mot de passe est incorrect",
+              dialogType: InformationDialogType.Information,
             },
           };
           this.dialog.open(InformationComponent, config);

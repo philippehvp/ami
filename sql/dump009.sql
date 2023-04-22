@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : sam. 15 avr. 2023 à 00:46
+-- Généré le : ven. 21 avr. 2023 à 23:11
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.22
 
@@ -20,228 +20,233 @@ DELIMITER $$
 -- Procédures
 --
 CREATE DEFINER=`root`@`%` PROCEDURE `sp_calculate_point_ranking` ()  DETERMINISTIC NO SQL BEGIN
+    /* sp_calculate_point_ranking */
+
     DECLARE     l_admin INT;
     DECLARE     l_day INT;
 
     /* Recherche du pronostiqueur administrateur */
-    SELECT              better.id
+    SELECT              cpi_better.id
     INTO                l_admin
-    FROM                better
-    WHERE               better.isAdmin = 1
+    FROM                cpi_better
+    WHERE               cpi_better.isAdmin = 1
     LIMIT               1;
 
     /* Recherche du jour de compétition */
-    SELECT DISTINCT     contest.day
+    SELECT DISTINCT     cpi_contest.day
     INTO                l_day
-    FROM                contest
-    WHERE               contest.startDate <= NOW()
-                        AND     NOW() <= contest.endAdminDate
+    FROM                cpi_contest
+    WHERE               cpi_contest.startDate <= NOW()
+                        AND     NOW() <= cpi_contest.endAdminDate
     LIMIT 1;
 
     /* Calcul des points par série et par pronostiqueur pour les résultats finaux connus */
-    UPDATE      point
+    UPDATE      cpi_point
     JOIN        (
                     /* Recherche de toutes les séries dont les résultats ont été saisis par l'administrateur */
-                    SELECT      bet.winner_player_id, bet.runnerUp_player_id, bet.category_id
-                    FROM        bet
-                    JOIN        category
-                                ON      bet.category_id = category.id
-                    JOIN        contest
-                                ON      category.contest_id = contest.id
-                    WHERE       contest.startDate <= NOW()
-                                AND     NOW() <= contest.endAdminDate
-                                AND     bet.better_id = l_admin
-                                AND     bet.winner_player_id <> 0
-                                AND     bet.runnerUp_player_id <> 0
+                    SELECT      cpi_bet.winner_player_id, cpi_bet.runnerUp_player_id, cpi_bet.category_id
+                    FROM        cpi_bet
+                    JOIN        cpi_category
+                                ON      cpi_bet.category_id = cpi_category.id
+                    JOIN        cpi_contest
+                                ON      cpi_category.contest_id = cpi_contest.id
+                    WHERE       cpi_contest.startDate <= NOW()
+                                AND     NOW() <= cpi_contest.endAdminDate
+                                AND     cpi_bet.better_id = l_admin
+                                AND     cpi_bet.winner_player_id <> 0
+                                AND     cpi_bet.runnerUp_player_id <> 0
 
-                ) truth
-                ON      point.category_id = truth.category_id
-    JOIN        bet
-                ON      point.category_id = bet.category_id
-    SET         point.points = fn_calculate_points(
-                    truth.winner_player_id, truth.runnerUp_player_id,
-                    bet.winner_player_id, bet.runnerUp_player_id
+                ) cpi_truth
+                ON      cpi_point.category_id = cpi_truth.category_id
+    JOIN        cpi_bet
+                ON      cpi_point.category_id = cpi_bet.category_id
+    SET         cpi_point.points = fn_calculate_points(
+                    cpi_truth.winner_player_id, cpi_truth.runnerUp_player_id,
+                    cpi_bet.winner_player_id, cpi_bet.runnerUp_player_id
                 )
-    WHERE       point.better_id <> l_admin
-                AND     bet.better_id <> l_admin;
+    WHERE       cpi_point.better_id <> l_admin
+                AND     cpi_bet.better_id <> l_admin;
 
     /* Calcul de la somme des points par pronostiqueur pour un jour de concours donné */
-    UPDATE      ranking
+    UPDATE      cpi_ranking
     JOIN        (
-                    SELECT      point.better_id, contest.day, SUM(point.points) AS points
-                    FROM        point
-                    JOIN        category
-                                ON      point.category_id = category.id
-                    JOIN        contest
-                                ON      category.contest_id = contest.id
-                    WHERE       contest.startDate <= NOW()
-                                AND     NOW() <= contest.endAdminDate
-                                AND     point.better_id <> l_admin
-                    GROUP BY    point.better_id, contest.day
-                ) point
-                ON      ranking.better_id = point.better_id
-                        AND     ranking.contest_day = point.day
-    SET         ranking.points = point.points;
+                    SELECT      cpi_point.better_id, cpi_contest.day, SUM(cpi_point.points) AS points
+                    FROM        cpi_point
+                    JOIN        cpi_category
+                                ON      cpi_point.category_id = cpi_category.id
+                    JOIN        cpi_contest
+                                ON      cpi_category.contest_id = cpi_contest.id
+                    WHERE       cpi_contest.startDate <= NOW()
+                                AND     NOW() <= cpi_contest.endAdminDate
+                                AND     cpi_point.better_id <> l_admin
+                    GROUP BY    cpi_point.better_id, cpi_contest.day
+                ) cpi_point
+                ON      cpi_ranking.better_id = cpi_point.better_id
+                        AND     cpi_ranking.contest_day = cpi_point.day
+    SET         cpi_ranking.points = cpi_point.points;
 
     /* Pour établir le classement, on compte pour chaque total de points le nombre de pronostiqueurs */
     /* ayant ce total de points */
-    TRUNCATE TABLE working_point;
+    TRUNCATE TABLE  cpi_working_point;
 
-    INSERT INTO 	working_point(points, numberOf)
-    SELECT		    ranking.points, COUNT(*) AS numberOf
-    FROM		    ranking
+    INSERT INTO 	cpi_working_point(cpi_working_point.points, cpi_working_point.numberOf)
+    SELECT		    cpi_ranking.points, COUNT(*) AS numberOf
+    FROM		    cpi_ranking
     JOIN            (
-                        SELECT DISTINCT     contest.day
-                        FROM                contest
-                        WHERE               contest.startDate <= NOW()
-                                            AND     NOW() <= contest.endAdminDate
-                    ) contest
-                    ON      ranking.contest_day = contest.day
-    WHERE           ranking.better_id <> l_admin
-    GROUP BY	    ranking.points, contest.day;
+                        SELECT DISTINCT     cpi_contest.day
+                        FROM                cpi_contest
+                        WHERE               cpi_contest.startDate <= NOW()
+                                            AND     NOW() <= cpi_contest.endAdminDate
+                    ) cpi_contest
+                    ON      cpi_ranking.contest_day = cpi_contest.day
+    WHERE           cpi_ranking.better_id <> l_admin
+    GROUP BY	    cpi_ranking.points, cpi_contest.day;
 
     /* Ensuite, on met à jour le classement des pronostiqueurs en regardant le nombre de personnes */
     /* ayant un total de points, total par total */
-    UPDATE		ranking
+    UPDATE		cpi_ranking
     JOIN		(
                     SELECT		COUNT(r1.better_id) AS ranking, r1.contest_day, r1.better_id
-                    FROM		ranking AS r1
-                    JOIN		ranking AS r2
+                    FROM		cpi_ranking AS r1
+                    JOIN		cpi_ranking AS r2
                                 ON		r1.points <= r2.points
                                         AND		r1.contest_day = r2.contest_day
                     WHERE		r1.contest_day = l_day
                     GROUP BY	r1.better_id, r1.contest_day
-                ) calculated_ranking
-                ON		ranking.better_id = calculated_ranking.better_id
-                        AND		ranking.contest_day = calculated_ranking.contest_day
-    JOIN		working_point
-                ON		ranking.points = working_point.points
-    SET			ranking.ranking = calculated_ranking.ranking - working_point.numberOf + 1;
+                ) cpi_calculated_ranking
+                ON		cpi_ranking.better_id = cpi_calculated_ranking.better_id
+                        AND		cpi_ranking.contest_day = cpi_calculated_ranking.contest_day
+    JOIN		cpi_working_point
+                ON		cpi_ranking.points = cpi_working_point.points
+    SET			cpi_ranking.ranking = cpi_calculated_ranking.ranking - cpi_working_point.numberOf + 1;
 END$$
 
 CREATE DEFINER=`root`@`%` PROCEDURE `sp_create_missing_bets` (IN `p_better` INT)  DETERMINISTIC BEGIN
-/* Table de participation aux pronostics */
-INSERT INTO         betting(better_id, contest_id)
-SELECT              p_better AS better_id, contest.id
-FROM                contest
-LEFT JOIN           betting
-                    ON      contest.id = betting.contest_id
-                    		AND		betting.better_id = p_better
-WHERE               contest.startDate <= NOW()
-                    AND     contest.endBetDate > NOW()
-                    AND		betting.contest_id IS NULL
-                    AND		betting.better_id IS NULL;
+    /* sp_create_missing_bets */
 
-/* Une fois la table de participation remplie, on peut se baser sur elle */
+    /* Table de participation aux pronostics */
+    INSERT INTO         cpi_betting(better_id, contest_id)
+    SELECT              p_better AS better_id, cpi_contest.id
+    FROM                cpi_contest
+    LEFT JOIN           cpi_betting
+                        ON      cpi_contest.id = cpi_betting.contest_id
+                                AND		cpi_betting.better_id = p_better
+    WHERE               cpi_contest.startDate <= NOW()
+                        AND     cpi_contest.endBetDate > NOW()
+                        AND		cpi_betting.contest_id IS NULL
+                        AND		cpi_betting.better_id IS NULL;
 
-/* Table des pronostics */
-INSERT INTO         bet(better_id, category_id, winner_player_id, runnerUp_player_id)
-SELECT              expected.better_id, expected.category_id, NULL, NULL
-FROM                (
-                        SELECT      betting.better_id, category.id AS category_id
-                        FROM        betting
-                        JOIN        contest
-                                    ON      betting.contest_id = contest.id
-                        JOIN        category
-                                    ON    contest.id = category.contest_id
-                        WHERE       betting.better_id = p_better
-                                    AND     contest.startDate <= NOW()
-                                    AND     NOW() < contest.endBetDate
-                    ) expected
-LEFT JOIN           bet
-                    ON      expected.better_id = bet.better_id
-                            AND     expected.category_id = bet.category_id
-WHERE               bet.better_id IS NULL
-                    AND     bet.category_id IS NULL;
+    /* Une fois la table de participation remplie, on peut se baser sur elle */
 
-/* Table des pronostics sur la durée du match le plus long */
-INSERT INTO         duration(better_id, contest_day, duration)
-SELECT DISTINCT     expected.better_id, expected.contest_day, 30
-FROM                (
-                        SELECT DISTINCT     betting.better_id, contest.day AS contest_day
-                        FROM                betting
-                        JOIN                contest
-                                            ON      betting.contest_id = contest.id
-                        JOIN                category
-                                            ON    contest.id = category.contest_id
-                        WHERE               betting.better_id = p_better
-                                            AND     contest.startDate <= NOW()
-                                            AND     NOW() < contest.endBetDate
-                    ) expected
-LEFT JOIN           duration
-                    ON      expected.better_id = duration.better_id
-                            AND     expected.contest_day = duration.contest_day
-WHERE               duration.better_id IS NULL
-                    AND     duration.contest_day IS NULL;
+    /* Table des pronostics */
+    INSERT INTO         cpi_bet(better_id, category_id, winner_player_id, runnerUp_player_id)
+    SELECT              cpi_expected.better_id, cpi_expected.category_id, NULL, NULL
+    FROM                (
+                            SELECT      cpi_betting.better_id, cpi_category.id AS category_id
+                            FROM        cpi_betting
+                            JOIN        cpi_contest
+                                        ON      cpi_betting.contest_id = cpi_contest.id
+                            JOIN        cpi_category
+                                        ON    cpi_contest.id = cpi_category.contest_id
+                            WHERE       cpi_betting.better_id = p_better
+                                        AND     cpi_contest.startDate <= NOW()
+                                        AND     NOW() < cpi_contest.endBetDate
+                        ) cpi_expected
+    LEFT JOIN           cpi_bet
+                        ON      cpi_expected.better_id = cpi_bet.better_id
+                                AND     cpi_expected.category_id = cpi_bet.category_id
+    WHERE               cpi_bet.better_id IS NULL
+                        AND     cpi_bet.category_id IS NULL;
 
-/* Table des points par série */
-INSERT INTO         point(better_id, category_id, points)
-SELECT              expected.better_id, expected.category_id, 0
-FROM                (
-                        SELECT DISTINCT     betting.better_id, category.id AS category_id
-                        FROM                betting
-                        JOIN                contest
-                                            ON      betting.contest_id = contest.id
-                        JOIN                category
-                                            ON    contest.id = category.contest_id
-                        WHERE               betting.better_id = p_better
-                                            AND     contest.startDate <= NOW()
-                                            AND     NOW() < contest.endBetDate
-                    ) expected
-LEFT JOIN           point
-                    ON      expected.better_id = point.better_id
-                            AND     expected.category_id = point.category_id
-WHERE               point.better_id IS NULL
-                    AND     point.category_id IS NULL;
+    /* Table des pronostics sur la durée du match le plus long */
+    INSERT INTO         cpi_duration(better_id, contest_day, duration)
+    SELECT DISTINCT     cpi_expected.better_id, cpi_expected.contest_day, 30
+    FROM                (
+                            SELECT DISTINCT     cpi_betting.better_id, cpi_contest.day AS contest_day
+                            FROM                cpi_betting
+                            JOIN                cpi_contest
+                                                ON      cpi_betting.contest_id = cpi_contest.id
+                            JOIN                cpi_category
+                                                ON    cpi_contest.id = cpi_category.contest_id
+                            WHERE               cpi_betting.better_id = p_better
+                                                AND     cpi_contest.startDate <= NOW()
+                                                AND     NOW() < cpi_contest.endBetDate
+                        ) cpi_expected
+    LEFT JOIN           cpi_duration
+                        ON      cpi_expected.better_id = cpi_duration.better_id
+                                AND     cpi_expected.contest_day = cpi_duration.contest_day
+    WHERE               cpi_duration.better_id IS NULL
+                        AND     cpi_duration.contest_day IS NULL;
 
-/* Table des classements */
-INSERT INTO         ranking(better_id, contest_day, points, ranking)
-SELECT              expected.better_id, expected.contest_day, 0, 0
-FROM                (
-                        SELECT DISTINCT     betting.better_id, contest.day AS contest_day
-                        FROM                betting
-                        JOIN                contest
-                                            ON      betting.contest_id = contest.id
-                        WHERE               betting.better_id = p_better
-                                            AND     contest.startDate <= NOW()
-                                            AND     NOW() < contest.endBetDate
-                    ) expected
-LEFT JOIN           ranking
-                    ON      expected.better_id = ranking.better_id
-                            AND     expected.contest_day = ranking.contest_day
-WHERE               ranking.better_id IS NULL
-                    AND     ranking.contest_day IS NULL;
+    /* Table des points par série */
+    INSERT INTO         cpi_point(better_id, category_id, points)
+    SELECT              cpi_expected.better_id, cpi_expected.category_id, 0
+    FROM                (
+                            SELECT DISTINCT     cpi_betting.better_id, cpi_category.id AS category_id
+                            FROM                cpi_betting
+                            JOIN                cpi_contest
+                                                ON      cpi_betting.contest_id = cpi_contest.id
+                            JOIN                cpi_category
+                                                ON    cpi_contest.id = cpi_category.contest_id
+                            WHERE               cpi_betting.better_id = p_better
+                                                AND     cpi_contest.startDate <= NOW()
+                                                AND     NOW() < cpi_contest.endBetDate
+                        ) cpi_expected
+    LEFT JOIN           cpi_point
+                        ON      cpi_expected.better_id = cpi_point.better_id
+                                AND     cpi_expected.category_id = cpi_point.category_id
+    WHERE               cpi_point.better_id IS NULL
+                        AND     cpi_point.category_id IS NULL;
+
+    /* Table des classements */
+    INSERT INTO         cpi_ranking(better_id, contest_day, points, ranking)
+    SELECT              cpi_expected.better_id, cpi_expected.contest_day, 0, 0
+    FROM                (
+                            SELECT DISTINCT     cpi_betting.better_id, cpi_contest.day AS contest_day
+                            FROM                cpi_betting
+                            JOIN                cpi_contest
+                                                ON      cpi_betting.contest_id = cpi_contest.id
+                            WHERE               cpi_betting.better_id = p_better
+                                                AND     cpi_contest.startDate <= NOW()
+                                                AND     NOW() < cpi_contest.endBetDate
+                        ) cpi_expected
+    LEFT JOIN           cpi_ranking
+                        ON      cpi_expected.better_id = cpi_ranking.better_id
+                                AND     cpi_expected.contest_day = cpi_ranking.contest_day
+    WHERE               cpi_ranking.better_id IS NULL
+                        AND     cpi_ranking.contest_day IS NULL;
 END$$
 
 CREATE DEFINER=`root`@`%` PROCEDURE `sp_delete_better` (IN `p_better` INT)  DETERMINISTIC BEGIN
+    /* sp_delete_better */
     DELETE
-    FROM        duration
-    WHERE       duration.better_id = p_better;
+    FROM        cpi_duration
+    WHERE       cpi_duration.better_id = p_better;
 
     DELETE
-    FROM        betting
-    WHERE       betting.better_id = p_better;
+    FROM        cpi_betting
+    WHERE       cpi_betting.better_id = p_better;
 
     DELETE
-    FROM        bet
-    WHERE       bet.better_id = p_better;
+    FROM        cpi_bet
+    WHERE       cpi_bet.better_id = p_better;
 
     DELETE
-    FROM        better
-    WHERE       better.id = p_better;
+    FROM        cpi_better
+    WHERE       cpi_better.id = p_better;
 
     DELETE
-    FROM        point
-    WHERE       point.better_id = p_better;
+    FROM        cpi_point
+    WHERE       cpi_point.better_id = p_better;
 
     DELETE
-    FROM        ranking
-    WHERE       ranking.better_id = p_better;
+    FROM        cpi_ranking
+    WHERE       cpi_ranking.better_id = p_better;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_unset_bets` (IN `p_better` INT)  DETERMINISTIC UPDATE      bet
-SET         bet.winner_player_id = NULL, bet.runnerUp_player_id = NULL
-WHERE       bet.better_id = p_better$$
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_unset_bets` (IN `p_better` INT)  DETERMINISTIC UPDATE      cpi_bet
+SET         cpi_bet.winner_player_id = NULL, cpi_bet.runnerUp_player_id = NULL
+WHERE       cpi_bet.better_id = p_better$$
 
 --
 -- Fonctions
@@ -266,7 +271,7 @@ END$$
 
 CREATE DEFINER=`root`@`%` FUNCTION `fn_connection_validity` () RETURNS DATETIME DETERMINISTIC READS SQL DATA BEGIN
 
-    RETURN DATE_ADD(NOW(), INTERVAL 15 MINUTE);
+    RETURN DATE_ADD(NOW(), INTERVAL 30 MINUTE);
 
 END$$
 
@@ -275,10 +280,10 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `bet`
+-- Structure de la table `cpi_bet`
 --
 
-CREATE TABLE `bet` (
+CREATE TABLE `cpi_bet` (
   `better_id` int NOT NULL,
   `category_id` int NOT NULL,
   `winner_player_id` int DEFAULT NULL,
@@ -286,97 +291,71 @@ CREATE TABLE `bet` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `bet`
+-- Déchargement des données de la table `cpi_bet`
 --
 
-INSERT INTO `bet` (`better_id`, `category_id`, `winner_player_id`, `runnerUp_player_id`) VALUES
-(1, 11, 1, 2),
-(1, 12, NULL, NULL),
-(1, 13, NULL, NULL),
-(1, 14, NULL, NULL),
-(1, 15, NULL, NULL),
-(1, 21, NULL, NULL),
-(1, 22, NULL, NULL),
-(1, 23, NULL, NULL),
-(1, 24, NULL, NULL),
-(1, 31, NULL, NULL),
-(1, 32, NULL, NULL),
-(1, 33, NULL, NULL),
-(1, 34, NULL, NULL),
-(1, 35, NULL, NULL),
-(1, 36, NULL, NULL),
-(2, 11, 1, 4),
-(2, 12, 6, 7),
-(2, 13, 11, 10),
-(2, 14, 24, 28),
-(2, 15, 47, 48),
-(2, 21, 59, 58),
-(2, 22, 64, 66),
-(2, 23, 72, 70),
-(2, 24, 79, 82),
-(2, 31, NULL, NULL),
-(2, 32, NULL, NULL),
-(2, 33, NULL, NULL),
-(2, 34, NULL, NULL),
-(2, 35, NULL, NULL),
-(2, 36, NULL, NULL);
+INSERT INTO `cpi_bet` (`better_id`, `category_id`, `winner_player_id`, `runnerUp_player_id`) VALUES
+(9, 11, NULL, NULL),
+(9, 12, 6, 8),
+(9, 13, NULL, NULL),
+(9, 14, NULL, NULL),
+(9, 15, NULL, NULL),
+(9, 21, NULL, NULL),
+(9, 22, NULL, NULL),
+(9, 23, 71, 72),
+(9, 24, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `better`
+-- Structure de la table `cpi_better`
 --
 
-CREATE TABLE `better` (
+CREATE TABLE `cpi_better` (
   `id` int NOT NULL,
-  `account` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `name` varchar(100) NOT NULL,
   `firstName` varchar(100) NOT NULL,
   `contact` varchar(255) NOT NULL,
   `isAdmin` smallint NOT NULL,
   `accessKey` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `endAccessKeyValidityDate` datetime DEFAULT NULL
+  `endAccessKeyValidityDate` datetime DEFAULT NULL,
+  `isTutorialDone` smallint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `better`
+-- Déchargement des données de la table `cpi_better`
 --
 
-INSERT INTO `better` (`id`, `account`, `password`, `name`, `firstName`, `contact`, `isAdmin`, `accessKey`, `endAccessKeyValidityDate`) VALUES
-(1, 'admin', 'admin', 'Administrateur', 'Site', 'Moi', 1, '$2y$10$r7YVNlFRlhSr.0hxUE2ed.g.EcS7Yw2e56q9f8G66Bu6Hho55c/.6', '2023-04-15 02:48:58'),
-(2, 'p', 'p', 'HVP', 'Philippe', 'Moi', 0, '$2y$10$bh0gn7NSehxvS5YP7uo/VuTBECbFJKYmQw4lJ1dBA3hJ8hHA17lNi', '2023-04-15 02:59:51');
+INSERT INTO `cpi_better` (`id`, `password`, `name`, `firstName`, `contact`, `isAdmin`, `accessKey`, `endAccessKeyValidityDate`, `isTutorialDone`) VALUES
+(9, '1234', 'HVP', 'Philippe', 'Moi', 0, '$2y$10$6lf9.Dse3Ho5znH68HXFJeq2Ag4BcF1wE93lsh/o6UzA0zQBgjxhi', '2023-04-22 01:28:15', 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `betting`
+-- Structure de la table `cpi_betting`
 --
 
-CREATE TABLE `betting` (
+CREATE TABLE `cpi_betting` (
   `better_id` int NOT NULL,
   `contest_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `betting`
+-- Déchargement des données de la table `cpi_betting`
 --
 
-INSERT INTO `betting` (`better_id`, `contest_id`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 1),
-(2, 2),
-(2, 3);
+INSERT INTO `cpi_betting` (`better_id`, `contest_id`) VALUES
+(9, 1),
+(9, 2);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `category`
+-- Structure de la table `cpi_category`
 --
 
-CREATE TABLE `category` (
+CREATE TABLE `cpi_category` (
   `id` int NOT NULL,
   `shortName` varchar(2) NOT NULL,
   `longName` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -384,10 +363,10 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `category`
+-- Déchargement des données de la table `cpi_category`
 --
 
-INSERT INTO `category` (`id`, `shortName`, `longName`, `contest_id`) VALUES
+INSERT INTO `cpi_category` (`id`, `shortName`, `longName`, `contest_id`) VALUES
 (11, 'S1', 'Série 1', 1),
 (12, 'S2', 'Série 2', 1),
 (13, 'S3', 'Série 3', 1),
@@ -407,10 +386,10 @@ INSERT INTO `category` (`id`, `shortName`, `longName`, `contest_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contest`
+-- Structure de la table `cpi_contest`
 --
 
-CREATE TABLE `contest` (
+CREATE TABLE `cpi_contest` (
   `id` int NOT NULL,
   `shortName` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `longName` varchar(32) NOT NULL,
@@ -421,43 +400,40 @@ CREATE TABLE `contest` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `contest`
+-- Déchargement des données de la table `cpi_contest`
 --
 
-INSERT INTO `contest` (`id`, `shortName`, `longName`, `startDate`, `endBetDate`, `endAdminDate`, `day`) VALUES
-(1, 'DH', 'Doubles Hommes', '2023-02-14 07:00:00', '2023-07-14 20:00:00', '2023-07-15 00:00:00', 1),
-(2, 'DD', 'Doubles Dames', '2023-02-14 07:00:00', '2023-07-14 20:00:00', '2023-07-15 00:00:00', 1),
-(3, 'DM', 'Doubles Mixtes', '2023-05-15 07:00:00', '2023-07-15 20:00:00', '2023-07-16 00:00:00', 2);
+INSERT INTO `cpi_contest` (`id`, `shortName`, `longName`, `startDate`, `endBetDate`, `endAdminDate`, `day`) VALUES
+(1, 'DH', 'Doubles Hommes', '2023-04-17 07:00:00', '2023-04-24 23:00:00', '2023-04-25 00:00:00', 1),
+(2, 'DD', 'Doubles Dames', '2023-04-17 07:00:00', '2023-04-24 23:00:00', '2023-04-25 00:00:00', 1),
+(3, 'DM', 'Doubles Mixtes', '2023-07-16 01:00:00', '2023-04-16 23:00:00', '2023-04-17 00:00:00', 2);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `duration`
+-- Structure de la table `cpi_duration`
 --
 
-CREATE TABLE `duration` (
+CREATE TABLE `cpi_duration` (
   `better_id` int NOT NULL,
   `contest_day` tinyint NOT NULL,
   `duration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `duration`
+-- Déchargement des données de la table `cpi_duration`
 --
 
-INSERT INTO `duration` (`better_id`, `contest_day`, `duration`) VALUES
-(1, 1, 30),
-(1, 2, 30),
-(2, 1, 56),
-(2, 2, 30);
+INSERT INTO `cpi_duration` (`better_id`, `contest_day`, `duration`) VALUES
+(9, 1, 30);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `player`
+-- Structure de la table `cpi_player`
 --
 
-CREATE TABLE `player` (
+CREATE TABLE `cpi_player` (
   `id` int NOT NULL,
   `playerName1` varchar(100) NOT NULL,
   `playerRanking1` varchar(3) NOT NULL,
@@ -467,10 +443,10 @@ CREATE TABLE `player` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `player`
+-- Déchargement des données de la table `cpi_player`
 --
 
-INSERT INTO `player` (`id`, `playerName1`, `playerRanking1`, `playerName2`, `playerRanking2`, `category_id`) VALUES
+INSERT INTO `cpi_player` (`id`, `playerName1`, `playerRanking1`, `playerName2`, `playerRanking2`, `category_id`) VALUES
 (1, 'GASSION Pierre', 'N3', 'VAUR Théo', 'N2', 11),
 (2, 'ANGLARET Axel', 'N3', 'VILLEGER Guillaume', 'N2', 11),
 (3, 'LEBON Quentin', 'N3', 'VILLEDIEU Cedric', 'N3', 11),
@@ -639,58 +615,37 @@ INSERT INTO `player` (`id`, `playerName1`, `playerRanking1`, `playerName2`, `pla
 -- --------------------------------------------------------
 
 --
--- Structure de la table `point`
+-- Structure de la table `cpi_point`
 --
 
-CREATE TABLE `point` (
+CREATE TABLE `cpi_point` (
   `better_id` int NOT NULL,
   `category_id` int NOT NULL,
   `points` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `point`
+-- Déchargement des données de la table `cpi_point`
 --
 
-INSERT INTO `point` (`better_id`, `category_id`, `points`) VALUES
-(1, 11, 0),
-(1, 12, 0),
-(1, 13, 0),
-(1, 14, 0),
-(1, 15, 0),
-(1, 21, 0),
-(1, 22, 0),
-(1, 23, 0),
-(1, 24, 0),
-(1, 31, 0),
-(1, 32, 0),
-(1, 33, 0),
-(1, 34, 0),
-(1, 35, 0),
-(1, 36, 0),
-(2, 11, 0),
-(2, 12, 0),
-(2, 13, 0),
-(2, 14, 0),
-(2, 15, 0),
-(2, 21, 0),
-(2, 22, 0),
-(2, 23, 0),
-(2, 24, 0),
-(2, 31, 0),
-(2, 32, 0),
-(2, 33, 0),
-(2, 34, 0),
-(2, 35, 0),
-(2, 36, 0);
+INSERT INTO `cpi_point` (`better_id`, `category_id`, `points`) VALUES
+(9, 11, 0),
+(9, 12, 0),
+(9, 13, 0),
+(9, 14, 0),
+(9, 15, 0),
+(9, 21, 0),
+(9, 22, 0),
+(9, 23, 0),
+(9, 24, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ranking`
+-- Structure de la table `cpi_ranking`
 --
 
-CREATE TABLE `ranking` (
+CREATE TABLE `cpi_ranking` (
   `better_id` int NOT NULL,
   `contest_day` int NOT NULL,
   `points` int NOT NULL,
@@ -698,82 +653,86 @@ CREATE TABLE `ranking` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `ranking`
+-- Déchargement des données de la table `cpi_ranking`
 --
 
-INSERT INTO `ranking` (`better_id`, `contest_day`, `points`, `ranking`) VALUES
-(1, 1, 0, 0),
-(1, 2, 0, 0),
-(2, 1, 0, 0),
-(2, 2, 0, 0);
+INSERT INTO `cpi_ranking` (`better_id`, `contest_day`, `points`, `ranking`) VALUES
+(9, 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `working_point`
+-- Structure de la table `cpi_working_point`
 --
 
-CREATE TABLE `working_point` (
+CREATE TABLE `cpi_working_point` (
   `points` int NOT NULL,
   `numberOf` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `cpi_working_point`
+--
+
+INSERT INTO `cpi_working_point` (`points`, `numberOf`) VALUES
+(20, 2);
 
 --
 -- Index pour les tables déchargées
 --
 
 --
--- Index pour la table `bet`
+-- Index pour la table `cpi_bet`
 --
-ALTER TABLE `bet`
+ALTER TABLE `cpi_bet`
   ADD PRIMARY KEY (`better_id`,`category_id`);
 
 --
--- Index pour la table `better`
+-- Index pour la table `cpi_better`
 --
-ALTER TABLE `better`
+ALTER TABLE `cpi_better`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `betting`
+-- Index pour la table `cpi_betting`
 --
-ALTER TABLE `betting`
+ALTER TABLE `cpi_betting`
   ADD PRIMARY KEY (`better_id`,`contest_id`);
 
 --
--- Index pour la table `category`
+-- Index pour la table `cpi_category`
 --
-ALTER TABLE `category`
+ALTER TABLE `cpi_category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `contest`
+-- Index pour la table `cpi_contest`
 --
-ALTER TABLE `contest`
+ALTER TABLE `cpi_contest`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `duration`
+-- Index pour la table `cpi_duration`
 --
-ALTER TABLE `duration`
+ALTER TABLE `cpi_duration`
   ADD PRIMARY KEY (`better_id`,`contest_day`);
 
 --
--- Index pour la table `player`
+-- Index pour la table `cpi_player`
 --
-ALTER TABLE `player`
+ALTER TABLE `cpi_player`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `point`
+-- Index pour la table `cpi_point`
 --
-ALTER TABLE `point`
+ALTER TABLE `cpi_point`
   ADD PRIMARY KEY (`better_id`,`category_id`);
 
 --
--- Index pour la table `ranking`
+-- Index pour la table `cpi_ranking`
 --
-ALTER TABLE `ranking`
+ALTER TABLE `cpi_ranking`
   ADD PRIMARY KEY (`better_id`,`contest_day`);
 
 --
@@ -781,14 +740,14 @@ ALTER TABLE `ranking`
 --
 
 --
--- AUTO_INCREMENT pour la table `better`
+-- AUTO_INCREMENT pour la table `cpi_better`
 --
-ALTER TABLE `better`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `cpi_better`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT pour la table `player`
+-- AUTO_INCREMENT pour la table `cpi_player`
 --
-ALTER TABLE `player`
+ALTER TABLE `cpi_player`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 COMMIT;
