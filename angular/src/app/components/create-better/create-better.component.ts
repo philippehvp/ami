@@ -65,6 +65,7 @@ export class CreateBetterComponent implements OnInit {
           message:
             "Un ou plusieurs des champs obligatoires n'a/n'ont pas été renseigné(s)",
           dialogType: InformationDialogType.Information,
+          labels: ['Fermer'],
         },
       };
       this.dialog.open(InformationComponent, config);
@@ -79,6 +80,7 @@ export class CreateBetterComponent implements OnInit {
                 title: 'Erreur de création du compte',
                 message: ret.errorMessage,
                 dialogType: InformationDialogType.Information,
+                labels: ['Fermer'],
               },
             };
             this.dialog.open(InformationComponent, config);

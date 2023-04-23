@@ -71,6 +71,7 @@ export class BetComponent implements OnInit, OnDestroy {
               title: 'Session expirée',
               message: 'Votre session est expirée. Veuillez vous reconnecter.',
               dialogType: InformationDialogType.Information,
+              labels: ['Me connecter'],
             },
           };
 
@@ -94,6 +95,7 @@ export class BetComponent implements OnInit, OnDestroy {
               message:
                 'Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne.',
               dialogType: InformationDialogType.Information,
+              labels: ['Fermer'],
             },
           };
 

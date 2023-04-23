@@ -5,14 +5,16 @@
 <mat-dialog-actions align="end">
   <div *ngIf="isInformationType; else yesNo">
     <button mat-flat-button color="primary" (click)="close()" cdkFocusInitial>
-      Fermer
+      {{ firstButtonLabel }}
     </button>
   </div>
 
   <ng-template #yesNo>
-    <button mat-flat-button (click)="cancel()" cdkFocusInitial>Annuler</button>
-    <button mat-flat-button (click)="validate()" cdkFocusInitial>
-      Quitter
+    <button mat-flat-button (click)="cancel()" cdkFocusInitial>
+      {{ firstButtonLabel }}
+    </button>
+    <button mat-flat-button (click)="validate()">
+      {{ secondButtonLabel }}
     </button>
   </ng-template>
 </mat-dialog-actions>

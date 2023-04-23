@@ -42,8 +42,9 @@ export class ToolbarComponent {
         data: {
           title: 'Pronostics incomplets',
           message:
-            "Vous n'avez pas saisi tous les pronostics. Voulez-vous vraiment vous déconnecter ?",
+            "Vous n'avez pas saisi tous les pronostics. Voulez-vous vraiment quitter Winabad ?",
           dialogType: InformationDialogType.YesNo,
+          labels: ['Annuler', 'Quitter'],
         },
       };
 

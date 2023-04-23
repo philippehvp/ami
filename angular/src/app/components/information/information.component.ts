@@ -22,6 +22,14 @@ export class InformationComponent {
     return this.data.dialogType === InformationDialogType.Information;
   }
 
+  public get firstButtonLabel(): string {
+    return this.data.labels[0];
+  }
+
+  public get secondButtonLabel(): string {
+    return this.data.labels[1];
+  }
+
   public close() {
     this.dialogRef.close();
   }

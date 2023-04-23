@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
           title: 'Erreur de saise',
           message: "Le nom et/ou le mot de passe n'a pas été renseigné",
           dialogType: InformationDialogType.Information,
+          labels: ['Fermer'],
         },
       };
       this.dialog.open(InformationComponent, config);
@@ -72,6 +73,7 @@ export class LoginComponent implements OnInit {
               message:
                 "Le nom n'est pas reconnu et/ou le mot de passe est incorrect",
               dialogType: InformationDialogType.Information,
+              labels: ['Fermer'],
             },
           };
           this.dialog.open(InformationComponent, config);

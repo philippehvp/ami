@@ -11,6 +11,24 @@
       </mat-toolbar>
     </div>
 
+    <div class="row no-growing">
+      <bet-duration
+        *ngIf="(contest$ | async) && (category$ | async)"
+        id="duration-area"
+      ></bet-duration>
+    </div>
+    <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
+      <div id="triangle2" class="triangle triangle2"></div>
+      <div id="tutorial2" class="tutorial2">
+        <h5>Durée du match le plus long (2/4)</h5>
+        <p>
+          Vous pouvez modifier la durée du match le plus long en déplaçant la
+          jauge ci-dessus (de 30 à 120 minutes).
+        </p>
+        <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
+      </div>
+    </div>
+
     <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
       <div id="triangle4" class="triangle triangle4"></div>
       <div id="tutorial4" class="tutorial4">
@@ -37,25 +55,6 @@
           La ou les catégories et leurs séries (de S1 à Sn) apparaissent
           ci-dessus. Cliquez sur les noms des séries pour passer de l'une à
           l'autre.
-        </p>
-        <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
-      </div>
-    </div>
-
-    <div class="row no-growing">
-      <bet-duration
-        *ngIf="(contest$ | async) && (category$ | async)"
-        id="duration-area"
-      ></bet-duration>
-    </div>
-
-    <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
-      <div id="triangle2" class="triangle triangle2"></div>
-      <div id="tutorial2" class="tutorial2">
-        <h5>Durée du match le plus long (2/4)</h5>
-        <p>
-          Vous pouvez modifier la durée du match le plus long en déplaçant la
-          jauge ci-dessus (de 30 à 120 minutes).
         </p>
         <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
       </div>
