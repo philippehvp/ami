@@ -1,6 +1,10 @@
 <div
   class="toolbar"
-  *ngIf="{ allBetsDone: allBetsDone$ | async, better: better$ | async } as data"
+  *ngIf="{
+    bets: bets$ | async,
+    completedBets: completedBets$ | async,
+    better: better$ | async
+  } as data"
 >
   <span class="title-area">
     <span class="isb"></span>
@@ -24,7 +28,13 @@
   >
   <span
     class="material-icons"
-    (click)="logout(data.allBetsDone || false, data.better?.isAdmin || false)"
+    (click)="
+      logout(
+        data.bets?.length || 0,
+        data.completedBets || 0,
+        data.better?.isAdmin || false
+      )
+    "
     >logout</span
   >
 </div>

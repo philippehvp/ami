@@ -63,6 +63,8 @@ export class BetPlayerComponent {
   @Select(BetState.isLoadingData)
   isLoadingData$!: Observable<boolean>;
 
+  public withClubName: boolean = true;
+
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
 
   public isWinnerChecked(
@@ -108,11 +110,21 @@ export class BetPlayerComponent {
   }
 
   public firstPlayerName(player: IPlayer): string {
-    return '(' + player.playerRanking1 + ') ' + player.playerName1;
+    let ret: string = player.playerRanking1 + ' - ' + player.playerName1;
+    if (this.withClubName) {
+      ret += ' (' + player.playerClub1 + ')';
+    }
+
+    return ret;
   }
 
   public secondPlayerName(player: IPlayer): string {
-    return '(' + player.playerRanking2 + ') ' + player.playerName2;
+    let ret: string = player.playerRanking2 + ' - ' + player.playerName2;
+    if (this.withClubName) {
+      ret += ' (' + player.playerClub2 + ')';
+    }
+
+    return ret;
   }
 
   public gotoNextCategory(currentBet: IBet | undefined) {

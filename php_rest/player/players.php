@@ -9,7 +9,8 @@
   if ($accessKey && $category) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      cpi_player.id, cpi_player.playerName1, cpi_player.playerRanking1, cpi_player.playerName2, cpi_player.playerRanking2" .
+        " SELECT      cpi_player.id, cpi_player.playerName1, cpi_player.playerRanking1, cpi_player.playerClub1," .
+        "             cpi_player.playerClub2, cpi_player.playerName2, cpi_player.playerRanking2" .
         " FROM        cpi_player" .
         " WHERE       cpi_player.category_id = ?";
 
