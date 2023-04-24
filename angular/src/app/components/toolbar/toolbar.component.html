@@ -13,7 +13,15 @@
     <span>&nbsp;|&nbsp;</span>
     <span (click)="displayBettersOrderedByName()">Récap</span>
   </span>
-  <span>{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span>
+  <span *ngIf="!data.better?.isAdmin"
+    >{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span
+  >
+  <span
+    class="material-icons-outlined"
+    *ngIf="!data.better?.isAdmin"
+    (click)="displayRules()"
+    >menu_book</span
+  >
   <span
     class="material-icons"
     (click)="logout(data.allBetsDone || false, data.better?.isAdmin || false)"

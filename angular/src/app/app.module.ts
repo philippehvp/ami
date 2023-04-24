@@ -13,7 +13,9 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+import { MarkdownModule } from 'ngx-markdown';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -44,6 +46,8 @@ import { BetterBetState } from './store/state/better-bet.state';
 import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
 import { BetterRankingState } from './store/state/better-ranking.state';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { TitlebarComponent } from './components/titlebar/titlebar.component';
+import { RuleComponent } from './components/rule/rule.component';
 
 @NgModule({
   declarations: [
@@ -60,11 +64,14 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     ToolbarComponent,
     BetterRankingComponent,
     WelcomeComponent,
+    TitlebarComponent,
+    RuleComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MarkdownModule.forRoot({ loader: HttpClient }),
 
     NgxsModule.forRoot(
       [BetState, BetterPointState, BetterBetState, BetterRankingState],
@@ -73,6 +80,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MarkdownModule,
 
     MatButtonModule,
     MatCardModule,

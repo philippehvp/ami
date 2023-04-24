@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { BetActions } from './store/action/bet.action';
 import { Router } from '@angular/router';
@@ -9,7 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private store: Store, private router: Router) {
+  private store = inject(Store);
+  private router = inject(Router);
+
+  constructor() {
     const better: string = window.localStorage.getItem('better') || '';
 
     if (better) {

@@ -16,7 +16,7 @@ import { BetActions } from 'src/app/store/action/bet.action';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-type';
+} from 'src/app/models/information-dialog-type';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;

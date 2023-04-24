@@ -1,3 +1,5 @@
+<titlebar title="Résumé des pronostics"></titlebar>
+
 <table mat-table [dataSource]="bets || []">
   <ng-container
     [matColumnDef]="column"
@@ -13,9 +15,9 @@
 
     <span *ngIf="isBetColumn(i)">
       <td mat-cell *matCellDef="let bet">
-        {{ getWinnerFirstPlayerName(i, bet) }}
+        <span class="winner">{{ getWinnerFirstPlayerName(i, bet) }}</span>
         <br />
-        {{ getWinnerSSecondPlayerName(i, bet) }}
+        <span class="winner">{{ getWinnerSSecondPlayerName(i, bet) }}</span>
         <br />
         {{ getRunnerUpFirstPlayerName(i, bet) }}
         <br />

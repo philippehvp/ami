@@ -1,3 +1,5 @@
+<titlebar title="Classement"></titlebar>
+
 <table mat-table [dataSource]="(bettersRanking$ | async) || []">
   <ng-container matColumnDef="ranking">
     <th mat-header-cell *matHeaderCellDef>Classement</th>

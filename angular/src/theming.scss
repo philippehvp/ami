@@ -35,7 +35,7 @@ $md-cpi: (
   ),
 );
 
-$cpi-theme-primary: mat-palette($md-cpi);
+$cpi-theme-primary: mat-palette($md-cpi, 500);
 $cpi-theme-accent: mat-palette($md-cpi, A200, A100, A400);
 $cpi-theme-warn: mat-palette($md-cpi);
 
@@ -46,3 +46,9 @@ $cpi-theme: mat-light-theme(
 );
 
 @include angular-material-theme($cpi-theme);
+
+$primary: mat-palette($md-cpi);
+
+.background-primary {
+  background-color: mat-color($primary);
+}

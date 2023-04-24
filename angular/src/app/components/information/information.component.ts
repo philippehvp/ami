@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-type';
+} from 'src/app/models/information-dialog-type';
 
 @Component({
   selector: 'information',

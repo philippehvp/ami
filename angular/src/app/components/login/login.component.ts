@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-type';
+} from 'src/app/models/information-dialog-type';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;

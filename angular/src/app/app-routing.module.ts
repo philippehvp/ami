@@ -8,14 +8,37 @@ import { BetPointComponent } from './components/bet/bet-point/bet-point.componen
 import { BetterBetComponent as BetterBetComponent } from './components/better-bet/better-bet.component';
 import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { RuleComponent } from './components/rule/rule.component';
 
 const routes: Routes = [
-  { path: 'bet', component: BetComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'create-better', component: CreateBetterComponent },
-  { path: 'welcome', component: WelcomeComponent },
-  { path: 'better-point', component: BetPointComponent },
-  { path: 'better-bet', component: BetterBetComponent },
+  {
+    path: 'bet',
+    component: BetComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'create-better',
+    component: CreateBetterComponent,
+  },
+  {
+    path: 'welcome',
+    component: WelcomeComponent,
+  },
+  {
+    path: 'rule',
+    component: RuleComponent,
+  },
+  {
+    path: 'better-point',
+    component: BetPointComponent,
+  },
+  {
+    path: 'better-bet',
+    component: BetterBetComponent,
+  },
   {
     path: 'better-ranking',
     component: BetterRankingComponent,
@@ -26,7 +49,10 @@ const routes: Routes = [
     component: BetterRankingComponent,
     data: { byRanking: 0 },
   },
-  { path: '**', component: BetComponent },
+  {
+    path: '**',
+    component: BetComponent,
+  },
 ];
 
 @NgModule({
