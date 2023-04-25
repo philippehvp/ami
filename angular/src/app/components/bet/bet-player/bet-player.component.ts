@@ -6,6 +6,7 @@ import { IBetter } from 'src/app/models/better';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { IPlayer } from 'src/app/models/player';
+import { PersistenceServiceService as PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -44,6 +45,7 @@ import { BetState } from 'src/app/store/state/bet.state';
 })
 export class BetPlayerComponent {
   private store = inject(Store);
+  private persistenceService = inject(PersistenceService);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -63,9 +65,17 @@ export class BetPlayerComponent {
   @Select(BetState.isLoadingData)
   isLoadingData$!: Observable<boolean>;
 
-  public withClubName: boolean = false;
-
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
+
+  public get withClubName(): boolean {
+    return this.persistenceService.withClubName;
+  }
+
+  public set withClubName(withClubName: boolean) {
+    this.persistenceService.withClubName = withClubName;
+  }
+
+  constructor() {}
 
   public isWinnerChecked(bet: IBet | undefined, playerId: number): boolean {
     return playerId === bet?.winnerId;
