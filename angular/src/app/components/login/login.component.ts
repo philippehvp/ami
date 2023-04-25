@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       const config: MatDialogConfig<IInformationDialogConfig> = {
         data: {
           title: 'Erreur de saise',
-          message: "Le nom et/ou le mot de passe n'a pas été renseigné",
+          message: "Le nom et/ou le mot de passe n'a pas été renseigné.",
           dialogType: InformationDialogType.Information,
           labels: ['Fermer'],
         },
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
             data: {
               title: 'Compte inconnu',
               message:
-                "Le nom n'est pas reconnu et/ou le mot de passe est incorrect",
+                "Le nom n'est pas reconnu et/ou le mot de passe est incorrect.",
               dialogType: InformationDialogType.Information,
               labels: ['Fermer'],
             },

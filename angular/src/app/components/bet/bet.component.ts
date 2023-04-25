@@ -69,7 +69,7 @@ export class BetComponent implements OnInit, OnDestroy {
           const config: MatDialogConfig<IInformationDialogConfig> = {
             data: {
               title: 'Session expirée',
-              message: 'Votre session est expirée. Veuillez vous reconnecter.',
+              message: 'Ta session est expirée. Merci de te reconnecter.',
               dialogType: InformationDialogType.Information,
               labels: ['Me connecter'],
             },
@@ -93,7 +93,7 @@ export class BetComponent implements OnInit, OnDestroy {
             data: {
               title: 'Pronostics entièrement saisis',
               message:
-                'Tous les pronostics ont été saisis. Vérifie que la durée du match le plus long te convienne',
+                'Tous les pronostics ont été saisis. Vérifie que la durée du match le plus long te convienne.',
               dialogType: InformationDialogType.Information,
               labels: ['Fermer'],
             },

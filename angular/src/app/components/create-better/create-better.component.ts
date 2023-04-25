@@ -65,7 +65,7 @@ export class CreateBetterComponent implements OnInit {
         data: {
           title: 'Erreur de saise',
           message:
-            "Un ou plusieurs des champs obligatoires n'a/n'ont pas été renseigné(s)",
+            "Un ou plusieurs des champs obligatoires n'a/n'ont pas été renseigné(s).",
           dialogType: InformationDialogType.Information,
           labels: ['Fermer'],
         },
