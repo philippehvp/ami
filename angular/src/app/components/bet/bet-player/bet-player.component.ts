@@ -63,7 +63,7 @@ export class BetPlayerComponent {
   @Select(BetState.isLoadingData)
   isLoadingData$!: Observable<boolean>;
 
-  public withClubName: boolean = true;
+  public withClubName: boolean = false;
 
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
 

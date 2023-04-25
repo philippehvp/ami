@@ -38,6 +38,8 @@ export class CreateBetterComponent implements OnInit {
 
   public formGroup!: FormGroup;
 
+  private isWarnMessageDisplayed: boolean = false;
+
   public ngOnInit() {
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
@@ -98,5 +100,21 @@ export class CreateBetterComponent implements OnInit {
 
   public checkPassword($event: any) {
     $event.target.value = ($event.target.value || '').replace(/\D/g, '');
+  }
+
+  public focus() {
+    if (!this.isWarnMessageDisplayed) {
+      const config: MatDialogConfig<IInformationDialogConfig> = {
+        data: {
+          title: 'Pas de panique...',
+          message:
+            "... c'est juste pour te contacter si tu gagnes. On efface tout lundi !",
+          dialogType: InformationDialogType.Information,
+          labels: ['Fermer'],
+        },
+      };
+      this.dialog.open(InformationComponent, config);
+      this.isWarnMessageDisplayed = true;
+    }
   }
 }
