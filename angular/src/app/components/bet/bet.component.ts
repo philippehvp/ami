@@ -37,9 +37,6 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.contest)
   contest$!: Observable<IContest>;
 
-  @Select(BetState.allBetsDone)
-  allBetsDone$!: Observable<boolean>;
-
   @Select(BetState.isOffline)
   isOffline$!: Observable<boolean>;
 
@@ -83,24 +80,6 @@ export class BetComponent implements OnInit, OnDestroy {
             });
         }
         return;
-      });
-
-    this.allBetsDoneSub = this.allBetsDone$
-      .pipe(filter((allBetsDone) => !!allBetsDone))
-      .subscribe((allBetsDone) => {
-        if (allBetsDone) {
-          const config: MatDialogConfig<IInformationDialogConfig> = {
-            data: {
-              title: 'Pronostics entièrement saisis',
-              message:
-                'Vous avez saisi tous les pronostics. Assurez-vous que la durée du match le plus long vous convienne.',
-              dialogType: InformationDialogType.Information,
-              labels: ['Fermer'],
-            },
-          };
-
-          this.dialog.open(InformationComponent, config);
-        }
       });
 
     this.betterSub = this.better$

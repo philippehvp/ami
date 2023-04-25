@@ -1,92 +1,88 @@
-<div
+<mat-table
+  [dataSource]="(players$ | async) || []"
   *ngIf="{ currentBet: currentBet$ | async, better: better$ | async } as data"
 >
-  <mat-table [dataSource]="(players$ | async) || []">
-    <ng-container matColumnDef="winner">
-      <th class="action" mat-header-cell *matHeaderCellDef>
-        <span class="material-icons">emoji_events</span>
-      </th>
-      <td class="action" mat-cell *matCellDef="let player">
-        <mat-icon
-          *ngIf="(contest$ | async)?.isUpdatable"
-          class="material-icons"
-          color="primary"
-          (click)="changeWinner(player.id)"
-          >{{
-            winnerIconLabel(data.currentBet || undefined, player.id)
-          }}</mat-icon
-        >
+  <ng-container matColumnDef="winner">
+    <th class="action" mat-header-cell *matHeaderCellDef>
+      <span class="material-icons">emoji_events</span>
+    </th>
+    <td class="action" mat-cell *matCellDef="let player">
+      <mat-icon
+        *ngIf="(contest$ | async)?.isUpdatable"
+        class="material-icons"
+        color="primary"
+        (click)="changeWinner(player.id)"
+        >{{
+          winnerIconLabel(data.currentBet || undefined, player.id)
+        }}</mat-icon
+      >
 
-        <mat-icon
-          *ngIf="
-            !(contest$ | async)?.isUpdatable &&
-            isWinnerChecked(data.currentBet || undefined, player.id)
-          "
-          class="material-icons"
-          >expand_circle_down</mat-icon
-        >
-      </td>
-    </ng-container>
+      <mat-icon
+        *ngIf="
+          !(contest$ | async)?.isUpdatable &&
+          isWinnerChecked(data.currentBet || undefined, player.id)
+        "
+        class="material-icons"
+        >expand_circle_down</mat-icon
+      >
+    </td>
+  </ng-container>
 
-    <ng-container matColumnDef="runnerUp">
-      <th class="action" mat-header-cell *matHeaderCellDef>
-        <span class="material-icons">workspace_premium</span>
-      </th>
-      <td class="action" mat-cell *matCellDef="let player">
-        <mat-icon
-          *ngIf="(contest$ | async)?.isUpdatable"
-          (click)="changeRunnerUp(player.id)"
-          color="primary"
-          class="material-icons"
-          >{{
-            runnerUpIconLabel(data.currentBet || undefined, player.id)
-          }}</mat-icon
-        >
+  <ng-container matColumnDef="runnerUp">
+    <th class="action" mat-header-cell *matHeaderCellDef>
+      <span class="material-icons">workspace_premium</span>
+    </th>
+    <td class="action" mat-cell *matCellDef="let player">
+      <mat-icon
+        *ngIf="(contest$ | async)?.isUpdatable"
+        (click)="changeRunnerUp(player.id)"
+        color="primary"
+        class="material-icons"
+        >{{
+          runnerUpIconLabel(data.currentBet || undefined, player.id)
+        }}</mat-icon
+      >
 
-        <mat-icon
-          *ngIf="
-            !(contest$ | async)?.isUpdatable &&
-            isRunnerUpChecked(data.currentBet || undefined, player.id)
-          "
-          class="material-icons"
-          >expand_circle_down</mat-icon
-        >
-      </td>
-    </ng-container>
+      <mat-icon
+        *ngIf="
+          !(contest$ | async)?.isUpdatable &&
+          isRunnerUpChecked(data.currentBet || undefined, player.id)
+        "
+        class="material-icons"
+        >expand_circle_down</mat-icon
+      >
+    </td>
+  </ng-container>
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef class="grow">
-        <span class="player-header">
-          {{ (contest$ | async)?.longName }} -
-          {{ (category$ | async)?.longName }}
-          <span *ngIf="(better$ | async)?.isAdmin" class="calculate">
-            <mat-icon
-              (click)="
-                calculate(
-                  data.better || undefined,
-                  data.currentBet || undefined
-                )
-              "
-              >calculate</mat-icon
-            >
-          </span>
-          <span>
-            <button
-              mat-flat-button
-              class="next-button"
-              (click)="gotoNextCategory(data.currentBet || undefined)"
-            >
-              <span class="material-icons-outlined">double_arrow</span>
-            </button>
-          </span>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef class="grow">
+      <span class="player-header">
+        {{ (contest$ | async)?.longName }} -
+        {{ (category$ | async)?.longName }}
+        <span *ngIf="(better$ | async)?.isAdmin" class="calculate">
+          <mat-icon
+            (click)="
+              calculate(data.better || undefined, data.currentBet || undefined)
+            "
+            >calculate</mat-icon
+          >
         </span>
-      </th>
-      <td mat-cell *matCellDef="let player">
-        {{ firstPlayerName(player) }}<br />{{ secondPlayerName(player) }}
-      </td>
-    </ng-container>
+        <span>
+          <button
+            mat-flat-button
+            class="next-button"
+            (click)="gotoNextCategory(data.currentBet || undefined)"
+          >
+            <span class="material-icons-outlined">double_arrow</span>
+          </button>
+        </span>
+      </span>
+    </th>
+    <td mat-cell *matCellDef="let player">
+      {{ firstPlayerName(player) }}<br />{{ secondPlayerName(player) }}
+    </td>
+  </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </mat-table>
-</div>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</mat-table>

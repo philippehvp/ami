@@ -11,6 +11,27 @@
       </mat-toolbar>
     </div>
 
+    <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
+      <div class="tutorial4">
+        <h5>Barème et fin (4/4)</h5>
+        <p>
+          Le barème est disponible en cliquant sur l'icône
+          <span class="material-icons-outlined">menu_book</span> dans la barre
+          de menu.
+        </p>
+
+        <p>
+          Une fois tous vos pronostics saisis, vous pourrez quitter en cliquant
+          sur l'icône
+          <span class="material-icons-outlined">logout</span> à droite de la
+          barre de menu.
+        </p>
+
+        <h4>Bons pronostics à vous !</h4>
+        <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
+      </div>
+    </div>
+
     <div class="row no-growing">
       <bet-duration
         *ngIf="(contest$ | async) && (category$ | async)"
@@ -37,34 +58,12 @@
             Les catégories et leurs séries (de S1 à Sn) apparaissent ci-dessus.
             Cliquez sur les noms des séries pour passer de l'une à l'autre.
           </p>
+
+          <p>
+            La couleur des pastilles ainsi que la mention x/y au-dessus
+            permettent de savoir si tous les pronostics ont été saisis.
+          </p>
           <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
-        </div>
-      </div>
-
-      <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
-        <div class="tutorial4">
-          <h5>Remplissage des pronostics (4/4)</h5>
-          <p>
-            La couleur des pastilles des séries ainsi que la mention x/y
-            au-dessus permettent de savoir si tous les pronostics ont été
-            saisis.
-          </p>
-
-          <p>
-            Le barème est disponible en cliquant sur l'icône
-            <span class="material-icons-outlined">menu_book</span> dans la barre
-            de menu.
-          </p>
-
-          <p>
-            Une fois tous vos pronostics saisis (un message de confirmation
-            apparaîtra), vous pourrez quitter en cliquant sur l'icône
-            <span class="material-icons-outlined">logout</span> à droite de la
-            barre de menu.
-          </p>
-
-          <h4>Bons pronostics à vous !</h4>
-          <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
         </div>
       </div>
     </div>

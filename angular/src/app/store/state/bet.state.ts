@@ -29,7 +29,6 @@ export class BetStateModel {
   runnerUp!: string | undefined;
   duration!: IDuration | undefined;
   completedBets!: number | undefined;
-  allBetsDone!: boolean | undefined;
   isLoadingData!: boolean | undefined;
 }
 
@@ -49,7 +48,6 @@ export class BetStateModel {
     runnerUp: undefined,
     duration: undefined,
     completedBets: 0,
-    allBetsDone: false,
     isLoadingData: false,
   },
 })
@@ -124,11 +122,6 @@ export class BetState {
   @Selector()
   static completedBets(state: BetStateModel) {
     return state.completedBets;
-  }
-
-  @Selector()
-  static allBetsDone(state: BetStateModel) {
-    return state.allBetsDone;
   }
 
   @Selector()
@@ -306,10 +299,10 @@ export class BetState {
             bets: <IBet[]>readBets,
           });
 
-          BetState.calculateCompletedBetsOnLoad(state);
+          this.calculateCompletedBetsOnLoad(state);
 
           // Recherche du premier pronostic non renseigné
-          const categoryId = BetState.searchFirstBetToFill(state);
+          const categoryId = this.searchFirstBetToFill(state);
           if (categoryId !== -1) {
             state.dispatch([
               new BetActions.GetDuration(currentState.better?.accessKey || ''),
@@ -322,7 +315,7 @@ export class BetState {
     );
   }
 
-  static calculateCompletedBetsOnLoad(state: StateContext<BetStateModel>) {
+  private calculateCompletedBetsOnLoad(state: StateContext<BetStateModel>) {
     const currentState = state.getState();
 
     // On compte le nombre de pronostics correctement renseignés
@@ -335,7 +328,7 @@ export class BetState {
     });
   }
 
-  static calculateCompletedBetsOnUpdate(state: StateContext<BetStateModel>) {
+  private calculateCompletedBetsOnUpdate(state: StateContext<BetStateModel>) {
     // On compte le nombre de pronostics correctement renseignés
     const completedBets = state.getState().bets?.filter((bet) => {
       return bet.winnerId !== 0 && bet.runnerUpId !== 0;
@@ -348,20 +341,12 @@ export class BetState {
     const totalBetsCount = state.getState().bets?.length || 0;
     const oldCompletedBetsCount = state.getState().completedBets || 0;
 
-    if (
-      completedBetsCount === totalBetsCount &&
-      oldCompletedBetsCount < completedBetsCount
-    ) {
-      state.dispatch([new BetActions.AllBetsDone()]);
-    }
-
     state.patchState({
       completedBets: completedBets?.length || 0,
-      allBetsDone: completedBetsCount === totalBetsCount,
     });
   }
 
-  static getNextBet(
+  private getNextBet(
     state: StateContext<BetStateModel>,
     currentBetIndex: number
   ): number {
@@ -372,7 +357,7 @@ export class BetState {
     return ret;
   }
 
-  static isBetFilled(bet: IBet): boolean {
+  private isBetFilled(bet: IBet): boolean {
     return bet.winnerId !== 0 &&
       bet.winnerId !== null &&
       bet.runnerUpId !== 0 &&
@@ -381,7 +366,7 @@ export class BetState {
       : false;
   }
 
-  static searchFirstBetToFill(state: StateContext<BetStateModel>): number {
+  private searchFirstBetToFill(state: StateContext<BetStateModel>): number {
     const currentState = state.getState();
 
     const bet = currentState.bets?.find((bet) => {
@@ -406,7 +391,7 @@ export class BetState {
     }
   }
 
-  static searchNextBetToFill(
+  private searchNextBetToFill(
     state: StateContext<BetStateModel>,
     currentBetIndex: number
   ): number {
@@ -427,7 +412,7 @@ export class BetState {
     }
   }
 
-  static searchBetToFill(
+  private searchBetToFill(
     state: StateContext<BetStateModel>,
     category: number
   ): number {
@@ -452,14 +437,14 @@ export class BetState {
         return -1;
       } else {
         // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
-        return BetState.searchNextBetToFill(state, currentBetIndex || 0);
+        return this.searchNextBetToFill(state, currentBetIndex || 0);
       }
     }
 
     return -1;
   }
 
-  static handleError(
+  private handleError(
     state: StateContext<BetStateModel>,
     ret: IOffline | INotUpdatable
   ) {
@@ -484,7 +469,7 @@ export class BetState {
       .pipe(
         tap((ret: IEmpty | IOffline | INotUpdatable) => {
           if (ret && ('isOffline' in ret || 'isNotUpdatable' in ret)) {
-            BetState.handleError(state, ret);
+            this.handleError(state, ret);
           } else {
             const bet = currentState.bets?.find((bet) => {
               return bet.categoryId === currentState.category?.id;
@@ -513,7 +498,7 @@ export class BetState {
                 })
               );
 
-              BetState.calculateCompletedBetsOnUpdate(state);
+              this.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir
               // const categoryId = BetState.searchBetToFill(
@@ -546,7 +531,7 @@ export class BetState {
       .pipe(
         tap((ret: IEmpty | IOffline | INotUpdatable) => {
           if (ret && ('isOffline' in ret || 'isNotUpdatable' in ret)) {
-            BetState.handleError(state, ret);
+            this.handleError(state, ret);
           } else {
             const bet = currentState.bets?.find((bet) => {
               return bet.categoryId === currentState.category?.id;
@@ -573,7 +558,7 @@ export class BetState {
                 })
               );
 
-              BetState.calculateCompletedBetsOnUpdate(state);
+              this.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir
               // const categoryId = BetState.searchBetToFill(
@@ -627,7 +612,7 @@ export class BetState {
       .pipe(
         tap((ret: IEmpty | IOffline | INotUpdatable) => {
           if (ret && ('isOffline' in ret || 'isNotUpdatable' in ret)) {
-            BetState.handleError(state, ret);
+            this.handleError(state, ret);
           } else {
             const duration: IDuration = {
               duration: action.duration,
@@ -638,13 +623,6 @@ export class BetState {
           }
         })
       );
-  }
-
-  @Action(BetActions.AllBetsDone)
-  allBetsDone(state: StateContext<BetStateModel>) {
-    state.patchState({
-      allBetsDone: true,
-    });
   }
 
   @Action(BetActions.CalculatePointsAndRanking)
@@ -679,7 +657,6 @@ export class BetState {
       runnerUp: undefined,
       duration: undefined,
       completedBets: undefined,
-      allBetsDone: undefined,
     });
   }
 
@@ -701,7 +678,7 @@ export class BetState {
     });
 
     if (currentCategoryIndex !== -1) {
-      const nextBetCategoryId = BetState.getNextBet(
+      const nextBetCategoryId = this.getNextBet(
         state,
         currentCategoryIndex || 0
       );
