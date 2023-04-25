@@ -1,3 +1,9 @@
+<div>
+  <mat-checkbox [(ngModel)]="withClubName"
+    >Afficher le nom des clubs
+  </mat-checkbox>
+</div>
+
 <mat-table
   [dataSource]="(players$ | async) || []"
   *ngIf="{ bet: bet$ | async, better: better$ | async } as data"
@@ -73,7 +79,18 @@
       </span>
     </th>
     <td mat-cell *matCellDef="let player">
-      {{ firstPlayerName(player) }}<br />{{ secondPlayerName(player) }}
+      <span *ngIf="withClubName">
+        {{ firstPlayerRanking(player) }} - <b>{{ firstPlayerName(player) }}</b
+        >&nbsp;({{ firstPlayerClub(player) }})
+        <br />
+        {{ secondPlayerRanking(player) }} - <b>{{ secondPlayerName(player) }}</b
+        >&nbsp;({{ firstPlayerClub(player) }})
+      </span>
+      <span *ngIf="!withClubName">
+        {{ firstPlayerRanking(player) }} - {{ firstPlayerName(player) }}
+        <br />
+        {{ secondPlayerRanking(player) }} - {{ secondPlayerName(player) }}
+      </span>
     </td>
   </ng-container>
 

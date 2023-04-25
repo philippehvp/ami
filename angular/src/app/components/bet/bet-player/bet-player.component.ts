@@ -98,21 +98,27 @@ export class BetPlayerComponent {
   }
 
   public firstPlayerName(player: IPlayer): string {
-    let ret: string = player.playerRanking1 + ' - ' + player.playerName1;
-    if (this.withClubName) {
-      ret += ' (' + player.playerClub1 + ')';
-    }
-
-    return ret;
+    return player.playerName1;
   }
 
   public secondPlayerName(player: IPlayer): string {
-    let ret: string = player.playerRanking2 + ' - ' + player.playerName2;
-    if (this.withClubName) {
-      ret += ' (' + player.playerClub2 + ')';
-    }
+    return player.playerName2;
+  }
 
-    return ret;
+  public firstPlayerRanking(player: IPlayer): string {
+    return player.playerRanking1;
+  }
+
+  public secondPlayerRanking(player: IPlayer): string {
+    return player.playerRanking2;
+  }
+
+  public firstPlayerClub(player: IPlayer): string {
+    return player.playerClub1;
+  }
+
+  public secondPlayerClub(player: IPlayer): string {
+    return player.playerClub2;
   }
 
   public gotoNextCategory(bet: IBet | undefined) {
