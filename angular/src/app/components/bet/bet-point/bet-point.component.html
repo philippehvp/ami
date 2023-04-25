@@ -1,7 +1,7 @@
 <table
   mat-table
   [dataSource]="(betterPoints$ | async) || []"
-  *ngIf="{ currentBetter: better$ | async } as data"
+  *ngIf="{ better: better$ | async } as data"
 >
   <ng-container matColumnDef="better">
     <th mat-header-cell *matHeaderCellDef>Pronostiqueurs</th>
@@ -14,7 +14,7 @@
     <th mat-header-cell *matHeaderCellDef>
       Points
       <span *ngIf="(better$ | async)?.isAdmin">
-        <mat-icon (click)="closeBetterPoints(data.currentBetter || undefined)"
+        <mat-icon (click)="closeBetterPoints(data.better || undefined)"
           >close</mat-icon
         >
       </span>

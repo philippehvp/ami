@@ -23,10 +23,8 @@ export class BetStateModel {
   contests!: IContest[] | undefined;
   category!: ICategory | undefined;
   players!: IPlayer[] | undefined;
-  currentBet!: IBet | undefined;
+  bet!: IBet | undefined;
   bets!: IBet[] | undefined;
-  winner!: string | undefined;
-  runnerUp!: string | undefined;
   duration!: IDuration | undefined;
   completedBets!: number | undefined;
   isLoadingData!: boolean | undefined;
@@ -42,10 +40,8 @@ export class BetStateModel {
     contests: [],
     category: undefined,
     players: [],
-    currentBet: undefined,
+    bet: undefined,
     bets: [],
-    winner: undefined,
-    runnerUp: undefined,
     duration: undefined,
     completedBets: 0,
     isLoadingData: false,
@@ -95,23 +91,13 @@ export class BetState {
   }
 
   @Selector()
-  static currentBet(state: BetStateModel) {
-    return state.currentBet;
+  static bet(state: BetStateModel) {
+    return state.bet;
   }
 
   @Selector()
   static bets(state: BetStateModel) {
     return state.bets;
-  }
-
-  @Selector()
-  static winner(state: BetStateModel) {
-    return state.winner;
-  }
-
-  @Selector()
-  static runnerUp(state: BetStateModel) {
-    return state.runnerUp;
   }
 
   @Selector()
@@ -227,6 +213,7 @@ export class BetState {
     action: BetActions.SetCategory
   ) {
     const currentState = state.getState();
+
     if (currentState.category?.id !== action.categoryId) {
       return currentState.contests?.map((contest) => {
         contest.categories?.map((category) => {
@@ -239,7 +226,7 @@ export class BetState {
                 currentState.better?.accessKey || '',
                 category.id
               ),
-              new BetActions.SetCurrentBet(action.categoryId),
+              new BetActions.SetBet(action.categoryId),
             ]);
           }
         });
@@ -269,19 +256,16 @@ export class BetState {
       );
   }
 
-  @Action(BetActions.SetCurrentBet)
-  setCurrentBet(
-    state: StateContext<BetStateModel>,
-    action: BetActions.SetCurrentBet
-  ) {
+  @Action(BetActions.SetBet)
+  setCurrentBet(state: StateContext<BetStateModel>, action: BetActions.SetBet) {
     const currentState = state.getState();
 
-    const currentBet = currentState.bets?.find((bet) => {
+    const bet = currentState.bets?.find((bet) => {
       return bet.categoryId === action.categoryId;
     });
 
-    if (currentBet) {
-      state.patchState({ currentBet: currentBet });
+    if (bet) {
+      state.patchState({ bet: bet });
     }
   }
 
@@ -307,7 +291,7 @@ export class BetState {
             state.dispatch([
               new BetActions.GetDuration(currentState.better?.accessKey || ''),
               new BetActions.SetCategory(categoryId),
-              new BetActions.SetCurrentBet(categoryId),
+              new BetActions.SetBet(categoryId),
             ]);
           }
         }
@@ -430,8 +414,8 @@ export class BetState {
     if (currentBetIndex !== -1) {
       // On vérifie que les deux pronostics (vainqueur et finaliste) soient remplis
       if (
-        currentState.currentBet?.winnerId === 0 ||
-        currentState.currentBet?.runnerUpId === 0
+        currentState.bet?.winnerId === 0 ||
+        currentState.bet?.runnerUpId === 0
       ) {
         // L'un des deux pronostics n'est pas renseigné, on reste donc sur cette série
         return -1;
@@ -489,7 +473,7 @@ export class BetState {
                           : bet?.runnerUpId,
                     })
                   ),
-                  currentBet: {
+                  bet: {
                     ...bet,
                     winnerId: action.playerId,
                     runnerUpId:
@@ -549,7 +533,7 @@ export class BetState {
                         bet?.winnerId === action.playerId ? 0 : bet?.winnerId,
                     })
                   ),
-                  currentBet: {
+                  bet: {
                     ...bet,
                     runnerUpId: action.playerId,
                     winnerId:
@@ -651,10 +635,8 @@ export class BetState {
       contests: undefined,
       category: undefined,
       players: undefined,
-      currentBet: undefined,
+      bet: undefined,
       bets: undefined,
-      winner: undefined,
-      runnerUp: undefined,
       duration: undefined,
       completedBets: undefined,
     });
@@ -674,7 +656,7 @@ export class BetState {
     action: BetActions.GotoNextCategory
   ) {
     const currentCategoryIndex = state.getState().bets?.findIndex((bet) => {
-      return bet.categoryId === action.currentCategoryId;
+      return bet.categoryId === action.categoryId;
     });
 
     if (currentCategoryIndex !== -1) {

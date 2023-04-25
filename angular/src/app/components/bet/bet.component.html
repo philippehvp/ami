@@ -1,7 +1,7 @@
 <div
   *ngIf="{
     betterPointsCategoryToDisplay: betterPointsCategoryToDisplay$ | async,
-    currentBetter: better$ | async
+    better: better$ | async
   } as data"
 >
   <div class="bet-panel">
@@ -101,7 +101,7 @@
         <button
           mat-flat-button
           color="primary"
-          (click)="closeBetterPoints(data.currentBetter || undefined)"
+          (click)="closeBetterPoints(data.better || undefined)"
           cdkFocusInitial
         >
           Fermer

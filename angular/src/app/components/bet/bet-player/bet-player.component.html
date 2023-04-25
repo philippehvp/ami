@@ -1,6 +1,6 @@
 <mat-table
   [dataSource]="(players$ | async) || []"
-  *ngIf="{ currentBet: currentBet$ | async, better: better$ | async } as data"
+  *ngIf="{ bet: bet$ | async, better: better$ | async } as data"
 >
   <ng-container matColumnDef="winner">
     <th class="action" mat-header-cell *matHeaderCellDef>
@@ -12,15 +12,13 @@
         class="material-icons"
         color="primary"
         (click)="changeWinner(player.id)"
-        >{{
-          winnerIconLabel(data.currentBet || undefined, player.id)
-        }}</mat-icon
+        >{{ winnerIconLabel(data.bet || undefined, player.id) }}</mat-icon
       >
 
       <mat-icon
         *ngIf="
           !(contest$ | async)?.isUpdatable &&
-          isWinnerChecked(data.currentBet || undefined, player.id)
+          isWinnerChecked(data.bet || undefined, player.id)
         "
         class="material-icons"
         >expand_circle_down</mat-icon
@@ -38,15 +36,13 @@
         (click)="changeRunnerUp(player.id)"
         color="primary"
         class="material-icons"
-        >{{
-          runnerUpIconLabel(data.currentBet || undefined, player.id)
-        }}</mat-icon
+        >{{ runnerUpIconLabel(data.bet || undefined, player.id) }}</mat-icon
       >
 
       <mat-icon
         *ngIf="
           !(contest$ | async)?.isUpdatable &&
-          isRunnerUpChecked(data.currentBet || undefined, player.id)
+          isRunnerUpChecked(data.bet || undefined, player.id)
         "
         class="material-icons"
         >expand_circle_down</mat-icon
@@ -61,9 +57,7 @@
         {{ (category$ | async)?.longName }}
         <span *ngIf="(better$ | async)?.isAdmin" class="calculate">
           <mat-icon
-            (click)="
-              calculate(data.better || undefined, data.currentBet || undefined)
-            "
+            (click)="calculate(data.better || undefined, data.bet || undefined)"
             >calculate</mat-icon
           >
         </span>
@@ -71,7 +65,7 @@
           <button
             mat-flat-button
             class="next-button"
-            (click)="gotoNextCategory(data.currentBet || undefined)"
+            (click)="gotoNextCategory(data.bet || undefined)"
           >
             <span class="material-icons-outlined">double_arrow</span>
           </button>

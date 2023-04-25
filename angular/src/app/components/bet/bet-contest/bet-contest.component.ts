@@ -30,23 +30,23 @@ export class BetContestComponent {
 
   public getCategoryClass(
     bets: IBet[],
-    category: ICategory,
-    currentCategory?: ICategory
+    loopCategory: ICategory,
+    category?: ICategory
   ): string {
     let ret: string = '';
 
-    if (category && bets) {
+    if (loopCategory && bets) {
       // Recherche de la série dans les pronostics
       const bet = bets.find((bet) => {
-        return bet.categoryId === category.id;
+        return bet.categoryId === loopCategory.id;
       });
       if (bet) {
         ret =
           bet.winnerId && bet.runnerUpId
-            ? currentCategory?.id === category.id
+            ? category?.id === loopCategory.id
               ? 'complete complete-selected'
               : 'complete'
-            : currentCategory?.id === category.id
+            : category?.id === loopCategory.id
             ? 'uncomplete uncomplete-selected'
             : 'uncomplete';
       }
