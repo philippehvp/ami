@@ -96,4 +96,9 @@ export namespace BetActions {
     static readonly type = '[Bet] Is Loading Data';
     constructor(public isLoadingData: boolean) {}
   }
+
+  export class UnsetAllBetsDone {
+    static readonly type = '[Bet] Unset All Bets Done';
+    constructor() {}
+  }
 }

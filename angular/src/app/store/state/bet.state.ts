@@ -28,6 +28,7 @@ export class BetStateModel {
   duration!: IDuration | undefined;
   completedBets!: number | undefined;
   isLoadingData!: boolean | undefined;
+  allBetsDone!: boolean | undefined;
 }
 
 @State<BetStateModel>({
@@ -45,6 +46,7 @@ export class BetStateModel {
     duration: undefined,
     completedBets: 0,
     isLoadingData: false,
+    allBetsDone: undefined,
   },
 })
 @Injectable()
@@ -113,6 +115,11 @@ export class BetState {
   @Selector()
   static isLoadingData(state: BetStateModel) {
     return state.isLoadingData;
+  }
+
+  @Selector()
+  static allBetsDone(state: BetStateModel) {
+    return state.allBetsDone;
   }
 
   @Action(BetActions.SetBetter)
@@ -324,6 +331,15 @@ export class BetState {
     const completedBetsCount = completedBets?.length || 0;
     const totalBetsCount = state.getState().bets?.length || 0;
     const oldCompletedBetsCount = state.getState().completedBets || 0;
+
+    if (
+      completedBetsCount === totalBetsCount &&
+      oldCompletedBetsCount < completedBetsCount
+    ) {
+      state.patchState({
+        allBetsDone: true,
+      });
+    }
 
     state.patchState({
       completedBets: completedBets?.length || 0,
@@ -669,5 +685,10 @@ export class BetState {
         .categoryId;
       state.dispatch([new BetActions.SetCategory(nextCategoryId)]);
     }
+  }
+
+  @Action(BetActions.UnsetAllBetsDone)
+  unsetAllBetsDone(state: StateContext<BetStateModel>) {
+    state.patchState({ allBetsDone: undefined });
   }
 }

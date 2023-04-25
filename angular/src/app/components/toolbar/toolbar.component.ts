@@ -49,7 +49,7 @@ export class ToolbarComponent {
         data: {
           title: 'Pronostics incomplets',
           message:
-            "Vous n'avez pas saisi tous les pronostics. Voulez-vous vraiment quitter Winabad ?",
+            "Tu n'as pas saisi tous les pronostics. Sûr de vouloir quitter Winabad ?",
           dialogType: InformationDialogType.YesNo,
           labels: ['Annuler', 'Quitter'],
         },

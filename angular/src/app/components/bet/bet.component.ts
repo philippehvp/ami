@@ -43,6 +43,9 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetterPointState.categoryToDisplay)
   betterPointsCategoryToDisplay$!: Observable<number>;
 
+  @Select(BetState.allBetsDone)
+  allBetsDone$!: Observable<boolean>;
+
   private isOfflineSub!: Subscription;
   private allBetsDoneSub!: Subscription;
   private betterSub!: Subscription;
@@ -80,6 +83,29 @@ export class BetComponent implements OnInit, OnDestroy {
             });
         }
         return;
+      });
+
+    this.allBetsDoneSub = this.allBetsDone$
+      .pipe(filter((allBetsDone) => !!allBetsDone))
+      .subscribe((allBetsDone) => {
+        if (allBetsDone) {
+          const config: MatDialogConfig<IInformationDialogConfig> = {
+            data: {
+              title: 'Pronostics entièrement saisis',
+              message:
+                'Tous les pronostics ont été saisis. Vérifie que la durée du match le plus long te convienne',
+              dialogType: InformationDialogType.Information,
+              labels: ['Fermer'],
+            },
+          };
+
+          this.dialog
+            .open(InformationComponent, config)
+            .afterClosed()
+            .subscribe(() => {
+              this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
+            });
+        }
       });
 
     this.betterSub = this.better$
