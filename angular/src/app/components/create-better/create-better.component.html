@@ -4,7 +4,7 @@
 
     <form [formGroup]="formGroup" (keydown.enter)="createBetter()">
       <p>
-        <mat-form-field>
+        <mat-form-field hideRequiredMarker="true">
           <mat-label>Nom</mat-label>
           <input
             matInput
@@ -17,7 +17,7 @@
       </p>
 
       <p>
-        <mat-form-field>
+        <mat-form-field hideRequiredMarker="true">
           <mat-label>Prénom</mat-label>
           <input
             matInput
@@ -30,7 +30,7 @@
       </p>
 
       <p>
-        <mat-form-field>
+        <mat-form-field hideRequiredMarker="true">
           <mat-label>Code à 4 chiffres</mat-label>
           <input
             matInput
@@ -46,7 +46,7 @@
       </p>
 
       <p>
-        <mat-form-field>
+        <mat-form-field hideRequiredMarker="true">
           <mat-label>Mail / N° de téléphone</mat-label>
           <input
             matInput

@@ -4,28 +4,26 @@
 
     <form [formGroup]="formGroup" (keydown.enter)="login()">
       <p>
-        <mat-form-field>
+        <mat-form-field hideRequiredMarker="true">
           <mat-label>Nom</mat-label>
           <mat-icon matPrefix>person</mat-icon>
           <input
             matInput
             type="text"
             formControlName="name"
-            required
             autocomplete="on"
           />
         </mat-form-field>
       </p>
 
       <p>
-        <mat-form-field>
+        <mat-form-field hideRequiredMarker="true">
           <mat-label>Code à 4 chiffres</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
           <input
             matInput
             type="text"
             formControlName="password"
-            required
             autocomplete="on"
             minlength="4"
             maxlength="4"

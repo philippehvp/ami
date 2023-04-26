@@ -1,4 +1,4 @@
-<div
+<ng-container
   class="toolbar"
   *ngIf="{
     bets: bets$ | async,
@@ -6,35 +6,37 @@
     better: better$ | async
   } as data"
 >
-  <span class="title-area">
-    <span class="isb"></span>
-    <span class="title">WINABAD</span>
-  </span>
-  <span *ngIf="data.better?.isAdmin || false">
-    <span (click)="displayBettersBet()">Pronos</span>
-    <span>&nbsp;|&nbsp;</span>
-    <span (click)="displayBettersRanking()">Clts</span>
-    <span>&nbsp;|&nbsp;</span>
-    <span (click)="displayBettersOrderedByName()">Récap</span>
-  </span>
-  <span *ngIf="!data.better?.isAdmin"
-    >{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span
-  >
-  <span
-    class="material-icons-outlined"
-    *ngIf="!data.better?.isAdmin"
-    (click)="displayRules()"
-    >menu_book</span
-  >
-  <span
-    class="material-icons"
-    (click)="
-      logout(
-        data.bets?.length || 0,
-        data.completedBets || 0,
-        data.better?.isAdmin || false
-      )
-    "
-    >logout</span
-  >
-</div>
+  <div class="toolbar">
+    <span class="title-area">
+      <span class="isb"></span>
+      <span class="title">WINABAD</span>
+    </span>
+    <span *ngIf="data.better?.isAdmin || false">
+      <span (click)="displayBettersBet()">Pronos</span>
+      <span>&nbsp;|&nbsp;</span>
+      <span (click)="displayBettersRanking()">Clts</span>
+      <span>&nbsp;|&nbsp;</span>
+      <span (click)="displayBettersOrderedByName()">Récap</span>
+    </span>
+    <span *ngIf="!data.better?.isAdmin"
+      >{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span
+    >
+    <span
+      class="material-icons-outlined"
+      *ngIf="!data.better?.isAdmin"
+      (click)="displayRules()"
+      >menu_book</span
+    >
+    <span
+      class="material-icons"
+      (click)="
+        logout(
+          data.bets?.length || 0,
+          data.completedBets || 0,
+          data.better?.isAdmin || false
+        )
+      "
+      >logout</span
+    >
+  </div>
+</ng-container>

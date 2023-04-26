@@ -8,3 +8,11 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.create-better,
+.login {
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-image: url("~/assets/img/background.png"),
+    linear-gradient(45deg, #d176ff, #a400f6);
+}

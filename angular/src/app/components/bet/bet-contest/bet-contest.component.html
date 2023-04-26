@@ -1,4 +1,6 @@
-<div *ngIf="{ category: category$ | async, bets: bets$ | async } as data">
+<ng-container
+  *ngIf="{ category: category$ | async, bets: bets$ | async } as data"
+>
   <div *ngFor="let contest of contests$ | async" class="contest-panel">
     <span class="contest-label">{{ contest.shortName }}</span>
     <span
@@ -11,4 +13,4 @@
       {{ category.shortName }}
     </span>
   </div>
-</div>
+</ng-container>
