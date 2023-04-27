@@ -33,25 +33,22 @@ export class BetContestComponent {
     loopCategory: ICategory,
     category?: ICategory
   ): string {
-    let ret: string = '';
-
     if (loopCategory && bets) {
       // Recherche de la série dans les pronostics
       const bet = bets.find((bet) => {
         return bet.categoryId === loopCategory.id;
       });
       if (bet) {
-        ret =
-          bet.winnerId && bet.runnerUpId
-            ? category?.id === loopCategory.id
-              ? 'complete complete-selected'
-              : 'complete'
-            : category?.id === loopCategory.id
-            ? 'uncomplete uncomplete-selected'
-            : 'uncomplete';
+        return bet?.winnerId && bet?.runnerUpId
+          ? category?.id === loopCategory.id
+            ? 'complete complete-selected'
+            : 'complete'
+          : category?.id === loopCategory.id
+          ? 'uncomplete uncomplete-selected'
+          : 'uncomplete';
       }
     }
 
-    return ret;
+    return '';
   }
 }

@@ -250,6 +250,8 @@ export class BetState {
   ) {
     const currentState = state.getState();
 
+    state.patchState({ isLoadingData: true });
+
     return this.playerService
       .getPlayers(action.accessKey, action.categoryId)
       .pipe(
@@ -257,7 +259,10 @@ export class BetState {
           if ('isOffline' in readPlayers) {
             state.dispatch([new ConnectionActions.IsOffline()]);
           } else {
-            state.patchState({ players: <IPlayer[]>readPlayers });
+            state.patchState({
+              players: <IPlayer[]>readPlayers,
+              isLoadingData: false,
+            });
           }
         })
       );

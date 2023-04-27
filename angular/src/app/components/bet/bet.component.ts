@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { filter } from 'rxjs/operators';
+import { combineLatest, filter, map } from 'rxjs';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -46,9 +46,7 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
 
-  private isOfflineSub!: Subscription;
-  private allBetsDoneSub!: Subscription;
-  private betterSub!: Subscription;
+  private subs!: Subscription;
 
   private better!: IBetter;
 
@@ -62,75 +60,70 @@ export class BetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.isOfflineSub = this.isOffline$
-      ?.pipe(filter((isOffline) => !!isOffline))
-      .subscribe((isOffline) => {
-        if (isOffline) {
-          const config: MatDialogConfig<IInformationDialogConfig> = {
-            data: {
-              title: 'Session expirée',
-              message: 'Ta session est expirée. Merci de te reconnecter.',
-              dialogType: InformationDialogType.Information,
-              labels: ['Me connecter'],
-            },
-          };
+    this.subs = combineLatest([
+      this.isOffline$,
+      this.allBetsDone$,
+      this.better$,
+    ])
+      .pipe(
+        map(([isOffline, allBetsDone, better]) => {
+          if (isOffline) {
+            const config: MatDialogConfig<IInformationDialogConfig> = {
+              data: {
+                title: 'Session expirée',
+                message: 'Ta session est expirée. Merci de te reconnecter.',
+                dialogType: InformationDialogType.Information,
+                labels: ['Me connecter'],
+              },
+            };
 
-          this.dialog
-            .open(InformationComponent, config)
-            .afterClosed()
-            .subscribe(() => {
-              return this.router.navigate(['login']);
-            });
-        }
-        return;
-      });
+            this.dialog
+              .open(InformationComponent, config)
+              .afterClosed()
+              .subscribe(() => {
+                return this.router.navigate(['login']);
+              });
+          }
 
-    this.allBetsDoneSub = this.allBetsDone$
-      .pipe(filter((allBetsDone) => !!allBetsDone))
-      .subscribe((allBetsDone) => {
-        if (allBetsDone) {
-          const config: MatDialogConfig<IInformationDialogConfig> = {
-            data: {
-              title: 'Pronostics entièrement saisis',
-              message:
-                'Tous les pronostics ont été saisis. Vérifie que la durée du match le plus long te convienne.',
-              dialogType: InformationDialogType.Information,
-              labels: ['Fermer'],
-            },
-          };
+          if (allBetsDone) {
+            const config: MatDialogConfig<IInformationDialogConfig> = {
+              data: {
+                title: 'Pronostics entièrement saisis',
+                message:
+                  'Tous les pronostics ont été saisis. Vérifie que la durée du match le plus long te convienne.',
+                dialogType: InformationDialogType.Information,
+                labels: ['Fermer'],
+              },
+            };
 
-          this.dialog
-            .open(InformationComponent, config)
-            .afterClosed()
-            .subscribe(() => {
-              this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
-            });
-        }
-      });
+            this.dialog
+              .open(InformationComponent, config)
+              .afterClosed()
+              .subscribe(() => {
+                this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
+              });
+          }
 
-    this.betterSub = this.better$
-      .pipe(filter((better) => !!better))
-      .subscribe((better) => {
-        this.better = better;
-        if (better.isTutorialDone) {
-          window.localStorage.setItem('better', JSON.stringify(this.better));
-        } else {
-          this.tutorialStep = 1;
-        }
-      });
+          this.better = better;
+
+          if (better) {
+            if (better.isTutorialDone) {
+              window.localStorage.setItem(
+                'better',
+                JSON.stringify(this.better)
+              );
+            } else {
+              this.tutorialStep = 1;
+            }
+          }
+        })
+      )
+      .subscribe();
   }
 
   public ngOnDestroy() {
-    if (this.isOfflineSub) {
-      this.isOfflineSub.unsubscribe();
-    }
-
-    if (this.allBetsDoneSub) {
-      this.allBetsDoneSub.unsubscribe();
-    }
-
-    if (this.betterSub) {
-      this.betterSub.unsubscribe();
+    if (this.subs) {
+      this.subs.unsubscribe();
     }
   }
 

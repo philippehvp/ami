@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription, filter } from 'rxjs';
+import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterRanking } from 'src/app/models/better-ranking';
 import { BetterRankingActions } from 'src/app/store/action/better-ranking.action';
@@ -23,34 +23,31 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
   @Select(BetterRankingState.bettersRanking)
   bettersRanking$!: Observable<IBetterRanking[]>;
 
-  private betterSub!: Subscription;
-  private routeSub!: Subscription;
+  private subs!: Subscription;
+
   private better!: IBetter;
 
   public displayedColumns: string[] = ['ranking', 'name', 'points', 'duration'];
 
   public ngOnInit() {
-    this.betterSub = this.better$
-      .pipe(filter((better) => !!better))
-      .subscribe((better) => (this.better = better));
-
-    this.routeSub = this.route.data.subscribe((data) => {
-      this.store.dispatch([
-        new BetterRankingActions.GetBetterRanking(
-          this.better.accessKey,
-          data['byRanking'] ? true : false
-        ),
-      ]);
-    });
+    this.subs = combineLatest([this.better$, this.route.data])
+      .pipe(
+        map(([better, data]) => {
+          this.better = better;
+          this.store.dispatch([
+            new BetterRankingActions.GetBetterRanking(
+              this.better.accessKey,
+              data['byRanking'] ? true : false
+            ),
+          ]);
+        })
+      )
+      .subscribe();
   }
 
   public ngOnDestroy() {
-    if (this.betterSub) {
-      this.betterSub.unsubscribe();
-    }
-
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
+    if (this.subs) {
+      this.subs.unsubscribe();
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
@@ -10,40 +10,39 @@ import { PersistenceServiceService as PersistenceService } from 'src/app/service
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { BetState } from 'src/app/store/state/bet.state';
-// import {
-//   animate,
-//   state,
-//   style,
-//   transition,
-//   trigger,
-// } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { Subscription, combineLatest, map } from 'rxjs';
 
-// const fadeOutIn = trigger('fadeOutIn', [
-//   state(
-//     'loading',
-//     style({
-//       color: '#fff',
-//       backgroundColor: '#5a246a',
-//     })
-//   ),
-//   state(
-//     'loadComplete',
-//     style({
-//       color: 'inherit',
-//       backgroundColor: 'inherit',
-//     })
-//   ),
-//   transition('loading => loadComplete', [animate('1s')]),
-//   transition('loadComplete => loading', [animate('0.5s ease-out')]),
-// ]);
+const fadeAnimation = trigger('fadeAnimation', [
+  state(
+    'hide',
+    style({
+      opacity: 0,
+    })
+  ),
+  state(
+    'show',
+    style({
+      opacity: 1,
+    })
+  ),
+  transition('* => hide', [animate('0.25s')]),
+  transition('* => show', [animate('1s')]),
+]);
 
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
   styleUrls: ['./bet-player.component.scss'],
-  // animations: [fadeOutIn],
+  animations: [fadeAnimation],
 })
-export class BetPlayerComponent {
+export class BetPlayerComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
 
@@ -65,6 +64,14 @@ export class BetPlayerComponent {
   @Select(BetState.isLoadingData)
   isLoadingData$!: Observable<boolean>;
 
+  public playersDisplayed!: IPlayer[];
+  public playersReceived!: IPlayer[];
+
+  private subs!: Subscription;
+
+  public isHiding!: boolean;
+  private isLoadingData!: boolean;
+
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
 
   public get withClubName(): boolean {
@@ -75,7 +82,34 @@ export class BetPlayerComponent {
     this.persistenceService.withClubName = withClubName;
   }
 
-  constructor() {}
+  public ngOnInit() {
+    this.subs = combineLatest([this.isLoadingData$, this.players$])
+      .pipe(
+        map(([isLoadingData, players]) => {
+          // La variable isLoadingData reflète toujours l'état de chargement ou non des données
+          this.isLoadingData = isLoadingData;
+
+          // On pilote manuellement le fait de masquer ou d'afficher les données
+          if (isLoadingData) {
+            // On déclenche le masquage des données
+            this.isHiding = true;
+          }
+
+          this.playersReceived = players;
+
+          if (!this.playersDisplayed) {
+            this.playersDisplayed = players;
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  public ngOnDestroy() {
+    if (this.subs) {
+      this.subs.unsubscribe();
+    }
+  }
 
   public isWinnerChecked(bet: IBet | undefined, playerId: number): boolean {
     return playerId === bet?.winnerId;
@@ -148,5 +182,23 @@ export class BetPlayerComponent {
           ),
         ]);
       });
+  }
+
+  public animationDone($event: any) {
+    // On vient de finir une animation qui peut-être le masquage ou l'affichage des données
+    if ($event.toState === 'hide') {
+      if (this.isLoadingData === false) {
+        // Si on vient de finir de masquer les données et que les données sont chargées
+        // Alors on doit les faire apparaître
+        this.playersDisplayed = this.playersReceived;
+        this.isHiding = false;
+      } else {
+        // while (this.isLoadingData === true) {
+        //   setTimeout(() => {}, 1000);
+        // }
+        // this.playersDisplayed = this.playersReceived;
+        this.isHiding = false;
+      }
+    }
   }
 }

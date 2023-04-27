@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription, filter } from 'rxjs';
+import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterBet, IPlayerBet } from 'src/app/models/better-bet';
 import { BetActions } from 'src/app/store/action/bet.action';
@@ -21,44 +21,39 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
-  private betterBetSub!: Subscription;
-  private betterSub!: Subscription;
+  private subs!: Subscription;
 
   public displayedColumns: string[] = [];
 
   public bets: IPlayerBet[] = [];
 
   public ngOnInit() {
-    this.betterSub = this.better$
-      .pipe(filter((better) => !!better))
-      .subscribe((better) => {
-        this.store.dispatch([new BetActions.GetBetterBet(better.accessKey)]);
-      });
+    this.subs = combineLatest([this.better$, this.betterBet$])
+      .pipe(
+        map(([better, betterBet]) => {
+          this.store.dispatch([new BetActions.GetBetterBet(better.accessKey)]);
 
-    this.betterBetSub = this.betterBet$.subscribe((betterBet) => {
-      if (betterBet && betterBet.length) {
-        this.displayedColumns = ['Pronostiqueurs'];
-        betterBet[0].header.map((header) => {
-          this.displayedColumns.push(
-            header.contestName + ' - ' + header.categoryName
-          );
-          this.displayedColumns.push(
-            'Pts' + header.contestName + ' - ' + header.categoryName
-          );
-        });
+          if (betterBet && betterBet.length) {
+            this.displayedColumns = ['Pronostiqueurs'];
+            betterBet[0].header.map((header) => {
+              this.displayedColumns.push(
+                header.contestName + ' - ' + header.categoryName
+              );
+              this.displayedColumns.push(
+                'Pts' + header.contestName + ' - ' + header.categoryName
+              );
+            });
 
-        this.bets = betterBet[0].bets;
-      }
-    });
+            this.bets = betterBet[0].bets;
+          }
+        })
+      )
+      .subscribe();
   }
 
   public ngOnDestroy() {
-    if (this.betterBetSub) {
-      this.betterBetSub.unsubscribe();
-    }
-
-    if (this.betterSub) {
-      this.betterSub.unsubscribe();
+    if (this.subs) {
+      this.subs.unsubscribe();
     }
   }
 
