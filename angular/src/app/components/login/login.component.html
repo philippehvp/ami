@@ -1,6 +1,6 @@
 <div class="login">
   <div class="login-panel">
-    <h3>Connexion à Winabad</h3>
+    <h3>Bienvenue sur Winabad</h3>
 
     <form [formGroup]="formGroup" (keydown.enter)="login()">
       <p>
@@ -22,7 +22,8 @@
           <mat-icon matPrefix>lock</mat-icon>
           <input
             matInput
-            type="text"
+            id="password"
+            [type]="passwordVisibility ? 'text' : 'password'"
             formControlName="password"
             autocomplete="on"
             minlength="4"
@@ -30,6 +31,7 @@
             pattern="[0-9]{4}"
             (input)="checkPassword($event)"
           />
+          <mat-icon matSuffix (click)="toggleVisibility()">visibility</mat-icon>
         </mat-form-field>
       </p>
     </form>

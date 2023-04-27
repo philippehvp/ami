@@ -67,6 +67,9 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   public playersDisplayed!: IPlayer[];
   public playersReceived!: IPlayer[];
 
+  public headerLabelReceived!: string;
+  public headerLabelDisplayed!: string;
+
   private subs!: Subscription;
 
   public isHiding!: boolean;
@@ -83,9 +86,14 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subs = combineLatest([this.isLoadingData$, this.players$])
+    this.subs = combineLatest([
+      this.contest$,
+      this.category$,
+      this.isLoadingData$,
+      this.players$,
+    ])
       .pipe(
-        map(([isLoadingData, players]) => {
+        map(([contest, category, isLoadingData, players]) => {
           // La variable isLoadingData reflète toujours l'état de chargement ou non des données
           this.isLoadingData = isLoadingData;
 
@@ -95,9 +103,17 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
             this.isHiding = true;
           }
 
+          if (contest && category) {
+            this.headerLabelReceived =
+              contest.longName + ' - ' + category.longName;
+          }
+
           this.playersReceived = players;
 
           if (!this.playersDisplayed) {
+            // Dans le cas où on a affiché une autre page et que l'on revient, on force le chargement des joueurs
+            this.headerLabelDisplayed =
+              contest.longName + ' - ' + category.longName;
             this.playersDisplayed = players;
           }
         })
@@ -191,6 +207,7 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
         // Si on vient de finir de masquer les données et que les données sont chargées
         // Alors on doit les faire apparaître
         this.playersDisplayed = this.playersReceived;
+        this.headerLabelDisplayed = this.headerLabelReceived;
         this.isHiding = false;
       } else {
         // while (this.isLoadingData === true) {

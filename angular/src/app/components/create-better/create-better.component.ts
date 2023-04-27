@@ -40,6 +40,8 @@ export class CreateBetterComponent implements OnInit {
 
   private isWarnMessageDisplayed: boolean = false;
 
+  public passwordVisibility: boolean = false;
+
   public ngOnInit() {
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
@@ -116,5 +118,9 @@ export class CreateBetterComponent implements OnInit {
       this.dialog.open(InformationComponent, config);
       this.isWarnMessageDisplayed = true;
     }
+  }
+
+  public toggleVisibility() {
+    this.passwordVisibility = !this.passwordVisibility;
   }
 }

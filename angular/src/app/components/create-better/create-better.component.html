@@ -34,7 +34,7 @@
           <mat-label>Code à 4 chiffres</mat-label>
           <input
             matInput
-            type="text"
+            [type]="passwordVisibility ? 'text' : 'password'"
             formControlName="password"
             required
             autocomplete="on"
@@ -42,6 +42,7 @@
             maxlength="4"
             (input)="checkPassword($event)"
           />
+          <mat-icon matSuffix (click)="toggleVisibility()">visibility</mat-icon>
         </mat-form-field>
       </p>
 

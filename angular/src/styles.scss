@@ -11,8 +11,9 @@ body {
 
 .create-better,
 .login {
+  // #d176ff
   background-position: bottom right;
   background-repeat: no-repeat;
   background-image: url("~/assets/img/background.png"),
-    linear-gradient(45deg, #d176ff, #a400f6);
+    linear-gradient(45deg, #d176ff 25%, #a400f6 75%);
 }

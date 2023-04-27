@@ -35,6 +35,8 @@ export class LoginComponent implements OnInit {
 
   public formGroup!: FormGroup;
 
+  public passwordVisibility: boolean = false;
+
   public ngOnInit() {
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
@@ -88,5 +90,9 @@ export class LoginComponent implements OnInit {
 
   public checkPassword($event: any) {
     $event.target.value = ($event.target.value || '').replace(/\D/g, '');
+  }
+
+  public toggleVisibility() {
+    this.passwordVisibility = !this.passwordVisibility;
   }
 }
