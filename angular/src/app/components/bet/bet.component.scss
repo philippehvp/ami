@@ -42,6 +42,15 @@ body {
   z-index: 1000;
   padding: 0 0.75em 0.75em 0.75em;
   transform: translate(-50%, 0);
-  top: 1em;
   left: 50%;
+}
+
+.tutorial1,
+.tutorial2,
+.tutorial4 {
+  top: 1em;
+}
+
+.tutorial3 {
+  top: 7em;
 }

@@ -50,6 +50,10 @@ const routes: Routes = [
     data: { byRanking: 0 },
   },
   {
+    path: 'bet-point',
+    component: BetPointComponent,
+  },
+  {
     path: '**',
     component: BetComponent,
   },

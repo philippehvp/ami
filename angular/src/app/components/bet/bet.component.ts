@@ -8,8 +8,6 @@ import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
 import { InformationComponent } from '../information/information.component';
 import { Router } from '@angular/router';
-import { BetterPointState } from 'src/app/store/state/better-point.state';
-import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { IBetter } from 'src/app/models/better';
 import { BetActions } from 'src/app/store/action/bet.action';
 import {
@@ -38,9 +36,6 @@ export class BetComponent implements OnInit, OnDestroy {
 
   @Select(BetState.isOffline)
   isOffline$!: Observable<boolean>;
-
-  @Select(BetterPointState.categoryToDisplay)
-  betterPointsCategoryToDisplay$!: Observable<number>;
 
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
@@ -120,12 +115,6 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
-  }
-
-  public closeBetterPoints(better: IBetter | undefined) {
-    this.store.dispatch([
-      new BetterPointActions.GetBetterPoint(better?.accessKey || '', 0),
-    ]);
   }
 
   public gotoNextTutorial() {

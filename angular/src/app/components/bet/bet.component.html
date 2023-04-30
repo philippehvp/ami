@@ -1,37 +1,38 @@
 <ng-container
   *ngIf="{
-    betterPointsCategoryToDisplay: betterPointsCategoryToDisplay$ | async,
     better: better$ | async
   } as data"
 >
   <div class="bet-panel">
+    <!-- Toolbar -->
     <div class="row no-growing">
       <mat-toolbar color="primary">
         <toolbar></toolbar>
       </mat-toolbar>
-    </div>
 
-    <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
-      <div class="tutorial4">
-        <h5>Barème et fin (4/4)</h5>
-        <p>
-          Le barème est disponible en cliquant sur l'icône
-          <span class="material-icons-outlined">menu_book</span> dans la barre
-          de menu.
-        </p>
+      <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
+        <div class="tutorial4">
+          <h5>Barème et fin (4/4)</h5>
+          <p>
+            Le barème est disponible en cliquant sur l'icône
+            <span class="material-icons-outlined">menu_book</span> dans la barre
+            de menu.
+          </p>
 
-        <p>
-          C'est fini ! Une fois tous tes pronos saisis, tu peux quitter en
-          cliquant sur l'icône
-          <span class="material-icons-outlined">logout</span> en haut à droite
-          et te reconnecter plus tard avec ton nom et ton code à 4 chiffres.
-        </p>
+          <p>
+            C'est fini ! Une fois tous tes pronos saisis, tu peux quitter en
+            cliquant sur l'icône
+            <span class="material-icons-outlined">logout</span> en haut à droite
+            et te reconnecter plus tard avec ton nom et ton code à 4 chiffres.
+          </p>
 
-        <h4>Bons pronostics à toi !</h4>
-        <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
+          <h4>Bons pronostics à toi !</h4>
+          <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
+        </div>
       </div>
     </div>
 
+    <!-- Durée du match -->
     <div class="row no-growing">
       <span class="title">Durée du match le plus long de la journée</span>
       <bet-duration
@@ -50,6 +51,7 @@
       </div>
     </div>
 
+    <!-- Séries -->
     <div class="row no-growing">
       <bet-contest id="contests-area"></bet-contest>
       <div *ngIf="tutorialStep === 1" class="tutorial-wrap">
@@ -69,45 +71,22 @@
       </div>
     </div>
 
-    <div
-      *ngIf="
-        !displayBetterPoints(data.betterPointsCategoryToDisplay || 0);
-        else displayPoints
-      "
-      class="row growing"
-    >
-      <bet-player
-        *ngIf="(contest$ | async) && (category$ | async)"
-        id="players-area"
-      ></bet-player>
-      <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
-        <div class="tutorial3">
-          <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
-          <p>
-            Ici apparaît la liste des joueurs de la série en cours. Choisis le
-            vainqueur et le finaliste en cliquant dans la première ou la
-            deuxième colonne du tableau. Facile !
-          </p>
+    <!-- Pronostics joueurs -->
+    <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
+      <div class="tutorial3">
+        <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
+        <p>
+          Ici apparaît la liste des joueurs de la série en cours. Choisis le
+          vainqueur et le finaliste en cliquant dans la première ou la deuxième
+          colonne du tableau. Facile !
+        </p>
 
-          <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
-        </div>
+        <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
       </div>
     </div>
-
-    <ng-template #displayPoints>
-      <div class="row growing">
-        <bet-point></bet-point>
-      </div>
-      <div class="row footer">
-        <button
-          mat-flat-button
-          color="primary"
-          (click)="closeBetterPoints(data.better || undefined)"
-          cdkFocusInitial
-        >
-          Fermer
-        </button>
-      </div>
-    </ng-template>
+    <bet-player
+      *ngIf="(contest$ | async) && (category$ | async)"
+      id="players-area"
+    ></bet-player>
   </div>
 </ng-container>

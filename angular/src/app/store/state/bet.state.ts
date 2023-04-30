@@ -644,7 +644,7 @@ export class BetState {
     action: BetActions.CalculatePointsAndRanking
   ) {
     return this.betService
-      .calculatepointsAndRanking(state.getState().better?.accessKey || '0')
+      .calculatepointsAndRanking(state.getState().better?.accessKey || '')
       .subscribe(() => {});
   }
 

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
@@ -25,7 +25,6 @@ export interface IToolbarOption {
 })
 export class ToolbarComponent {
   private store = inject(Store);
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
   private dialog = inject(MatDialog);
 

@@ -6,9 +6,8 @@ import { IBetter } from 'src/app/models/better';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { IPlayer } from 'src/app/models/player';
-import { PersistenceServiceService as PersistenceService } from 'src/app/services/persistence.service';
+import { PersistenceService as PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
-import { BetterPointActions } from 'src/app/store/action/better-point.action';
 import { BetState } from 'src/app/store/state/bet.state';
 import {
   animate,
@@ -25,6 +24,7 @@ import {
   of,
   takeUntil,
 } from 'rxjs';
+import { Router } from '@angular/router';
 
 const fadeAnimation = trigger('fadeAnimation', [
   state(
@@ -51,6 +51,7 @@ const fadeAnimation = trigger('fadeAnimation', [
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
   private store = inject(Store);
+  private router = inject(Router);
   private persistenceService = inject(PersistenceService);
 
   @Select(BetState.better)
@@ -237,16 +238,8 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public calculate(better: IBetter | undefined, bet: IBet | undefined) {
-    this.store
-      .dispatch([new BetActions.CalculatePointsAndRanking()])
-      .subscribe(() => {
-        this.store.dispatch([
-          new BetterPointActions.GetBetterPoint(
-            better?.accessKey || '',
-            bet?.categoryId || 0
-          ),
-        ]);
-      });
+  public calculate(bet: IBet | undefined) {
+    this.persistenceService.categoryId = bet?.categoryId || 0;
+    this.router.navigate(['bet-point']);
   }
 }
