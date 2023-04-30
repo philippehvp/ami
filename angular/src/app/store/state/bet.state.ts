@@ -36,13 +36,13 @@ export class BetStateModel {
   defaults: {
     isOffline: false,
     better: undefined,
-    betters: [],
+    betters: undefined,
     contest: undefined,
-    contests: [],
+    contests: undefined,
     category: undefined,
-    players: [],
+    players: undefined,
     bet: undefined,
-    bets: [],
+    bets: undefined,
     duration: undefined,
     completedBets: 0,
     isLoadingData: false,
@@ -362,14 +362,14 @@ export class BetState {
     return ret;
   }
 
-  private isBetFilled(bet: IBet): boolean {
-    return bet.winnerId !== 0 &&
-      bet.winnerId !== null &&
-      bet.runnerUpId !== 0 &&
-      bet.runnerUpId !== null
-      ? true
-      : false;
-  }
+  // private isBetFilled(bet: IBet): boolean {
+  //   return bet.winnerId !== 0 &&
+  //     bet.winnerId !== null &&
+  //     bet.runnerUpId !== 0 &&
+  //     bet.runnerUpId !== null
+  //     ? true
+  //     : false;
+  // }
 
   private searchFirstBetToFill(state: StateContext<BetStateModel>): number {
     const currentState = state.getState();
@@ -396,58 +396,58 @@ export class BetState {
     }
   }
 
-  private searchNextBetToFill(
-    state: StateContext<BetStateModel>,
-    currentBetIndex: number
-  ): number {
-    const currentState = state.getState();
+  // private searchNextBetToFill(
+  //   state: StateContext<BetStateModel>,
+  //   currentBetIndex: number
+  // ): number {
+  //   const currentState = state.getState();
 
-    let nextBetIndex = this.getNextBet(state, currentBetIndex || 0);
-    let bet = currentState.bets![nextBetIndex]!;
-    while (this.isBetFilled(bet) && nextBetIndex !== currentBetIndex) {
-      nextBetIndex = this.getNextBet(state, nextBetIndex || 0);
-      bet = (currentState.bets || [])[nextBetIndex];
-    }
+  //   let nextBetIndex = this.getNextBet(state, currentBetIndex || 0);
+  //   let bet = currentState.bets![nextBetIndex]!;
+  //   while (bet.isComplete && nextBetIndex !== currentBetIndex) {
+  //     nextBetIndex = this.getNextBet(state, nextBetIndex || 0);
+  //     bet = (currentState.bets || [])[nextBetIndex];
+  //   }
 
-    if (nextBetIndex === currentBetIndex) {
-      // On a fait le tour, sans trouver de pronostic à saisir
-      return -1;
-    } else {
-      return bet.categoryId;
-    }
-  }
+  //   if (nextBetIndex === currentBetIndex) {
+  //     // On a fait le tour, sans trouver de pronostic à saisir
+  //     return -1;
+  //   } else {
+  //     return bet.categoryId;
+  //   }
+  // }
 
-  private searchBetToFill(
-    state: StateContext<BetStateModel>,
-    category: number
-  ): number {
-    const currentState = state.getState();
+  // private searchBetToFill(
+  //   state: StateContext<BetStateModel>,
+  //   category: number
+  // ): number {
+  //   const currentState = state.getState();
 
-    if (currentState.better?.isAdmin) {
-      return -1;
-    }
+  //   if (currentState.better?.isAdmin) {
+  //     return -1;
+  //   }
 
-    // On cherche dans le tableau des pronostics à quel index on se trouve
-    let currentBetIndex: number = currentState.bets?.findIndex((bet) => {
-      return bet.categoryId === category;
-    })!;
+  //   // On cherche dans le tableau des pronostics à quel index on se trouve
+  //   let currentBetIndex: number = currentState.bets?.findIndex((bet) => {
+  //     return bet.categoryId === category;
+  //   })!;
 
-    if (currentBetIndex !== -1) {
-      // On vérifie que les deux pronostics (vainqueur et finaliste) soient remplis
-      if (
-        currentState.bet?.winnerId === 0 ||
-        currentState.bet?.runnerUpId === 0
-      ) {
-        // L'un des deux pronostics n'est pas renseigné, on reste donc sur cette série
-        return -1;
-      } else {
-        // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
-        return this.searchNextBetToFill(state, currentBetIndex || 0);
-      }
-    }
+  //   if (currentBetIndex !== -1) {
+  //     // On vérifie que les deux pronostics (vainqueur et finaliste) soient remplis
+  //     if (
+  //       currentState.bet?.winnerId === 0 ||
+  //       currentState.bet?.runnerUpId === 0
+  //     ) {
+  //       // L'un des deux pronostics n'est pas renseigné, on reste donc sur cette série
+  //       return -1;
+  //     } else {
+  //       // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
+  //       return this.searchNextBetToFill(state, currentBetIndex || 0);
+  //     }
+  //   }
 
-    return -1;
-  }
+  //   return -1;
+  // }
 
   private handleError(
     state: StateContext<BetStateModel>,
@@ -492,6 +492,8 @@ export class BetState {
                         bet?.runnerUpId === action.playerId
                           ? 0
                           : bet?.runnerUpId,
+                      isComplete:
+                        bet?.runnerUpId === action.playerId ? false : true,
                     })
                   ),
                   bet: {
@@ -499,6 +501,8 @@ export class BetState {
                     winnerId: action.playerId,
                     runnerUpId:
                       bet?.runnerUpId === action.playerId ? 0 : bet?.runnerUpId,
+                    isComplete:
+                      bet?.runnerUpId === action.playerId ? false : true,
                   },
                 })
               );
@@ -552,6 +556,8 @@ export class BetState {
                       runnerUpId: action.playerId,
                       winnerId:
                         bet?.winnerId === action.playerId ? 0 : bet?.winnerId,
+                      isComplete:
+                        bet?.winnerId === action.playerId ? false : true,
                     })
                   ),
                   bet: {
@@ -559,6 +565,8 @@ export class BetState {
                     runnerUpId: action.playerId,
                     winnerId:
                       bet?.winnerId === action.playerId ? 0 : bet?.winnerId,
+                    isComplete:
+                      bet?.winnerId === action.playerId ? false : true,
                   },
                 })
               );

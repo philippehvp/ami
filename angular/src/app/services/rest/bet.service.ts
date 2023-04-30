@@ -44,7 +44,20 @@ export class BetService {
 
   public getBets(accessKey: string): Observable<IBet[] | IOffline> {
     const url = CommonService.getURL('bet/bets');
-    return this.httpClient.post<IBet[]>(url, { accessKey });
+    return this.httpClient.post<IBet[]>(url, { accessKey }).pipe(
+      map((bets) => {
+        return bets.map(
+          (bet) =>
+            <IBet>{
+              betterAccessKey: bet.betterAccessKey,
+              categoryId: bet.categoryId,
+              winnerId: bet.winnerId,
+              runnerUpId: bet.runnerUpId,
+              isComplete: bet.winnerId && bet.runnerUpId ? true : false,
+            }
+        );
+      })
+    );
   }
 
   public getDuration(accessKey: string): Observable<IDuration | IOffline> {

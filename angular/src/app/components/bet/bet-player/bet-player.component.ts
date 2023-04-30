@@ -17,7 +17,14 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Subscription, combineLatest, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+  combineLatest,
+  map,
+  of,
+  takeUntil,
+} from 'rxjs';
 
 const fadeAnimation = trigger('fadeAnimation', [
   state(
@@ -32,8 +39,8 @@ const fadeAnimation = trigger('fadeAnimation', [
       opacity: 1,
     })
   ),
-  transition('* => hide', [animate('0.25s')]),
-  transition('* => show', [animate('1s')]),
+  transition('* => hide', [animate(250)]),
+  transition('* => show', [animate(750)]),
 ]);
 
 @Component({
@@ -64,16 +71,17 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   @Select(BetState.isLoadingData)
   isLoadingData$!: Observable<boolean>;
 
+  private destroy$!: Subject<boolean>;
+  private loadingData$!: BehaviorSubject<boolean>;
+  private isHiding$!: BehaviorSubject<boolean>;
+
+  public animationState!: string;
+
   public playersDisplayed!: IPlayer[];
   public playersReceived!: IPlayer[];
 
   public headerLabelReceived!: string;
   public headerLabelDisplayed!: string;
-
-  private subs!: Subscription;
-
-  public isHiding!: boolean;
-  private isLoadingData!: boolean;
 
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
 
@@ -86,23 +94,59 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subs = combineLatest([
-      this.contest$,
-      this.category$,
-      this.isLoadingData$,
-      this.players$,
-    ])
+    this.destroy$ = new Subject<boolean>();
+    this.isHiding$ = new BehaviorSubject<boolean>(true);
+    this.loadingData$ = new BehaviorSubject<boolean>(true);
+
+    this.animationState = 'show';
+
+    // Ecoute du store isLoadingData
+    this.isLoadingData$
       .pipe(
-        map(([contest, category, isLoadingData, players]) => {
-          // La variable isLoadingData reflète toujours l'état de chargement ou non des données
-          this.isLoadingData = isLoadingData;
+        takeUntil(this.destroy$),
+        map((isLoadingData) => {
+          this.loadingData$.next(isLoadingData);
+        })
+      )
+      .subscribe();
 
-          // On pilote manuellement le fait de masquer ou d'afficher les données
+    this.loadingData$
+      .pipe(
+        takeUntil(this.destroy$),
+        map((isLoadingData) => {
           if (isLoadingData) {
-            // On déclenche le masquage des données
-            this.isHiding = true;
+            // Début chargement de données
+            this.animationState = 'hide';
+            this.isHiding$.next(true);
+          } else {
+            // Fin de chargement des données
+            if (this.isHiding$.value === false) {
+              // L'animation de masquage est terminée, on peut donc afficher les données tout de suite
+              // Cela arrive si le temps de masquage est très bas
+              this.playersDisplayed = this.playersReceived;
+              this.animationState = 'show';
+            }
           }
+        })
+      )
+      .subscribe();
 
+    this.isHiding$
+      .pipe(
+        takeUntil(this.destroy$),
+        map((isHiding) => {
+          if (isHiding === false && this.loadingData$.value === false) {
+            this.playersDisplayed = this.playersReceived;
+            this.animationState = 'show';
+          }
+        })
+      )
+      .subscribe();
+
+    combineLatest([this.contest$, this.category$, this.players$])
+      .pipe(
+        takeUntil(this.destroy$),
+        map(([contest, category, players]) => {
           if (contest && category) {
             this.headerLabelReceived =
               contest.longName + ' - ' + category.longName;
@@ -122,8 +166,14 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    if (this.subs) {
-      this.subs.unsubscribe();
+    this.destroy$.next(true);
+  }
+
+  public animationDone($event: any) {
+    // On vient de finir une animation qui peut-être le masquage ou l'affichage des données
+    // Dans notre cas, on se concentre uniquement sur le masquage des données
+    if ($event.toState === 'hide') {
+      this.isHiding$.next(false);
     }
   }
 
@@ -198,24 +248,5 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
           ),
         ]);
       });
-  }
-
-  public animationDone($event: any) {
-    // On vient de finir une animation qui peut-être le masquage ou l'affichage des données
-    if ($event.toState === 'hide') {
-      if (this.isLoadingData === false) {
-        // Si on vient de finir de masquer les données et que les données sont chargées
-        // Alors on doit les faire apparaître
-        this.playersDisplayed = this.playersReceived;
-        this.headerLabelDisplayed = this.headerLabelReceived;
-        this.isHiding = false;
-      } else {
-        // while (this.isLoadingData === true) {
-        //   setTimeout(() => {}, 1000);
-        // }
-        // this.playersDisplayed = this.playersReceived;
-        this.isHiding = false;
-      }
-    }
   }
 }

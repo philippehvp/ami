@@ -7,7 +7,7 @@
 
   <mat-table
     [dataSource]="playersDisplayed"
-    [@fadeAnimation]="isHiding ? 'hide' : 'show'"
+    [@fadeAnimation]="animationState"
     (@fadeAnimation.done)="animationDone($event)"
   >
     <ng-container matColumnDef="winner">

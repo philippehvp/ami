@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { combineLatest, filter, map } from 'rxjs';
+import { Subject, combineLatest, map } from 'rxjs';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -46,7 +45,7 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
 
-  private subs!: Subscription;
+  private destroy$!: Subject<boolean>;
 
   private better!: IBetter;
 
@@ -60,11 +59,9 @@ export class BetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subs = combineLatest([
-      this.isOffline$,
-      this.allBetsDone$,
-      this.better$,
-    ])
+    this.destroy$ = new Subject<boolean>();
+
+    combineLatest([this.isOffline$, this.allBetsDone$, this.better$])
       .pipe(
         map(([isOffline, allBetsDone, better]) => {
           if (isOffline) {
@@ -122,9 +119,7 @@ export class BetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    if (this.subs) {
-      this.subs.unsubscribe();
-    }
+    this.destroy$.next(true);
   }
 
   public closeBetterPoints(better: IBetter | undefined) {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterRanking } from 'src/app/models/better-ranking';
 import { BetterRankingActions } from 'src/app/store/action/better-ranking.action';
@@ -23,15 +23,18 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
   @Select(BetterRankingState.bettersRanking)
   bettersRanking$!: Observable<IBetterRanking[]>;
 
-  private subs!: Subscription;
+  private destroy$!: Subject<boolean>;
 
   private better!: IBetter;
 
   public displayedColumns: string[] = ['ranking', 'name', 'points', 'duration'];
 
   public ngOnInit() {
-    this.subs = combineLatest([this.better$, this.route.data])
+    this.destroy$ = new Subject<boolean>();
+
+    combineLatest([this.better$, this.route.data])
       .pipe(
+        takeUntil(this.destroy$),
         map(([better, data]) => {
           this.better = better;
           this.store.dispatch([
@@ -46,8 +49,6 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    if (this.subs) {
-      this.subs.unsubscribe();
-    }
+    this.destroy$.next(true);
   }
 }

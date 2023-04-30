@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterBet, IPlayerBet } from 'src/app/models/better-bet';
 import { BetActions } from 'src/app/store/action/bet.action';
@@ -21,15 +21,18 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
-  private subs!: Subscription;
+  private destroy$!: Subject<boolean>;
 
   public displayedColumns: string[] = [];
 
   public bets: IPlayerBet[] = [];
 
   public ngOnInit() {
-    this.subs = combineLatest([this.better$, this.betterBet$])
+    this.destroy$ = new Subject<boolean>();
+
+    combineLatest([this.better$, this.betterBet$])
       .pipe(
+        takeUntil(this.destroy$),
         map(([better, betterBet]) => {
           this.store.dispatch([new BetActions.GetBetterBet(better.accessKey)]);
 
@@ -52,9 +55,7 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    if (this.subs) {
-      this.subs.unsubscribe();
-    }
+    this.destroy$.next(true);
   }
 
   public isNameColumn(index: number): boolean {

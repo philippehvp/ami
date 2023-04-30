@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { IDuration } from 'src/app/models/duration';
 import { BetActions } from 'src/app/store/action/bet.action';

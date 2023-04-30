@@ -18,11 +18,11 @@ export class BetContestComponent {
   @Select(BetState.contests)
   contests$!: Observable<IContest[]>;
 
-  @Select(BetState.category)
-  category$!: Observable<ICategory>;
-
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
+
+  @Select(BetState.category)
+  category$!: Observable<ICategory>;
 
   public changeCategory(categoryId: number) {
     this.store.dispatch([new BetActions.SetCategory(categoryId)]);
@@ -31,7 +31,7 @@ export class BetContestComponent {
   public getCategoryClass(
     bets: IBet[],
     loopCategory: ICategory,
-    category?: ICategory
+    category?: ICategory | null
   ): string {
     if (loopCategory && bets) {
       // Recherche de la série dans les pronostics
@@ -39,7 +39,7 @@ export class BetContestComponent {
         return bet.categoryId === loopCategory.id;
       });
       if (bet) {
-        return bet?.winnerId && bet?.runnerUpId
+        return bet?.isComplete
           ? category?.id === loopCategory.id
             ? 'complete complete-selected'
             : 'complete'

@@ -1,5 +1,5 @@
 <ng-container
-  *ngIf="{ category: category$ | async, bets: bets$ | async } as data"
+  *ngIf="{ bets: bets$ | async, category: category$ | async } as data"
 >
   <div *ngFor="let contest of contests$ | async" class="contest-panel">
     <span class="contest-label">{{ contest.shortName }}</span>
@@ -7,7 +7,7 @@
       *ngFor="let category of contest.categories"
       (click)="changeCategory(category.id)"
       [class]="
-        getCategoryClass(data.bets || [], category, data.category || undefined)
+        getCategoryClass(data.bets || [], category, data.category || null)
       "
     >
       {{ category.shortName }}
