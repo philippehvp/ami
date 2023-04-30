@@ -2,11 +2,11 @@
 
 L'attribution des points par série se fait de la manière suivante :
 
-- 20 points si tu trouves le vainqueur et le finaliste dans le bon ordre
-- 12 points si tu trouves uniquement le vainqueur
-- 10 points si tu trouves le vainqueur et le finaliste aux mauvaises places
-- 7 points si tu trouves uniquement le finaliste
-- 5 points si tu trouves le vainqueur ou le finaliste à la mauvaise place
+- 20 points si le vainqueur et le finaliste sont dans le bon ordre
+- 12 points s'il y a uniqument le vainqueur
+- 10 points si le vainqueur et le finaliste sont aux mauvaises places
+- 7 points s'il y a uniquement le finaliste
+- 5 points si le vainqueur ou le finaliste est à la mauvaise place
 - 0 point dans tous les autres cas
 
 ## Classement et égalité

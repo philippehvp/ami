@@ -71,7 +71,6 @@
       </div>
     </div>
 
-    <!-- Pronostics joueurs -->
     <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
       <div class="tutorial3">
         <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
@@ -84,9 +83,13 @@
         <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
       </div>
     </div>
-    <bet-player
-      *ngIf="(contest$ | async) && (category$ | async)"
-      id="players-area"
-    ></bet-player>
+
+    <!-- Pronostics -->
+    <div class="row growing">
+      <bet-player
+        *ngIf="(contest$ | async) && (category$ | async)"
+        id="players-area"
+      ></bet-player>
+    </div>
   </div>
 </ng-container>

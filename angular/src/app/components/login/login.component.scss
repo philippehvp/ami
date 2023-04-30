@@ -39,3 +39,10 @@
 ::ng-deep .mat-form-field-outline {
   opacity: 0;
 }
+
+.sponsoring {
+  display: flex;
+  width: 80vw;
+  height: 100px;
+  background: url("/assets/img/phocea-light.png") no-repeat 50%;
+}
