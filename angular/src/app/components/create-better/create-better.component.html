@@ -42,7 +42,12 @@
             maxlength="4"
             (input)="checkPassword($event)"
           />
-          <mat-icon matSuffix (click)="toggleVisibility()">visibility</mat-icon>
+          <mat-icon
+            matSuffix
+            (pointerdown)="showPassword()"
+            (pointerup)="hidePassword()"
+            >visibility</mat-icon
+          >
         </mat-form-field>
       </p>
 

@@ -120,7 +120,11 @@ export class CreateBetterComponent implements OnInit {
     }
   }
 
-  public toggleVisibility() {
-    this.passwordVisibility = !this.passwordVisibility;
+  public showPassword() {
+    this.passwordVisibility = true;
+  }
+
+  public hidePassword() {
+    this.passwordVisibility = false;
   }
 }
