@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .create-better-panel {
@@ -33,4 +34,31 @@
 
 .contact {
   font-size: 0.9em;
+}
+
+.sponsoring {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100px;
+  position: absolute;
+  bottom: 0;
+
+  .isb {
+    display: flex;
+    width: 50%;
+    background: url("/assets/img/isb.png") no-repeat;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 75%;
+  }
+
+  .phocea {
+    display: flex;
+    width: 50%;
+    background-image: url("/assets/img/phocea-light.png");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 75%;
+  }
 }
