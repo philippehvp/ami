@@ -92,11 +92,13 @@ export class LoginComponent implements OnInit {
     $event.target.value = ($event.target.value || '').replace(/\D/g, '');
   }
 
-  public showPassword() {
-    this.passwordVisibility = true;
+  public toggleVisibility() {
+    this.passwordVisibility = !this.passwordVisibility;
   }
 
-  public hidePassword() {
-    this.passwordVisibility = false;
+  public get displayHideLabel(): string {
+    return this.passwordVisibility
+      ? 'Masquer le code secret'
+      : 'Afficher le code secret';
   }
 }

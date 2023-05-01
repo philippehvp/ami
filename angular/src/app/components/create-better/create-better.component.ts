@@ -120,11 +120,13 @@ export class CreateBetterComponent implements OnInit {
     }
   }
 
-  public showPassword() {
-    this.passwordVisibility = true;
+  public toggleVisibility() {
+    this.passwordVisibility = !this.passwordVisibility;
   }
 
-  public hidePassword() {
-    this.passwordVisibility = false;
+  public get displayHideLabel(): string {
+    return this.passwordVisibility
+      ? 'Masquer le code secret'
+      : 'Afficher le code secret';
   }
 }

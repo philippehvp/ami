@@ -1,7 +1,6 @@
 <div class="login">
   <div class="login-panel">
     <h2>Bienvenue sur Winabad</h2>
-    <h3>Merci de te connecter</h3>
 
     <form [formGroup]="formGroup" (keydown.enter)="login()">
       <p>
@@ -32,11 +31,10 @@
             pattern="[0-9]{4}"
             (input)="checkPassword($event)"
           />
-          <mat-icon
-            matSuffix
-            (pointerdown)="showPassword()"
-            (pointerup)="hidePassword()"
-            >visibility</mat-icon
+          <mat-hint class="hint" (click)="toggleVisibility()"
+            ><mat-icon matSuffix>visibility</mat-icon>&nbsp;{{
+              displayHideLabel
+            }}</mat-hint
           >
         </mat-form-field>
       </p>

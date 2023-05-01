@@ -20,6 +20,10 @@
   text-align: center;
 }
 
+.hint {
+  font-size: 0.75em;
+}
+
 .login-button {
   margin-bottom: 0.7em;
 }
@@ -27,6 +31,10 @@
 .create-account {
   margin-bottom: 1em;
   text-decoration: underline;
+}
+
+.mat-mdc-form-field {
+  min-width: 250px;
 }
 
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
@@ -40,31 +48,4 @@
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-disabled,
 ::ng-deep .mat-form-field-outline {
   opacity: 0;
-}
-
-.sponsoring {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  height: 100px;
-  position: absolute;
-  bottom: 0;
-
-  .isb {
-    display: flex;
-    width: 50%;
-    background: url("/assets/img/isb.png") no-repeat;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-size: 75%;
-  }
-
-  .phocea {
-    display: flex;
-    width: 50%;
-    background-image: url("/assets/img/phocea-light.png");
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-size: 75%;
-  }
 }

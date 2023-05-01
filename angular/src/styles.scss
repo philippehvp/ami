@@ -17,3 +17,35 @@ body {
   background-image: url("~/assets/img/background.png"),
     linear-gradient(45deg, #d176ff 25%, #a400f6 75%);
 }
+
+.sponsoring {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100px;
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
+
+  .isb {
+    display: flex;
+    width: 45%;
+    height: 100px;
+    background: url("~/assets/img/isb.png") no-repeat;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+    margin: 0 20px;
+  }
+
+  .phocea {
+    display: flex;
+    width: 45%;
+    height: 100px;
+    background-image: url("~/assets/img/phocea-light.png");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+    margin: 0 20px;
+  }
+}
