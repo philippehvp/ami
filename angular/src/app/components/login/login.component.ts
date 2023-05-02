@@ -95,10 +95,4 @@ export class LoginComponent implements OnInit {
   public toggleVisibility() {
     this.passwordVisibility = !this.passwordVisibility;
   }
-
-  public get displayHideLabel(): string {
-    return this.passwordVisibility
-      ? 'Masquer le code secret'
-      : 'Afficher le code secret';
-  }
 }

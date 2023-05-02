@@ -31,10 +31,17 @@
             pattern="[0-9]{4}"
             (input)="checkPassword($event)"
           />
-          <mat-hint class="hint" (click)="toggleVisibility()"
-            ><mat-icon matSuffix>visibility</mat-icon>&nbsp;{{
-              displayHideLabel
-            }}</mat-hint
+          <mat-icon
+            matSuffix
+            *ngIf="!passwordVisibility"
+            (click)="toggleVisibility()"
+            >visibility</mat-icon
+          >
+          <mat-icon
+            matSuffix
+            *ngIf="passwordVisibility"
+            (click)="toggleVisibility()"
+            >visibility_off</mat-icon
           >
         </mat-form-field>
       </p>
@@ -50,10 +57,5 @@
     </button>
 
     <a class="create-account" (click)="createBetter()">Créer un compte</a>
-  </div>
-
-  <div class="sponsoring">
-    <div class="isb"></div>
-    <div class="phocea"></div>
   </div>
 </div>

@@ -3,10 +3,15 @@ body {
   margin: 0;
 }
 
+:root {
+  --doc-height: 100%;
+}
+
 .bet-panel {
   display: flex;
   flex-flow: nowrap column;
   height: 100vh;
+  // height: var(--doc-height);
 }
 
 .bet-panel .row.no-growing {
@@ -15,11 +20,7 @@ body {
 
 .bet-panel .row.growing {
   flex: 1 1 auto;
-  overflow-y: scroll;
-}
-
-.bet-panel .row.footer {
-  flex: 0 1 40px;
+  overflow-y: auto;
 }
 
 .bet-panel .title {
@@ -36,9 +37,12 @@ body {
 .tutorial4 {
   display: inline-block;
   position: absolute;
-  background-color: rgba(90, 36, 106, 0.95);
-  color: white;
-  width: 90vw;
+  // background-color: rgba(90, 36, 106, 0.95);
+  background-color: #ebe5ed;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 85vw;
   z-index: 1000;
   padding: 0 0.75em 0.75em 0.75em;
   transform: translate(-50%, 0);
@@ -53,4 +57,20 @@ body {
 
 .tutorial3 {
   top: 7em;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin: 0 0.5em 0.5em 0.5em;
+  padding: 0.5em;
+}
+
+.duration {
+  margin-top: 0.5em;
 }

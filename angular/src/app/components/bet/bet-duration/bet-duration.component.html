@@ -1,7 +1,5 @@
 <div class="duration-container">
-  <span class="duration-label"
-    >{{ (duration$ | async)?.duration }} minutes</span
-  >
+  <span>Match le plus long : {{ (duration$ | async)?.duration }} minutes</span>
   <mat-slider
     max="120"
     min="30"

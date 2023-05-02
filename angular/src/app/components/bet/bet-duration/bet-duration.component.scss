@@ -1,16 +1,13 @@
 .duration-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   max-width: 370px;
   margin-left: 0.5em;
 }
 
-.duration-label {
-  white-space: nowrap;
-}
-
 .duration-slider {
-  min-width: 250px;
-  max-width: 250px;
+  display: flex;
+  align-items: center;
+  margin-left: 0;
+  margin-right: 0.5em;
 }

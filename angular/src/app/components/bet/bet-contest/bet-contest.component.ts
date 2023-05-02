@@ -24,6 +24,8 @@ export class BetContestComponent {
   @Select(BetState.category)
   category$!: Observable<ICategory>;
 
+  public betIndex: number = 0;
+
   public changeCategory(categoryId: number) {
     this.store.dispatch([new BetActions.SetCategory(categoryId)]);
   }
@@ -34,6 +36,7 @@ export class BetContestComponent {
     category?: ICategory | null
   ): string {
     if (loopCategory && bets) {
+      // Recherche de la série dans les pronostics
       // Recherche de la série dans les pronostics
       const bet = bets.find((bet) => {
         return bet.categoryId === loopCategory.id;
