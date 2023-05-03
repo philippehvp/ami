@@ -3,15 +3,10 @@ body {
   margin: 0;
 }
 
-:root {
-  --doc-height: 100%;
-}
-
 .bet-panel {
   display: flex;
   flex-flow: nowrap column;
   height: 100vh;
-  // height: var(--doc-height);
 }
 
 .bet-panel .row.no-growing {
@@ -37,8 +32,7 @@ body {
 .tutorial4 {
   display: inline-block;
   position: absolute;
-  // background-color: rgba(90, 36, 106, 0.95);
-  background-color: #ebe5ed;
+  background-color: #6caddf;
   color: black;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;

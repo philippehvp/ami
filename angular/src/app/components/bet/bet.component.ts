@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subject, combineLatest, map } from 'rxjs';
+import { Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -56,9 +56,10 @@ export class BetComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
-    combineLatest([this.isOffline$, this.allBetsDone$, this.better$])
+    combineLatest([this.isOffline$, this.better$])
       .pipe(
-        map(([isOffline, allBetsDone, better]) => {
+        takeUntil(this.destroy$),
+        map(([isOffline, better]) => {
           if (isOffline) {
             const config: MatDialogConfig<IInformationDialogConfig> = {
               data: {
@@ -77,6 +78,26 @@ export class BetComponent implements OnInit, OnDestroy {
               });
           }
 
+          this.better = better;
+
+          if (better) {
+            if (better.isTutorialDone) {
+              window.localStorage.setItem(
+                'better',
+                JSON.stringify(this.better)
+              );
+            } else {
+              this.tutorialStep = 1;
+            }
+          }
+        })
+      )
+      .subscribe();
+
+    this.allBetsDone$
+      .pipe(
+        takeUntil(this.destroy$),
+        map((allBetsDone) => {
           if (allBetsDone) {
             const config: MatDialogConfig<IInformationDialogConfig> = {
               data: {
@@ -94,19 +115,6 @@ export class BetComponent implements OnInit, OnDestroy {
               .subscribe(() => {
                 this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
               });
-          }
-
-          this.better = better;
-
-          if (better) {
-            if (better.isTutorialDone) {
-              window.localStorage.setItem(
-                'better',
-                JSON.stringify(this.better)
-              );
-            } else {
-              this.tutorialStep = 1;
-            }
           }
         })
       )

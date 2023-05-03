@@ -28,6 +28,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { BetState } from './store/state/bet.state';
 
@@ -49,6 +50,7 @@ import { BetterRankingState } from './store/state/better-ranking.state';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { TitlebarComponent } from './components/titlebar/titlebar.component';
 import { RuleComponent } from './components/rule/rule.component';
+import { GdprComponent } from './components/gdpr/gdpr.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { RuleComponent } from './components/rule/rule.component';
     WelcomeComponent,
     TitlebarComponent,
     RuleComponent,
+    GdprComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,6 +86,7 @@ import { RuleComponent } from './components/rule/rule.component';
     ReactiveFormsModule,
     MarkdownModule,
 
+    MatBottomSheetModule,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,

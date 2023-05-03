@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InformationComponent } from '../information/information.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +16,7 @@ import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
+import { GdprComponent } from '../gdpr/gdpr.component';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -32,6 +34,7 @@ export class LoginComponent implements OnInit {
   private betterService = inject(BetterService);
   private store = inject(Store);
   private router = inject(Router);
+  private bottomSheet = inject(MatBottomSheet);
 
   public formGroup!: FormGroup;
 
@@ -42,6 +45,9 @@ export class LoginComponent implements OnInit {
       name: ['', Validators.required],
       password: ['', Validators.required],
     });
+
+    // Ouverture de la zone d'affichage du RGPD
+    this.bottomSheet.open(GdprComponent);
   }
 
   public login() {

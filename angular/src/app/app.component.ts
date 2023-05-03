@@ -13,13 +13,13 @@ export class AppComponent {
   private router = inject(Router);
 
   constructor() {
-    const better: string = window.localStorage.getItem('better') || '';
+    //const better: string = window.localStorage.getItem('better') || '';
 
-    if (better) {
-      this.store.dispatch([new BetActions.SetBetter(JSON.parse(better))]);
-      this.router.navigate(['bet']);
-    } else {
-      this.router.navigate(['login']);
-    }
+    //if (better) {
+    //   this.store.dispatch([new BetActions.SetBetter(JSON.parse(better))]);
+    //   this.router.navigate(['bet']);
+    // } else {
+    this.router.navigate(['login']);
+    //}
   }
 }

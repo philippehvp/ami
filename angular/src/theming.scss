@@ -3,20 +3,20 @@
 @include mat-core();
 
 $md-cpi: (
-  50: #ebe5ed,
-  100: #cebdd2,
-  200: #ad92b5,
-  300: #8c6697,
-  400: #734580,
-  500: #5a246a,
-  600: #522062,
-  700: #481b57,
-  800: #3f164d,
-  900: #2e0d3c,
-  A100: #d176ff,
-  A200: #c043ff,
-  A400: #af10ff,
-  A700: #a400f6,
+  50: #e8e6ef,
+  100: #c5c1d8,
+  200: #9f97be,
+  300: #796da4,
+  400: #5c4e91,
+  500: #3f2f7d,
+  600: #392a75,
+  700: #31236a,
+  800: #291d60,
+  900: #1b124d,
+  A100: #9787ff,
+  A200: #6b54ff,
+  A400: #3e21ff,
+  A700: #2808ff,
   contrast: (
     50: #000000,
     100: #000000,
@@ -52,3 +52,5 @@ $primary: mat-palette($md-cpi);
 .background-primary {
   background-color: mat-color($primary);
 }
+
+// #4d8bca

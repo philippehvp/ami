@@ -138,6 +138,7 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
         map((isHiding) => {
           if (isHiding === false && this.loadingData$.value === false) {
             this.playersDisplayed = this.playersReceived;
+            this.headerLabelDisplayed = this.headerLabelReceived;
             this.animationState = 'show';
           }
         })
