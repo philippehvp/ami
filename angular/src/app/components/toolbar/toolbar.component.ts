@@ -12,6 +12,7 @@ import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
+import { CommonService } from 'src/app/services/rest/common.service';
 
 export interface IToolbarOption {
   hasToolbar: boolean;
@@ -69,7 +70,9 @@ export class ToolbarComponent {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      //window.localStorage.removeItem('better');
+      if (!CommonService.isProduction) {
+        window.localStorage.removeItem('better');
+      }
       this.router.navigate(['logout']);
     });
   }

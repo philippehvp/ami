@@ -1,10 +1,4 @@
 <ng-container *ngIf="{ bet: bet$ | async, better: better$ | async } as data">
-  <div>
-    <mat-checkbox [(ngModel)]="withClubName"
-      >Afficher le nom des clubs
-    </mat-checkbox>
-  </div>
-
   <mat-table
     [dataSource]="playersDisplayed"
     [@fadeAnimation]="animationState"
@@ -66,7 +60,8 @@
       <tr class="header">
         <th mat-header-cell *matHeaderCellDef class="grow">
           <span class="player-header">
-            {{ headerLabelDisplayed }}
+            {{ headerContestLabelDisplayed }} -
+            {{ headerCategoryLabelDisplayed }}
             <span *ngIf="data.better?.isAdmin" class="calculate">
               <mat-icon (click)="calculate(data.bet || undefined)"
                 >calculate</mat-icon
@@ -90,6 +85,15 @@
           {{ secondPlayerRanking(player) }} - {{ secondPlayerName(player) }}
         </span>
       </td>
+    </ng-container>
+
+    <!-- Première ligne -->
+    <ng-container matColumnDef="header-row-club">
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="3">
+        <mat-checkbox [(ngModel)]="withClubName"
+          >Afficher le nom des clubs
+        </mat-checkbox>
+      </th>
     </ng-container>
 
     <div>

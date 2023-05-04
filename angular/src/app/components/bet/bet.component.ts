@@ -14,6 +14,8 @@ import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
+import { CommonService } from 'src/app/services/rest/common.service';
+import { PersistenceService } from 'src/app/services/persistence.service';
 
 @Component({
   selector: 'bet',
@@ -24,6 +26,7 @@ export class BetComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+  private persistenceService = inject(PersistenceService);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -53,6 +56,14 @@ export class BetComponent implements OnInit, OnDestroy {
     return !!betterPointsCategoryToDisplay;
   }
 
+  public get withClubName(): boolean {
+    return this.persistenceService.withClubName;
+  }
+
+  public set withClubName(withClubName: boolean) {
+    this.persistenceService.withClubName = withClubName;
+  }
+
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
@@ -80,16 +91,18 @@ export class BetComponent implements OnInit, OnDestroy {
 
           this.better = better;
 
-          // if (better) {
-          //   if (better.isTutorialDone) {
-          //     window.localStorage.setItem(
-          //       'better',
-          //       JSON.stringify(this.better)
-          //     );
-          //   } else {
-          //     this.tutorialStep = 1;
-          //   }
-          // }
+          if (better) {
+            if (better.isTutorialDone) {
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'better',
+                  JSON.stringify(this.better)
+                );
+              }
+            } else {
+              this.tutorialStep = 1;
+            }
+          }
         })
       )
       .subscribe();
@@ -136,6 +149,8 @@ export class BetComponent implements OnInit, OnDestroy {
 
   private storeBetterInLocalStorage() {
     this.better.isTutorialDone = true;
-    window.localStorage.setItem('better', JSON.stringify(this.better));
+    if (!CommonService.isProduction) {
+      window.localStorage.setItem('better', JSON.stringify(this.better));
+    }
   }
 }

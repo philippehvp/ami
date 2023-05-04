@@ -81,8 +81,10 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   public playersDisplayed!: IPlayer[];
   public playersReceived!: IPlayer[];
 
-  public headerLabelReceived!: string;
-  public headerLabelDisplayed!: string;
+  public headerContestLabelReceived!: string;
+  public headerCategoryLabelReceived!: string;
+  public headerContestLabelDisplayed!: string;
+  public headerCategoryLabelDisplayed!: string;
 
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
 
@@ -125,6 +127,10 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
               // L'animation de masquage est terminée, on peut donc afficher les données tout de suite
               // Cela arrive si le temps de masquage est très bas
               this.playersDisplayed = this.playersReceived;
+              this.headerContestLabelDisplayed =
+                this.headerContestLabelReceived;
+              this.headerCategoryLabelDisplayed =
+                this.headerCategoryLabelReceived;
               this.animationState = 'show';
             }
           }
@@ -138,7 +144,9 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
         map((isHiding) => {
           if (isHiding === false && this.loadingData$.value === false) {
             this.playersDisplayed = this.playersReceived;
-            this.headerLabelDisplayed = this.headerLabelReceived;
+            this.headerContestLabelDisplayed = this.headerContestLabelReceived;
+            this.headerCategoryLabelDisplayed =
+              this.headerCategoryLabelReceived;
             this.animationState = 'show';
           }
         })
@@ -150,16 +158,17 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map(([contest, category, players]) => {
           if (contest && category) {
-            this.headerLabelReceived =
-              contest.longName + ' - ' + category.longName;
+            this.headerContestLabelReceived = contest.longName;
+            this.headerCategoryLabelReceived = category.longName;
           }
 
           this.playersReceived = players;
 
           if (!this.playersDisplayed) {
             // Dans le cas où on a affiché une autre page et que l'on revient, on force le chargement des joueurs
-            this.headerLabelDisplayed =
-              contest.longName + ' - ' + category.longName;
+            this.headerContestLabelDisplayed = this.headerContestLabelReceived;
+            this.headerCategoryLabelDisplayed =
+              this.headerCategoryLabelReceived;
             this.playersDisplayed = players;
           }
         })
