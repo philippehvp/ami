@@ -80,16 +80,16 @@ export class BetComponent implements OnInit, OnDestroy {
 
           this.better = better;
 
-          if (better) {
-            if (better.isTutorialDone) {
-              window.localStorage.setItem(
-                'better',
-                JSON.stringify(this.better)
-              );
-            } else {
-              this.tutorialStep = 1;
-            }
-          }
+          // if (better) {
+          //   if (better.isTutorialDone) {
+          //     window.localStorage.setItem(
+          //       'better',
+          //       JSON.stringify(this.better)
+          //     );
+          //   } else {
+          //     this.tutorialStep = 1;
+          //   }
+          // }
         })
       )
       .subscribe();

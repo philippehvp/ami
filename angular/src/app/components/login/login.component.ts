@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InformationComponent } from '../information/information.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -11,12 +11,13 @@ import {
 import { BetterService } from 'src/app/services/rest/better.service';
 import { Store } from '@ngxs/store';
 import { BetActions } from 'src/app/store/action/bet.action';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
 import { GdprComponent } from '../gdpr/gdpr.component';
+import { Subject, map, takeUntil } from 'rxjs';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -28,26 +29,43 @@ export interface ILoginFormGroup {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private fb = inject(FormBuilder);
   private betterService = inject(BetterService);
   private store = inject(Store);
   private router = inject(Router);
   private bottomSheet = inject(MatBottomSheet);
+  private route = inject(ActivatedRoute);
 
   public formGroup!: FormGroup;
 
   public passwordVisibility: boolean = false;
+  private destroy$!: Subject<boolean>;
 
   public ngOnInit() {
+    this.destroy$ = new Subject<boolean>();
+
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
     });
 
-    // Ouverture de la zone d'affichage du RGPD
-    this.bottomSheet.open(GdprComponent);
+    this.route.data
+      .pipe(
+        takeUntil(this.destroy$),
+        map((data) => {
+          if (data['withGpdr'] === true) {
+            // Ouverture de la zone d'affichage du RGPD
+            this.bottomSheet.open(GdprComponent);
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  public ngOnDestroy() {
+    this.destroy$.next(true);
   }
 
   public login() {

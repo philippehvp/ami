@@ -69,8 +69,8 @@ export class ToolbarComponent {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      window.localStorage.removeItem('better');
-      this.router.navigate(['login']);
+      //window.localStorage.removeItem('better');
+      this.router.navigate(['logout']);
     });
   }
 

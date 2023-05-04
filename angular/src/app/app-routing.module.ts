@@ -18,6 +18,12 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    data: { withGpdr: true },
+  },
+  {
+    path: 'logout',
+    component: LoginComponent,
+    data: { withGpdr: false },
   },
   {
     path: 'create-better',
