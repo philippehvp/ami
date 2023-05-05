@@ -9,45 +9,15 @@ import { IPlayer } from 'src/app/models/player';
 import { PersistenceService as PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
-  BehaviorSubject,
-  Subject,
-  combineLatest,
-  map,
-  of,
-  takeUntil,
-} from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-
-const fadeAnimation = trigger('fadeAnimation', [
-  state(
-    'hide',
-    style({
-      opacity: 0,
-    })
-  ),
-  state(
-    'show',
-    style({
-      opacity: 1,
-    })
-  ),
-  transition('* => hide', [animate(250)]),
-  transition('* => show', [animate(750)]),
-]);
+import { MyAnimations } from 'src/app/animations/animations';
 
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
   styleUrls: ['./bet-player.component.scss'],
-  animations: [fadeAnimation],
+  animations: [MyAnimations.fadeAnimation],
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
   private store = inject(Store);

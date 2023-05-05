@@ -9,4 +9,12 @@
   flex-direction: column;
   flex: 1 1 auto;
   padding: 0 0.5em;
+
+  mat-table {
+    background-color: transparent;
+  }
+}
+
+.grow {
+  width: 100%;
 }

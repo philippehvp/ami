@@ -13,7 +13,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MarkdownModule } from 'ngx-markdown';
 
@@ -75,7 +75,6 @@ import { GdprComponent } from './components/gdpr/gdpr.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MarkdownModule.forRoot({ loader: HttpClient }),
 
     NgxsModule.forRoot(
       [BetState, BetterPointState, BetterBetState, BetterRankingState],
