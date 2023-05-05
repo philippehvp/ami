@@ -16,7 +16,7 @@ export class RuleComponent {
   public rules: IRule[] = [
     {
       points: 20,
-      condition: 'Vainqueur et le finaliste dans le bon ordre',
+      condition: 'Vainqueur et finaliste dans le bon ordre',
     },
     {
       points: 12,
@@ -28,7 +28,7 @@ export class RuleComponent {
     },
     {
       points: 7,
-      condition: 'Vainqueur et finaliste inversés',
+      condition: 'Uniquement le finaliste juste',
     },
     {
       points: 5,

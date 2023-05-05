@@ -1,27 +1,49 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { IBetter, IBetterRaw } from 'src/app/models/better';
 import { CommonService } from './common.service';
-import { IContest } from 'src/app/models/contest';
-import { map } from 'rxjs/internal/operators/map';
-import { ICategory } from 'src/app/models/category';
 import { IPlayer } from 'src/app/models/player';
+import { map, of } from 'rxjs';
+
+export interface IStoredPlayer {
+  categoryId: number;
+  players: IPlayer[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
+
+  private _allPlayers: IStoredPlayer[] = [];
 
   public getPlayers(
     accessKey: string,
     categoryId: number
   ): Observable<IPlayer[]> {
-    const url = CommonService.getURL('player/players');
-    return this.httpClient.post<IPlayer[]>(url, {
-      accessKey,
-      category: categoryId,
-    });
+    // Recherche des joueurs qui auraient déjà été lus
+    const storedPlayer = this._allPlayers.find(
+      (storedPlayer: IStoredPlayer) => {
+        return storedPlayer.categoryId === categoryId;
+      }
+    );
+
+    if (storedPlayer) {
+      return of(storedPlayer.players);
+    } else {
+      const url = CommonService.getURL('player/players');
+      return this.httpClient
+        .post<IPlayer[]>(url, {
+          accessKey,
+          category: categoryId,
+        })
+        .pipe(
+          map((players) => {
+            this._allPlayers.push({ categoryId: categoryId, players: players });
+            return players;
+          })
+        );
+    }
   }
 }
