@@ -47,8 +47,15 @@ export class BetComponent implements OnInit, OnDestroy {
 
   private better!: IBetter;
 
-  public tutorialStep: number = 0;
   public tutorialLastStep: number = 4;
+
+  public get tutorialStep(): number {
+    return this.persistenceService.tutorialStep;
+  }
+
+  public set tutorialStep(tutorialStep: number) {
+    this.persistenceService.tutorialStep = tutorialStep;
+  }
 
   public displayBetterPoints(
     betterPointsCategoryToDisplay: number | undefined
@@ -66,6 +73,8 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
+
+    this.persistenceService.currentPage = 'bet';
 
     combineLatest([this.isOffline$, this.better$])
       .pipe(

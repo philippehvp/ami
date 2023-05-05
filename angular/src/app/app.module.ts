@@ -29,6 +29,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatListModule } from '@angular/material/list';
 
 import { BetState } from './store/state/bet.state';
 
@@ -93,6 +94,7 @@ import { GdprComponent } from './components/gdpr/gdpr.component';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatSidenavModule,
     MatSliderModule,
     MatTableModule,

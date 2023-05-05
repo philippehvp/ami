@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { PersistenceService } from 'src/app/services/persistence.service';
 
 export interface IRule {
   points: number;
@@ -11,6 +12,8 @@ export interface IRule {
   styleUrls: ['./rule.component.scss'],
 })
 export class RuleComponent {
+  private persistenceService = inject(PersistenceService);
+
   public displayedColumns: string[] = ['points', 'conditions'];
 
   public rules: IRule[] = [
@@ -39,4 +42,8 @@ export class RuleComponent {
       condition: 'Tous les autres cas',
     },
   ];
+
+  constructor() {
+    this.persistenceService.currentPage = 'rule';
+  }
 }

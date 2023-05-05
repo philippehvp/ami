@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         map((data) => {
           if (data['withGpdr'] === true) {
             // Ouverture de la zone d'affichage du RGPD
-            this.bottomSheet.open(GdprComponent);
+            //this.bottomSheet.open(GdprComponent);
           }
         })
       )

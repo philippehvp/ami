@@ -4,31 +4,24 @@
   } as data"
 >
   <div class="bet-panel">
-    <!-- Toolbar -->
-    <div class="row no-growing">
-      <mat-toolbar>
-        <toolbar></toolbar>
-      </mat-toolbar>
+    <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
+      <div class="tutorial4">
+        <h5>Menu latéral et fin (4/4)</h5>
+        <p>
+          Le menu latéral te permet de gérer ton compte, consulter le barème, te
+          déconnecter, etc. Il suffit de cliquer sur l'icône
+          <span class="material-icons menu">menu</span>, en haut à droite.
+        </p>
 
-      <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
-        <div class="tutorial4">
-          <h5>Barème et fin (4/4)</h5>
-          <p>
-            Le barème est disponible en cliquant sur l'icône
-            <span class="material-icons-outlined">menu_book</span> dans la barre
-            de menu.
-          </p>
+        <p>
+          C'est fini ! Une fois tous tes pronos saisis, tu peux quitter en
+          cliquant sur l'icône
+          <span class="material-icons-outlined">logout</span> en haut à droite
+          et te reconnecter plus tard avec ton nom et ton code à 4 chiffres.
+        </p>
 
-          <p>
-            C'est fini ! Une fois tous tes pronos saisis, tu peux quitter en
-            cliquant sur l'icône
-            <span class="material-icons-outlined">logout</span> en haut à droite
-            et te reconnecter plus tard avec ton nom et ton code à 4 chiffres.
-          </p>
-
-          <h4>Bons pronostics à toi !</h4>
-          <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
-        </div>
+        <h4>Bons pronostics à toi !</h4>
+        <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
       </div>
     </div>
 

@@ -1,5 +1,52 @@
-<mat-sidenav-container>
-  <mat-sidenav-content class="content">
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<ng-container
+  class="toolbar"
+  *ngIf="{
+    bets: bets$ | async,
+    completedBets: completedBets$ | async,
+    better: better$ | async
+  } as data"
+>
+  <mat-sidenav-container>
+    <mat-sidenav-content class="content">
+      <!-- Toolbar -->
+      <div class="row no-growing" *ngIf="data.better">
+        <mat-toolbar>
+          <toolbar></toolbar>
+        </mat-toolbar>
+      </div>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+    <mat-sidenav #sidenav mode="over" position="end">
+      <mat-nav-list (click)="toggleSideMenu()" class="sidenav">
+        <span class="material-icons-outlined link close"> close </span>
+        <span class="link" [routerLink]="'/bet'"
+          ><span class="material-icons-outlined icon"> home </span>Accueil</span
+        >
+        <span class="link" [routerLink]="'/rule'"
+          ><span class="material-icons-outlined icon"> menu_book </span
+          >Barème</span
+        >
+        <span
+          *ngIf="isTutorialVisible"
+          class="link"
+          (click)="displayTutorial()"
+        >
+          <span class="material-icons-outlined icon"> info </span>
+          <span>Tutoriel</span>
+        </span>
+        <span
+          class="link"
+          (click)="
+            logout(
+              data.bets?.length || 0,
+              data.completedBets || 0,
+              data.better?.isAdmin || false
+            )
+          "
+          ><span class="material-icons-outlined icon"> logout </span>Se
+          déconnecter</span
+        >
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</ng-container>

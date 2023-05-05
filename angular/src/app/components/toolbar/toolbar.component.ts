@@ -1,18 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
 import { IBetter } from 'src/app/models/better';
-import { ConnectionActions } from 'src/app/store/action/connection.action';
+import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetState } from 'src/app/store/state/bet.state';
-import { InformationComponent } from '../information/information.component';
-import {
-  IInformationDialogConfig,
-  InformationDialogType,
-} from 'src/app/models/information-dialog-type';
-import { CommonService } from 'src/app/services/rest/common.service';
 
 export interface IToolbarOption {
   hasToolbar: boolean;
@@ -25,9 +18,8 @@ export interface IToolbarOption {
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
-  private store = inject(Store);
   private router = inject(Router);
-  private dialog = inject(MatDialog);
+  private persistenceService = inject(PersistenceService);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -37,49 +29,6 @@ export class ToolbarComponent {
 
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
-
-  public logout(
-    betsCount: number,
-    completedBetsCount: number,
-    isAdmin: boolean
-  ) {
-    // On vérifie que le pronostiqueur ait saisi tous ses pronostics
-    if (betsCount !== completedBetsCount && !isAdmin) {
-      const config: MatDialogConfig<IInformationDialogConfig> = {
-        data: {
-          title: 'Pronostics incomplets',
-          message:
-            "Tu n'as pas saisi tous les pronostics. Sûr de vouloir quitter Winabad ?",
-          dialogType: InformationDialogType.YesNo,
-          labels: ['Annuler', 'Quitter'],
-        },
-      };
-
-      this.dialog
-        .open(InformationComponent, config)
-        .afterClosed()
-        .subscribe((action: boolean) => {
-          if (action) {
-            this.disconnect();
-          }
-        });
-    } else {
-      this.disconnect();
-    }
-  }
-
-  private disconnect() {
-    this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      if (!CommonService.isProduction) {
-        window.localStorage.removeItem('better');
-      }
-      this.router.navigate(['logout']);
-    });
-  }
-
-  public displayRules() {
-    this.router.navigate(['rule']);
-  }
 
   public displayBettersBet() {
     this.router.navigate(['better-bet']);
@@ -91,5 +40,9 @@ export class ToolbarComponent {
 
   public displayBettersOrderedByName() {
     this.router.navigate(['better-name']);
+  }
+
+  public toggleSideMenu() {
+    this.persistenceService.sidenav.open();
   }
 }

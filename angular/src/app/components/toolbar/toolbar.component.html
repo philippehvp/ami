@@ -1,8 +1,6 @@
 <ng-container
   class="toolbar"
   *ngIf="{
-    bets: bets$ | async,
-    completedBets: completedBets$ | async,
     better: better$ | async
   } as data"
 >
@@ -21,22 +19,6 @@
     <span *ngIf="!data.better?.isAdmin"
       >{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span
     >
-    <span
-      class="material-icons-outlined"
-      *ngIf="!data.better?.isAdmin"
-      (click)="displayRules()"
-      >menu_book</span
-    >
-    <span
-      class="material-icons"
-      (click)="
-        logout(
-          data.bets?.length || 0,
-          data.completedBets || 0,
-          data.better?.isAdmin || false
-        )
-      "
-      >logout</span
-    >
+    <span class="material-icons menu" (click)="toggleSideMenu()">menu</span>
   </div>
 </ng-container>
