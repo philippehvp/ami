@@ -53,4 +53,11 @@ export class BetterService {
       accessKey,
     });
   }
+
+  public deleteAccount(accessKey: string): Observable<IEmpty | IOffline> {
+    const url = CommonService.getURL('better/deleteBetter');
+    return this.httpClient.post<IEmpty>(url, {
+      accessKey,
+    });
+  }
 }

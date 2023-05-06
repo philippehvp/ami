@@ -269,7 +269,7 @@ export class BetState {
   }
 
   @Action(BetActions.SetBet)
-  setCurrentBet(state: StateContext<BetStateModel>, action: BetActions.SetBet) {
+  setBet(state: StateContext<BetStateModel>, action: BetActions.SetBet) {
     const currentState = state.getState();
 
     const bet = currentState.bets?.find((bet) => {
@@ -476,9 +476,7 @@ export class BetState {
           if (ret && ('isOffline' in ret || 'isNotUpdatable' in ret)) {
             this.handleError(state, ret);
           } else {
-            const bet = currentState.bets?.find((bet) => {
-              return bet.categoryId === currentState.category?.id;
-            });
+            const bet = currentState.bet;
 
             if (bet) {
               state.setState(
@@ -493,7 +491,9 @@ export class BetState {
                           ? 0
                           : bet?.runnerUpId,
                       isComplete:
-                        bet?.runnerUpId === action.playerId ? false : true,
+                        !bet?.runnerUpId || bet?.runnerUpId === action.playerId
+                          ? false
+                          : true,
                     })
                   ),
                   bet: {
@@ -502,7 +502,9 @@ export class BetState {
                     runnerUpId:
                       bet?.runnerUpId === action.playerId ? 0 : bet?.runnerUpId,
                     isComplete:
-                      bet?.runnerUpId === action.playerId ? false : true,
+                      !bet?.runnerUpId || bet?.runnerUpId === action.playerId
+                        ? false
+                        : true,
                   },
                 })
               );
@@ -557,7 +559,9 @@ export class BetState {
                       winnerId:
                         bet?.winnerId === action.playerId ? 0 : bet?.winnerId,
                       isComplete:
-                        bet?.winnerId === action.playerId ? false : true,
+                        !bet?.winnerId || bet?.winnerId === action.playerId
+                          ? false
+                          : true,
                     })
                   ),
                   bet: {
@@ -566,7 +570,9 @@ export class BetState {
                     winnerId:
                       bet?.winnerId === action.playerId ? 0 : bet?.winnerId,
                     isComplete:
-                      bet?.winnerId === action.playerId ? false : true,
+                      !bet?.winnerId || bet?.winnerId === action.playerId
+                        ? false
+                        : true,
                   },
                 })
               );

@@ -16,6 +16,7 @@ import { IBetter } from './models/better';
 import { IBet } from './models/bet';
 import { PersistenceService } from './services/persistence.service';
 import { MatSidenav } from '@angular/material/sidenav';
+import { BetterService } from './services/rest/better.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements AfterViewInit {
   private router = inject(Router);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
+  private betterService = inject(BetterService);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -52,6 +54,10 @@ export class AppComponent implements AfterViewInit {
         this.router.navigate(['login']);
       }
     }
+  }
+
+  public get currentPage(): string {
+    return this.persistenceService.currentPage;
   }
 
   public ngAfterViewInit(): void {
@@ -105,11 +111,37 @@ export class AppComponent implements AfterViewInit {
     this.persistenceService.sidenav.close();
   }
 
-  public get isTutorialVisible(): boolean {
-    return this.persistenceService.currentPage === 'bet';
-  }
-
   public displayTutorial() {
     this.persistenceService.tutorialStep = 1;
+    if (this.persistenceService.currentPage !== 'bet') {
+      this.router.navigate(['bet']);
+    }
+  }
+
+  public deleteAccount(better: IBetter | null) {
+    if (better) {
+      const config: MatDialogConfig<IInformationDialogConfig> = {
+        data: {
+          title: 'Suppression du compte',
+          message:
+            'Es-tu sûr de vouloir supprimer ton compte et donc ta participation à Winabad ?',
+          dialogType: InformationDialogType.YesNo,
+          labels: ['Annuler', 'Supprimer'],
+        },
+      };
+
+      this.dialog
+        .open(InformationComponent, config)
+        .afterClosed()
+        .subscribe((action: boolean) => {
+          if (action) {
+            this.betterService
+              .deleteAccount(better?.accessKey || '')
+              .subscribe(() => {
+                this.disconnect();
+              });
+          }
+        });
+    }
   }
 }

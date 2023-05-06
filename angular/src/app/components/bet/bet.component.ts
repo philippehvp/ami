@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
@@ -22,7 +28,7 @@ import { PersistenceService } from 'src/app/services/persistence.service';
   templateUrl: './bet.component.html',
   styleUrls: ['./bet.component.scss'],
 })
-export class BetComponent implements OnInit, OnDestroy {
+export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private router = inject(Router);
@@ -73,8 +79,6 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
-
-    this.persistenceService.currentPage = 'bet';
 
     combineLatest([this.isOffline$, this.better$])
       .pipe(
@@ -145,6 +149,10 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
+  }
+
+  public ngAfterViewInit() {
+    this.persistenceService.currentPage = 'bet';
   }
 
   public gotoNextTutorial() {

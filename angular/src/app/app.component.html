@@ -26,11 +26,7 @@
           ><span class="material-icons-outlined icon"> menu_book </span
           >Barème</span
         >
-        <span
-          *ngIf="isTutorialVisible"
-          class="link"
-          (click)="displayTutorial()"
-        >
+        <span class="link" (click)="displayTutorial()">
           <span class="material-icons-outlined icon"> info </span>
           <span>Tutoriel</span>
         </span>
@@ -46,6 +42,10 @@
           ><span class="material-icons-outlined icon"> logout </span>Se
           déconnecter</span
         >
+        <span class="link delete" (click)="deleteAccount(data?.better || null)">
+          <span class="material-icons-outlined icon"> delete </span>
+          <span>Effacer le compte</span>
+        </span>
       </mat-nav-list>
     </mat-sidenav>
   </mat-sidenav-container>

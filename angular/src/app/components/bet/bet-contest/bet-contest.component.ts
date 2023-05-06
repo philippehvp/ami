@@ -37,7 +37,6 @@ export class BetContestComponent {
   ): string {
     if (loopCategory && bets) {
       // Recherche de la série dans les pronostics
-      // Recherche de la série dans les pronostics
       const bet = bets.find((bet) => {
         return bet.categoryId === loopCategory.id;
       });
