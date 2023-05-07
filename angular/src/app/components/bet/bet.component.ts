@@ -1,8 +1,10 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
   inject,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -13,7 +15,6 @@ import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
 import { InformationComponent } from '../information/information.component';
-import { Router } from '@angular/router';
 import { IBetter } from 'src/app/models/better';
 import { BetActions } from 'src/app/store/action/bet.action';
 import {
@@ -31,7 +32,6 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private store = inject(Store);
   private dialog = inject(MatDialog);
-  private router = inject(Router);
   private persistenceService = inject(PersistenceService);
 
   @Select(BetState.better)
@@ -49,6 +49,8 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
 
+  public betPanelHeight!: number;
+
   private destroy$!: Subject<boolean>;
 
   private better!: IBetter;
@@ -61,16 +63,6 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public set tutorialStep(tutorialStep: number) {
     this.persistenceService.tutorialStep = tutorialStep;
-  }
-
-  public displayBetterPoints(
-    betterPointsCategoryToDisplay: number | undefined
-  ): boolean {
-    return !!betterPointsCategoryToDisplay;
-  }
-
-  public get withClubName(): boolean {
-    return this.persistenceService.withClubName;
   }
 
   public set withClubName(withClubName: boolean) {
@@ -98,7 +90,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
               .open(InformationComponent, config)
               .afterClosed()
               .subscribe(() => {
-                return this.router.navigate(['login']);
+                return this.persistenceService.navigate('login');
               });
           }
 
@@ -152,7 +144,17 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this.persistenceService.currentPage = 'bet';
+    this.betPanelHeight = window.innerHeight - 56;
+  }
+
+  public displayBetterPoints(
+    betterPointsCategoryToDisplay: number | undefined
+  ): boolean {
+    return !!betterPointsCategoryToDisplay;
+  }
+
+  public get withClubName(): boolean {
+    return this.persistenceService.withClubName;
   }
 
   public gotoNextTutorial() {

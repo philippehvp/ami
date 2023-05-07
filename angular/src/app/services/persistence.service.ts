@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PersistenceService {
+  private router = inject(Router);
+
   private _withClubName: boolean = false;
   private _categoryId!: number;
 
   private _sidenav!: MatSidenav;
 
   private _currentPage!: string;
+
+  private _isToolbarVisible: boolean = false;
 
   private _tutorialStep!: number;
 
@@ -52,5 +57,22 @@ export class PersistenceService {
 
   public set tutorialStep(tutorialStep: number) {
     this._tutorialStep = tutorialStep;
+  }
+
+  public get isToolbarVisible(): boolean {
+    return this._isToolbarVisible;
+  }
+
+  public set isToolbarVisible(isToolbarVisible: boolean) {
+    this._isToolbarVisible = isToolbarVisible;
+  }
+
+  public navigate(link: string) {
+    if (link === 'bet') {
+      this._isToolbarVisible = true;
+    } else {
+      this._isToolbarVisible = false;
+    }
+    this.router.navigate([link]);
   }
 }

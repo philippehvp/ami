@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { BetActions } from './store/action/bet.action';
-import { Router } from '@angular/router';
 import { CommonService } from './services/rest/common.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
@@ -25,7 +24,6 @@ import { BetterService } from './services/rest/better.service';
 })
 export class AppComponent implements AfterViewInit {
   private store = inject(Store);
-  private router = inject(Router);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
   private betterService = inject(BetterService);
@@ -41,17 +39,21 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild('sidenav') public sidenav!: MatSidenav;
 
+  public get isToolbarVisible(): boolean {
+    return this.persistenceService.isToolbarVisible;
+  }
+
   constructor() {
     if (CommonService.isProduction) {
-      this.router.navigate(['login']);
+      this.persistenceService.navigate('login');
     } else {
       const better: string = window.localStorage.getItem('better') || '';
 
       if (better) {
         this.store.dispatch([new BetActions.SetBetter(JSON.parse(better))]);
-        this.router.navigate(['bet']);
+        this.persistenceService.navigate('bet');
       } else {
-        this.router.navigate(['login']);
+        this.persistenceService.navigate('login');
       }
     }
   }
@@ -99,7 +101,7 @@ export class AppComponent implements AfterViewInit {
       if (!CommonService.isProduction) {
         window.localStorage.removeItem('better');
       }
-      this.router.navigate(['logout']);
+      this.persistenceService.navigate('logout');
     });
   }
 
@@ -114,7 +116,7 @@ export class AppComponent implements AfterViewInit {
   public displayTutorial() {
     this.persistenceService.tutorialStep = 1;
     if (this.persistenceService.currentPage !== 'bet') {
-      this.router.navigate(['bet']);
+      this.persistenceService.navigate('bet');
     }
   }
 
@@ -143,5 +145,21 @@ export class AppComponent implements AfterViewInit {
           }
         });
     }
+  }
+
+  public navigate(link: string) {
+    this.persistenceService.navigate(link);
+  }
+
+  public displayBettersBet() {
+    this.persistenceService.navigate('better-bet');
+  }
+
+  public displayBettersRanking() {
+    this.persistenceService.navigate('better-ranking');
+  }
+
+  public displayBettersOrderedByName() {
+    this.persistenceService.navigate('better-name');
   }
 }

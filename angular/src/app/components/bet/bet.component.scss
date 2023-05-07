@@ -4,9 +4,10 @@ body {
 }
 
 .bet-panel {
+  --toolbar-height: 56px;
+
   display: flex;
   flex-flow: nowrap column;
-  height: 100vh;
 }
 
 .bet-panel .row.no-growing {

@@ -11,13 +11,14 @@ import {
 import { BetterService } from 'src/app/services/rest/better.service';
 import { Store } from '@ngxs/store';
 import { BetActions } from 'src/app/store/action/bet.action';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
 import { GdprComponent } from '../gdpr/gdpr.component';
 import { Subject, map, takeUntil } from 'rxjs';
+import { PersistenceService } from 'src/app/services/persistence.service';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -34,9 +35,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private betterService = inject(BetterService);
   private store = inject(Store);
-  private router = inject(Router);
   private bottomSheet = inject(MatBottomSheet);
   private route = inject(ActivatedRoute);
+  private persistenceService = inject(PersistenceService);
 
   public formGroup!: FormGroup;
 
@@ -88,10 +89,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (better) {
           this.store.dispatch([new BetActions.SetBetter(better)]);
 
-          const navigation: string[] = better.isTutorialDone
-            ? ['bet']
-            : ['welcome'];
-          this.router.navigate(navigation);
+          const link: string = better.isTutorialDone ? 'bet' : 'welcome';
+          this.persistenceService.navigate(link);
         } else {
           const config: MatDialogConfig<IInformationDialogConfig> = {
             data: {
@@ -109,7 +108,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public createBetter() {
-    this.router.navigate(['create-better']);
+    this.persistenceService.navigate('create-better');
   }
 
   public checkPassword($event: any) {

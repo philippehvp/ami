@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { InformationComponent } from '../information/information.component';
 import { BetterService } from 'src/app/services/rest/better.service';
@@ -17,6 +16,7 @@ import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
+import { PersistenceService } from 'src/app/services/persistence.service';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -34,7 +34,7 @@ export class CreateBetterComponent implements OnInit {
   private fb = inject(FormBuilder);
   private betterService = inject(BetterService);
   private store = inject(Store);
-  private router = inject(Router);
+  private persistenceService = inject(PersistenceService);
 
   public formGroup!: FormGroup;
 
@@ -90,14 +90,14 @@ export class CreateBetterComponent implements OnInit {
             this.dialog.open(InformationComponent, config);
           } else {
             this.store.dispatch([new BetActions.SetBetter(ret)]);
-            this.router.navigate(['welcome']);
+            this.persistenceService.navigate('welcome');
           }
         });
     }
   }
 
   public back() {
-    this.router.navigate(['login']);
+    this.persistenceService.navigate('login');
   }
 
   public checkPassword($event: any) {

@@ -1,5 +1,5 @@
-import { Location } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
+import { PersistenceService } from 'src/app/services/persistence.service';
 
 @Component({
   selector: 'titlebar',
@@ -7,12 +7,12 @@ import { Component, Input, inject } from '@angular/core';
   styleUrls: ['./titlebar.component.scss'],
 })
 export class TitlebarComponent {
-  private location = inject(Location);
+  private persistenceService = inject(PersistenceService);
 
   @Input()
   title!: string;
 
   public back() {
-    this.location.back();
+    this.persistenceService.navigate('bet');
   }
 }

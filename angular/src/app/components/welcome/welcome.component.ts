@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { PersistenceService } from 'src/app/services/persistence.service';
 
 @Component({
   selector: 'welcome',
@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./welcome.component.scss'],
 })
 export class WelcomeComponent {
-  private router = inject(Router);
+  private persistenceService = inject(PersistenceService);
 
   public close() {
-    this.router.navigate(['bet']);
+    this.persistenceService.navigate('bet');
   }
 }

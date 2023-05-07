@@ -9,13 +9,7 @@
       <span class="isb"></span>
       <span class="title">WINABAD</span>
     </span>
-    <span *ngIf="data.better?.isAdmin || false">
-      <span (click)="displayBettersBet()">Pronos</span>
-      <span>&nbsp;|&nbsp;</span>
-      <span (click)="displayBettersRanking()">Clts</span>
-      <span>&nbsp;|&nbsp;</span>
-      <span (click)="displayBettersOrderedByName()">Récap</span>
-    </span>
+
     <span *ngIf="!data.better?.isAdmin"
       >{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span
     >

@@ -30,18 +30,6 @@ export class ToolbarComponent {
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
 
-  public displayBettersBet() {
-    this.router.navigate(['better-bet']);
-  }
-
-  public displayBettersRanking() {
-    this.router.navigate(['better-ranking']);
-  }
-
-  public displayBettersOrderedByName() {
-    this.router.navigate(['better-name']);
-  }
-
   public toggleSideMenu() {
     this.persistenceService.sidenav.open();
   }
