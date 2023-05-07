@@ -1,18 +1,23 @@
-<div class="duration-container">
-  <span>Match le plus long : {{ (duration$ | async)?.duration }} minutes</span>
-  <mat-slider
-    max="120"
-    min="30"
-    step="1"
-    discrete="true"
-    [disabled]="!(duration$ | async)?.isDurationUpdatable"
-    class="duration-slider"
+<div class="duration-panel">
+  <span class="duration-label"
+    >Match le plus long : {{ (duration$ | async)?.duration }} minutes</span
   >
-    <input
-      matSliderThumb
-      (valueChange)="changeDuration($event)"
-      [ngModel]="(duration$ | async)?.duration"
+
+  <div class="duration">
+    <mat-slider
+      max="120"
+      min="30"
+      step="1"
+      discrete="true"
+      [disabled]="!(duration$ | async)?.isDurationUpdatable"
       class="duration-slider"
-    />
-  </mat-slider>
+    >
+      <input
+        matSliderThumb
+        (valueChange)="changeDuration($event)"
+        [ngModel]="(duration$ | async)?.duration"
+        class="duration-slider"
+      />
+    </mat-slider>
+  </div>
 </div>

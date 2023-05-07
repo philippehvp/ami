@@ -1,14 +1,14 @@
-.create-better {
+.create-better-panel {
   display: flex;
   height: 100vh;
   width: 100vw;
   flex-direction: column;
-  justify-content: center;
+  margin-top: 6px;
   align-items: center;
   text-align: center;
 }
 
-.create-better-panel {
+.create-better-card {
   width: 90vw;
   display: flex;
   flex-direction: column;

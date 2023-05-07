@@ -4,8 +4,6 @@ body {
 }
 
 .bet-panel {
-  --toolbar-height: 56px;
-
   display: flex;
   flex-flow: nowrap column;
 }
@@ -20,7 +18,7 @@ body {
 }
 
 .bet-panel .title {
-  margin-left: 0.5em;
+  margin-left: 6px;
 }
 
 .tutorial-wrap {
@@ -39,7 +37,7 @@ body {
   border-radius: 8px;
   width: 85vw;
   z-index: 1000;
-  padding: 0 0.75em 0.75em 0.75em;
+  padding: 0 6px 6px 6px;
   transform: translate(-50%, 0);
   left: 50%;
 }
@@ -62,10 +60,10 @@ body {
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  margin: 0 0.5em 0.5em 0.5em;
-  padding: 0.5em;
+  margin: 0 6px 6px 6px;
+  padding: 6px;
 }
 
 .duration {
-  margin-top: 0.5em;
+  margin-top: 6px;
 }

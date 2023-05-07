@@ -3,7 +3,7 @@
     better: better$ | async
   } as data"
 >
-  <div class="bet-panel" [style.height.px]="betPanelHeight">
+  <div class="bet-panel" #betPanel>
     <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
       <div class="tutorial4">
         <h5>Menu latéral et fin (4/4)</h5>

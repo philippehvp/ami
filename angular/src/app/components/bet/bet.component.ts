@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -33,6 +34,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
+  private cdr = inject(ChangeDetectorRef);
+
+  @ViewChild('betPanel')
+  public betPanel!: ElementRef;
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -49,12 +54,8 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
 
-  public betPanelHeight!: number;
-
   private destroy$!: Subject<boolean>;
-
   private better!: IBetter;
-
   public tutorialLastStep: number = 4;
 
   public get tutorialStep(): number {
@@ -144,7 +145,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this.betPanelHeight = window.innerHeight - 56;
+    this.betPanel.nativeElement.style.height = window.innerHeight - 61 + 'px';
   }
 
   public displayBetterPoints(
