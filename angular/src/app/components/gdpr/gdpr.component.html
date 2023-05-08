@@ -1,10 +1,20 @@
-<h3>Utilisation des cookies</h3>
-
-<p>
-  Ce site n'utilise aucun cookie, ni fonctionnel, ni analytique. Même en
-  utilisant ce site, aucun cookie ne sera installé sur votre navigateur. Bla bla
-</p>
-
-<div class="action">
-  <button mat-flat-button color="primary" (click)="close()">Fermer</button>
-</div>
+<h2 mat-dialog-title>Gestion des données</h2>
+<mat-dialog-content style="height: calc(100% - 6em)">
+  <p>Texte à compléter pour le RGPD.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <div>
+    <mat-checkbox [(ngModel)]="isCloseButtonDisabled"
+      >Accepter les conditions</mat-checkbox
+    >
+    <br />
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="close()"
+      [disabled]="!isCloseButtonDisabled"
+    >
+      Accepter
+    </button>
+  </div>
+</mat-dialog-actions>

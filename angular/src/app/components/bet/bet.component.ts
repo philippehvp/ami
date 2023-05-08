@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -30,7 +29,7 @@ import { PersistenceService } from 'src/app/services/persistence.service';
   templateUrl: './bet.component.html',
   styleUrls: ['./bet.component.scss'],
 })
-export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BetComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
@@ -57,6 +56,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$!: Subject<boolean>;
   private better!: IBetter;
   public tutorialLastStep: number = 4;
+  public betPanelHeight!: number;
 
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
@@ -71,6 +71,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit() {
+    this.betPanelHeight = window.innerHeight - 53;
     this.destroy$ = new Subject<boolean>();
 
     combineLatest([this.isOffline$, this.better$])
@@ -85,6 +86,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 dialogType: InformationDialogType.Information,
                 labels: ['Me connecter'],
               },
+              disableClose: true,
             };
 
             this.dialog
@@ -126,6 +128,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 dialogType: InformationDialogType.Information,
                 labels: ['Fermer'],
               },
+              disableClose: true,
             };
 
             this.dialog
@@ -142,10 +145,6 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
-  }
-
-  public ngAfterViewInit() {
-    this.betPanel.nativeElement.style.height = window.innerHeight - 61 + 'px';
   }
 
   public displayBetterPoints(

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InformationComponent } from '../information/information.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {
   FormBuilder,
   FormGroup,
@@ -35,7 +34,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private betterService = inject(BetterService);
   private store = inject(Store);
-  private bottomSheet = inject(MatBottomSheet);
   private route = inject(ActivatedRoute);
   private persistenceService = inject(PersistenceService);
 
@@ -57,8 +55,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map((data) => {
           if (data['withGpdr'] === true) {
-            // Ouverture de la zone d'affichage du RGPD
-            //this.bottomSheet.open(GdprComponent);
+            // Ouverture de la boîte de dialogue RGPD
+            const config: MatDialogConfig = {
+              disableClose: true,
+            };
+            this.dialog.open(GdprComponent, config);
           }
         })
       )

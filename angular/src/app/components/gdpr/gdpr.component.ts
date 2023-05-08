@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-gdpr',
@@ -7,9 +7,11 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
   styleUrls: ['./gdpr.component.scss'],
 })
 export class GdprComponent {
-  private bottomSheetRef = inject(MatBottomSheetRef<GdprComponent>);
+  private matDialogRef = inject(MatDialogRef<GdprComponent>);
+
+  public isCloseButtonDisabled: boolean = false;
 
   public close() {
-    this.bottomSheetRef.dismiss();
+    this.matDialogRef.close();
   }
 }

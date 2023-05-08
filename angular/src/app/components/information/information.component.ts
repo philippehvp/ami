@@ -11,7 +11,7 @@ import {
   styleUrls: ['./information.component.scss'],
 })
 export class InformationComponent {
-  private dialogRef = inject(MatDialogRef<InformationComponent>);
+  private matDialogRef = inject(MatDialogRef<InformationComponent>);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -31,14 +31,14 @@ export class InformationComponent {
   }
 
   public close() {
-    this.dialogRef.close();
+    this.matDialogRef.close();
   }
 
   public validate() {
-    this.dialogRef.close(true);
+    this.matDialogRef.close(true);
   }
 
   public cancel() {
-    this.dialogRef.close(false);
+    this.matDialogRef.close(false);
   }
 }
