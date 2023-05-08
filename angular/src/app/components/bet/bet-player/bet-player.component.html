@@ -88,7 +88,10 @@
     </ng-container>
 
     <div>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns; sticky: false"
+      ></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </div>
   </mat-table>

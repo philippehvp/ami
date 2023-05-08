@@ -97,7 +97,7 @@ export class CreateBetterComponent implements OnInit {
   }
 
   public back() {
-    this.persistenceService.navigate('login');
+    this.persistenceService.navigate('logout');
   }
 
   public checkPassword($event: any) {

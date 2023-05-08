@@ -10,17 +10,25 @@ body {
   // #d176ff
   background-position: bottom right;
   background-repeat: no-repeat;
+  // background-image: url("~/assets/img/background.png"),
+  //   linear-gradient(#6caddf, #f28e16);
   background-image: url("~/assets/img/background.png"),
-    linear-gradient(#6caddf, #fcc916);
-  // background-image: url("~/assets/img/background.png");
+    linear-gradient(
+      150deg,
+      #fcc916,
+      #f28e16,
+      #c5e6f7,
+      #6caee0,
+      #b0d6b1,
+      #8abb8c
+    );
+
   // background-color: #fcc916;
-  // background-color: #c4e6f7;
 }
 
 .mat-toolbar {
-  // background-color: #3f2f7d;
   background-color: transparent;
-  color: white;
+  color: black;
 }
 
 @keyframes fadeIn {
