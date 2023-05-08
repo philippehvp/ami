@@ -6,8 +6,7 @@
 }
 
 .contest-label {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+  margin-inline: 0.5em;
   font-weight: bold;
 }
 
@@ -23,13 +22,12 @@
 .uncomplete {
   display: flex;
   align-items: center;
-  height: 32px;
+  height: 2em;
   color: rgb(33, 33, 33);
-  padding-left: 12px;
-  padding-right: 12px;
-  margin: 4px 0 4px 4px;
-  border-radius: 8px;
-  border-width: 2px;
+  padding-inline: 0.75em;
+  margin: 0.3em 0 0.3em 0.3em;
+  border-radius: 0.5em;
+  border-width: 0.125em;
   border-style: solid;
 }
 

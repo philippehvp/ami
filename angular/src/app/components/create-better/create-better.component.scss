@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100vw;
   flex-direction: column;
-  margin-top: 6px;
+  margin-top: 0.5em;
   align-items: center;
   text-align: center;
 }
@@ -15,10 +15,10 @@
   align-items: center;
 
   border-color: #dadce0;
-  border-width: 1px;
+  border-width: 0.125em;
   border-style: solid;
 
-  border-radius: 8px;
+  border-radius: 0.5em;
 
   background-color: white;
 }
@@ -41,5 +41,5 @@
 }
 
 .mat-mdc-form-field {
-  min-width: 290px;
+  min-width: 18.125em;
 }

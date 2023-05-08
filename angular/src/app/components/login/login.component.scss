@@ -4,7 +4,7 @@
   width: 100vw;
   flex-direction: column;
   align-items: center;
-  margin-top: 6px;
+  margin-top: 0.5em;
 }
 
 .login-card {
@@ -13,7 +13,7 @@
   align-items: center;
   width: 90vw;
 
-  border-radius: 8px;
+  border-radius: 0.5em;
 
   background-color: white;
 
@@ -34,7 +34,7 @@
 }
 
 .mat-mdc-form-field {
-  min-width: 290px;
+  min-width: 18.125em;
 }
 
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
