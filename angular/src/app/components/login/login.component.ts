@@ -112,6 +112,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.persistenceService.navigate('create-better');
   }
 
+  public upperCase($event: any) {
+    $event.target.value = new String($event.target.value).toUpperCase();
+  }
+
   public checkPassword($event: any) {
     $event.target.value = ($event.target.value || '').replace(/\D/g, '');
   }

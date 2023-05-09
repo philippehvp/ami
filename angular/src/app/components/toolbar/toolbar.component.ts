@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
@@ -18,8 +17,9 @@ export interface IToolbarOption {
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
-  private router = inject(Router);
   private persistenceService = inject(PersistenceService);
+
+  public value!: number;
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;

@@ -93,7 +93,7 @@ export class BetComponent implements OnInit, OnDestroy {
               .open(InformationComponent, config)
               .afterClosed()
               .subscribe(() => {
-                return this.persistenceService.navigate('login');
+                return this.persistenceService.navigate('logout');
               });
           }
 

@@ -100,6 +100,10 @@ export class CreateBetterComponent implements OnInit {
     this.persistenceService.navigate('logout');
   }
 
+  public upperCase($event: any) {
+    $event.target.value = new String($event.target.value).toUpperCase();
+  }
+
   public checkPassword($event: any) {
     $event.target.value = ($event.target.value || '').replace(/\D/g, '');
   }

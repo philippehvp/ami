@@ -1,7 +1,9 @@
 <ng-container
   class="toolbar"
   *ngIf="{
-    better: better$ | async
+    better: better$ | async,
+    completedBets: completedBets$ | async,
+    bets: bets$ | async
   } as data"
 >
   <div class="toolbar">
@@ -10,10 +12,17 @@
       <span class="isb-black"></span>
       <span class="title">WINABAD</span>
     </span>
-
-    <span *ngIf="!data.better?.isAdmin"
-      >{{ completedBets$ | async }} / {{ (bets$ | async)?.length }}</span
-    >
+    <span *ngIf="!data.better?.isAdmin || false"
+      >{{ data?.completedBets || 0 }} / {{ (data?.bets || []).length }}
+      <mat-progress-bar
+        class="progress-bar"
+        mode="determinate"
+        [value]="
+          ((data?.completedBets || 0 * 1.0) / (data?.bets || []).length) * 100
+        "
+      >
+      </mat-progress-bar>
+    </span>
     <span class="material-icons menu" (click)="toggleSideMenu()">menu</span>
   </div>
 </ng-container>
