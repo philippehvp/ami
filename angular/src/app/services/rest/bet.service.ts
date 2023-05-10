@@ -26,6 +26,7 @@ export class BetService {
             name: betterRaw.name,
             isAdmin: betterRaw.isAdmin === 1 ? true : false,
             isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
+            isEvaluationDone: betterRaw.isEvaluationDone === 1 ? true : false,
           };
         });
       })

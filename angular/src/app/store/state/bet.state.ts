@@ -148,6 +148,26 @@ export class BetState {
       );
   }
 
+  @Action(BetActions.SetEvaluation)
+  updateEvaluation(
+    state: StateContext<BetStateModel>,
+    action: BetActions.SetEvaluation
+  ) {
+    return this.betterService
+      .setEvaluation(
+        state.getState().better?.accessKey || '',
+        action.evaluationLevel
+      )
+      .pipe(
+        tap((ret: IEmpty | IOffline) => {
+          if (ret && 'isOffline' in ret) {
+            // Hors connexion
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          }
+        })
+      );
+  }
+
   @Action(BetActions.Betters)
   betters(state: StateContext<BetStateModel>) {
     return state.getState().betters;

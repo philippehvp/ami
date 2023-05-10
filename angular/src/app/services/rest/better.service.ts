@@ -21,6 +21,7 @@ export class BetterService {
               firstName: betterRaw.firstName,
               isAdmin: betterRaw.isAdmin === 1 ? true : false,
               isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
+              isEvaluationDone: betterRaw.isEvaluationDone === 1 ? true : false,
             }
           : null;
       })
@@ -51,6 +52,17 @@ export class BetterService {
     const url = CommonService.getURL('better/updateIsTutorialDone');
     return this.httpClient.post<IEmpty>(url, {
       accessKey,
+    });
+  }
+
+  public setEvaluation(
+    accessKey: string,
+    evaluation: number
+  ): Observable<IEmpty | IOffline> {
+    const url = CommonService.getURL('better/updateEvaluation');
+    return this.httpClient.post<IEmpty>(url, {
+      accessKey,
+      evaluation,
     });
   }
 

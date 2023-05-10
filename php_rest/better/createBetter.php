@@ -33,8 +33,8 @@
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
-          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, endAccessKeyValidityDate, contact, isTutorialDone)" .
-          " VALUES              (?, ?, ?, ?, ?, fn_connection_validity(), ?, 0)";
+          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, endAccessKeyValidityDate, contact, isTutorialDone, isEvaluationDone)" .
+          " VALUES              (?, ?, ?, ?, ?, fn_connection_validity(), ?, 0, 0)";
         $req = $db->prepare($query);
         $req->execute(array($name, $firstName, $password, 0, $accessKey, $contact));
     

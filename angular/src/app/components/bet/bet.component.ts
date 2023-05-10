@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -33,7 +32,6 @@ export class BetComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
-  private cdr = inject(ChangeDetectorRef);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -161,15 +159,39 @@ export class BetComponent implements OnInit, OnDestroy {
     this.tutorialStep++;
     if (this.tutorialStep === this.tutorialLastStep + 1) {
       // Dernier tutoriel à afficher
+      this.better.isTutorialDone = true;
       this.storeBetterInLocalStorage();
       this.store.dispatch([new BetActions.SetTutorialDone()]);
     }
   }
 
   private storeBetterInLocalStorage() {
-    this.better.isTutorialDone = true;
     if (!CommonService.isProduction) {
       window.localStorage.setItem('better', JSON.stringify(this.better));
     }
+  }
+
+  public like(evaluationLevel: number) {
+    this.store
+      .dispatch([new BetActions.SetEvaluation(evaluationLevel)])
+      .subscribe(() => {
+        this.better.isEvaluationDone = true;
+        this.storeBetterInLocalStorage();
+
+        const config: MatDialogConfig<IInformationDialogConfig> = {
+          data: {
+            title: 'Merci',
+            message: 'Merci pour ton évaluation',
+            dialogType: InformationDialogType.Information,
+            labels: ['Fermer'],
+          },
+          disableClose: true,
+        };
+
+        this.dialog
+          .open(InformationComponent, config)
+          .afterClosed()
+          .subscribe(() => {});
+      });
   }
 }

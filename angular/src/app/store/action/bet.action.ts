@@ -21,6 +21,11 @@ export namespace BetActions {
     constructor() {}
   }
 
+  export class SetEvaluation {
+    static readonly type = '[Bet] Set Evaluation';
+    constructor(public evaluationLevel: number) {}
+  }
+
   export class GetContests {
     static readonly type = '[Bet] Get Contests';
     constructor(public accessKey: string) {}

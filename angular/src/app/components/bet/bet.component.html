@@ -95,4 +95,31 @@
       </div>
     </div>
   </div>
+
+  <div class="evaluation" *ngIf="!data.better?.isEvaluationDone">
+    <button mat-mini-fab [matMenuTriggerFor]="menu">
+      <span class="material-icons-outlined"> thumbs_up_down </span>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="like(2)">
+        <span class="material-icons-outlined"> favorite </span>&nbsp;J'aime
+        beaucoup
+      </button>
+      <button mat-menu-item (click)="like(1)">
+        <span class="material-icons-outlined"> thumb_up </span>&nbsp;J'aime
+      </button>
+      <button mat-menu-item (click)="like(0)">
+        <span class="material-icons-outlined"> thumbs_up_down </span
+        >&nbsp;Neutre
+      </button>
+      <button mat-menu-item (click)="like(-1)">
+        <span class="material-icons-outlined"> thumb_down </span>&nbsp;Je n'aime
+        pas
+      </button>
+      <button mat-menu-item (click)="like(-2)">
+        <span class="material-icons-outlined"> not_interested </span>&nbsp;Je
+        n'aime pas du tout pas
+      </button>
+    </mat-menu>
+  </div>
 </ng-container>
