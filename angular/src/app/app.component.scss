@@ -5,15 +5,16 @@
 .sidenav {
   display: flex;
   flex-direction: column;
-  margin-inline: 3em;
-  padding-top: 3em;
+  margin: 0;
 
   .link {
-    margin-bottom: 2em;
+    margin-inline: 3em;
+    margin-top: 2em;
   }
 
   .close {
-    width: 100%;
+    margin-right: 2em;
+    margin-top: 2em;
     text-align: right;
   }
 
@@ -22,7 +23,7 @@
     margin-right: 0.5em;
   }
 
-  .delete {
-    margin-top: 8em;
+  .logout {
+    margin-bottom: 8em;
   }
 }

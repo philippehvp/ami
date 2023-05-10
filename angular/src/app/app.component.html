@@ -50,17 +50,15 @@
             <span>Tutoriel</span>
           </span>
           <span
-            class="link"
+            class="link logout"
             (click)="
               logout(data.bets?.length || 0, data.completedBets || 0, false)
             "
             ><span class="material-icons-outlined icon"> logout </span>Se
             déconnecter</span
           >
-          <span
-            class="link delete"
-            (click)="deleteAccount(data?.better || null)"
-          >
+          <hr />
+          <span class="link" (click)="deleteAccount(data?.better || null)">
             <span class="material-icons-outlined icon"> delete </span>
             <span>Effacer le compte</span>
           </span>
