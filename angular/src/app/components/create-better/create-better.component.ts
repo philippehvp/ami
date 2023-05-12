@@ -43,6 +43,22 @@ export class CreateBetterComponent implements OnInit {
   private isWarnMessageDisplayed: boolean = false;
 
   public passwordVisibility: boolean = false;
+  public hasMajority: boolean = false;
+
+  public get disabled(): boolean {
+    const name: string = this.formGroup?.get(['name'])?.value || '';
+    const firstName: string = this.formGroup?.get(['firstName'])?.value || '';
+    const password: string = this.formGroup?.get(['password'])?.value || '';
+    const contact: string = this.formGroup?.get(['contact'])?.value || '';
+    return (
+      name === '' ||
+      firstName === '' ||
+      password === '' ||
+      password.length < 4 ||
+      contact === '' ||
+      this.hasMajority === false
+    );
+  }
 
   public ngOnInit() {
     this.formGroup = this.fb.group({
@@ -50,6 +66,7 @@ export class CreateBetterComponent implements OnInit {
       firstName: ['', Validators.required],
       password: ['', Validators.required],
       contact: ['', Validators.required],
+      hasMajority: [false, Validators.required],
     });
   }
 
@@ -63,7 +80,8 @@ export class CreateBetterComponent implements OnInit {
       name.trim() === '' ||
       password.trim() === '' ||
       firstName.trim() === '' ||
-      contact.trim() === ''
+      contact.trim() === '' ||
+      this.hasMajority === false
     ) {
       const config: MatDialogConfig<IInformationDialogConfig> = {
         data: {

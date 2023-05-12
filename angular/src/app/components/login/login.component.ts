@@ -44,6 +44,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   public passwordVisibility: boolean = false;
   private destroy$!: Subject<boolean>;
 
+  public get disabled(): boolean {
+    const name: string = this.formGroup?.get(['name'])?.value || '';
+    const password: string = this.formGroup?.get(['password'])?.value || '';
+    return name === '' || password === '' || password.length < 4;
+  }
+
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 

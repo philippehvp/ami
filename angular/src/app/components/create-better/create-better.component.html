@@ -74,11 +74,18 @@
       </p>
     </form>
 
+    <p>
+      <mat-checkbox [(ngModel)]="hasMajority" required
+        >J'atteste avoir 18 ans ou plus</mat-checkbox
+      >
+    </p>
+
     <button
       mat-flat-button
       color="primary"
       class="create-button"
       (click)="createBetter()"
+      [disabled]="disabled"
     >
       Créer le compte
     </button>
