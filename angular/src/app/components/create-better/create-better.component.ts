@@ -17,6 +17,7 @@ import {
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
 import { PersistenceService } from 'src/app/services/persistence.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -35,6 +36,7 @@ export class CreateBetterComponent implements OnInit {
   private betterService = inject(BetterService);
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
+  private utilsService = inject(UtilsService);
 
   public formGroup!: FormGroup;
 
@@ -126,5 +128,13 @@ export class CreateBetterComponent implements OnInit {
 
   public toggleVisibility() {
     this.passwordVisibility = !this.passwordVisibility;
+  }
+
+  public isbLogoClass(): string {
+    return this.utilsService.isbLogoClass();
+  }
+
+  public phoceaLightLogoClass(): string {
+    return this.utilsService.phoceaLightLogoClass();
   }
 }

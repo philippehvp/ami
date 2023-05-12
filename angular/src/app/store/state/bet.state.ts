@@ -29,6 +29,7 @@ export class BetStateModel {
   completedBets!: number | undefined;
   isLoadingData!: boolean | undefined;
   allBetsDone!: boolean | undefined;
+  isAutoNavigation!: boolean | undefined;
 }
 
 @State<BetStateModel>({
@@ -47,6 +48,7 @@ export class BetStateModel {
     completedBets: 0,
     isLoadingData: false,
     allBetsDone: undefined,
+    isAutoNavigation: false,
   },
 })
 @Injectable()
@@ -120,6 +122,11 @@ export class BetState {
   @Selector()
   static allBetsDone(state: BetStateModel) {
     return state.allBetsDone;
+  }
+
+  @Selector()
+  static isAutoNavigation(state: BetStateModel) {
+    return state.isAutoNavigation;
   }
 
   @Action(BetActions.SetBetter)
@@ -416,58 +423,58 @@ export class BetState {
     }
   }
 
-  // private searchNextBetToFill(
-  //   state: StateContext<BetStateModel>,
-  //   currentBetIndex: number
-  // ): number {
-  //   const currentState = state.getState();
+  private searchNextBetToFill(
+    state: StateContext<BetStateModel>,
+    currentBetIndex: number
+  ): number {
+    const currentState = state.getState();
 
-  //   let nextBetIndex = this.getNextBet(state, currentBetIndex || 0);
-  //   let bet = currentState.bets![nextBetIndex]!;
-  //   while (bet.isComplete && nextBetIndex !== currentBetIndex) {
-  //     nextBetIndex = this.getNextBet(state, nextBetIndex || 0);
-  //     bet = (currentState.bets || [])[nextBetIndex];
-  //   }
+    let nextBetIndex = this.getNextBet(state, currentBetIndex || 0);
+    let bet = currentState.bets![nextBetIndex]!;
+    while (bet.isComplete && nextBetIndex !== currentBetIndex) {
+      nextBetIndex = this.getNextBet(state, nextBetIndex || 0);
+      bet = (currentState.bets || [])[nextBetIndex];
+    }
 
-  //   if (nextBetIndex === currentBetIndex) {
-  //     // On a fait le tour, sans trouver de pronostic à saisir
-  //     return -1;
-  //   } else {
-  //     return bet.categoryId;
-  //   }
-  // }
+    if (nextBetIndex === currentBetIndex) {
+      // On a fait le tour, sans trouver de pronostic à saisir
+      return -1;
+    } else {
+      return bet.categoryId;
+    }
+  }
 
-  // private searchBetToFill(
-  //   state: StateContext<BetStateModel>,
-  //   category: number
-  // ): number {
-  //   const currentState = state.getState();
+  private searchBetToFill(
+    state: StateContext<BetStateModel>,
+    category: number
+  ): number {
+    const currentState = state.getState();
 
-  //   if (currentState.better?.isAdmin) {
-  //     return -1;
-  //   }
+    if (currentState.better?.isAdmin) {
+      return -1;
+    }
 
-  //   // On cherche dans le tableau des pronostics à quel index on se trouve
-  //   let currentBetIndex: number = currentState.bets?.findIndex((bet) => {
-  //     return bet.categoryId === category;
-  //   })!;
+    // On cherche dans le tableau des pronostics à quel index on se trouve
+    let currentBetIndex: number = currentState.bets?.findIndex((bet) => {
+      return bet.categoryId === category;
+    })!;
 
-  //   if (currentBetIndex !== -1) {
-  //     // On vérifie que les deux pronostics (vainqueur et finaliste) soient remplis
-  //     if (
-  //       currentState.bet?.winnerId === 0 ||
-  //       currentState.bet?.runnerUpId === 0
-  //     ) {
-  //       // L'un des deux pronostics n'est pas renseigné, on reste donc sur cette série
-  //       return -1;
-  //     } else {
-  //       // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
-  //       return this.searchNextBetToFill(state, currentBetIndex || 0);
-  //     }
-  //   }
+    if (currentBetIndex !== -1) {
+      // On vérifie que les deux pronostics (vainqueur et finaliste) soient remplis
+      if (
+        currentState.bet?.winnerId === 0 ||
+        currentState.bet?.runnerUpId === 0
+      ) {
+        // L'un des deux pronostics n'est pas renseigné, on reste donc sur cette série
+        return -1;
+      } else {
+        // Les deux pronostics de cette série sont remplis, on cherche dans les autres séries
+        return this.searchNextBetToFill(state, currentBetIndex || 0);
+      }
+    }
 
-  //   return -1;
-  // }
+    return -1;
+  }
 
   private handleError(
     state: StateContext<BetStateModel>,
@@ -531,14 +538,16 @@ export class BetState {
 
               this.calculateCompletedBetsOnUpdate(state);
 
-              // Recherche du prochain pari à saisir
-              // const categoryId = BetState.searchBetToFill(
-              //   state,
-              //   currentState.category?.id || 0
-              // );
-              // if (categoryId !== -1) {
-              //   state.dispatch([new BetActions.SetCategory(categoryId)]);
-              // }
+              // Recherche du prochain pari à saisir si l'option est activée
+              if (currentState.isAutoNavigation) {
+                const categoryId = this.searchBetToFill(
+                  state,
+                  currentState.category?.id || 0
+                );
+                if (categoryId !== -1) {
+                  state.dispatch([new BetActions.SetCategory(categoryId)]);
+                }
+              }
             }
           }
         })
@@ -599,14 +608,16 @@ export class BetState {
 
               this.calculateCompletedBetsOnUpdate(state);
 
-              // Recherche du prochain pari à saisir
-              // const categoryId = BetState.searchBetToFill(
-              //   state,
-              //   currentState.category?.id || 0
-              // );
-              // if (categoryId !== -1) {
-              //   state.dispatch([new BetActions.SetCategory(categoryId)]);
-              // }
+              // Recherche du prochain pari à saisir si l'option est activée
+              if (currentState.isAutoNavigation) {
+                const categoryId = this.searchBetToFill(
+                  state,
+                  currentState.category?.id || 0
+                );
+                if (categoryId !== -1) {
+                  state.dispatch([new BetActions.SetCategory(categoryId)]);
+                }
+              }
             }
           }
         })
@@ -729,5 +740,13 @@ export class BetState {
   @Action(BetActions.UnsetAllBetsDone)
   unsetAllBetsDone(state: StateContext<BetStateModel>) {
     state.patchState({ allBetsDone: undefined });
+  }
+
+  @Action(BetActions.ToggleAutoNavigation)
+  toggleAutoNavigation(state: StateContext<BetStateModel>) {
+    const currentState = state.getState();
+    state.patchState({
+      isAutoNavigation: !currentState.isAutoNavigation,
+    });
   }
 }

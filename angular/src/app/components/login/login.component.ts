@@ -18,6 +18,7 @@ import {
 import { GdprComponent } from '../gdpr/gdpr.component';
 import { Subject, map, takeUntil } from 'rxjs';
 import { PersistenceService } from 'src/app/services/persistence.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private route = inject(ActivatedRoute);
   private persistenceService = inject(PersistenceService);
+  private utilsService = inject(UtilsService);
 
   public formGroup!: FormGroup;
 
@@ -59,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             const config: MatDialogConfig = {
               disableClose: true,
             };
-            this.dialog.open(GdprComponent, config);
+            //this.dialog.open(GdprComponent, config);
           }
         })
       )
@@ -122,5 +124,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public toggleVisibility() {
     this.passwordVisibility = !this.passwordVisibility;
+  }
+
+  public isbLogoClass(): string {
+    return this.utilsService.isbLogoClass();
+  }
+
+  public phoceaLightLogoClass(): string {
+    return this.utilsService.phoceaLightLogoClass();
   }
 }

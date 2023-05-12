@@ -1,6 +1,7 @@
 <ng-container
   *ngIf="{
-    better: better$ | async
+    better: better$ | async,
+    isAutoNavigation: isAutoNavigation$ | async
   } as data"
 >
   <div class="bet-panel" [style.height.px]="betPanelHeight" #betPanel>
@@ -80,12 +81,6 @@
         </div>
       </div>
 
-      <div class="row no-growing">
-        <mat-checkbox [(ngModel)]="withClubName"
-          >Afficher le nom des clubs</mat-checkbox
-        >
-      </div>
-
       <!-- Joueurs -->
       <div class="row growing">
         <bet-player
@@ -96,30 +91,55 @@
     </div>
   </div>
 
-  <div class="evaluation" *ngIf="!data.better?.isEvaluationDone">
-    <button mat-mini-fab [matMenuTriggerFor]="menu">
-      <span class="material-icons-outlined"> thumbs_up_down </span>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="like(2)">
-        <span class="material-icons-outlined"> favorite </span>&nbsp;J'aime
-        beaucoup
+  <div class="action-panel">
+    <span>
+      <button mat-mini-fab [matMenuTriggerFor]="setting" color="accent">
+        <span class="material-icons-outlined"> settings </span>
       </button>
-      <button mat-menu-item (click)="like(1)">
-        <span class="material-icons-outlined"> thumb_up </span>&nbsp;J'aime
+      <mat-menu #setting="matMenu">
+        <button mat-menu-item (click)="toggleWithClubName()">
+          <span class="material-icons-outlined icon">
+            {{ withClubNameIcon }} </span
+          >&nbsp; Afficher le nom des clubs
+        </button>
+        <button mat-menu-item (click)="toggleAutoNavigation()">
+          <span class="material-icons-outlined icon">
+            {{ autoNavigationIcon(data?.isAutoNavigation || false) }} </span
+          >&nbsp;Navigation automatique
+        </button>
+      </mat-menu>
+    </span>
+
+    <span class="evaluation">
+      <button mat-mini-fab [matMenuTriggerFor]="menu" color="accent">
+        <span class="material-icons-outlined"> thumbs_up_down </span>
       </button>
-      <button mat-menu-item (click)="like(0)">
-        <span class="material-icons-outlined"> thumbs_up_down </span
-        >&nbsp;Neutre
-      </button>
-      <button mat-menu-item (click)="like(-1)">
-        <span class="material-icons-outlined"> thumb_down </span>&nbsp;Je n'aime
-        pas
-      </button>
-      <button mat-menu-item (click)="like(-2)">
-        <span class="material-icons-outlined"> not_interested </span>&nbsp;Je
-        n'aime pas du tout pas
-      </button>
-    </mat-menu>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="like(2)">
+          <span class="material-icons-outlined icon"> favorite </span
+          >&nbsp;J'aime beaucoup
+        </button>
+        <button mat-menu-item (click)="like(1)">
+          <span class="material-icons-outlined icon"> thumb_up </span
+          >&nbsp;J'aime
+        </button>
+        <button mat-menu-item (click)="like(0)">
+          <span class="material-icons-outlined icon"> thumbs_up_down </span
+          >&nbsp;Neutre
+        </button>
+        <button mat-menu-item (click)="like(-1)">
+          <span class="material-icons-outlined icon"> thumb_down </span>&nbsp;Je
+          n'aime pas
+        </button>
+        <button mat-menu-item (click)="like(-2)">
+          <span class="material-icons-outlined icon"> not_interested </span
+          >&nbsp;Je n'aime pas du tout pas
+        </button>
+      </mat-menu>
+    </span>
   </div>
+
+  <!-- <div class="sponsoring-panel">
+    <span class="material-icons-outlined"> expand_less </span>
+  </div> -->
 </ng-container>

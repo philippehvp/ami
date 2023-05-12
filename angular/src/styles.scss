@@ -15,8 +15,6 @@ hr {
   // #d176ff
   background-position: bottom right;
   background-repeat: no-repeat;
-  // background-image: url("~/assets/img/background.png"),
-  //   linear-gradient(#6caddf, #f28e16);
   background-image: url("~/assets/img/background.png"),
     linear-gradient(
       150deg,
@@ -27,8 +25,6 @@ hr {
       #b0d6b1,
       #8abb8c
     );
-
-  // background-color: #fcc916;
 }
 
 .mat-toolbar {
@@ -47,4 +43,50 @@ hr {
 
 .animation {
   animation: fadeIn 0.75s;
+}
+
+.sponsoring-card {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 1em;
+}
+
+.mobile-logo-isb,
+.mobile-logo-phocea-light {
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 204px;
+  height: 77px;
+}
+
+.desktop-logo-isb,
+.desktop-logo-phocea-light {
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 204px;
+  height: 77px;
+}
+
+.space {
+  width: 1em;
+}
+
+.mobile-logo-isb {
+  background-image: url("~/assets/img/logo-isb.png");
+}
+
+.mobile-logo-phocea-light {
+  background-image: url("~/assets/img/logo-phocea-light.png");
+}
+
+.desktop-logo-isb {
+  background-image: url("~/assets/img/logo-isb.png");
+}
+
+.desktop-logo-phocea-light {
+  background-image: url("~/assets/img/logo-phocea-light.png");
 }

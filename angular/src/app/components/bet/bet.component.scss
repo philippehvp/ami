@@ -58,9 +58,30 @@
   padding: 0.5em;
 }
 
-.evaluation {
+.action-panel {
   display: flex;
+  flex-direction: column;
   position: absolute;
   bottom: 2em;
-  right: 2em;
+  right: 1em;
+}
+
+.evaluation {
+  margin-top: 1em;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+.sponsoring-panel {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  height: 0.75em;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  align-items: center;
+  color: white;
 }

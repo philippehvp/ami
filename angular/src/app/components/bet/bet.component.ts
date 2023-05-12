@@ -51,6 +51,9 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
 
+  @Select(BetState.isAutoNavigation)
+  isAutoNavigation$!: Observable<boolean>;
+
   private destroy$!: Subject<boolean>;
   private better!: IBetter;
   public tutorialLastStep: number = 4;
@@ -64,8 +67,23 @@ export class BetComponent implements OnInit, OnDestroy {
     this.persistenceService.tutorialStep = tutorialStep;
   }
 
-  public set withClubName(withClubName: boolean) {
-    this.persistenceService.withClubName = withClubName;
+  public toggleWithClubName() {
+    this.persistenceService.withClubName =
+      !this.persistenceService.withClubName;
+  }
+
+  public get withClubNameIcon() {
+    return this.persistenceService.withClubName
+      ? 'check_box'
+      : 'check_box_outline_blank';
+  }
+
+  public autoNavigationIcon(isAutoNavigation: boolean): string {
+    return isAutoNavigation ? 'check_box' : 'check_box_outline_blank';
+  }
+
+  public toggleAutoNavigation() {
+    this.store.dispatch([new BetActions.ToggleAutoNavigation()]);
   }
 
   public ngOnInit() {

@@ -105,4 +105,9 @@ export namespace BetActions {
     static readonly type = '[Bet] Unset All Bets Done';
     constructor() {}
   }
+
+  export class ToggleAutoNavigation {
+    static readonly type = '[Bet] Toggle Auto Navigation';
+    constructor() {}
+  }
 }
