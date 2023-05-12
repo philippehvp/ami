@@ -60,6 +60,7 @@
       </span>
       <span class="title">WINABAD</span>
     </span>
+
     <span *ngIf="!data.better?.isAdmin || false"
       >{{ data?.completedBets || 0 }} / {{ (data?.bets || []).length }}
       <mat-progress-bar
@@ -71,6 +72,13 @@
       >
       </mat-progress-bar>
     </span>
-    <span class="material-icons menu" (click)="toggleSideMenu()">menu</span>
+
+    <span class="dark-mode">
+      <mat-slide-toggle [checked]="isDarkMode" (change)="toggleDarkMode()">
+      </mat-slide-toggle>
+      <span class="material-icons-outlined"> dark_mode </span>
+    </span>
+
+    <span class="material-icons" (click)="toggleSideMenu()">menu</span>
   </div>
 </ng-container>

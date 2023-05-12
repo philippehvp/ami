@@ -35,22 +35,22 @@ $md-cpi: (
   ),
 );
 
-$cpi-theme-primary: mat-palette($md-cpi, 500);
-$cpi-theme-accent: mat-palette($md-cpi, A200, A100, A400);
-$cpi-theme-warn: mat-palette($md-cpi);
+$light-primary: mat-palette($md-cpi, 500);
+$light-accent: mat-palette($md-cpi, A200, A100, A400);
+$light-warn: mat-palette($md-cpi);
+$light-mode: mat-light-theme($light-primary, $light-accent, $light-warn);
 
-$cpi-theme: mat-light-theme(
-  $cpi-theme-primary,
-  $cpi-theme-accent,
-  $cpi-theme-warn
-);
+$dark-primary: mat-palette($md-cpi, 500);
+$dark-accent: mat-palette($md-cpi, A400);
+$dark-warn: mat-palette($md-cpi, A200);
+$dark-mode: mat-light-theme($dark-primary, $dark-accent, $dark-warn);
 
-@include angular-material-theme($cpi-theme);
+// @include angular-material-theme($light-mode);
 
-$primary: mat-palette($md-cpi);
-
-.background-primary {
-  background-color: mat-color($primary);
+.light-mode {
+  @include angular-material-theme($light-mode);
 }
 
-// #4d8bca
+.dark-mode {
+  @include angular-material-theme($dark-mode);
+}

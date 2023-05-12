@@ -11,25 +11,95 @@ hr {
   align-self: stretch;
 }
 
-.mat-drawer-container {
-  // #d176ff
-  background-position: bottom right;
-  background-repeat: no-repeat;
-  background-image: url("~/assets/img/background.png"),
-    linear-gradient(
-      150deg,
-      #fcc916,
-      #f28e16,
-      #c5e6f7,
-      #6caee0,
-      #b0d6b1,
-      #8abb8c
-    );
+.light-mode {
+  .mat-drawer-container {
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-image: url("~/assets/img/background.png"),
+      linear-gradient(
+        150deg,
+        #fcc916,
+        #f28e16,
+        #c5e6f7,
+        #6caee0,
+        #b0d6b1,
+        #8abb8c
+      );
+  }
+
+  .mat-toolbar {
+    background-color: transparent;
+    color: black;
+  }
+
+  .mat-mdc-table {
+    background: none;
+  }
+
+  .card {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .logo-color {
+    fill: black;
+  }
+
+  .titlebar-panel {
+    color: black;
+  }
 }
 
-.mat-toolbar {
-  background-color: transparent;
-  color: black;
+.dark-mode {
+  $color: #bcc0c3;
+  $background: #1b124d;
+
+  .mat-drawer-container {
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-image: url("~/assets/img/background.png");
+    background-color: $background;
+    color: $color;
+  }
+
+  .mat-toolbar {
+    background-color: transparent;
+    color: $color;
+  }
+
+  .mat-mdc-table {
+    background: none;
+  }
+
+  .mat-mdc-table .mat-mdc-header-cell,
+  .mdc-data-table__cell {
+    color: $color;
+  }
+
+  .card {
+    background-color: black;
+  }
+
+  .logo-color {
+    fill: $color;
+  }
+
+  .mat-drawer {
+    background-color: $background;
+    color: $color;
+  }
+
+  .titlebar-panel {
+    color: $color;
+  }
+
+  .mat-mdc-menu-content {
+    background-color: $background;
+  }
+
+  .mat-mdc-menu-item.mat-mdc-focus-indicator.mdc-list-item,
+  .mdc-list-item__primary-text {
+    color: $color;
+  }
 }
 
 @keyframes fadeIn {
@@ -47,10 +117,11 @@ hr {
 
 .sponsoring-card {
   display: flex;
-  width: 100%;
-  flex-direction: row;
+  width: 100vw;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-evenly;
-  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 .mobile-logo-isb,
@@ -75,18 +146,18 @@ hr {
   width: 1em;
 }
 
-.mobile-logo-isb {
-  background-image: url("~/assets/img/logo-isb.png");
-}
+// .mobile-logo-isb {
+//   background-image: url("~/assets/img/logo-isb.png");
+// }
 
-.mobile-logo-phocea-light {
-  background-image: url("~/assets/img/logo-phocea-light.png");
-}
+// .mobile-logo-phocea-light {
+//   background-image: url("~/assets/img/logo-phocea-light.png");
+// }
 
-.desktop-logo-isb {
-  background-image: url("~/assets/img/logo-isb.png");
-}
+// .desktop-logo-isb {
+//   background-image: url("~/assets/img/logo-isb.png");
+// }
 
-.desktop-logo-phocea-light {
-  background-image: url("~/assets/img/logo-phocea-light.png");
-}
+// .desktop-logo-phocea-light {
+//   background-image: url("~/assets/img/logo-phocea-light.png");
+// }

@@ -2,7 +2,7 @@
   <div class="create-better-card">
     <h2>Créer un compte Winabad</h2>
 
-    <form [formGroup]="formGroup" (keydown.enter)="createBetter()">
+    <form [formGroup]="formGroup">
       <p>
         <mat-form-field hideRequiredMarker="true">
           <mat-label>Nom</mat-label>
@@ -76,7 +76,7 @@
 
     <p>
       <mat-checkbox [(ngModel)]="hasMajority" required
-        >J'atteste avoir 18 ans ou plus</mat-checkbox
+        >Je certifie avoir 18 ans ou plus</mat-checkbox
       >
     </p>
 
@@ -93,9 +93,9 @@
     <a class="back" (click)="back()">Revenir</a>
   </div>
 
-  <div class="sponsoring-card">
+  <!-- <div class="sponsoring-card">
     <span [class]="isbLogoClass()"></span>
     <span class="space"></span>
     <span [class]="phoceaLightLogoClass()"></span>
-  </div>
+  </div> -->
 </div>

@@ -22,7 +22,9 @@
         </p>
 
         <h4>Bons pronostics à toi !</h4>
-        <button mat-flat-button (click)="gotoNextTutorial()">Fermer</button>
+        <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
+          Fermer
+        </button>
       </div>
     </div>
 
@@ -39,7 +41,9 @@
             Tu peux modifier la durée du match le plus long en déplaçant la
             jauge ci-dessus (de 30 à 120 minutes).
           </p>
-          <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
+          <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
+            Suivant
+          </button>
         </div>
       </div>
     </div>
@@ -61,7 +65,11 @@
               La couleur des pastilles ainsi que la mention x/y dans la barre de
               menu permettent de savoir si tous les pronostics ont été saisis.
             </p>
-            <button mat-flat-button (click)="gotoNextTutorial()">
+            <button
+              mat-flat-button
+              color="primary"
+              (click)="gotoNextTutorial()"
+            >
               Suivant
             </button>
           </div>
@@ -77,7 +85,9 @@
             deuxième colonne du tableau. Facile !
           </p>
 
-          <button mat-flat-button (click)="gotoNextTutorial()">Suivant</button>
+          <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
+            Suivant
+          </button>
         </div>
       </div>
 
@@ -93,7 +103,7 @@
 
   <div class="action-panel">
     <span>
-      <button mat-mini-fab [matMenuTriggerFor]="setting" color="accent">
+      <button mat-mini-fab [matMenuTriggerFor]="setting" color="primary">
         <span class="material-icons-outlined"> settings </span>
       </button>
       <mat-menu #setting="matMenu">
@@ -111,7 +121,7 @@
     </span>
 
     <span class="evaluation">
-      <button mat-mini-fab [matMenuTriggerFor]="menu" color="accent">
+      <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
         <span class="material-icons-outlined"> thumbs_up_down </span>
       </button>
       <mat-menu #menu="matMenu">

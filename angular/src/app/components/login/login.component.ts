@@ -82,17 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const name: string = this.formGroup?.get(['name'])?.value || '';
     const password: string = this.formGroup?.get(['password'])?.value || '';
 
-    if (name.trim() === '' || password.trim() === '') {
-      const config: MatDialogConfig<IInformationDialogConfig> = {
-        data: {
-          title: 'Erreur de saise',
-          message: "Le nom et/ou le mot de passe n'a pas été renseigné.",
-          dialogType: InformationDialogType.Information,
-          labels: ['Fermer'],
-        },
-      };
-      this.dialog.open(InformationComponent, config);
-    } else {
+    if (name.trim() !== '' && password.trim() !== '') {
       // Demande de connexion au site
       this.betterService.login(name, password).subscribe((better) => {
         if (better) {

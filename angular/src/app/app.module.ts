@@ -29,6 +29,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -99,6 +100,7 @@ import { GdprComponent } from './components/gdpr/gdpr.component';
     MatProgressBarModule,
     MatSidenavModule,
     MatSliderModule,
+    MatSlideToggleModule,
     MatTableModule,
     MatToolbarModule,
   ],

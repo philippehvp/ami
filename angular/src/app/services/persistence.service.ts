@@ -19,6 +19,8 @@ export class PersistenceService {
 
   private _tutorialStep!: number;
 
+  private _isDarkMode: boolean = false;
+
   public get withClubName(): boolean {
     return this._withClubName;
   }
@@ -65,6 +67,14 @@ export class PersistenceService {
 
   public set isToolbarVisible(isToolbarVisible: boolean) {
     this._isToolbarVisible = isToolbarVisible;
+  }
+
+  public get isDarkMode(): boolean {
+    return this._isDarkMode;
+  }
+
+  public set isDarkMode(isDarkMode: boolean) {
+    this._isDarkMode = isDarkMode;
   }
 
   public navigate(link: string) {

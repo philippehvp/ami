@@ -3,6 +3,7 @@
   width: 90vw;
   justify-content: space-between;
   align-items: center;
+  align-content: center;
 }
 
 .title-area {
@@ -14,10 +15,10 @@
   }
 }
 
-.logo-color {
-  fill: black;
-}
-
 .logo-gradient {
   fill: url(#gradient);
+}
+
+.dark-mode {
+  display: flex;
 }
