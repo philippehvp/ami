@@ -22,6 +22,7 @@ import {
 } from 'src/app/models/information-dialog-type';
 import { CommonService } from 'src/app/services/rest/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
+import { BetReviewComponent } from './bet-review/bet-review.component';
 
 @Component({
   selector: 'bet',
@@ -141,8 +142,8 @@ export class BetComponent implements OnInit, OnDestroy {
                 title: 'Pronostics entièrement saisis',
                 message:
                   'Tous les pronostics ont été saisis. Vérifie que la durée du match le plus long te convienne.',
-                dialogType: InformationDialogType.Information,
-                labels: ['Fermer'],
+                dialogType: InformationDialogType.YesNo,
+                labels: ['Fermer', 'Voir mes pronostics'],
               },
               disableClose: true,
             };
@@ -150,8 +151,11 @@ export class BetComponent implements OnInit, OnDestroy {
             this.dialog
               .open(InformationComponent, config)
               .afterClosed()
-              .subscribe(() => {
+              .subscribe((action: boolean) => {
                 this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
+                if (action) {
+                  this.showBetsReview();
+                }
               });
           }
         })
@@ -161,6 +165,14 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
+  }
+
+  private showBetsReview() {
+    const config: MatDialogConfig = {
+      disableClose: true,
+    };
+
+    this.dialog.open(BetReviewComponent, config);
   }
 
   public displayBetterPoints(

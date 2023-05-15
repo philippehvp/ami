@@ -14,6 +14,7 @@ import { IDuration } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
 import { BetterService } from 'src/app/services/rest/better.service';
+import { IBetReview } from 'src/app/models/review';
 
 export class BetStateModel {
   isOffline!: boolean | undefined;
@@ -25,6 +26,7 @@ export class BetStateModel {
   players!: IPlayer[] | undefined;
   bet!: IBet | undefined;
   bets!: IBet[] | undefined;
+  betsReview!: IBetReview[] | undefined;
   duration!: IDuration | undefined;
   completedBets!: number | undefined;
   isLoadingData!: boolean | undefined;
@@ -44,6 +46,7 @@ export class BetStateModel {
     players: undefined,
     bet: undefined,
     bets: undefined,
+    betsReview: undefined,
     duration: undefined,
     completedBets: 0,
     isLoadingData: false,
@@ -102,6 +105,11 @@ export class BetState {
   @Selector()
   static bets(state: BetStateModel) {
     return state.bets;
+  }
+
+  @Selector()
+  static betsReview(state: BetStateModel) {
+    return state.betsReview;
   }
 
   @Selector()
@@ -336,6 +344,29 @@ export class BetState {
         }
       })
     );
+  }
+
+  @Action(BetActions.GetBetsReview)
+  getBetsReview(
+    state: StateContext<BetStateModel>,
+    action: BetActions.GetBetsReview
+  ) {
+    const currentState = state.getState();
+
+    return this.betService
+      .getBetsReview(currentState.better?.accessKey || '')
+      .pipe(
+        tap((readBetsReview: IBetReview[] | IOffline) => {
+          if ('isOffline' in readBetsReview) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            state.patchState({
+              isOffline: false,
+              betsReview: <IBetReview[]>readBetsReview,
+            });
+          }
+        })
+      );
   }
 
   private calculateCompletedBetsOnLoad(state: StateContext<BetStateModel>) {

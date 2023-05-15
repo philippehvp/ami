@@ -9,6 +9,7 @@ import { BetterBetComponent as BetterBetComponent } from './components/better-be
 import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { RuleComponent } from './components/rule/rule.component';
+import { BetReviewComponent } from './components/bet/bet-review/bet-review.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
   {
     path: 'bet-point',
     component: BetPointComponent,
+  },
+  {
+    path: 'bet-review',
+    component: BetReviewComponent,
   },
   {
     path: '**',

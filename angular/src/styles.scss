@@ -40,6 +40,16 @@ hr {
     background-color: rgba(255, 255, 255, 0.7);
   }
 
+  .login-card,
+  .create-better-card {
+    background-color: white;
+    border-color: #dadce0;
+    border-width: 0.125em;
+    border-style: solid;
+
+    border-radius: 0.5em;
+  }
+
   .logo-color {
     fill: black;
   }
@@ -51,7 +61,7 @@ hr {
 
 .dark-mode {
   $color: #bcc0c3;
-  $background: #1b124d;
+  $background: #212529;
 
   .mat-drawer-container {
     background-position: bottom right;
@@ -76,7 +86,7 @@ hr {
   }
 
   .card {
-    background-color: black;
+    background-color: #2a2e32;
   }
 
   .logo-color {

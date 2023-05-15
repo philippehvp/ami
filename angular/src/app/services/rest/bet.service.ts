@@ -9,6 +9,7 @@ import { IBet } from 'src/app/models/bet';
 import { IDuration, IDurationRaw } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { IBetterBet } from 'src/app/models/better-bet';
+import { IBetReview, IBetReviewRaw } from 'src/app/models/review';
 
 @Injectable({
   providedIn: 'root',
@@ -139,5 +140,28 @@ export class BetService {
   public getBetterBet(accessKey: string): Observable<IBetterBet | IOffline> {
     const url = CommonService.getURL('bet/bettersBets');
     return this.httpClient.post<IBetterBet | IOffline>(url, { accessKey });
+  }
+
+  public getBetsReview(accessKey: string): Observable<IBetReview[] | IOffline> {
+    return this.getBetsReviewRaw(accessKey).pipe(
+      map((betsReviewRaw) => {
+        return betsReviewRaw.map((betReviewRaw) => {
+          return {
+            contestId: betReviewRaw.contest_id,
+            categoryId: betReviewRaw.category_id,
+            categoryShortName: betReviewRaw.categoryShortName,
+            winnerPlayerName1: betReviewRaw.winner_playerName1,
+            winnerPlayerName2: betReviewRaw.winner_playerName2,
+            runnerUpPlayerName1: betReviewRaw.runnerUp_playerName1,
+            runnerUpPlayerName2: betReviewRaw.runnerUp_playerName2,
+          };
+        });
+      })
+    );
+  }
+
+  public getBetsReviewRaw(accessKey: string): Observable<IBetReviewRaw[]> {
+    const url = CommonService.getURL('bet/review');
+    return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey });
   }
 }

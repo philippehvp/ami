@@ -31,6 +31,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { BetState } from './store/state/bet.state';
@@ -54,6 +55,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { TitlebarComponent } from './components/titlebar/titlebar.component';
 import { RuleComponent } from './components/rule/rule.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
+import { BetReviewComponent } from './components/bet/bet-review/bet-review.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,7 @@ import { GdprComponent } from './components/gdpr/gdpr.component';
     TitlebarComponent,
     RuleComponent,
     GdprComponent,
+    BetReviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +105,7 @@ import { GdprComponent } from './components/gdpr/gdpr.component';
     MatSliderModule,
     MatSlideToggleModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule,
   ],
   providers: [],

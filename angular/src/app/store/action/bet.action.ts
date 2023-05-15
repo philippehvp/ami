@@ -61,6 +61,11 @@ export namespace BetActions {
     constructor(public accessKey: string) {}
   }
 
+  export class GetBetsReview {
+    static readonly type = '[Bet] Get Bets Review';
+    constructor() {}
+  }
+
   export class GetDuration {
     static readonly type = '[Bet] Get Duration';
     constructor(public accessKey: string) {}
