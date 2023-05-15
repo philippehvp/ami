@@ -9,16 +9,16 @@
       <div class="tutorial4">
         <h5>Menu latéral et fin (4/4)</h5>
         <p>
-          Le menu latéral te permet de consulter le barème, revoir ce tutoriel,
-          et te déconnecter. Il suffit de cliquer sur l'icône
+          Le menu latéral permet de consulter le barème, revoir ce tutoriel, et
+          se déconnecter. Il suffit de cliquer sur l'icône
           <span class="material-icons menu">menu</span>, en haut à droite.
         </p>
 
         <p>
-          C'est fini ! Une fois tous tes pronos saisis, tu peux quitter en
-          cliquant sur l'icône
-          <span class="material-icons-outlined">logout</span> du menu latéral et
-          te reconnecter plus tard avec ton nom et ton code secret à 4 chiffres.
+          C'est fini ! Une fois tous les pronostics saisis, il suffit de cliquer
+          sur l'icône
+          <span class="material-icons-outlined">logout</span> du menu latéral
+          pour fermer cette page.
         </p>
 
         <h4>Bons pronostics à toi !</h4>
@@ -38,8 +38,8 @@
         <div class="tutorial2">
           <h5>Durée du match le plus long (2/4)</h5>
           <p>
-            Tu peux modifier la durée du match le plus long en déplaçant la
-            jauge ci-dessus (de 30 à 120 minutes).
+            Le pronostic sur la durée du match le plus long se fait en déplaçant
+            la jauge ci-dessus (de 30 à 120 minutes).
           </p>
           <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
             Suivant
@@ -57,8 +57,7 @@
             <h5>Catégories et séries (1/4)</h5>
             <p>
               Les catégories et leurs séries (de S1 à Sn) apparaissent
-              ci-dessus. Clique sur le nom des séries pour passer de l'une à
-              l'autre.
+              ci-dessus. Cliquer sur le nom d'une série permet de l'afficher.
             </p>
 
             <p>
@@ -80,8 +79,8 @@
         <div class="tutorial3">
           <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
           <p>
-            Ici apparaît la liste des joueurs de la série en cours. Choisis le
-            vainqueur et le finaliste en cliquant dans la première ou la
+            Les joueurs de la série en cours apparaissent ici. Le choix du
+            vainqueur et du finaliste se fait en cliquant sur la première ou la
             deuxième colonne du tableau. Facile !
           </p>
 
@@ -125,10 +124,6 @@
         <span class="material-icons-outlined"> thumbs_up_down </span>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="like(2)">
-          <span class="material-icons-outlined icon"> favorite </span
-          >&nbsp;J'aime beaucoup
-        </button>
         <button mat-menu-item (click)="like(1)">
           <span class="material-icons-outlined icon"> thumb_up </span
           >&nbsp;J'aime
@@ -140,10 +135,6 @@
         <button mat-menu-item (click)="like(-1)">
           <span class="material-icons-outlined icon"> thumb_down </span>&nbsp;Je
           n'aime pas
-        </button>
-        <button mat-menu-item (click)="like(-2)">
-          <span class="material-icons-outlined icon"> not_interested </span
-          >&nbsp;Je n'aime pas du tout pas
         </button>
       </mat-menu>
     </span>

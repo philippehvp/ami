@@ -7,7 +7,7 @@
   } as data"
 >
   <div class="toolbar">
-    <span class="title-area">
+    <span class="title-area" (click)="toggleSponsor()">
       <span>
         <svg
           id="logo"
@@ -61,7 +61,7 @@
       <span class="title">WINABAD</span>
     </span>
 
-    <span *ngIf="!data.better?.isAdmin || false"
+    <span *ngIf="!data.better?.isAdmin || false" (click)="showBetsReview()"
       >{{ data?.completedBets || 0 }} / {{ (data?.bets || []).length }}
       <mat-progress-bar
         class="progress-bar"
@@ -73,12 +73,10 @@
       </mat-progress-bar>
     </span>
 
-    <span class="dark-mode">
-      <mat-slide-toggle [checked]="isDarkMode" (change)="toggleDarkMode()">
-      </mat-slide-toggle>
-      <span class="material-icons-outlined"> dark_mode </span>
+    <span class="dark-mode" (click)="toggleDarkMode()">
+      <span class="dark-mode-icon"> {{ darkModeIcon }} </span>
     </span>
 
-    <span class="material-icons" (click)="toggleSideMenu()">menu</span>
+    <span class="material-icons" (click)="toggleSideNav()">menu</span>
   </div>
 </ng-container>

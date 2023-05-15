@@ -17,6 +17,12 @@ import { PersistenceService } from './services/persistence.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BetterService } from './services/rest/better.service';
 
+export interface ILogo {
+  icon: string;
+  label: string;
+  isLightAndDark: boolean;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -38,6 +44,20 @@ export class AppComponent implements AfterViewInit {
   bets$!: Observable<IBet[]>;
 
   @ViewChild('sidenav') public sidenav!: MatSidenav;
+  @ViewChild('sponsornav') public sponsornav!: MatSidenav;
+
+  public logos: ILogo[] = [
+    { icon: 'logo-isb', label: 'ISB', isLightAndDark: true },
+    { icon: 'logo-phocea-light', label: 'Phocea Light', isLightAndDark: true },
+    { icon: 'logo-liguesud', label: 'Ligue Sud', isLightAndDark: false },
+    { icon: 'logo-ffbad', label: 'FFBAD', isLightAndDark: false },
+    {
+      icon: 'logo-ville-istres',
+      label: "Ville d'Istres",
+      isLightAndDark: false,
+    },
+    { icon: 'logo-balotti', label: 'Balotti', isLightAndDark: false },
+  ];
 
   public get isToolbarVisible(): boolean {
     return this.persistenceService.isToolbarVisible;
@@ -64,6 +84,7 @@ export class AppComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.persistenceService.sidenav = this.sidenav;
+    this.persistenceService.sponsornav = this.sponsornav;
   }
 
   public logout(
@@ -109,8 +130,8 @@ export class AppComponent implements AfterViewInit {
     this.persistenceService.sidenav.toggle();
   }
 
-  public closeSideMenu() {
-    this.persistenceService.sidenav.close();
+  public toggleSponsorNav() {
+    this.persistenceService.sponsornav.toggle();
   }
 
   public displayTutorial() {
@@ -161,5 +182,14 @@ export class AppComponent implements AfterViewInit {
 
   public displayBettersOrderedByName() {
     this.persistenceService.navigate('better-name');
+  }
+
+  public getLogoFile(logo: ILogo): string {
+    const prefix = 'assets/img/logos/';
+    if (!this.persistenceService.isDarkMode || !logo.isLightAndDark) {
+      return prefix + logo.icon + '.png';
+    } else {
+      return prefix + logo.icon + '_dark.png';
+    }
   }
 }

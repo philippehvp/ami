@@ -9,8 +9,8 @@
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
         " SELECT  		cpi_contest.id AS contest_id, cpi_category.id as category_id, cpi_category.shortName AS categoryShortName," .
-        "             IFNULL(cpi_winner.playerName1, '-') AS winner_playerName1, IFNULL(cpi_winner.playerName2, '') AS winner_playerName2," .
-        "             IFNULL(cpi_runnerUp.playerName1, '') AS runnerUp_playerName1, IFNULL(cpi_runnerUp.playerName2, '') AS runnerUp_playerName2" .
+        "             IFNULL(cpi_winner.playerName1, '-') AS winner_playerName1, IFNULL(cpi_winner.playerName2, '-') AS winner_playerName2," .
+        "             IFNULL(cpi_runnerUp.playerName1, '-') AS runnerUp_playerName1, IFNULL(cpi_runnerUp.playerName2, '-') AS runnerUp_playerName2" .
         " FROM		    cpi_category" .
         " JOIN		    cpi_contest" .
 			  "             ON		cpi_contest.id = cpi_category.contest_id" .

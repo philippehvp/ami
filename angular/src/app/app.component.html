@@ -17,6 +17,17 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
 
+    <mat-sidenav #sponsornav mode="over" position="start">
+      <mat-nav-list (click)="toggleSponsorNav()" class="nav">
+        <span class="material-icons-outlined link close"> close </span>
+
+        <span class="link" *ngFor="let logo of logos">
+          <img [src]="getLogoFile(logo)" alt="" class="icon logo" />
+          <span>{{ logo.label }}</span>
+        </span>
+      </mat-nav-list>
+    </mat-sidenav>
+
     <mat-sidenav #sidenav mode="over" position="end">
       <div *ngIf="data.better?.isAdmin || false; else normal">
         <mat-nav-list (click)="toggleSideMenu()" class="sidenav">
@@ -38,7 +49,7 @@
       </div>
 
       <ng-template #normal>
-        <mat-nav-list (click)="toggleSideMenu()" class="sidenav">
+        <mat-nav-list (click)="toggleSideMenu()" class="nav">
           <span class="material-icons-outlined link close"> close </span>
 
           <span class="link" (click)="navigate('rule')"

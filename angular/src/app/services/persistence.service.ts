@@ -12,6 +12,7 @@ export class PersistenceService {
   private _categoryId!: number;
 
   private _sidenav!: MatSidenav;
+  private _sponsornav!: MatSidenav;
 
   private _currentPage!: string;
 
@@ -43,6 +44,14 @@ export class PersistenceService {
 
   public set sidenav(sidenav: MatSidenav) {
     this._sidenav = sidenav;
+  }
+
+  public get sponsornav(): MatSidenav {
+    return this._sponsornav;
+  }
+
+  public set sponsornav(sponsornav: MatSidenav) {
+    this._sponsornav = sponsornav;
   }
 
   public get currentPage(): string {

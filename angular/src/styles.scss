@@ -66,7 +66,7 @@ hr {
   .mat-drawer-container {
     background-position: bottom right;
     background-repeat: no-repeat;
-    background-image: url("~/assets/img/background.png");
+    background-image: url("~/assets/img/background-dark.png");
     background-color: $background;
     color: $color;
   }
@@ -133,41 +133,3 @@ hr {
   justify-content: space-evenly;
   margin-top: 1em;
 }
-
-.mobile-logo-isb,
-.mobile-logo-phocea-light {
-  background-size: 90%;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 204px;
-  height: 77px;
-}
-
-.desktop-logo-isb,
-.desktop-logo-phocea-light {
-  background-repeat: no-repeat;
-  background-position: center;
-
-  width: 204px;
-  height: 77px;
-}
-
-.space {
-  width: 1em;
-}
-
-// .mobile-logo-isb {
-//   background-image: url("~/assets/img/logo-isb.png");
-// }
-
-// .mobile-logo-phocea-light {
-//   background-image: url("~/assets/img/logo-phocea-light.png");
-// }
-
-// .desktop-logo-isb {
-//   background-image: url("~/assets/img/logo-isb.png");
-// }
-
-// .desktop-logo-phocea-light {
-//   background-image: url("~/assets/img/logo-phocea-light.png");
-// }
