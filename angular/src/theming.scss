@@ -45,8 +45,6 @@ $dark-accent: mat-palette($md-cpi, A400);
 $dark-warn: mat-palette($md-cpi, A200);
 $dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
-// @include angular-material-theme($light-mode);
-
 .light-mode {
   @include angular-material-theme($light-mode);
 }

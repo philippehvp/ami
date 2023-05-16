@@ -49,6 +49,11 @@ hr {
 
     border-radius: 0.5em;
   }
+
+  .sponsor {
+    color: white;
+    background-color: black;
+  }
 }
 
 .dark-mode {
@@ -79,6 +84,11 @@ hr {
   .logo-color {
     fill: $color;
   }
+
+  .sponsor {
+    color: $background;
+    background-color: $color;
+  }
 }
 
 @keyframes fadeIn {
@@ -92,13 +102,4 @@ hr {
 
 .animation {
   animation: fadeIn 0.75s;
-}
-
-.sponsoring-card {
-  display: flex;
-  width: 100vw;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-top: 1em;
 }

@@ -57,21 +57,16 @@
   padding: 0.5em;
 }
 
-.dark-mode .card {
-  background-color: black;
-  color: white;
-}
-
 .action-panel {
   display: flex;
   flex-direction: column;
   position: absolute;
   bottom: 2em;
-  right: 1em;
+  right: 0.75em;
 }
 
 .evaluation {
-  margin-top: 1em;
+  margin-top: 0.75em;
 }
 
 .icon {
@@ -81,11 +76,18 @@
 .sponsor-panel {
   display: flex;
   position: absolute;
-  bottom: 0;
-  width: 100vw;
-  height: 0.75em;
+  flex-direction: row;
+  width: 100%;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.9);
+  bottom: 0;
+}
+
+.sponsor {
+  display: flex;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  width: 4em;
+  height: 1em;
+  justify-content: center;
   align-items: center;
-  color: white;
 }
