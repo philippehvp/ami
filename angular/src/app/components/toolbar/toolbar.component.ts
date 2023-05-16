@@ -8,6 +8,8 @@ import { IBetter } from 'src/app/models/better';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BetReviewComponent } from '../bet/bet-review/bet-review.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { SponsorComponent } from '../sponsor/sponsor.component';
 
 export interface IToolbarOption {
   hasToolbar: boolean;
@@ -23,6 +25,7 @@ export class ToolbarComponent {
   private persistenceService = inject(PersistenceService);
   private dialog = inject(MatDialog);
   private renderer = inject(Renderer2);
+  private bottomSheet = inject(MatBottomSheet);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -48,7 +51,7 @@ export class ToolbarComponent {
   }
 
   public toggleSponsor() {
-    this.persistenceService.sponsornav.open();
+    this.persistenceService.aboutnav.open();
   }
 
   public toggleDarkMode() {

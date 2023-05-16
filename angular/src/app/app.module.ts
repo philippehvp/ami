@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -57,6 +58,7 @@ import { TitlebarComponent } from './components/titlebar/titlebar.component';
 import { RuleComponent } from './components/rule/rule.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
 import { BetReviewComponent } from './components/bet/bet-review/bet-review.component';
+import { SponsorComponent } from './components/sponsor/sponsor.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { BetReviewComponent } from './components/bet/bet-review/bet-review.compo
     RuleComponent,
     GdprComponent,
     BetReviewComponent,
+    SponsorComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,6 +96,7 @@ import { BetReviewComponent } from './components/bet/bet-review/bet-review.compo
     MarkdownModule,
 
     MatBadgeModule,
+    MatBottomSheetModule,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,

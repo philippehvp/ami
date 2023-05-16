@@ -23,6 +23,8 @@ import {
 import { CommonService } from 'src/app/services/rest/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetReviewComponent } from './bet-review/bet-review.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { SponsorComponent } from '../sponsor/sponsor.component';
 
 @Component({
   selector: 'bet',
@@ -33,6 +35,7 @@ export class BetComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
+  private bottomSheet = inject(MatBottomSheet);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -223,5 +226,9 @@ export class BetComponent implements OnInit, OnDestroy {
           .afterClosed()
           .subscribe(() => {});
       });
+  }
+
+  public openSponsorPanel() {
+    this.bottomSheet.open(SponsorComponent);
   }
 }

@@ -17,15 +17,18 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
 
-    <mat-sidenav #sponsornav mode="over" position="start">
-      <mat-nav-list (click)="toggleSponsorNav()" class="nav">
-        <span class="material-icons-outlined link close"> close </span>
-
-        <span class="link" *ngFor="let logo of logos">
-          <img [src]="getLogoFile(logo)" alt="" class="icon logo" />
-          <span>{{ logo.label }}</span>
+    <mat-sidenav #aboutnav mode="over" position="start">
+      <div class="about-panel" (click)="toggleAboutNav()">
+        <span class="about">
+          <span class="material-icons-outlined close"> close </span>
+          <h3>A propos de</h3>
+          <p>
+            Le club d'Istres Sports Badminton est heureux de présenter le jeu
+            Winabad en collaboration avec son partenaire Phocea Light, bla bla
+            bla
+          </p>
         </span>
-      </mat-nav-list>
+      </div>
     </mat-sidenav>
 
     <mat-sidenav #sidenav mode="over" position="end">

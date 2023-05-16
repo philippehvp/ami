@@ -1,0 +1,10 @@
+<div class="logo-panel">
+  <div class="logo-row" *ngFor="let logoRow of logos">
+    <span *ngFor="let logo of logoRow">
+      <span class="logo">
+        <img [src]="getLogoFile(logo)" alt="" class="icon" />
+        {{ logo.label }}
+      </span>
+    </span>
+  </div>
+</div>

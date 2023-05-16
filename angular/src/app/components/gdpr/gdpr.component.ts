@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-gdpr',
+  selector: 'gdpr',
   templateUrl: './gdpr.component.html',
   styleUrls: ['./gdpr.component.scss'],
 })

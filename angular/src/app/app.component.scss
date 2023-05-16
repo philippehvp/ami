@@ -10,8 +10,9 @@
   .close {
     margin-right: 2em;
     margin-top: 2em;
-    text-align: right;
+    text-align: center;
   }
+
   .link {
     margin-inline: 3em;
     margin-top: 2em;
@@ -28,6 +29,23 @@
   }
 
   .logout {
-    margin-bottom: 8em;
+    margin-bottom: 15em;
+  }
+}
+
+.about-panel {
+  height: 100%;
+}
+
+.about {
+  display: block;
+  width: 80%;
+  text-align: justify;
+  margin-inline: 2em;
+
+  .close {
+    width: 100%;
+    margin-top: 2em;
+    text-align: center;
   }
 }
