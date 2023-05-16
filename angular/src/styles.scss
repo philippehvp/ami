@@ -49,14 +49,6 @@ hr {
 
     border-radius: 0.5em;
   }
-
-  .logo-color {
-    fill: black;
-  }
-
-  .titlebar-panel {
-    color: black;
-  }
 }
 
 .dark-mode {
@@ -68,11 +60,6 @@ hr {
     background-repeat: no-repeat;
     background-image: url("~/assets/img/background-dark.png");
     background-color: $background;
-    color: $color;
-  }
-
-  .mat-toolbar {
-    background-color: transparent;
     color: $color;
   }
 
@@ -91,24 +78,6 @@ hr {
 
   .logo-color {
     fill: $color;
-  }
-
-  .mat-drawer {
-    background-color: $background;
-    color: $color;
-  }
-
-  .titlebar-panel {
-    color: $color;
-  }
-
-  .mat-mdc-menu-content {
-    background-color: $background;
-  }
-
-  .mat-mdc-menu-item.mat-mdc-focus-indicator.mdc-list-item,
-  .mdc-list-item__primary-text {
-    color: $color;
   }
 }
 
