@@ -4,7 +4,7 @@ export interface IBetter {
   name: string;
   isAdmin: boolean;
   isTutorialDone: boolean;
-  isEvaluationDone: boolean;
+  evaluation: number;
 }
 
 export interface IBetterRaw {
@@ -13,5 +13,5 @@ export interface IBetterRaw {
   name: string;
   isAdmin: number;
   isTutorialDone: number;
-  isEvaluationDone: number;
+  evaluation: number;
 }

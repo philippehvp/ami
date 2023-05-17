@@ -63,6 +63,8 @@ export class BetComponent implements OnInit, OnDestroy {
   public tutorialLastStep: number = 4;
   public betPanelHeight!: number;
 
+  public evaluations: number[] = [1, 2, 3, 4, 5];
+
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
   }
@@ -195,7 +197,6 @@ export class BetComponent implements OnInit, OnDestroy {
     this.store
       .dispatch([new BetActions.SetEvaluation(evaluationLevel)])
       .subscribe(() => {
-        this.better.isEvaluationDone = true;
         this.storeBetterInLocalStorage();
 
         const config: MatDialogConfig<IInformationDialogConfig> = {
@@ -217,5 +218,9 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public openSponsorPanel() {
     this.bottomSheet.open(SponsorComponent);
+  }
+
+  public evaluationIcon(evaluation: number, index: number): string {
+    return evaluation >= index ? 'star' : 'star_border';
   }
 }

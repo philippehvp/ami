@@ -9,7 +9,7 @@
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
         " UPDATE            cpi_better" .
-        " SET               cpi_better.evaluation = ?, cpi_better.isEvaluationDone = 1" .
+        " SET               cpi_better.evaluation = ?" .
         " WHERE             cpi_better.accessKey = ?";
   
       $req = $db->prepare($query);

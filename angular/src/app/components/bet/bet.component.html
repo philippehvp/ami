@@ -99,27 +99,19 @@
       </div>
     </div>
   </div>
-
   <div [class]="actionPanelClass">
-    <span class="evaluation">
-      <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
-        <span class="material-icons-outlined"> thumbs_up_down </span>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="like(1)">
-          <span class="material-icons-outlined icon"> thumb_up </span
-          >&nbsp;J'aime
-        </button>
-        <button mat-menu-item (click)="like(0)">
-          <span class="material-icons-outlined icon"> thumbs_up_down </span
-          >&nbsp;Neutre
-        </button>
-        <button mat-menu-item (click)="like(-1)">
-          <span class="material-icons-outlined icon"> thumb_down </span>&nbsp;Je
-          n'aime pas
-        </button>
-      </mat-menu>
-    </span>
+    <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
+      <span class="material-icons-outlined"> thumb_up </span>
+    </button>
+    <mat-menu #menu="matMenu">
+      <span class="evaluation">
+        <span *ngFor="let evaluation of evaluations; let index">
+          <span class="star-icon" (click)="like(evaluation)">
+            {{ evaluationIcon(data?.better?.evaluation || -1, index) }}
+          </span>
+        </span>
+      </span>
+    </mat-menu>
   </div>
 
   <div class="sponsor-panel" (click)="openSponsorPanel()">

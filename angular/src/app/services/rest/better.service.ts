@@ -21,7 +21,7 @@ export class BetterService {
               firstName: betterRaw.firstName,
               isAdmin: betterRaw.isAdmin === 1 ? true : false,
               isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
-              isEvaluationDone: betterRaw.isEvaluationDone === 1 ? true : false,
+              evaluation: betterRaw.evaluation,
             }
           : null;
       })

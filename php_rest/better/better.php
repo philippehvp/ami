@@ -9,7 +9,7 @@
   if ($name && $password) {
     $query =
       " SELECT DISTINCT     cpi_better.accessKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin,".
-      "                     cpi_better.isTutorialDone, cpi_better.isEvaluationDone" .
+      "                     cpi_better.isTutorialDone, cpi_better.evaluation" .
       " FROM                cpi_better" .
       " WHERE               UPPER(cpi_better.name) = ?" .
       "                     AND   cpi_better.password = ?";
@@ -40,7 +40,7 @@
       $req->execute(array($accessKey, $betterId));
 
       $ret = array("accessKey" => $accessKey, "name" => $better["name"], "firstName" => $better["firstName"],
-        "isAdmin" => $better["isAdmin"], "isTutorialDone" => $better["isTutorialDone"], "isEvaluationDone" => $better["isEvaluationDone"]);
+        "isAdmin" => $better["isAdmin"], "isTutorialDone" => $better["isTutorialDone"], "evaluation" => $better["evaluation"]);
 
       echo json_encode($ret, JSON_NUMERIC_CHECK);
     }

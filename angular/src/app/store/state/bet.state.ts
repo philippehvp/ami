@@ -17,40 +17,40 @@ import { BetterService } from 'src/app/services/rest/better.service';
 import { IBetReview } from 'src/app/models/review';
 
 export class BetStateModel {
-  isOffline!: boolean | undefined;
-  better!: IBetter | undefined;
-  betters!: IBetter[] | undefined;
-  contest!: IContest | undefined;
-  contests!: IContest[] | undefined;
-  category!: ICategory | undefined;
-  players!: IPlayer[] | undefined;
-  bet!: IBet | undefined;
-  bets!: IBet[] | undefined;
-  betsReview!: IBetReview[] | undefined;
-  duration!: IDuration | undefined;
-  completedBets!: number | undefined;
-  isLoadingData!: boolean | undefined;
-  allBetsDone!: boolean | undefined;
-  isAutoNavigation!: boolean | undefined;
+  isOffline!: boolean;
+  better!: IBetter;
+  betters!: IBetter[];
+  contest!: IContest;
+  contests!: IContest[];
+  category!: ICategory;
+  players!: IPlayer[];
+  bet!: IBet;
+  bets!: IBet[];
+  betsReview!: IBetReview[];
+  duration!: IDuration;
+  completedBets!: number;
+  isLoadingData!: boolean;
+  allBetsDone!: boolean;
+  isAutoNavigation!: boolean;
 }
 
 @State<BetStateModel>({
   name: 'bet',
   defaults: {
     isOffline: false,
-    better: undefined,
-    betters: undefined,
-    contest: undefined,
-    contests: undefined,
-    category: undefined,
-    players: undefined,
-    bet: undefined,
-    bets: undefined,
-    betsReview: undefined,
-    duration: undefined,
+    better: <IBetter>{},
+    betters: [],
+    contest: <IContest>{},
+    contests: [],
+    category: <ICategory>{},
+    players: [],
+    bet: <IBet>{},
+    bets: [],
+    betsReview: [],
+    duration: <IDuration>{},
     completedBets: 0,
     isLoadingData: false,
-    allBetsDone: undefined,
+    allBetsDone: false,
     isAutoNavigation: false,
   },
 })
@@ -168,6 +168,10 @@ export class BetState {
     state: StateContext<BetStateModel>,
     action: BetActions.SetEvaluation
   ) {
+    const better = state.getState().better;
+    state.patchState({
+      better: { ...better, evaluation: action.evaluationLevel },
+    });
     return this.betterService
       .setEvaluation(
         state.getState().better?.accessKey || '',
