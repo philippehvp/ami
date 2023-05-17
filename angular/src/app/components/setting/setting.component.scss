@@ -1,0 +1,15 @@
+.setting-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.setting {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-block: 1em;
+}
+
+.label {
+  margin-right: 3em;
+}

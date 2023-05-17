@@ -71,23 +71,10 @@ export class BetComponent implements OnInit, OnDestroy {
     this.persistenceService.tutorialStep = tutorialStep;
   }
 
-  public toggleWithClubName() {
-    this.persistenceService.withClubName =
-      !this.persistenceService.withClubName;
-  }
-
-  public get withClubNameIcon() {
-    return this.persistenceService.withClubName
-      ? 'check_box'
-      : 'check_box_outline_blank';
-  }
-
-  public autoNavigationIcon(isAutoNavigation: boolean): string {
-    return isAutoNavigation ? 'check_box' : 'check_box_outline_blank';
-  }
-
-  public toggleAutoNavigation() {
-    this.store.dispatch([new BetActions.ToggleAutoNavigation()]);
+  public get actionPanelClass(): string {
+    return this.persistenceService.isPlayerReverse
+      ? 'action-panel left'
+      : 'action-panel right';
   }
 
   public ngOnInit() {

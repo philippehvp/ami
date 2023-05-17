@@ -18,20 +18,4 @@ export class UtilsService {
       return this._isMobile;
     }
   }
-
-  public isbLogoClass(): string {
-    if (this.isMobile) {
-      return 'mobile-logo-isb';
-    } else {
-      return 'desktop-logo-isb';
-    }
-  }
-
-  public phoceaLightLogoClass(): string {
-    if (this.isMobile) {
-      return 'mobile-logo-phocea-light';
-    } else {
-      return 'desktop-logo-phocea-light';
-    }
-  }
 }

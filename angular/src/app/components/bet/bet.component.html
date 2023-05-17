@@ -100,25 +100,7 @@
     </div>
   </div>
 
-  <div class="action-panel">
-    <span>
-      <button mat-mini-fab [matMenuTriggerFor]="setting" color="primary">
-        <span class="material-icons-outlined"> settings </span>
-      </button>
-      <mat-menu #setting="matMenu">
-        <button mat-menu-item (click)="toggleWithClubName()">
-          <span class="material-icons-outlined icon">
-            {{ withClubNameIcon }} </span
-          >&nbsp; Afficher le nom des clubs
-        </button>
-        <button mat-menu-item (click)="toggleAutoNavigation()">
-          <span class="material-icons-outlined icon">
-            {{ autoNavigationIcon(data?.isAutoNavigation || false) }} </span
-          >&nbsp;Navigation automatique
-        </button>
-      </mat-menu>
-    </span>
-
+  <div [class]="actionPanelClass">
     <span class="evaluation">
       <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
         <span class="material-icons-outlined"> thumbs_up_down </span>

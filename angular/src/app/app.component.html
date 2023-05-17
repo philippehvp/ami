@@ -53,7 +53,12 @@
 
       <ng-template #normal>
         <mat-nav-list (click)="toggleSideMenu()" class="nav">
-          <span class="material-icons-outlined link close"> close </span>
+          <span
+            class="material-icons-outlined link setting"
+            (click)="openSetting()"
+          >
+            settings
+          </span>
 
           <span class="link" (click)="navigate('rule')"
             ><span class="material-icons-outlined icon"> menu_book </span

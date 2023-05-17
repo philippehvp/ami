@@ -1,0 +1,39 @@
+<ng-container
+  *ngIf="{
+    isAutoNavigation: isAutoNavigation$ | async
+  } as data"
+>
+  <h2 mat-dialog-title>Réglages</h2>
+  <mat-dialog-content style="height: calc(100% - 6em)">
+    <div class="setting-panel">
+      <span class="setting">
+        <span class="label">Nom des clubs</span>
+        <mat-slide-toggle
+          [checked]="withClubName"
+          (change)="toggleWithClubName()"
+        ></mat-slide-toggle>
+      </span>
+
+      <span class="setting">
+        <span class="label">Navigation automatique</span>
+        <mat-slide-toggle
+          [checked]="data.isAutoNavigation"
+          (change)="toggleAutoNavigation()"
+        ></mat-slide-toggle>
+      </span>
+
+      <span class="setting">
+        <span class="label">Colonnes inversées</span>
+        <mat-slide-toggle
+          [checked]="isPlayerReverse"
+          (change)="togglePlayerReverse()"
+        ></mat-slide-toggle>
+      </span>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" (click)="close()" cdkFocusInitial>
+      Fermer
+    </button>
+  </mat-dialog-actions>
+</ng-container>

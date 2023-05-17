@@ -55,6 +55,7 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   public headerCategoryLabelDisplayed!: string;
 
   public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
+  public displayedColumnsReverse: string[] = ['name', 'winner', 'runnerUp'];
 
   public get withClubName(): boolean {
     return this.persistenceService.withClubName;
@@ -62,6 +63,10 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   public set withClubName(withClubName: boolean) {
     this.persistenceService.withClubName = withClubName;
+  }
+
+  public get isPlayerReverse(): boolean {
+    return this.persistenceService.isPlayerReverse;
   }
 
   public ngOnInit() {

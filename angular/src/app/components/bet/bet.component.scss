@@ -62,6 +62,13 @@
   flex-direction: column;
   position: absolute;
   bottom: 2em;
+}
+
+.action-panel.left {
+  left: 0.75em;
+}
+
+.action-panel.right {
   right: 0.75em;
 }
 

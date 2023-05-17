@@ -12,8 +12,6 @@ export interface IRule {
   styleUrls: ['./rule.component.scss'],
 })
 export class RuleComponent {
-  private persistenceService = inject(PersistenceService);
-
   public displayedColumns: string[] = ['points', 'conditions'];
 
   public rules: IRule[] = [
@@ -42,8 +40,4 @@ export class RuleComponent {
       condition: 'Tous les autres cas',
     },
   ];
-
-  constructor() {
-    this.persistenceService.currentPage = 'rule';
-  }
 }

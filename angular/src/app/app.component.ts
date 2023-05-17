@@ -16,6 +16,7 @@ import { IBet } from './models/bet';
 import { PersistenceService } from './services/persistence.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BetterService } from './services/rest/better.service';
+import { SettingComponent } from './components/setting/setting.component';
 
 export interface ILogo {
   icon: string;
@@ -63,10 +64,6 @@ export class AppComponent implements AfterViewInit {
         this.persistenceService.navigate('login');
       }
     }
-  }
-
-  public get currentPage(): string {
-    return this.persistenceService.currentPage;
   }
 
   public ngAfterViewInit(): void {
@@ -123,9 +120,6 @@ export class AppComponent implements AfterViewInit {
 
   public displayTutorial() {
     this.persistenceService.tutorialStep = 1;
-    if (this.persistenceService.currentPage !== 'bet') {
-      this.persistenceService.navigate('bet');
-    }
   }
 
   public deleteAccount(better: IBetter | null) {
@@ -169,5 +163,9 @@ export class AppComponent implements AfterViewInit {
 
   public displayBettersOrderedByName() {
     this.persistenceService.navigate('better-name');
+  }
+
+  public openSetting() {
+    this.dialog.open(SettingComponent);
   }
 }

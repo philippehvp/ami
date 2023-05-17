@@ -14,13 +14,13 @@ export class PersistenceService {
   private _sidenav!: MatSidenav;
   private _aboutnav!: MatSidenav;
 
-  private _currentPage!: string;
-
   private _isToolbarVisible: boolean = false;
 
   private _tutorialStep!: number;
 
   private _isDarkMode: boolean = false;
+
+  private _isPlayerReverse: boolean = false;
 
   public get withClubName(): boolean {
     return this._withClubName;
@@ -54,14 +54,6 @@ export class PersistenceService {
     this._aboutnav = aboutnav;
   }
 
-  public get currentPage(): string {
-    return this._currentPage;
-  }
-
-  public set currentPage(currentPage: string) {
-    this._currentPage = currentPage;
-  }
-
   public get tutorialStep(): number {
     return this._tutorialStep;
   }
@@ -93,5 +85,13 @@ export class PersistenceService {
       this._isToolbarVisible = false;
     }
     this.router.navigate([link]);
+  }
+
+  public get isPlayerReverse(): boolean {
+    return this._isPlayerReverse;
+  }
+
+  public set isPlayerReverse(isPlayerReverse: boolean) {
+    this._isPlayerReverse = isPlayerReverse;
   }
 }

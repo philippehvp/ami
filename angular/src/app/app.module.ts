@@ -59,6 +59,7 @@ import { RuleComponent } from './components/rule/rule.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
 import { BetReviewComponent } from './components/bet/bet-review/bet-review.component';
 import { SponsorComponent } from './components/sponsor/sponsor.component';
+import { SettingComponent } from './components/setting/setting.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { SponsorComponent } from './components/sponsor/sponsor.component';
     GdprComponent,
     BetReviewComponent,
     SponsorComponent,
+    SettingComponent,
   ],
   imports: [
     BrowserModule,

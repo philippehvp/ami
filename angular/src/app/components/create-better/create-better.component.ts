@@ -147,12 +147,4 @@ export class CreateBetterComponent implements OnInit {
   public toggleVisibility() {
     this.passwordVisibility = !this.passwordVisibility;
   }
-
-  public isbLogoClass(): string {
-    return this.utilsService.isbLogoClass();
-  }
-
-  public phoceaLightLogoClass(): string {
-    return this.utilsService.phoceaLightLogoClass();
-  }
 }
