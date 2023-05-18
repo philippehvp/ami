@@ -1,38 +1,32 @@
-<ng-container
-  *ngIf="{
-    isAutoNavigation: isAutoNavigation$ | async
-  } as data"
->
-  <div class="setting-button-panel" (click)="closeSettingPanel()">
-    <span class="setting-open-close">
-      <span class="material-icons-outlined"> expand_more </span>
-    </span>
-  </div>
+<div class="setting-button-panel" (click)="closeSettingPanel()">
+  <span class="setting-open-close">
+    <span class="material-icons-outlined"> expand_more </span>
+  </span>
+</div>
 
-  <div class="setting-panel">
-    <h4>Paramètres</h4>
-    <span class="setting-row">
-      <span class="label">Nom des clubs</span>
-      <mat-slide-toggle
-        [checked]="withClubName"
-        (change)="toggleWithClubName()"
-      ></mat-slide-toggle>
-    </span>
+<div class="setting-panel">
+  <h4>Paramètres</h4>
+  <span class="setting-row">
+    <span class="label">Nom des clubs</span>
+    <mat-slide-toggle
+      [checked]="withClubName"
+      (change)="toggleWithClubName()"
+    ></mat-slide-toggle>
+  </span>
 
-    <span class="setting-row">
-      <span class="label">Navigation automatique</span>
-      <mat-slide-toggle
-        [checked]="data.isAutoNavigation"
-        (change)="toggleAutoNavigation()"
-      ></mat-slide-toggle>
-    </span>
+  <span class="setting-row">
+    <span class="label">Navigation automatique</span>
+    <mat-slide-toggle
+      [checked]="isAutoNavigation"
+      (change)="toggleAutoNavigation()"
+    ></mat-slide-toggle>
+  </span>
 
-    <span class="setting-row">
-      <span class="label">Colonnes inversées</span>
-      <mat-slide-toggle
-        [checked]="isPlayerReverse"
-        (change)="togglePlayerReverse()"
-      ></mat-slide-toggle>
-    </span>
-  </div>
-</ng-container>
+  <span class="setting-row">
+    <span class="label">Colonnes inversées</span>
+    <mat-slide-toggle
+      [checked]="isPlayerReverse"
+      (change)="togglePlayerReverse()"
+    ></mat-slide-toggle>
+  </span>
+</div>

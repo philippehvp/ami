@@ -57,8 +57,8 @@ export class BetComponent implements OnInit, OnDestroy {
   @Select(BetState.allBetsDone)
   allBetsDone$!: Observable<boolean>;
 
-  @Select(BetState.isAutoNavigation)
-  isAutoNavigation$!: Observable<boolean>;
+  @Select(BetState.proposeAutoNavigation)
+  proposeAutoNavigation$!: Observable<boolean>;
 
   private destroy$!: Subject<boolean>;
   private better!: IBetter;
@@ -149,6 +149,37 @@ export class BetComponent implements OnInit, OnDestroy {
                 this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
                 if (action) {
                   this.showBetsReview();
+                }
+              });
+          }
+        })
+      )
+      .subscribe();
+
+    this.proposeAutoNavigation$
+      .pipe(
+        takeUntil(this.destroy$),
+        map((proposeAutoNavigation) => {
+          if (proposeAutoNavigation) {
+            const config: MatDialogConfig<IInformationDialogConfig> = {
+              data: {
+                title: "Activer l'auto-navigation ?",
+                message:
+                  "L'auto-navigation permet d'aller automatiquement à la série suivante lorsque tu viens d'en pronostiquer une. Veux-tu l'activer ?",
+                dialogType: InformationDialogType.YesNo,
+                labels: ['Non ne pas activer', "Oui activer l'auto-navigation"],
+              },
+              disableClose: true,
+            };
+
+            this.dialog
+              .open(InformationComponent, config)
+              .afterClosed()
+              .subscribe((action: boolean) => {
+                this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
+                if (action) {
+                  this.persistenceService.isAutoNavigation = true;
+                  this.store.dispatch([new BetActions.GotoNextCategory()]);
                 }
               });
           }

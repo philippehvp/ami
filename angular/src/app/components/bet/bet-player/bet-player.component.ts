@@ -215,12 +215,6 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     return player.playerClub2;
   }
 
-  public gotoNextCategory(bet: IBet | undefined) {
-    if (bet) {
-      this.store.dispatch([new BetActions.GotoNextCategory(bet.categoryId)]);
-    }
-  }
-
   public calculate(bet: IBet | undefined) {
     this.persistenceService.categoryId = bet?.categoryId || 0;
     this.persistenceService.navigate('bet-point');

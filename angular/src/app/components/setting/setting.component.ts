@@ -1,11 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
 
 @Component({
   selector: 'setting',
@@ -15,10 +10,6 @@ import { BetState } from 'src/app/store/state/bet.state';
 export class SettingComponent {
   private persistenceService = inject(PersistenceService);
   private bottomSheet = inject(MatBottomSheet);
-  private store = inject(Store);
-
-  @Select(BetState.isAutoNavigation)
-  isAutoNavigation$!: Observable<boolean>;
 
   public toggleWithClubName() {
     this.persistenceService.withClubName =
@@ -33,8 +24,18 @@ export class SettingComponent {
     this.persistenceService.withClubName = withClubName;
   }
 
+  public get isAutoNavigation(): boolean {
+    return this.persistenceService.isAutoNavigation;
+  }
+
+  public set isAutoNavigation(isAutoNavigation: boolean) {
+    this.persistenceService.isAutoNavigation =
+      !this.persistenceService.isAutoNavigation;
+  }
+
   public toggleAutoNavigation() {
-    this.store.dispatch([new BetActions.ToggleAutoNavigation()]);
+    this.persistenceService.isAutoNavigation =
+      !this.persistenceService.isAutoNavigation;
   }
 
   public get isPlayerReverse(): boolean {

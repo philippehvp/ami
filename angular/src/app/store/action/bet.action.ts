@@ -1,16 +1,6 @@
 import { IBetter } from 'src/app/models/better';
 
 export namespace BetActions {
-  export class GetBetters {
-    static readonly type = '[Bet] Get Betters';
-    constructor() {}
-  }
-
-  export class Betters {
-    static readonly type = '[Bet] Betters';
-    constructor() {}
-  }
-
   export class SetBetter {
     static readonly type = '[Bet] Set Better';
     constructor(public better: IBetter) {}
@@ -31,11 +21,6 @@ export namespace BetActions {
     constructor(public accessKey: string) {}
   }
 
-  export class GetCategories {
-    static readonly type = '[Bet] Get Categories';
-    constructor(public contestId: number) {}
-  }
-
   export class SetCategory {
     static readonly type = '[Bet] Set Category';
     constructor(public categoryId: number) {}
@@ -43,7 +28,7 @@ export namespace BetActions {
 
   export class GotoNextCategory {
     static readonly type = '[Bet] Goto Next Category';
-    constructor(public categoryId: number) {}
+    constructor() {}
   }
 
   export class GetPlayers {
@@ -111,8 +96,8 @@ export namespace BetActions {
     constructor() {}
   }
 
-  export class ToggleAutoNavigation {
-    static readonly type = '[Bet] Toggle Auto Navigation';
+  export class ProposeAutoNavigation {
+    static readonly type = '[Bet] Propose Auto Navigation';
     constructor() {}
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { map, tap } from 'rxjs/operators';
 import { BetActions } from '../action/bet.action';
@@ -15,6 +15,7 @@ import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { IBetReview } from 'src/app/models/review';
+import { PersistenceService } from 'src/app/services/persistence.service';
 
 export class BetStateModel {
   isOffline!: boolean;
@@ -31,7 +32,7 @@ export class BetStateModel {
   completedBets!: number;
   isLoadingData!: boolean;
   allBetsDone!: boolean;
-  isAutoNavigation!: boolean;
+  proposeAutoNavigation!: boolean;
 }
 
 @State<BetStateModel>({
@@ -51,16 +52,15 @@ export class BetStateModel {
     completedBets: 0,
     isLoadingData: false,
     allBetsDone: false,
-    isAutoNavigation: false,
+    proposeAutoNavigation: false,
   },
 })
 @Injectable()
 export class BetState {
-  constructor(
-    private betService: BetService,
-    private betterService: BetterService,
-    private playerService: PlayerService
-  ) {}
+  private persistenceService = inject(PersistenceService);
+  private betService = inject(BetService);
+  private betterService = inject(BetterService);
+  private playerService = inject(PlayerService);
 
   @Selector()
   static isOffline(state: BetStateModel) {
@@ -133,8 +133,8 @@ export class BetState {
   }
 
   @Selector()
-  static isAutoNavigation(state: BetStateModel) {
-    return state.isAutoNavigation;
+  static proposeAutoNavigation(state: BetStateModel) {
+    return state.proposeAutoNavigation;
   }
 
   @Action(BetActions.SetBetter)
@@ -185,28 +185,6 @@ export class BetState {
           }
         })
       );
-  }
-
-  @Action(BetActions.Betters)
-  betters(state: StateContext<BetStateModel>) {
-    return state.getState().betters;
-  }
-
-  @Action(BetActions.GetBetters)
-  getBetters(state: StateContext<BetStateModel>) {
-    return this.betService.getBetters().pipe(
-      tap((readBetters: IBetter[] | IOffline) => {
-        if ('isOffline' in readBetters) {
-          // Hors connexion
-          state.dispatch([new ConnectionActions.IsOffline()]);
-        } else {
-          state.patchState({
-            isOffline: false,
-            betters: <IBetter[]>readBetters,
-          });
-        }
-      })
-    );
   }
 
   @Action(BetActions.GetContests)
@@ -411,6 +389,16 @@ export class BetState {
     state.patchState({
       completedBets: completedBets?.length || 0,
     });
+
+    if (
+      !this.persistenceService.isAutoNavigation &&
+      oldCompletedBetsCount === 0 &&
+      completedBetsCount === 1
+    ) {
+      state.patchState({ proposeAutoNavigation: true });
+    } else {
+      state.patchState({ proposeAutoNavigation: false });
+    }
   }
 
   private getNextBet(
@@ -574,7 +562,7 @@ export class BetState {
               this.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir si l'option est activée
-              if (currentState.isAutoNavigation) {
+              if (this.persistenceService.isAutoNavigation) {
                 const categoryId = this.searchBetToFill(
                   state,
                   currentState.category?.id || 0
@@ -644,7 +632,7 @@ export class BetState {
               this.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir si l'option est activée
-              if (currentState.isAutoNavigation) {
+              if (this.persistenceService.isAutoNavigation) {
                 const categoryId = this.searchBetToFill(
                   state,
                   currentState.category?.id || 0
@@ -752,12 +740,11 @@ export class BetState {
   }
 
   @Action(BetActions.GotoNextCategory)
-  gotoNextCategory(
-    state: StateContext<BetStateModel>,
-    action: BetActions.GotoNextCategory
-  ) {
+  gotoNextCategory(state: StateContext<BetStateModel>) {
+    const currentState = state.getState();
+
     const currentCategoryIndex = state.getState().bets?.findIndex((bet) => {
-      return bet.categoryId === action.categoryId;
+      return bet.categoryId === currentState.bet.categoryId;
     });
 
     if (currentCategoryIndex !== -1) {
@@ -775,13 +762,5 @@ export class BetState {
   @Action(BetActions.UnsetAllBetsDone)
   unsetAllBetsDone(state: StateContext<BetStateModel>) {
     state.patchState({ allBetsDone: undefined });
-  }
-
-  @Action(BetActions.ToggleAutoNavigation)
-  toggleAutoNavigation(state: StateContext<BetStateModel>) {
-    const currentState = state.getState();
-    state.patchState({
-      isAutoNavigation: !currentState.isAutoNavigation,
-    });
   }
 }

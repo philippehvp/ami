@@ -10,6 +10,7 @@ export class PersistenceService {
 
   private _withClubName: boolean = false;
   private _categoryId!: number;
+  private _isAutoNavigation: boolean = false;
 
   private _sidenav!: MatSidenav;
   private _aboutnav!: MatSidenav;
@@ -36,6 +37,14 @@ export class PersistenceService {
 
   public set categoryId(categoryId: number) {
     this._categoryId = categoryId;
+  }
+
+  public get isAutoNavigation(): boolean {
+    return this._isAutoNavigation;
+  }
+
+  public set isAutoNavigation(isAutoNavigation: boolean) {
+    this._isAutoNavigation = isAutoNavigation;
   }
 
   public get sidenav(): MatSidenav {
