@@ -18,9 +18,9 @@
     </mat-sidenav-content>
 
     <mat-sidenav #aboutnav mode="over" position="start">
-      <div class="about-panel" (click)="toggleAboutNav()">
+      <div class="nav-panel" (click)="toggleAboutNav()">
+        <span class="material-icons-outlined close"> close </span>
         <span class="about">
-          <span class="material-icons-outlined close"> close </span>
           <h3>Winabad</h3>
           <p>
             Le club d'Istres Sports Badminton est heureux de présenter le jeu
@@ -28,12 +28,22 @@
             et de l'éclairage événementiel.
           </p>
         </span>
+        <span class="logo-panel">
+          <span class="logo-row" *ngFor="let logoRow of logos">
+            <span *ngFor="let logo of logoRow">
+              <span class="logo">
+                <img [src]="getLogoFile(logo)" alt="" class="icon" />
+                {{ logo.label }}
+              </span>
+            </span>
+          </span>
+        </span>
       </div>
     </mat-sidenav>
 
     <mat-sidenav #sidenav mode="over" position="end">
       <div *ngIf="data.better?.isAdmin || false; else normal">
-        <mat-nav-list (click)="toggleSideMenu()" class="sidenav">
+        <mat-nav-list (click)="toggleSideMenu()" class="nav">
           <span class="material-icons-outlined link close"> close </span>
 
           <span class="link" (click)="displayBettersBet()">Pronostics</span>
@@ -53,12 +63,7 @@
 
       <ng-template #normal>
         <mat-nav-list (click)="toggleSideMenu()" class="nav">
-          <span
-            class="material-icons-outlined link setting"
-            (click)="openSetting()"
-          >
-            settings
-          </span>
+          <span class="material-icons-outlined close"> close </span>
 
           <span class="link" (click)="navigate('rule')"
             ><span class="material-icons-outlined icon"> menu_book </span

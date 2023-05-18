@@ -32,6 +32,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -58,7 +59,6 @@ import { TitlebarComponent } from './components/titlebar/titlebar.component';
 import { RuleComponent } from './components/rule/rule.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
 import { BetReviewComponent } from './components/bet/bet-review/bet-review.component';
-import { SponsorComponent } from './components/sponsor/sponsor.component';
 import { SettingComponent } from './components/setting/setting.component';
 
 @NgModule({
@@ -80,7 +80,6 @@ import { SettingComponent } from './components/setting/setting.component';
     RuleComponent,
     GdprComponent,
     BetReviewComponent,
-    SponsorComponent,
     SettingComponent,
   ],
   imports: [
@@ -112,6 +111,7 @@ import { SettingComponent } from './components/setting/setting.component';
     MatSidenavModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatSnackBarModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,

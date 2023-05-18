@@ -9,7 +9,6 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BetReviewComponent } from '../bet/bet-review/bet-review.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { SponsorComponent } from '../sponsor/sponsor.component';
 
 export interface IToolbarOption {
   hasToolbar: boolean;

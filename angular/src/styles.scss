@@ -11,6 +11,10 @@ hr {
   align-self: stretch;
 }
 
+.mat-bottom-sheet-container {
+  padding: 0 !important;
+}
+
 .light-mode {
   .mat-drawer-container {
     background-position: bottom right;
@@ -50,7 +54,7 @@ hr {
     border-radius: 0.5em;
   }
 
-  .sponsor {
+  .setting-open-close {
     color: white;
     background-color: black;
   }
@@ -85,7 +89,7 @@ hr {
     fill: $color;
   }
 
-  .sponsor {
+  .setting-open-close {
     color: $background;
     background-color: $color;
   }

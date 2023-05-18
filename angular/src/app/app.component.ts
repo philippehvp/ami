@@ -165,7 +165,33 @@ export class AppComponent implements AfterViewInit {
     this.persistenceService.navigate('better-name');
   }
 
-  public openSetting() {
-    this.dialog.open(SettingComponent);
+  public logos: ILogo[][] = [
+    [
+      { icon: 'logo-isb', label: 'ISB', isLightAndDark: true },
+      {
+        icon: 'logo-phocea-light',
+        label: 'Phocea Light',
+        isLightAndDark: true,
+      },
+      { icon: 'logo-balotti', label: 'Balotti', isLightAndDark: false },
+    ],
+    [
+      { icon: 'logo-liguesud', label: 'Ligue Sud', isLightAndDark: false },
+      { icon: 'logo-ffbad', label: 'FFBAD', isLightAndDark: false },
+      {
+        icon: 'logo-ville-istres',
+        label: "Ville d'Istres",
+        isLightAndDark: false,
+      },
+    ],
+  ];
+
+  public getLogoFile(logo: ILogo): string {
+    const prefix = 'assets/img/logos/';
+    if (!this.persistenceService.isDarkMode || !logo.isLightAndDark) {
+      return prefix + logo.icon + '.png';
+    } else {
+      return prefix + logo.icon + '_dark.png';
+    }
   }
 }

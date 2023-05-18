@@ -54,7 +54,12 @@
   flex-direction: column;
   border-radius: 0.5em;
   margin: 0 0.5em 0.5em 0.5em;
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0 0.5em;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
 }
 
 .action-panel {
@@ -85,7 +90,7 @@
   vertical-align: middle;
 }
 
-.sponsor-panel {
+.setting-button-panel {
   display: flex;
   position: absolute;
   flex-direction: row;
@@ -94,7 +99,7 @@
   bottom: 0;
 }
 
-.sponsor {
+.setting-open-close {
   display: flex;
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;

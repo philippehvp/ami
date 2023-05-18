@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -12,8 +13,8 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent {
-  private matDialogRef = inject(MatDialogRef);
   private persistenceService = inject(PersistenceService);
+  private bottomSheet = inject(MatBottomSheet);
   private store = inject(Store);
 
   @Select(BetState.isAutoNavigation)
@@ -49,7 +50,7 @@ export class SettingComponent {
       !this.persistenceService.isPlayerReverse;
   }
 
-  public close() {
-    this.matDialogRef.close();
+  public closeSettingPanel() {
+    this.bottomSheet.dismiss();
   }
 }

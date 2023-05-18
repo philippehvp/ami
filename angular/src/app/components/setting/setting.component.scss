@@ -1,9 +1,10 @@
 .setting-panel {
   display: flex;
   flex-direction: column;
+  padding: 0.5em;
 }
 
-.setting {
+.setting-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -12,4 +13,23 @@
 
 .label {
   margin-right: 3em;
+}
+
+.setting-button-panel {
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  top: 0;
+}
+
+.setting-open-close {
+  display: flex;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  width: 4em;
+  height: 1em;
+  justify-content: center;
+  align-items: center;
 }

@@ -24,7 +24,8 @@ import { CommonService } from 'src/app/services/rest/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetReviewComponent } from './bet-review/bet-review.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { SponsorComponent } from '../sponsor/sponsor.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SettingComponent } from '../setting/setting.component';
 
 @Component({
   selector: 'bet',
@@ -36,6 +37,7 @@ export class BetComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
   private bottomSheet = inject(MatBottomSheet);
+  private snackBar = inject(MatSnackBar);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -199,25 +201,14 @@ export class BetComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.storeBetterInLocalStorage();
 
-        const config: MatDialogConfig<IInformationDialogConfig> = {
-          data: {
-            title: 'Merci',
-            message: 'Merci pour ton évaluation',
-            dialogType: InformationDialogType.Information,
-            labels: ['Fermer'],
-          },
-          disableClose: true,
-        };
-
-        this.dialog
-          .open(InformationComponent, config)
-          .afterClosed()
-          .subscribe(() => {});
+        this.snackBar.open('Merci pour ton vote', 'Fermer', {
+          duration: 2500,
+        });
       });
   }
 
-  public openSponsorPanel() {
-    this.bottomSheet.open(SponsorComponent);
+  public openSettingPanel() {
+    this.bottomSheet.open(SettingComponent);
   }
 
   public evaluationIcon(evaluation: number, index: number): string {
