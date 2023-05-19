@@ -90,7 +90,7 @@
   vertical-align: middle;
 }
 
-.setting-button-panel {
+.setting-open-panel {
   display: flex;
   position: absolute;
   flex-direction: row;
@@ -104,7 +104,23 @@
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
   width: 4em;
-  height: 1em;
+  height: 0.9em;
   justify-content: center;
   align-items: center;
+  font-size: 1.2em;
+}
+
+.setting-icon {
+  font-size: 0.9em;
+}
+
+.hidden {
+  height: 0;
+  opacity: 0;
+  transition: height 0.75s, opacity 0.25s linear;
+}
+
+.show {
+  opacity: 1;
+  transition: opacity 0.25s linear;
 }

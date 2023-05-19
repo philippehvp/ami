@@ -68,6 +68,8 @@ export class BetComponent implements OnInit, OnDestroy {
   public evaluations: number[] = [1, 2, 3, 4, 5];
   public isLikeVisible: boolean = true;
 
+  public isCategoryHidden: boolean = false;
+
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
   }
@@ -166,9 +168,9 @@ export class BetComponent implements OnInit, OnDestroy {
               data: {
                 title: "Activer l'auto-navigation ?",
                 message:
-                  "L'auto-navigation permet d'aller automatiquement à la série suivante lorsque tu viens d'en pronostiquer une. Veux-tu l'activer ?",
+                  "L'auto-navigation va automatiquement à la série suivante lorsque tu viens de faire un pronostic. Veux-tu l'activer ?",
                 dialogType: InformationDialogType.YesNo,
-                labels: ['Non ne pas activer', "Oui activer l'auto-navigation"],
+                labels: ["Non, ne pas l'activer", "Oui, l'activer"],
               },
               disableClose: true,
             };
@@ -191,6 +193,11 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
+  }
+
+  public onScroll($event: Event) {
+    const element = $event.target as HTMLElement;
+    this.isCategoryHidden = element.scrollTop > 0;
   }
 
   private showBetsReview() {

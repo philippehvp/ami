@@ -10,13 +10,13 @@ import { PersistenceService as PersistenceService } from 'src/app/services/persi
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BehaviorSubject, Subject, combineLatest, map, takeUntil } from 'rxjs';
-import { MyAnimations } from 'src/app/animations/animations';
+import { CPIAnimations } from 'src/app/animations/animations';
 
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
   styleUrls: ['./bet-player.component.scss'],
-  animations: [MyAnimations.fadeAnimation],
+  animations: [CPIAnimations.fadeAnimation],
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
   private store = inject(Store);

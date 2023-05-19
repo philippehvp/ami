@@ -412,15 +412,6 @@ export class BetState {
     return ret;
   }
 
-  // private isBetFilled(bet: IBet): boolean {
-  //   return bet.winnerId !== 0 &&
-  //     bet.winnerId !== null &&
-  //     bet.runnerUpId !== 0 &&
-  //     bet.runnerUpId !== null
-  //     ? true
-  //     : false;
-  // }
-
   private searchFirstBetToFill(state: StateContext<BetStateModel>): number {
     const currentState = state.getState();
 
@@ -728,6 +719,11 @@ export class BetState {
       bets: undefined,
       duration: undefined,
       completedBets: undefined,
+      allBetsDone: false,
+      betsReview: undefined,
+      isLoadingData: false,
+      isOffline: false,
+      proposeAutoNavigation: false,
     });
   }
 

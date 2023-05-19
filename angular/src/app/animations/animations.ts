@@ -6,7 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 
-export class MyAnimations {
+export class CPIAnimations {
   public static fadeAnimation = trigger('fadeAnimation', [
     state(
       'hide',
