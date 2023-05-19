@@ -98,19 +98,21 @@
       </div>
     </div>
   </div>
-  <div [class]="actionPanelClass">
-    <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
-      <span class="material-icons-outlined"> thumb_up </span>
-    </button>
-    <mat-menu #menu="matMenu">
-      <span class="evaluation">
-        <span *ngFor="let evaluation of evaluations; let index">
-          <span class="star-icon" (click)="like(evaluation)">
-            {{ evaluationIcon(data?.better?.evaluation || -1, index) }}
+  <div [class]="likePanelClass" *ngIf="isLikeVisible">
+    <div class="like-container">
+      <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
+        <span class="material-icons-outlined"> thumb_up </span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <span class="evaluation">
+          <span *ngFor="let evaluation of evaluations; let index">
+            <span class="star-icon" (click)="like(evaluation)">
+              {{ evaluationIcon(data?.better?.evaluation || -1, index) }}
+            </span>
           </span>
         </span>
-      </span>
-    </mat-menu>
+      </mat-menu>
+    </div>
   </div>
 
   <div class="setting-button-panel" (click)="openSettingPanel()">

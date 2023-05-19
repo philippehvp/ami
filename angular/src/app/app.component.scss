@@ -15,10 +15,13 @@
 
   .link {
     display: flex;
-    width: 100%;
     flex-direction: row;
-    margin-inline: 3em;
+    margin-inline: 2em;
     margin-top: 2em;
+  }
+
+  .label {
+    min-width: 130px;
   }
 
   .icon {

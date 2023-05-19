@@ -67,24 +67,24 @@
 
           <span class="link" (click)="navigate('rule')"
             ><span class="material-icons-outlined icon"> menu_book </span
-            >Barème</span
+            ><span class="label">Barème</span></span
           >
           <span class="link" (click)="displayTutorial()">
             <span class="material-icons-outlined icon"> info </span>
-            <span>Tutoriel</span>
+            <span class="label">Tutoriel</span>
           </span>
           <span
             class="link logout"
             (click)="
               logout(data.bets?.length || 0, data.completedBets || 0, false)
             "
-            ><span class="material-icons-outlined icon"> logout </span>Se
-            déconnecter</span
+            ><span class="material-icons-outlined icon"> logout </span
+            ><span class="label">Se déconnecter</span></span
           >
           <hr />
           <span class="link" (click)="deleteAccount(data?.better || null)">
             <span class="material-icons-outlined icon"> delete </span>
-            <span>Effacer le compte</span>
+            <span class="label">Effacer le compte</span>
           </span>
         </mat-nav-list>
       </ng-template>

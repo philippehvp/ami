@@ -62,18 +62,18 @@
   flex-direction: row;
 }
 
-.action-panel {
+.like-panel {
   display: flex;
   flex-direction: column;
   position: absolute;
   bottom: 2em;
 }
 
-.action-panel.left {
+.like-panel.left {
   left: 0.75em;
 }
 
-.action-panel.right {
+.like-panel.right {
   right: 0.75em;
 }
 

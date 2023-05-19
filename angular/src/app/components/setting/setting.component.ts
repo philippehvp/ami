@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Renderer2, inject } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { PersistenceService } from 'src/app/services/persistence.service';
 
@@ -10,11 +11,9 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 export class SettingComponent {
   private persistenceService = inject(PersistenceService);
   private bottomSheet = inject(MatBottomSheet);
+  private renderer = inject(Renderer2);
 
-  public toggleWithClubName() {
-    this.persistenceService.withClubName =
-      !this.persistenceService.withClubName;
-  }
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
   public get withClubName(): boolean {
     return this.persistenceService.withClubName;
@@ -22,6 +21,11 @@ export class SettingComponent {
 
   public set withClubName(withClubName: boolean) {
     this.persistenceService.withClubName = withClubName;
+  }
+
+  public toggleWithClubName() {
+    this.persistenceService.withClubName =
+      !this.persistenceService.withClubName;
   }
 
   public get isAutoNavigation(): boolean {
@@ -49,6 +53,20 @@ export class SettingComponent {
   public togglePlayerReverse() {
     this.persistenceService.isPlayerReverse =
       !this.persistenceService.isPlayerReverse;
+  }
+
+  public get isDarkMode(): boolean {
+    return this.persistenceService.isDarkMode;
+  }
+
+  public set isDarkMode(isDarkMode: boolean) {
+    this.persistenceService.isDarkMode = isDarkMode;
+  }
+
+  public toggleDarkMode() {
+    this.persistenceService.isDarkMode = !this.persistenceService.isDarkMode;
+    const themeClass = this.isDarkMode ? 'dark-mode' : 'light-mode';
+    this.renderer.setAttribute(this.document.body, 'class', themeClass);
   }
 
   public closeSettingPanel() {

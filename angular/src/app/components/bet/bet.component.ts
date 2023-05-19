@@ -66,6 +66,7 @@ export class BetComponent implements OnInit, OnDestroy {
   public betPanelHeight!: number;
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
+  public isLikeVisible: boolean = true;
 
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
@@ -75,10 +76,10 @@ export class BetComponent implements OnInit, OnDestroy {
     this.persistenceService.tutorialStep = tutorialStep;
   }
 
-  public get actionPanelClass(): string {
+  public get likePanelClass(): string {
     return this.persistenceService.isPlayerReverse
-      ? 'action-panel left'
-      : 'action-panel right';
+      ? 'like-panel left'
+      : 'like-panel right';
   }
 
   public ngOnInit() {
@@ -235,6 +236,7 @@ export class BetComponent implements OnInit, OnDestroy {
         this.snackBar.open('Merci pour ton vote', 'Fermer', {
           duration: 2500,
         });
+        this.isLikeVisible = false;
       });
   }
 
@@ -244,5 +246,9 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public evaluationIcon(evaluation: number, index: number): string {
     return evaluation >= index ? 'star' : 'star_border';
+  }
+
+  public closeLikebutton() {
+    this.isLikeVisible = false;
   }
 }

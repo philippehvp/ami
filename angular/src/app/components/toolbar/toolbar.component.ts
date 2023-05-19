@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Renderer2, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
@@ -8,7 +8,6 @@ import { IBetter } from 'src/app/models/better';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BetReviewComponent } from '../bet/bet-review/bet-review.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 export interface IToolbarOption {
   hasToolbar: boolean;
@@ -23,8 +22,6 @@ export interface IToolbarOption {
 export class ToolbarComponent {
   private persistenceService = inject(PersistenceService);
   private dialog = inject(MatDialog);
-  private renderer = inject(Renderer2);
-  private bottomSheet = inject(MatBottomSheet);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -35,7 +32,7 @@ export class ToolbarComponent {
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor() {}
 
   public get isDarkMode(): boolean {
     return this.persistenceService.isDarkMode;
@@ -51,12 +48,6 @@ export class ToolbarComponent {
 
   public toggleSponsor() {
     this.persistenceService.aboutnav.open();
-  }
-
-  public toggleDarkMode() {
-    this.persistenceService.isDarkMode = !this.persistenceService.isDarkMode;
-    const themeClass = this.isDarkMode ? 'dark-mode' : 'light-mode';
-    this.renderer.setAttribute(this.document.body, 'class', themeClass);
   }
 
   public showBetsReview() {
