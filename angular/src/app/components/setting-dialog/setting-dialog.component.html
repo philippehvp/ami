@@ -1,11 +1,6 @@
-<div class="setting-button-panel" (click)="closeSettingPanel()">
-  <span class="setting-open-close">
-    <span class="material-icons-outlined"> expand_more </span>
-  </span>
-</div>
+<h2 mat-dialog-title>Paramètres</h2>
 
-<div class="setting-panel">
-  <h4>Paramètres</h4>
+<mat-dialog-content style="height: calc(100% - 6em)">
   <span class="setting-row" (click)="toggleWithClubName()">
     <mat-slide-toggle [checked]="withClubName"></mat-slide-toggle>
     <span class="text-area">
@@ -37,4 +32,10 @@
       <span class="detail">Active le mode sombre</span>
     </span>
   </span>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="close()" cdkFocusInitial>
+    Fermer
+  </button>
+</mat-dialog-actions>

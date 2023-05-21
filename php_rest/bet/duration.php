@@ -13,7 +13,8 @@
         "                       WHEN cpi_better.isAdmin = 1 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endAdminDate THEN 1" .
         "                       WHEN cpi_better.isAdmin = 0 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endBetDate THEN 1" .
         "                       ELSE 0" .
-        "                     END AS isDurationUpdatable" .
+        "                     END AS isDurationUpdatable," .
+        "                     isDurationModified" .
         " FROM                cpi_duration" .
         " JOIN                (" .
         "                       SELECT DISTINCT       cpi_contest.day," .

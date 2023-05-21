@@ -8,6 +8,7 @@ import { IBetter } from 'src/app/models/better';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BetReviewComponent } from '../bet/bet-review/bet-review.component';
+import { SettingDialogComponent } from '../setting-dialog/setting-dialog.component';
 
 export interface IToolbarOption {
   hasToolbar: boolean;
@@ -32,8 +33,6 @@ export class ToolbarComponent {
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
 
-  constructor() {}
-
   public get isDarkMode(): boolean {
     return this.persistenceService.isDarkMode;
   }
@@ -56,5 +55,9 @@ export class ToolbarComponent {
     };
 
     this.dialog.open(BetReviewComponent, config);
+  }
+
+  public openSettingDialog() {
+    this.dialog.open(SettingDialogComponent);
   }
 }

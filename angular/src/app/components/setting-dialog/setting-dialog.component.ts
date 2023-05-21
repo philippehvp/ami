@@ -1,18 +1,18 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Renderer2, inject } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { Component, Renderer2, inject } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { PersistenceService } from 'src/app/services/persistence.service';
 
 @Component({
-  selector: 'setting',
-  templateUrl: './setting.component.html',
-  styleUrls: ['./setting.component.scss'],
+  selector: 'setting-dialog',
+  templateUrl: './setting-dialog.component.html',
+  styleUrls: ['./setting-dialog.component.scss'],
 })
-export class SettingComponent {
+export class SettingDialogComponent {
   private persistenceService = inject(PersistenceService);
-  private bottomSheet = inject(MatBottomSheet);
   private renderer = inject(Renderer2);
   private document = inject(DOCUMENT);
+  private matDialogRef = inject(MatDialogRef<SettingDialogComponent>);
 
   public get withClubName(): boolean {
     return this.persistenceService.withClubName;
@@ -68,7 +68,7 @@ export class SettingComponent {
     this.renderer.setAttribute(this.document.body, 'class', themeClass);
   }
 
-  public closeSettingPanel() {
-    this.bottomSheet.dismiss();
+  public close() {
+    this.matDialogRef.close();
   }
 }

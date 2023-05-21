@@ -19,7 +19,7 @@
           "                   ON    cpi_duration.contest_day = cpi_day.day" .
           " JOIN              cpi_better" .
           "                   ON    cpi_duration.better_id = cpi_better.id" .
-          " SET               cpi_duration.duration = ?" .
+          " SET               cpi_duration.duration = ?, cpi_duration.isDurationModified = 1" .
           " WHERE             cpi_better.accessKey = ?";
     
         $req = $db->prepare($query);

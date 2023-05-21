@@ -71,6 +71,8 @@ export class BetService {
             (<IDurationRaw>durationRaw).isDurationUpdatable === 1
               ? true
               : false,
+          isDurationModified:
+            (<IDurationRaw>durationRaw).isDurationModified === 1 ? true : false,
         };
       })
     );

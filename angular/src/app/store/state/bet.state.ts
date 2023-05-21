@@ -682,6 +682,7 @@ export class BetState {
               duration: action.duration,
               isDurationUpdatable:
                 currentState.duration?.isDurationUpdatable || true,
+              isDurationModified: true,
             };
             state.patchState({ isOffline: false, duration: duration });
           }

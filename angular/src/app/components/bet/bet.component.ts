@@ -26,6 +26,7 @@ import { BetReviewComponent } from './bet-review/bet-review.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SettingComponent } from '../setting/setting.component';
+import { IDuration } from 'src/app/models/duration';
 
 @Component({
   selector: 'bet',
@@ -59,6 +60,9 @@ export class BetComponent implements OnInit, OnDestroy {
 
   @Select(BetState.proposeAutoNavigation)
   proposeAutoNavigation$!: Observable<boolean>;
+
+  @Select(BetState.duration)
+  duration$!: Observable<IDuration>;
 
   private destroy$!: Subject<boolean>;
   private better!: IBetter;
@@ -129,31 +133,56 @@ export class BetComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.allBetsDone$
+    combineLatest([this.allBetsDone$, this.duration$])
       .pipe(
         takeUntil(this.destroy$),
-        map((allBetsDone) => {
+        map(([allBetsDone, duration]) => {
           if (allBetsDone) {
-            const config: MatDialogConfig<IInformationDialogConfig> = {
-              data: {
-                title: 'Pronostics entièrement saisis',
-                message:
-                  'Tous les pronostics ont été saisis. Vérifie que la durée du match le plus long te convienne.',
-                dialogType: InformationDialogType.YesNo,
-                labels: ['Fermer', 'Voir mes pronostics'],
-              },
-              disableClose: true,
-            };
+            if (!duration.isDurationModified) {
+              // Le pronostic sur la durée du match a été modifié
+              const config: MatDialogConfig<IInformationDialogConfig> = {
+                data: {
+                  title: 'Pronostics entièrement saisis',
+                  message:
+                    "Tous les pronostics ont été saisis mais tu n'as pas encore modifié le pronostic sur la durée du match le plus long de la journée.",
+                  dialogType: InformationDialogType.YesNo,
+                  labels: ['Fermer', 'Voir mes pronostics'],
+                },
+                disableClose: true,
+              };
 
-            this.dialog
-              .open(InformationComponent, config)
-              .afterClosed()
-              .subscribe((action: boolean) => {
-                this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
-                if (action) {
-                  this.showBetsReview();
-                }
-              });
+              this.dialog
+                .open(InformationComponent, config)
+                .afterClosed()
+                .subscribe((action: boolean) => {
+                  this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
+                  if (action) {
+                    this.showBetsReview();
+                  }
+                });
+            } else {
+              // Le pornostic sur la durée du match n'a pas encore été modifié
+              const config: MatDialogConfig<IInformationDialogConfig> = {
+                data: {
+                  title: 'Pronostics entièrement saisis',
+                  message:
+                    'Tous les pronostics ont été saisis et seront pris en compte. Tu peux te déconnecter.',
+                  dialogType: InformationDialogType.YesNo,
+                  labels: ['Fermer', 'Voir mes pronostics'],
+                },
+                disableClose: true,
+              };
+
+              this.dialog
+                .open(InformationComponent, config)
+                .afterClosed()
+                .subscribe((action: boolean) => {
+                  this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
+                  if (action) {
+                    this.showBetsReview();
+                  }
+                });
+            }
           }
         })
       )
