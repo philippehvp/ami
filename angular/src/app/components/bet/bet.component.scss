@@ -49,6 +49,13 @@
   top: 8.5em;
 }
 
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 500;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -88,30 +95,6 @@
 
 .icon {
   vertical-align: middle;
-}
-
-.setting-open-panel {
-  display: flex;
-  position: absolute;
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
-  bottom: 0;
-}
-
-.setting-open-close {
-  display: flex;
-  border-top-left-radius: 0.5em;
-  border-top-right-radius: 0.5em;
-  width: 4em;
-  height: 0.9em;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2em;
-}
-
-.setting-icon {
-  font-size: 0.9em;
 }
 
 .hidden {

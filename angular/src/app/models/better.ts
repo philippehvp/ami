@@ -1,3 +1,17 @@
+export interface ISetting {
+  withClubName: boolean;
+  isAutoNavigation: boolean;
+  isPlayerReverse: boolean;
+  isDarkMode: boolean;
+}
+
+export interface ISettingRaw {
+  clubName: number;
+  autoNavigation: number;
+  playerReverse: number;
+  darkMode: number;
+}
+
 export interface IBetter {
   accessKey: string;
   firstName: string;
@@ -5,6 +19,7 @@ export interface IBetter {
   isAdmin: boolean;
   isTutorialDone: boolean;
   evaluation: number;
+  setting: ISetting;
 }
 
 export interface IBetterRaw {
@@ -14,4 +29,5 @@ export interface IBetterRaw {
   isAdmin: number;
   isTutorialDone: number;
   evaluation: number;
+  setting: ISettingRaw;
 }

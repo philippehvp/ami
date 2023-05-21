@@ -46,11 +46,24 @@
           " CALL sp_create_missing_bets(" . $betterId . ")";
         $db->exec($query);
 
+        // Création du paramétrage de l'interface
+        $query =
+          " INSERT INTO         cpi_setting(better_id, clubName, autoNavigation, playerReverse, darkMode)" .
+          " VALUES              (?, 0, 0, 0, 0)";
+        $req = $db->prepare($query);
+        $req->execute(array($betterId));
+
         $ret = array(
           "accessKey" => $accessKey,
           "name" => $name,
           "firstName" => $firstName,
-          "isAdmin" => 0
+          "isAdmin" => 0,
+          "setting" => array(
+            "clubName" => 0,
+            "autoNavigation" => 0,
+            "playerReverse" => 0,
+            "darkMode" => 0
+          )
         );
         echo json_encode($ret, JSON_NUMERIC_CHECK);
       }

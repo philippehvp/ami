@@ -1,7 +1,12 @@
-import { DOCUMENT } from '@angular/common';
 import { Component, Renderer2, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IBetter } from 'src/app/models/better';
 import { PersistenceService } from 'src/app/services/persistence.service';
+import { BetterService } from 'src/app/services/rest/better.service';
+import { UtilsService } from 'src/app/services/utils.service';
+import { BetState } from 'src/app/store/state/bet.state';
 
 @Component({
   selector: 'setting-dialog',
@@ -9,66 +14,47 @@ import { PersistenceService } from 'src/app/services/persistence.service';
   styleUrls: ['./setting-dialog.component.scss'],
 })
 export class SettingDialogComponent {
+  private matDialogRef = inject(MatDialogRef<SettingDialogComponent>);
+  private utilsService = inject(UtilsService);
   private persistenceService = inject(PersistenceService);
   private renderer = inject(Renderer2);
-  private document = inject(DOCUMENT);
-  private matDialogRef = inject(MatDialogRef<SettingDialogComponent>);
+  private betterService = inject(BetterService);
 
-  public get withClubName(): boolean {
-    return this.persistenceService.withClubName;
+  @Select(BetState.better)
+  better$!: Observable<IBetter>;
+
+  public toggleWithClubName(better: IBetter | null) {
+    if (better) {
+      better.setting.withClubName = !better.setting.withClubName;
+      this.persistenceService.withClubName = better.setting.withClubName;
+    }
   }
 
-  public set withClubName(withClubName: boolean) {
-    this.persistenceService.withClubName = withClubName;
+  public toggleAutoNavigation(better: IBetter | null) {
+    if (better) {
+      better.setting.isAutoNavigation = !better.setting.isAutoNavigation;
+    }
   }
 
-  public toggleWithClubName() {
-    this.persistenceService.withClubName =
-      !this.persistenceService.withClubName;
+  public togglePlayerReverse(better: IBetter | null) {
+    if (better) {
+      better.setting.isPlayerReverse = !better.setting.isPlayerReverse;
+      this.persistenceService.isPlayerReverse = better.setting.isPlayerReverse;
+    }
   }
 
-  public get isAutoNavigation(): boolean {
-    return this.persistenceService.isAutoNavigation;
+  public toggleDarkMode(better: IBetter | null) {
+    if (better) {
+      better.setting.isDarkMode = !better.setting.isDarkMode;
+      this.utilsService.setMode(this.renderer, better.setting.isDarkMode);
+    }
   }
 
-  public set isAutoNavigation(isAutoNavigation: boolean) {
-    this.persistenceService.isAutoNavigation =
-      !this.persistenceService.isAutoNavigation;
-  }
-
-  public toggleAutoNavigation() {
-    this.persistenceService.isAutoNavigation =
-      !this.persistenceService.isAutoNavigation;
-  }
-
-  public get isPlayerReverse(): boolean {
-    return this.persistenceService.isPlayerReverse;
-  }
-
-  public set isPlayerReverse(isPlayerReverse: boolean) {
-    this.persistenceService.isPlayerReverse = isPlayerReverse;
-  }
-
-  public togglePlayerReverse() {
-    this.persistenceService.isPlayerReverse =
-      !this.persistenceService.isPlayerReverse;
-  }
-
-  public get isDarkMode(): boolean {
-    return this.persistenceService.isDarkMode;
-  }
-
-  public set isDarkMode(isDarkMode: boolean) {
-    this.persistenceService.isDarkMode = isDarkMode;
-  }
-
-  public toggleDarkMode() {
-    this.persistenceService.isDarkMode = !this.persistenceService.isDarkMode;
-    const themeClass = this.isDarkMode ? 'dark-mode' : 'light-mode';
-    this.renderer.setAttribute(this.document.body, 'class', themeClass);
-  }
-
-  public close() {
+  public close(better: IBetter | null) {
+    if (better) {
+      // Sauvegarde des paramètres pour le pronostiqueur
+      this.betterService.updateSetting(better).subscribe();
+    }
     this.matDialogRef.close();
   }
 }

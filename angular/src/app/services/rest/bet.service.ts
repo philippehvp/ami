@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { IBetter, IBetterRaw } from 'src/app/models/better';
+import { IBetter, IBetterRaw, ISetting } from 'src/app/models/better';
 import { CommonService } from './common.service';
 import { IContest } from 'src/app/models/contest';
 import { map } from 'rxjs/internal/operators/map';
@@ -28,6 +28,7 @@ export class BetService {
             isAdmin: betterRaw.isAdmin === 1 ? true : false,
             isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
             evaluation: betterRaw.evaluation,
+            setting: <ISetting>{},
           };
         });
       })

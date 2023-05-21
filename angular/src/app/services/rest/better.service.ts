@@ -22,6 +22,14 @@ export class BetterService {
               isAdmin: betterRaw.isAdmin === 1 ? true : false,
               isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
               evaluation: betterRaw.evaluation,
+              setting: {
+                withClubName: betterRaw.setting.clubName === 1 ? true : false,
+                isAutoNavigation:
+                  betterRaw.setting.autoNavigation === 1 ? true : false,
+                isPlayerReverse:
+                  betterRaw.setting.playerReverse === 1 ? true : false,
+                isDarkMode: betterRaw.setting.darkMode === 1 ? true : false,
+              },
             }
           : null;
       })
@@ -70,6 +78,17 @@ export class BetterService {
     const url = CommonService.getURL('better/deleteBetter');
     return this.httpClient.post<IEmpty>(url, {
       accessKey,
+    });
+  }
+
+  public updateSetting(better: IBetter): Observable<IEmpty | IOffline> {
+    const url = CommonService.getURL('better/updateSetting');
+    return this.httpClient.post<IEmpty>(url, {
+      accessKey: better.accessKey,
+      clubName: better.setting.withClubName ? 1 : 0,
+      autoNavigation: better.setting.isAutoNavigation ? 1 : 0,
+      playerReverse: better.setting.isPlayerReverse ? 1 : 0,
+      darkMode: better.setting.isDarkMode ? 1 : 0,
     });
   }
 }

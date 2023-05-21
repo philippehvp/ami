@@ -391,7 +391,7 @@ export class BetState {
     });
 
     if (
-      !this.persistenceService.isAutoNavigation &&
+      !state.getState().better.setting.isAutoNavigation &&
       oldCompletedBetsCount === 0 &&
       completedBetsCount === 1
     ) {
@@ -553,7 +553,7 @@ export class BetState {
               this.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir si l'option est activée
-              if (this.persistenceService.isAutoNavigation) {
+              if (state.getState().better.setting.isAutoNavigation) {
                 const categoryId = this.searchBetToFill(
                   state,
                   currentState.category?.id || 0
@@ -623,7 +623,7 @@ export class BetState {
               this.calculateCompletedBetsOnUpdate(state);
 
               // Recherche du prochain pari à saisir si l'option est activée
-              if (this.persistenceService.isAutoNavigation) {
+              if (state.getState().better.setting.isAutoNavigation) {
                 const categoryId = this.searchBetToFill(
                   state,
                   currentState.category?.id || 0

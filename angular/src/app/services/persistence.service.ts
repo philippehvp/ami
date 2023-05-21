@@ -10,7 +10,6 @@ export class PersistenceService {
 
   private _withClubName: boolean = false;
   private _categoryId!: number;
-  private _isAutoNavigation: boolean = false;
 
   private _sidenav!: MatSidenav;
   private _aboutnav!: MatSidenav;
@@ -18,8 +17,6 @@ export class PersistenceService {
   private _isToolbarVisible: boolean = false;
 
   private _tutorialStep!: number;
-
-  private _isDarkMode: boolean = false;
 
   private _isPlayerReverse: boolean = false;
 
@@ -37,14 +34,6 @@ export class PersistenceService {
 
   public set categoryId(categoryId: number) {
     this._categoryId = categoryId;
-  }
-
-  public get isAutoNavigation(): boolean {
-    return this._isAutoNavigation;
-  }
-
-  public set isAutoNavigation(isAutoNavigation: boolean) {
-    this._isAutoNavigation = isAutoNavigation;
   }
 
   public get sidenav(): MatSidenav {
@@ -77,14 +66,6 @@ export class PersistenceService {
 
   public set isToolbarVisible(isToolbarVisible: boolean) {
     this._isToolbarVisible = isToolbarVisible;
-  }
-
-  public get isDarkMode(): boolean {
-    return this._isDarkMode;
-  }
-
-  public set isDarkMode(isDarkMode: boolean) {
-    this._isDarkMode = isDarkMode;
   }
 
   public navigate(link: string) {

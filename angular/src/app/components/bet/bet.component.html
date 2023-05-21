@@ -61,13 +61,9 @@
         <div class="tutorial1">
           <h5>Catégories et séries (1/4)</h5>
           <p>
-            Les catégories et leurs séries (de S1 à Sn) apparaissent ci-dessus.
-            Appuie sur le nom d'une série pour l'afficher.
-          </p>
-
-          <p>
-            La couleur des pastilles ainsi que la mention x/y en haut de l'écran
-            indiquent si tous les pronostics ont été saisis.
+            Les catégories et leurs séries (de S1 à Sn) sont ci-dessus. Appuie
+            sur le nom d'une série pour l'afficher. Tes pronostics sont remplis
+            lorsque toutes les pastilles sont vertes.
           </p>
           <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
             Suivant
@@ -99,7 +95,7 @@
       </div>
     </div>
   </div>
-  <div [class]="likePanelClass" *ngIf="isLikeVisible">
+  <div [class]="getLikePanelClass(data.better || null)" *ngIf="isLikeVisible">
     <div class="like-container">
       <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
         <span class="material-icons-outlined"> thumb_up </span>
@@ -114,11 +110,5 @@
         </span>
       </mat-menu>
     </div>
-  </div>
-
-  <div class="setting-open-panel" (click)="openSettingPanel()">
-    <span class="setting-open-close">
-      <span class="material-icons-outlined setting-icon"> settings </span>
-    </span>
   </div>
 </ng-container>

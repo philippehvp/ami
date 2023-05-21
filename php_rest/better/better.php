@@ -39,8 +39,29 @@
       $req = $db->prepare($query);
       $req->execute(array($accessKey, $betterId));
 
-      $ret = array("accessKey" => $accessKey, "name" => $better["name"], "firstName" => $better["firstName"],
-        "isAdmin" => $better["isAdmin"], "isTutorialDone" => $better["isTutorialDone"], "evaluation" => $better["evaluation"]);
+      // Lecture du paramétrage de l'interface
+      $query =
+        " SELECT          cpi_setting.clubName, cpi_setting.autoNavigation, cpi_setting.playerReverse, cpi_setting.darkMode" .
+        " FROM            cpi_setting" .
+        " WHERE           cpi_setting.better_id = ?";
+      $req = $db->prepare($query);
+      $req->execute(array($betterId)); 
+      $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+      $ret = array(
+        "accessKey" => $accessKey,
+        "name" => $better["name"],
+        "firstName" => $better["firstName"],
+        "isAdmin" => $better["isAdmin"],
+        "isTutorialDone" => $better["isTutorialDone"],
+        "evaluation" => $better["evaluation"],
+        "setting" => array(
+          "clubName" => $res[0]["clubName"] ? $res[0]["clubName"] : 0,
+          "autoNavigation" => $res[0]["autoNavigation"] ? $res[0]["autoNavigation"] : 0, 
+          "playerReverse" => $res[0]["playerReverse"] ? $res[0]["playerReverse"] : 0,
+          "darkMode" => $res[0]["darkMode"] ? $res[0]["darkMode"] : 0
+        )
+      );
 
       echo json_encode($ret, JSON_NUMERIC_CHECK);
     }

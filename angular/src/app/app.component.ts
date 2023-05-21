@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Renderer2,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { BetActions } from './store/action/bet.action';
 import { CommonService } from './services/rest/common.service';
@@ -16,7 +22,7 @@ import { IBet } from './models/bet';
 import { PersistenceService } from './services/persistence.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BetterService } from './services/rest/better.service';
-import { SettingComponent } from './components/setting/setting.component';
+import { UtilsService } from './services/utils.service';
 
 export interface ILogo {
   icon: string;
@@ -34,6 +40,8 @@ export class AppComponent implements AfterViewInit {
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
   private betterService = inject(BetterService);
+  private utilsService = inject(UtilsService);
+  private renderer = inject(Renderer2);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -103,6 +111,8 @@ export class AppComponent implements AfterViewInit {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
+      this.utilsService.setMode(this.renderer, false);
+
       if (!CommonService.isProduction) {
         window.localStorage.removeItem('better');
       }
@@ -186,12 +196,16 @@ export class AppComponent implements AfterViewInit {
     ],
   ];
 
-  public getLogoFile(logo: ILogo): string {
-    const prefix = 'assets/img/logos/';
-    if (!this.persistenceService.isDarkMode || !logo.isLightAndDark) {
-      return prefix + logo.icon + '.png';
-    } else {
-      return prefix + logo.icon + '_dark.png';
+  public getLogoFile(better: IBetter | null, logo: ILogo): string {
+    if (better && better.setting) {
+      const prefix = 'assets/img/logos/';
+      if (!better.setting.isDarkMode || !logo.isLightAndDark) {
+        return prefix + logo.icon + '.png';
+      } else {
+        return prefix + logo.icon + '_dark.png';
+      }
     }
+
+    return '';
   }
 }

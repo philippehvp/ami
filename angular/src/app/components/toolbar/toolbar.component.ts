@@ -33,14 +33,6 @@ export class ToolbarComponent {
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
 
-  public get isDarkMode(): boolean {
-    return this.persistenceService.isDarkMode;
-  }
-
-  public get darkModeIcon(): string {
-    return this.persistenceService.isDarkMode ? 'dark_mode' : 'light_mode';
-  }
-
   public toggleSideNav() {
     this.persistenceService.sidenav.open();
   }

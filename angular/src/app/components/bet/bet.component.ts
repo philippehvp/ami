@@ -3,6 +3,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -23,10 +24,9 @@ import {
 import { CommonService } from 'src/app/services/rest/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetReviewComponent } from './bet-review/bet-review.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SettingComponent } from '../setting/setting.component';
 import { IDuration } from 'src/app/models/duration';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'bet',
@@ -37,8 +37,9 @@ export class BetComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
-  private bottomSheet = inject(MatBottomSheet);
   private snackBar = inject(MatSnackBar);
+  private utilsService = inject(UtilsService);
+  private renderer = inject(Renderer2);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -74,6 +75,8 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public isCategoryHidden: boolean = false;
 
+  public withClubName!: boolean;
+
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
   }
@@ -82,10 +85,14 @@ export class BetComponent implements OnInit, OnDestroy {
     this.persistenceService.tutorialStep = tutorialStep;
   }
 
-  public get likePanelClass(): string {
-    return this.persistenceService.isPlayerReverse
-      ? 'like-panel left'
-      : 'like-panel right';
+  public getLikePanelClass(better: IBetter | null): string {
+    if (better) {
+      return better.setting.isPlayerReverse
+        ? 'like-panel left'
+        : 'like-panel right';
+    }
+
+    return '';
   }
 
   public ngOnInit() {
@@ -119,6 +126,11 @@ export class BetComponent implements OnInit, OnDestroy {
 
           if (better) {
             if (better.isTutorialDone) {
+              this.utilsService.setMode(
+                this.renderer,
+                better.setting.isDarkMode
+              );
+
               if (!CommonService.isProduction) {
                 window.localStorage.setItem(
                   'better',
@@ -161,7 +173,7 @@ export class BetComponent implements OnInit, OnDestroy {
                   }
                 });
             } else {
-              // Le pornostic sur la durée du match n'a pas encore été modifié
+              // Le pronostic sur la durée du match n'a pas encore été modifié
               const config: MatDialogConfig<IInformationDialogConfig> = {
                 data: {
                   title: 'Pronostics entièrement saisis',
@@ -210,7 +222,6 @@ export class BetComponent implements OnInit, OnDestroy {
               .subscribe((action: boolean) => {
                 this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
                 if (action) {
-                  this.persistenceService.isAutoNavigation = true;
                   this.store.dispatch([new BetActions.GotoNextCategory()]);
                 }
               });
@@ -243,10 +254,6 @@ export class BetComponent implements OnInit, OnDestroy {
     return !!betterPointsCategoryToDisplay;
   }
 
-  public get withClubName(): boolean {
-    return this.persistenceService.withClubName;
-  }
-
   public gotoNextTutorial() {
     this.tutorialStep++;
     if (this.tutorialStep === this.tutorialLastStep + 1) {
@@ -274,10 +281,6 @@ export class BetComponent implements OnInit, OnDestroy {
         });
         this.isLikeVisible = false;
       });
-  }
-
-  public openSettingPanel() {
-    this.bottomSheet.open(SettingComponent);
   }
 
   public evaluationIcon(evaluation: number, index: number): string {
