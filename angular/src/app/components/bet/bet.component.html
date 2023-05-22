@@ -5,20 +5,17 @@
 >
   <div class="bet-panel" [style.height.px]="betPanelHeight" #betPanel>
     <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
+      <div class="overlay"></div>
       <div class="tutorial4">
         <h5>Paramétrage (4/4)</h5>
-        <p>
-          Le menu à droite permet de consulter le barème, revoir ce tutoriel et
-          se déconnecter.
-        </p>
-
         <p>
           Des options sont disponibles en appuyant sur la roue crantée en haut
           de l'écran.
         </p>
         <p>
           C'est fini ! Une fois tous les pronostics saisis, tu pourras te
-          déconnecter du site.
+          déconnecter avec le menu latéral en appuyant sur
+          <span class="material-icons">menu</span>.
         </p>
 
         <h4>Bons pronostics à toi !</h4>
@@ -35,11 +32,12 @@
         id="duration-area"
       ></bet-duration>
       <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
+        <div class="overlay"></div>
         <div class="tutorial2">
           <h5>Durée du match le plus long (2/4)</h5>
           <p>
             Le pronostic sur la durée du match le plus long se fait en déplaçant
-            la jauge ci-dessus (de 30 à 120 minutes).
+            la jauge (de 30 à 120 minutes).
           </p>
           <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
             Suivant
@@ -51,6 +49,7 @@
     <div class="card row growing">
       <!-- Séries -->
       <div
+        id="categories"
         class="slow-animation"
         [class.hidden]="isCategoryHidden"
         [class.show]="!isCategoryHidden"
@@ -58,12 +57,13 @@
         <bet-contest id="contests-area"></bet-contest>
       </div>
       <div *ngIf="tutorialStep === 1" class="tutorial-wrap">
+        <div class="overlay"></div>
         <div class="tutorial1">
           <h5>Catégories et séries (1/4)</h5>
           <p>
-            Les catégories et leurs séries (de S1 à Sn) sont ci-dessus. Appuie
-            sur le nom d'une série pour l'afficher. Tes pronostics sont remplis
-            lorsque toutes les pastilles sont vertes.
+            Voici les catégories et leurs séries (de S1 à Sn). Appuie sur le nom
+            d'une série pour l'afficher. Tes pronostics sont remplis lorsque
+            toutes les pastilles sont vertes.
           </p>
           <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
             Suivant
@@ -72,12 +72,13 @@
       </div>
 
       <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
+        <div class="overlay"></div>
         <div class="tutorial3">
           <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
           <p>
-            Les joueurs de la série en cours apparaissent ici. Il suffit de
-            cliquer sur la première ou la deuxième colonne du tableau pour
-            choisir le vainqueur et le finaliste.
+            Voici les joueurs de la série en cours. Il suffit de cliquer sur la
+            première ou la deuxième colonne du tableau pour choisir le vainqueur
+            et le finaliste.
           </p>
 
           <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
@@ -87,7 +88,7 @@
       </div>
 
       <!-- Joueurs -->
-      <div class="row growing" (scroll)="onScroll($event)">
+      <div id="players" class="row growing" (scroll)="onScroll($event)">
         <bet-player
           *ngIf="(contest$ | async) && (category$ | async)"
           id="players-area"

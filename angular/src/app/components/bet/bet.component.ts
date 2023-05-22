@@ -27,6 +27,7 @@ import { BetReviewComponent } from './bet-review/bet-review.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
 import { UtilsService } from 'src/app/services/utils.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'bet',
@@ -40,6 +41,7 @@ export class BetComponent implements OnInit, OnDestroy {
   private snackBar = inject(MatSnackBar);
   private utilsService = inject(UtilsService);
   private renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -138,7 +140,7 @@ export class BetComponent implements OnInit, OnDestroy {
                 );
               }
             } else {
-              this.tutorialStep = 1;
+              this.persistenceService.tutorialStep = 1;
             }
           }
         })
@@ -229,6 +231,33 @@ export class BetComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.persistenceService.tutorialStepSubject.subscribe((tutorialStep) => {
+      switch (tutorialStep) {
+        case 1:
+          this.document
+            .getElementById('categories')
+            ?.classList.add('highlight');
+          break;
+        case 2:
+          this.document
+            .getElementById('categories')
+            ?.classList.remove('highlight');
+          this.document.getElementById('duration')?.classList.add('highlight');
+          break;
+        case 3:
+          this.document
+            .getElementById('duration')
+            ?.classList.remove('highlight');
+          this.document.getElementById('players')?.classList.add('highlight');
+          break;
+        case 4:
+          this.document
+            .getElementById('players')
+            ?.classList.remove('highlight');
+          break;
+      }
+    });
   }
 
   public ngOnDestroy() {
