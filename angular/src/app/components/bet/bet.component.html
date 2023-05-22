@@ -48,12 +48,7 @@
 
     <div class="card row growing">
       <!-- Séries -->
-      <div
-        id="categories"
-        class="slow-animation"
-        [class.hidden]="isCategoryHidden"
-        [class.show]="!isCategoryHidden"
-      >
+      <div id="categories" class="slow-animation">
         <bet-contest id="contests-area"></bet-contest>
       </div>
       <div *ngIf="tutorialStep === 1" class="tutorial-wrap">
@@ -88,7 +83,7 @@
       </div>
 
       <!-- Joueurs -->
-      <div id="players" class="row growing" (scroll)="onScroll($event)">
+      <div id="players" class="row growing">
         <bet-player
           *ngIf="(contest$ | async) && (category$ | async)"
           id="players-area"

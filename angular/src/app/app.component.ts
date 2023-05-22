@@ -111,7 +111,8 @@ export class AppComponent implements AfterViewInit {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      this.utilsService.setMode(this.renderer, false);
+      const isDarkMode = false;
+      this.utilsService.setMode(this.renderer, isDarkMode);
 
       if (!CommonService.isProduction) {
         window.localStorage.removeItem('better');

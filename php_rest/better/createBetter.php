@@ -36,7 +36,7 @@
           " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, endAccessKeyValidityDate, contact, isTutorialDone, evaluation)" .
           " VALUES              (?, ?, ?, 0, ?, fn_connection_validity(), ?, 0, -1)";
         $req = $db->prepare($query);
-        $req->execute(array($name, $firstName, $password, $accessKey, $contact));
+        $req->execute(array(strtoupper($name), $firstName, $password, $accessKey, $contact));
     
         // Identifiant du dernier enregistrement ajouté
         $betterId = $db->lastInsertId();

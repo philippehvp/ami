@@ -1,8 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { BetterPointActions } from '../action/better-point.action';
-import { IBetterPoint } from 'src/app/models/better-point';
-import { BetterPointService } from 'src/app/services/rest/better-point.service';
 import { tap } from 'rxjs';
 import { IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
@@ -22,7 +19,7 @@ export class BetterBetModel {
 })
 @Injectable()
 export class BetterBetState {
-  constructor(private betService: BetService) {}
+  private betService = inject(BetService);
 
   @Selector()
   static betterBet(state: BetterBetModel) {

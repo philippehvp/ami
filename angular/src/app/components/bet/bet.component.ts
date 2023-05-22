@@ -264,10 +264,10 @@ export class BetComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
   }
 
-  public onScroll($event: Event) {
-    const element = $event.target as HTMLElement;
-    this.isCategoryHidden = element.scrollTop > 0;
-  }
+  // public onScroll($event: Event) {
+  //   const element = $event.target as HTMLElement;
+  //   this.isCategoryHidden = element.scrollTop > 0;
+  // }
 
   private showBetsReview() {
     const config: MatDialogConfig = {

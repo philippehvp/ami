@@ -30,12 +30,19 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
-    combineLatest([this.better$, this.betterBet$])
+    this.better$
       .pipe(
         takeUntil(this.destroy$),
-        map(([better, betterBet]) => {
+        map((better) => {
           this.store.dispatch([new BetActions.GetBetterBet(better.accessKey)]);
+        })
+      )
+      .subscribe();
 
+    this.betterBet$
+      .pipe(
+        takeUntil(this.destroy$),
+        map((betterBet) => {
           if (betterBet && betterBet.length) {
             this.displayedColumns = ['Pronostiqueurs'];
             betterBet[0].header.map((header) => {

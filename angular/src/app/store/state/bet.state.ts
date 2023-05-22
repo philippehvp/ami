@@ -393,7 +393,8 @@ export class BetState {
     if (
       !state.getState().better.setting.isAutoNavigation &&
       oldCompletedBetsCount === 0 &&
-      completedBetsCount === 1
+      completedBetsCount === 1 &&
+      state.getState().better.isAdmin === false
     ) {
       state.patchState({ proposeAutoNavigation: true });
     } else {

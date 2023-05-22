@@ -1,35 +1,37 @@
-<titlebar title="Résumé des pronostics"></titlebar>
+<div class="bet-panel">
+  <titlebar title="Résumé des pronostics"></titlebar>
 
-<table mat-table [dataSource]="bets || []">
-  <ng-container
-    [matColumnDef]="column"
-    *ngFor="let column of displayedColumns; let i = index"
-  >
-    <th mat-header-cell *matHeaderCellDef>{{ getColumnLabel(i, column) }}</th>
+  <table mat-table [dataSource]="bets || []">
+    <ng-container
+      [matColumnDef]="column"
+      *ngFor="let column of displayedColumns; let i = index"
+    >
+      <th mat-header-cell *matHeaderCellDef>{{ getColumnLabel(i, column) }}</th>
 
-    <span *ngIf="isNameColumn(i)">
-      <td mat-cell *matCellDef="let bet">
-        {{ getBetterName(bet) }}
-      </td>
-    </span>
+      <span *ngIf="isNameColumn(i)">
+        <td mat-cell *matCellDef="let bet">
+          {{ getBetterName(bet) }}
+        </td>
+      </span>
 
-    <span *ngIf="isBetColumn(i)">
-      <td mat-cell *matCellDef="let bet">
-        <span class="winner">{{ getWinnerFirstPlayerName(i, bet) }}</span>
-        <br />
-        <span class="winner">{{ getWinnerSSecondPlayerName(i, bet) }}</span>
-        <br />
-        {{ getRunnerUpFirstPlayerName(i, bet) }}
-        <br />
-        {{ getRunnerUpSecondPlayerName(i, bet) }}
-      </td>
-    </span>
+      <span *ngIf="isBetColumn(i)">
+        <td mat-cell *matCellDef="let bet">
+          <span class="winner">{{ getWinnerFirstPlayerName(i, bet) }}</span>
+          <br />
+          <span class="winner">{{ getWinnerSSecondPlayerName(i, bet) }}</span>
+          <br />
+          {{ getRunnerUpFirstPlayerName(i, bet) }}
+          <br />
+          {{ getRunnerUpSecondPlayerName(i, bet) }}
+        </td>
+      </span>
 
-    <span *ngIf="isPointsColumn(i)">
-      <td mat-cell *matCellDef="let bet">&nbsp;</td>
-    </span>
-  </ng-container>
+      <span *ngIf="isPointsColumn(i)">
+        <td mat-cell *matCellDef="let bet">&nbsp;</td>
+      </span>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
