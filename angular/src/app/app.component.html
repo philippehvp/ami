@@ -72,6 +72,14 @@
           ><span class="material-icons-outlined icon"> logout </span
           ><span class="label"> Se déconnecter </span></span
         >
+
+        <span *ngIf="!data.better?.isAdmin">
+          <hr />
+          <span class="link" (click)="deleteAccount(data?.better || null)">
+            <span class="material-icons-outlined icon"> delete </span>
+            <span class="label">Effacer le compte</span>
+          </span>
+        </span>
       </mat-nav-list>
     </mat-sidenav>
   </mat-sidenav-container>
