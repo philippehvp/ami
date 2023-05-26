@@ -59,25 +59,25 @@
 
         <ng-template #normal>
           <span class="link" (click)="navigate('rule')"
-            ><span class="material-icons-outlined icon"> menu_book </span
+            ><span class="material-icons-outlined icon"> article </span
             ><span class="label">Barème</span></span
           >
           <span class="link" (click)="displayTutorial()">
-            <span class="material-icons-outlined icon"> info </span>
+            <span class="material-icons-outlined icon"> help_outline </span>
             <span class="label">Tutoriel</span>
           </span>
         </ng-template>
 
         <span class="link logout" (click)="logout(0, 0, true)"
-          ><span class="material-icons-outlined icon"> logout </span
-          ><span class="label"> Se déconnecter </span></span
+          ><span class="material-icons-outlined icon"> power_settings_new </span
+          ><span class="label">Déconnexion</span></span
         >
 
         <span *ngIf="!data.better?.isAdmin">
           <hr />
           <span class="link" (click)="deleteAccount(data?.better || null)">
             <span class="material-icons-outlined icon"> delete </span>
-            <span class="label">Effacer le compte</span>
+            <span class="label">Effacement du compte</span>
           </span>
         </span>
       </mat-nav-list>

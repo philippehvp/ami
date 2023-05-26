@@ -51,6 +51,21 @@
       $betsRaw = $req->fetchAll(PDO::FETCH_ASSOC);
       $countOfCategories = sizeof($betsRaw) / sizeof($betters);
 
+      $query =
+        " SELECT          cpi_duration.duration" .
+        " FROM            cpi_duration" .
+        " JOIN            cpi_better" .
+        "                 ON    cpi_duration.better_id = cpi_better.id" .
+        " JOIN            cpi_contest" .
+        "                 ON    cpi_duration.contest_day = cpi_contest.day" .
+        " JOIN            cpi_category" .
+        "                 ON      cpi_contest.id = cpi_category.contest_id" .
+        " WHERE           cpi_contest.startDate <= NOW()" .
+        "                 AND   NOW() <= cpi_contest.endAdminDate" .
+        " ORDER BY        cpi_better.name, cpi_better.firstName, cpi_better.id";
+      $req = $db->query($query);
+      $duration = $req->fetchAll(PDO::FETCH_ASSOC);
+
       $bets = array();
 
       $betsIndex = 0;
@@ -84,12 +99,14 @@
           array(
             "name" => $better["name"],
             "winners" => $winners,
-            "runnersUp" => $runnersUp
+            "runnersUp" => $runnersUp,
+            "duration" => $duration[0]["duration"]
           )
         );
       }
 
       $pointsArray = array("header" => $header, "bets" => $bets);
+
       echo json_encode(array($pointsArray), JSON_NUMERIC_CHECK);
 
     } else {
