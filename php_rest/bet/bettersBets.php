@@ -107,7 +107,7 @@
 
       $pointsArray = array("header" => $header, "bets" => $bets);
 
-      echo json_encode(array($pointsArray), JSON_NUMERIC_CHECK);
+      echo json_encode($pointsArray, JSON_NUMERIC_CHECK);
 
     } else {
       echo returnIsOffline();

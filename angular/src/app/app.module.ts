@@ -49,7 +49,6 @@ import { BetPlayerComponent } from './components/bet/bet-player/bet-player.compo
 import { LoginComponent } from './components/login/login.component';
 import { InformationComponent } from './components/information/information.component';
 import { CreateBetterComponent } from './components/create-better/create-better.component';
-import { BetterPointState as BetterPointState } from './store/state/better-point.state';
 import { BetPointComponent } from './components/bet/bet-point/bet-point.component';
 import { BetterBetState } from './store/state/better-bet.state';
 import { BetterRankingComponent } from './components/better-ranking/better-ranking.component';
@@ -87,10 +86,7 @@ import { SettingDialogComponent } from './components/setting-dialog/setting-dial
     BrowserAnimationsModule,
     HttpClientModule,
 
-    NgxsModule.forRoot(
-      [BetState, BetterPointState, BetterBetState, BetterRankingState],
-      {}
-    ),
+    NgxsModule.forRoot([BetState, BetterBetState, BetterRankingState], {}),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,

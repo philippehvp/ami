@@ -16,7 +16,7 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   private store = inject(Store);
 
   @Select(BetterBetState.betterBet)
-  betterBet$!: Observable<IBetterBet[]>;
+  betterBet$!: Observable<IBetterBet>;
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -24,8 +24,6 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   private destroy$!: Subject<boolean>;
 
   public displayedColumns: string[] = [];
-
-  public bets: IPlayerBet[] = [];
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
@@ -43,10 +41,8 @@ export class BetterBetComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         map((betterBet) => {
-          if (betterBet && betterBet.length) {
-            this.bets = betterBet[0].bets;
-
-            betterBet[0].header.map((header) => {
+          if (betterBet) {
+            betterBet.header.map((header) => {
               this.displayedColumns.push(
                 header.contestName + ' - ' + header.categoryName
               );
@@ -62,18 +58,6 @@ export class BetterBetComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
   }
 
-  public getBetterName(i: number): string {
-    if (i % 2 === 0) {
-      return this.bets[i].name;
-    }
-
-    return '';
-  }
-
-  public getWinnerOrRunnerUp(i: number): string {
-    return i % 2 === 0 ? 'V' : 'F';
-  }
-
   public getPlayerName(players: IPlayer[], j: number): string {
     if (j % 2 === 0) {
       const playersName =
@@ -81,32 +65,13 @@ export class BetterBetComponent implements OnInit, OnDestroy {
       const playersNameOnly = playersName.match(
         /(\b[A-Z][A-Z'-]+|\b[A-Z'-]\b)/g
       );
-      return playersNameOnly?.join(' ') || '';
+      const ret = playersNameOnly?.join(' ') || '';
+      if (ret === '') {
+        return '-';
+      } else {
+        return ret;
+      }
     }
     return '';
-  }
-
-  private getRowSpanForTwo(i: number): number {
-    return i % 2 === 0 ? 2 : 0;
-  }
-
-  public getRowSpanForBetterName(i: number): number {
-    return this.getRowSpanForTwo(i);
-  }
-
-  public getRowSpanForDuration(i: number): number {
-    return i % 2 === 0 ? 4 : 0;
-  }
-
-  public getRowSpanForTotal(i: number): number {
-    return i % 2 === 0 ? 4 : 0;
-  }
-
-  public getColSpanForTwo(i: number): number {
-    return i % 2 === 0 ? 2 : 0;
-  }
-
-  public isWinner(i: number): boolean {
-    return i % 2 === 0 ? true : false;
   }
 }

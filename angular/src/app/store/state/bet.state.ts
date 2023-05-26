@@ -16,6 +16,7 @@ import { ConnectionActions } from '../action/connection.action';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { IBetReview } from 'src/app/models/review';
 import { PersistenceService } from 'src/app/services/persistence.service';
+import { IBetterPoint } from 'src/app/models/better-point';
 
 export class BetStateModel {
   isOffline!: boolean;
@@ -33,6 +34,8 @@ export class BetStateModel {
   isLoadingData!: boolean;
   allBetsDone!: boolean;
   proposeAutoNavigation!: boolean;
+  categoryToDisplay!: number;
+  betterPoints!: IBetterPoint[];
 }
 
 @State<BetStateModel>({
@@ -53,6 +56,8 @@ export class BetStateModel {
     isLoadingData: false,
     allBetsDone: false,
     proposeAutoNavigation: false,
+    categoryToDisplay: -1,
+    betterPoints: [],
   },
 })
 @Injectable()
@@ -61,6 +66,7 @@ export class BetState {
   private betService = inject(BetService);
   private betterService = inject(BetterService);
   private playerService = inject(PlayerService);
+  private pointService = inject(BetService);
 
   @Selector()
   static isOffline(state: BetStateModel) {
@@ -137,6 +143,10 @@ export class BetState {
     return state.proposeAutoNavigation;
   }
 
+  @Selector()
+  static betterPoints(state: BetStateModel) {
+    return state.betterPoints;
+  }
   @Action(BetActions.SetBetter)
   setBetter(state: StateContext<BetStateModel>, action: BetActions.SetBetter) {
     if (action.better) {
@@ -692,13 +702,38 @@ export class BetState {
   }
 
   @Action(BetActions.CalculatePointsAndRanking)
-  calculatepointsAndRanking(
-    state: StateContext<BetStateModel>,
-    action: BetActions.CalculatePointsAndRanking
-  ) {
+  calculatepointsAndRanking(state: StateContext<BetStateModel>) {
     return this.betService
       .calculatepointsAndRanking(state.getState().better?.accessKey || '')
-      .subscribe(() => {});
+      .subscribe(() => {
+        state.dispatch([
+          new BetActions.GetBetterPoint(
+            state.getState().better.accessKey,
+            this.persistenceService.categoryId
+          ),
+        ]);
+      });
+  }
+
+  @Action(BetActions.GetBetterPoint)
+  getBetterPoint(
+    state: StateContext<BetStateModel>,
+    action: BetActions.GetBetterPoint
+  ) {
+    return this.pointService
+      .getBettersPoints(action.accessKey, action.categoryId)
+      .pipe(
+        tap((readBetterPoints: IBetterPoint[] | IOffline) => {
+          if (readBetterPoints && 'isOffline' in readBetterPoints) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            state.patchState({
+              categoryToDisplay: action.categoryId,
+              betterPoints: <IBetterPoint[]>readBetterPoints,
+            });
+          }
+        })
+      );
   }
 
   @Action(ConnectionActions.IsOffline)

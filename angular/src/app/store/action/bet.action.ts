@@ -76,6 +76,11 @@ export namespace BetActions {
     constructor() {}
   }
 
+  export class GetBetterPoint {
+    static readonly type = '[Bet] Get Better Point';
+    constructor(public accessKey: string, public categoryId: number) {}
+  }
+
   export class GetBetterBet {
     static readonly type = '[Bet] Get Better Bet';
     constructor(public accessKey: string) {}

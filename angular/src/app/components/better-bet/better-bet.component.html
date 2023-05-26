@@ -1,61 +1,65 @@
-<div class="bet-panel">
-  <titlebar title="Résumé des pronostics"></titlebar>
+<ng-container *ngIf="{ betterBet: betterBet$ | async } as data">
+  <div class="bet-panel">
+    <titlebar title="Résumé des pronostics"></titlebar>
 
-  <table class="better-bet">
-    <thead>
-      <tr>
-        <th>NOM PRENOM</th>
-        <th>V/F</th>
-        <th
-          *ngFor="let column of displayedColumns; let i = index"
-          [attr.colspan]="i % 2 === 0 ? 2 : 0"
-          [style.display]="i % 2 === 0 ? '' : 'none'"
+    <table class="better-bet">
+      <thead>
+        <tr>
+          <th>NOM PRENOM</th>
+          <th>V/F</th>
+          <th
+            *ngFor="let column of displayedColumns; let i = index"
+            [attr.colspan]="i % 2 === 0 ? 2 : 0"
+            [style.display]="i % 2 === 0 ? '' : 'none'"
+          >
+            {{ column }}
+          </th>
+          <th>Match le + long</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container
+          *ngFor="let betterBet of data?.betterBet?.bets || []; let i = index"
         >
-          {{ column }}
-        </th>
-        <th>Match le + long</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let betterBet of bets; let i = index">
-        <!-- Winners -->
-        <tr>
-          <td rowspan="2">
-            {{ betterBet.name }}
-          </td>
+          <!-- Winners -->
+          <tr>
+            <td rowspan="2">
+              {{ betterBet.name }}
+            </td>
 
-          <td>V</td>
+            <td>V</td>
 
-          <td
-            class="winner"
-            *ngFor="let column of displayedColumns; let j = index"
-            [attr.rowspan]="j % 2 === 0 ? 1 : 2"
-          >
-            {{ getPlayerName(betterBet.winners, j) }}
-          </td>
-          <td rowspan="2">
-            {{ betterBet.duration }}
-          </td>
-          <td rowspan="2">&nbsp;</td>
-        </tr>
+            <td
+              class="winner"
+              *ngFor="let column of displayedColumns; let j = index"
+              [attr.rowspan]="j % 2 === 0 ? 1 : 2"
+            >
+              {{ getPlayerName(betterBet.winners, j) }}
+            </td>
+            <td rowspan="2">
+              {{ betterBet.duration }}
+            </td>
+            <td rowspan="2">&nbsp;</td>
+          </tr>
 
-        <!-- Runners Up -->
-        <tr>
-          <td rowspan="0" style="display: none"></td>
-          <td>F</td>
+          <!-- Runners Up -->
+          <tr>
+            <td rowspan="0" style="display: none"></td>
+            <td>F</td>
 
-          <td
-            *ngFor="let column of displayedColumns; let j = index"
-            [attr.rowspan]="j % 2 === 0 ? 1 : 0"
-            [style.display]="j % 2 === 0 ? '' : 'none'"
-          >
-            {{ getPlayerName(betterBet.runnersUp, j) }}
-          </td>
-          <td rowspan="0" style="display: none"></td>
-          <td rowspan="0" style="display: none"></td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
+            <td
+              *ngFor="let column of displayedColumns; let j = index"
+              [attr.rowspan]="j % 2 === 0 ? 1 : 0"
+              [style.display]="j % 2 === 0 ? '' : 'none'"
+            >
+              {{ getPlayerName(betterBet.runnersUp, j) }}
+            </td>
+            <td rowspan="0" style="display: none"></td>
+            <td rowspan="0" style="display: none"></td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

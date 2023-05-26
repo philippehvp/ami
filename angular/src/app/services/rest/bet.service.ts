@@ -10,6 +10,7 @@ import { IDuration, IDurationRaw } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { IBetterBet } from 'src/app/models/better-bet';
 import { IBetReview, IBetReviewRaw } from 'src/app/models/review';
+import { IBetterPoint } from 'src/app/models/better-point';
 
 @Injectable({
   providedIn: 'root',
@@ -137,6 +138,17 @@ export class BetService {
     const url = CommonService.getURL('bet/calculatePointsAndRanking');
     return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
       accessKey: accessKey,
+    });
+  }
+
+  public getBettersPoints(
+    accessKey: string,
+    categoryId: number
+  ): Observable<IBetterPoint[] | IOffline> {
+    const url = CommonService.getURL('point/bettersPoints');
+    return this.httpClient.post<IBetterPoint[]>(url, {
+      accessKey,
+      category: categoryId,
     });
   }
 
