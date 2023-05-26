@@ -19,12 +19,3 @@ export interface IBetterBet {
   header: IHeader[];
   bets: IPlayerBet[];
 }
-
-export interface IPlayerOfCategory {
-  players: IPlayer[];
-  duration?: number;
-}
-
-export interface IDisplayedBetterBet {
-  rows: IPlayerOfCategory[];
-}
