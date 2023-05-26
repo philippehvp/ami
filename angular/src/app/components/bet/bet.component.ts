@@ -73,7 +73,6 @@ export class BetComponent implements OnInit, OnDestroy {
   public betPanelHeight!: number;
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
-  public isLikeVisible: boolean = true;
 
   public isCategoryHidden: boolean = false;
 
@@ -87,14 +86,12 @@ export class BetComponent implements OnInit, OnDestroy {
     this.persistenceService.tutorialStep = tutorialStep;
   }
 
-  public getLikePanelClass(better: IBetter | null): string {
-    if (better) {
-      return better.setting.isPlayerReverse
-        ? 'like-panel left'
-        : 'like-panel right';
-    }
+  public get isEvaluationDone(): boolean {
+    return this.persistenceService.isEvaluationDone;
+  }
 
-    return '';
+  public set isEvaluationDone(isEvaluationDone: boolean) {
+    this.persistenceService.isEvaluationDone = isEvaluationDone;
   }
 
   public ngOnInit() {
@@ -264,11 +261,6 @@ export class BetComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
   }
 
-  // public onScroll($event: Event) {
-  //   const element = $event.target as HTMLElement;
-  //   this.isCategoryHidden = element.scrollTop > 0;
-  // }
-
   private showBetsReview() {
     const config: MatDialogConfig = {
       disableClose: true,
@@ -299,6 +291,16 @@ export class BetComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getLikePanelClass(better: IBetter | null): string {
+    if (better) {
+      return better.setting.isPlayerReverse
+        ? 'like-panel left'
+        : 'like-panel right';
+    }
+
+    return '';
+  }
+
   public like(evaluationLevel: number) {
     this.store
       .dispatch([new BetActions.SetEvaluation(evaluationLevel)])
@@ -308,15 +310,11 @@ export class BetComponent implements OnInit, OnDestroy {
         this.snackBar.open('Merci pour ton vote', 'Fermer', {
           duration: 2500,
         });
-        this.isLikeVisible = false;
+        this.persistenceService.isEvaluationDone = true;
       });
   }
 
   public evaluationIcon(evaluation: number, index: number): string {
     return evaluation >= index ? 'star' : 'star_border';
-  }
-
-  public closeLikebutton() {
-    this.isLikeVisible = false;
   }
 }

@@ -91,7 +91,10 @@
       </div>
     </div>
   </div>
-  <div [class]="getLikePanelClass(data.better || null)" *ngIf="isLikeVisible">
+  <div
+    [class]="getLikePanelClass(data.better || null)"
+    *ngIf="!isEvaluationDone"
+  >
     <div class="like-container">
       <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
         <span class="material-icons-outlined"> thumb_up </span>

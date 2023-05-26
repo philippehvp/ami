@@ -761,7 +761,11 @@ export class BetState {
       isLoadingData: false,
       isOffline: false,
       proposeAutoNavigation: false,
+      categoryToDisplay: -1,
+      betterPoints: undefined,
     });
+
+    this.persistenceService.isEvaluationDone = false;
   }
 
   @Action(BetActions.IsLoadingData)

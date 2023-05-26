@@ -68,6 +68,14 @@ export class PersistenceService {
     this._isPlayerReverse = isPlayerReverse;
   }
 
+  private _isEvaluationDone: boolean = false;
+  public get isEvaluationDone(): boolean {
+    return this._isEvaluationDone;
+  }
+  public set isEvaluationDone(isEvaluationDone: boolean) {
+    this._isEvaluationDone = isEvaluationDone;
+  }
+
   public navigate(link: string) {
     if (link === 'bet') {
       this._isToolbarVisible = true;
