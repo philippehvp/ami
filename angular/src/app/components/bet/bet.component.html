@@ -13,8 +13,8 @@
           de l'écran.
         </p>
         <p>
-          C'est fini ! Une fois tous les pronostics saisis, tu pourras te
-          déconnecter avec le menu latéral en appuyant sur
+          Une fois tous les pronostics saisis, tu pourras te déconnecter avec le
+          menu latéral en appuyant sur
           <span class="material-icons">menu</span>.
         </p>
 
@@ -29,7 +29,7 @@
     <div class="row no-growing card duration">
       <bet-duration
         *ngIf="(contest$ | async) && (category$ | async)"
-        id="duration-area"
+        id="duration"
       ></bet-duration>
       <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
         <div class="overlay"></div>
