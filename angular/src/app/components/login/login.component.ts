@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private route = inject(ActivatedRoute);
   private persistenceService = inject(PersistenceService);
-  private utilsService = inject(UtilsService);
 
   public formGroup!: FormGroup;
 
@@ -66,8 +65,12 @@ export class LoginComponent implements OnInit, OnDestroy {
             // Ouverture de la boîte de dialogue RGPD
             const config: MatDialogConfig = {
               disableClose: true,
+              height: '90vh',
+              width: '95vw',
+              maxWidth: '95vw',
+              maxHeight: '90vh',
             };
-            //this.dialog.open(GdprComponent, config);
+            this.dialog.open(GdprComponent, config);
           }
         })
       )

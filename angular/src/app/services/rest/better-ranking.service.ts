@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { IOffline } from '../../models/utils';
 import { CommonService } from './common.service';
@@ -9,7 +9,7 @@ import { IBetterRanking } from '../../models/better-ranking';
   providedIn: 'root',
 })
 export class BetterRankingService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public getBettersRanking(
     accessKey: string,

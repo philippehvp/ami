@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { IBetter, IBetterRaw } from 'src/app/models/better';
@@ -9,7 +9,7 @@ import { IEmpty, IError, IOffline } from 'src/app/models/utils';
   providedIn: 'root',
 })
 export class BetterService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public login(name: string, password: string): Observable<IBetter | null> {
     return this.loginRaw(name, password).pipe(

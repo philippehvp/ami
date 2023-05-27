@@ -11,7 +11,16 @@ export class GdprComponent {
 
   public isCloseButtonDisabled: boolean = false;
 
+  public scrollToEndOfGDPRContent: boolean = false;
+
   public close() {
     this.matDialogRef.close();
+  }
+
+  public onScroll($event: Event) {
+    const element = $event.target as HTMLElement;
+    if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
+      this.scrollToEndOfGDPRContent = true;
+    }
   }
 }

@@ -13,9 +13,10 @@
           de l'écran.
         </p>
         <p>
-          Une fois tous les pronostics saisis, tu pourras te déconnecter avec le
-          menu latéral en appuyant sur
-          <span class="material-icons">menu</span>.
+          Une fois tous les pronostics saisis, tu pourras te déconnecter en
+          choisissant Déconnexion du menu latéral (<span class="material-icons"
+            >menu</span
+          >).
         </p>
 
         <h4>Bons pronostics à toi !</h4>
@@ -29,7 +30,9 @@
     <div class="row no-growing card duration">
       <bet-duration
         *ngIf="(contest$ | async) && (category$ | async)"
-        id="duration"
+        [class]="{
+          highlight: tutorialStep === 2 ? true : false
+        }"
       ></bet-duration>
       <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
         <div class="overlay"></div>
@@ -48,8 +51,13 @@
 
     <div class="card row growing">
       <!-- Séries -->
-      <div id="categories" class="slow-animation">
-        <bet-contest id="contests-area"></bet-contest>
+      <div
+        [class]="{
+          'slow-animation': true,
+          highlight: tutorialStep === 1 ? true : false
+        }"
+      >
+        <bet-contest></bet-contest>
       </div>
       <div *ngIf="tutorialStep === 1" class="tutorial-wrap">
         <div class="overlay"></div>
@@ -71,9 +79,9 @@
         <div class="tutorial3">
           <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
           <p>
-            Voici les joueurs de la série en cours. Il suffit de cliquer sur la
-            première ou la deuxième colonne du tableau pour choisir le vainqueur
-            et le finaliste.
+            Voici les joueurs de la série en cours. Clique sur la première
+            colonne pour choisir le vainqueur et sur la deuxième pour le
+            finaliste.
           </p>
 
           <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
@@ -83,10 +91,15 @@
       </div>
 
       <!-- Joueurs -->
-      <div id="players" class="row growing">
+      <div
+        [class]="{
+          'row growing': true,
+          'slow-animation': true,
+          highlight: tutorialStep === 3 ? true : false
+        }"
+      >
         <bet-player
           *ngIf="(contest$ | async) && (category$ | async)"
-          id="players-area"
         ></bet-player>
       </div>
     </div>

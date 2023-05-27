@@ -55,6 +55,7 @@
   width: 100vw;
   height: 100vh;
   z-index: 500;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .card {
@@ -110,5 +111,6 @@
 }
 
 .highlight {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: inherit;
+  z-index: 750;
 }

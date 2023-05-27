@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -35,7 +34,7 @@ import { DOCUMENT } from '@angular/common';
   templateUrl: './bet.component.html',
   styleUrls: ['./bet.component.scss'],
 })
-export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BetComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
@@ -98,6 +97,52 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngOnInit() {
     this.betPanelHeight = window.innerHeight - 53;
     this.destroy$ = new Subject<boolean>();
+
+    combineLatest([this.isOffline$, this.better$])
+      .pipe(
+        takeUntil(this.destroy$),
+        map(([isOffline, better]) => {
+          if (isOffline) {
+            const config: MatDialogConfig<IInformationDialogConfig> = {
+              data: {
+                title: 'Session expirée',
+                message: 'Ta session est expirée. Merci de te reconnecter.',
+                dialogType: InformationDialogType.Information,
+                labels: ['Me connecter'],
+              },
+              disableClose: true,
+            };
+
+            this.dialog
+              .open(InformationComponent, config)
+              .afterClosed()
+              .subscribe(() => {
+                return this.persistenceService.navigate('logout');
+              });
+          }
+
+          this.better = better;
+
+          if (better) {
+            if (better.isTutorialDone) {
+              this.utilsService.setMode(
+                this.renderer,
+                better.setting.isDarkMode
+              );
+
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'better',
+                  JSON.stringify(this.better)
+                );
+              }
+            } else {
+              this.persistenceService.tutorialStep = 1;
+            }
+          }
+        })
+      )
+      .subscribe();
 
     combineLatest([this.allBetsDone$, this.duration$])
       .pipe(
@@ -187,81 +232,6 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
-  }
-
-  public ngAfterViewInit() {
-    this.persistenceService.tutorialStepSubject.subscribe((tutorialStep) => {
-      switch (tutorialStep) {
-        case 1:
-          this.document
-            .getElementById('categories')
-            ?.classList.add('highlight');
-          break;
-        case 2:
-          this.document
-            .getElementById('categories')
-            ?.classList.remove('highlight');
-          this.document.getElementById('duration')?.classList.add('highlight');
-          break;
-        case 3:
-          this.document
-            .getElementById('duration')
-            ?.classList.remove('highlight');
-          this.document.getElementById('players')?.classList.add('highlight');
-          break;
-        case 4:
-          this.document
-            .getElementById('players')
-            ?.classList.remove('highlight');
-          break;
-      }
-    });
-
-    combineLatest([this.isOffline$, this.better$])
-      .pipe(
-        takeUntil(this.destroy$),
-        map(([isOffline, better]) => {
-          if (isOffline) {
-            const config: MatDialogConfig<IInformationDialogConfig> = {
-              data: {
-                title: 'Session expirée',
-                message: 'Ta session est expirée. Merci de te reconnecter.',
-                dialogType: InformationDialogType.Information,
-                labels: ['Me connecter'],
-              },
-              disableClose: true,
-            };
-
-            this.dialog
-              .open(InformationComponent, config)
-              .afterClosed()
-              .subscribe(() => {
-                return this.persistenceService.navigate('logout');
-              });
-          }
-
-          this.better = better;
-
-          if (better) {
-            if (better.isTutorialDone) {
-              this.utilsService.setMode(
-                this.renderer,
-                better.setting.isDarkMode
-              );
-
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'better',
-                  JSON.stringify(this.better)
-                );
-              }
-            } else {
-              this.persistenceService.tutorialStep = 1;
-            }
-          }
-        })
-      )
-      .subscribe();
   }
 
   private showBetsReview() {

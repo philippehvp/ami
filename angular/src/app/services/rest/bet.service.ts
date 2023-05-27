@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBetter, IBetterRaw, ISetting } from 'src/app/models/better';
 import { CommonService } from './common.service';
@@ -16,7 +16,7 @@ import { IBetterPoint } from 'src/app/models/better-point';
   providedIn: 'root',
 })
 export class BetService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public getBetters(): Observable<IBetter[] | IOffline> {
     return this.getBettersRaw().pipe(
