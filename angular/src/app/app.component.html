@@ -59,7 +59,7 @@
 
         <ng-template #normal>
           <span class="link" (click)="navigate('rule')"
-            ><span class="material-icons-outlined icon"> article </span
+            ><span class="material-icons-outlined icon"> calculate </span
             ><span class="label">Barème</span></span
           >
           <span class="link" (click)="displayTutorial()">
@@ -68,12 +68,20 @@
           </span>
 
           <span class="link" (click)="openGDPR()">
-            <span class="material-icons-outlined icon"> lock </span>
-            <span class="label">Charte Vie Privée</span>
+            <span class="material-icons-outlined icon"> article </span>
+            <span class="label">Charte Winabad</span>
           </span>
         </ng-template>
 
-        <span class="link logout" (click)="logout(0, 0, true)"
+        <span
+          class="link logout"
+          (click)="
+            logout(
+              data.bets?.length || 0,
+              data.completedBets || 0,
+              data.better?.isAdmin || false
+            )
+          "
           ><span class="material-icons-outlined icon"> power_settings_new </span
           ><span class="label">Déconnexion</span></span
         >

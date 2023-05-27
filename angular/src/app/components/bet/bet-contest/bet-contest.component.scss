@@ -27,27 +27,23 @@
   padding-inline: 0.75em;
   margin: 0.25em 0 0.25em 0.25em;
   border-radius: 0.5em;
-  border-width: 0.125em;
-  border-style: solid;
 }
 
 .complete {
   background-color: #b0d6b1;
-  border-color: #b0d6b1;
 }
 
 .uncomplete {
-  background-color: #878787;
-  border-color: #878787;
+  background-color: #adadad;
 }
 
 .complete-selected {
-  border-color: #89bb8c;
+  background-color: #89bb8c;
   color: white;
 }
 
 .uncomplete-selected {
-  border-color: #adadad;
+  background-color: #878787;
   color: white;
 }
 

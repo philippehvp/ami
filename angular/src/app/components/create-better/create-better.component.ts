@@ -136,10 +136,6 @@ export class CreateBetterComponent implements OnInit {
     // Ouverture de la boîte de dialogue RGPD
     const config: MatDialogConfig = {
       disableClose: true,
-      height: '90vh',
-      width: '95vw',
-      maxWidth: '95vw',
-      maxHeight: '90vh',
     };
     this.dialog.open(GdprComponent, config);
   }
