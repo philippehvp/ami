@@ -23,6 +23,7 @@ import { PersistenceService } from './services/persistence.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BetterService } from './services/rest/better.service';
 import { UtilsService } from './services/utils.service';
+import { GdprComponent } from './components/gdpr/gdpr.component';
 
 export interface ILogo {
   icon: string;
@@ -117,7 +118,7 @@ export class AppComponent implements AfterViewInit {
       if (!CommonService.isProduction) {
         window.localStorage.removeItem('better');
       }
-      this.persistenceService.navigate('logout');
+      this.persistenceService.navigate('login');
     });
   }
 
@@ -208,5 +209,17 @@ export class AppComponent implements AfterViewInit {
     }
 
     return '';
+  }
+
+  public openGDPR() {
+    // Ouverture de la boîte de dialogue RGPD
+    const config: MatDialogConfig = {
+      disableClose: true,
+      height: '90vh',
+      width: '95vw',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+    };
+    this.dialog.open(GdprComponent, config);
   }
 }

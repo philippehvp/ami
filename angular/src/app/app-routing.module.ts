@@ -22,11 +22,6 @@ const routes: Routes = [
     data: { withGpdr: true },
   },
   {
-    path: 'logout',
-    component: LoginComponent,
-    data: { withGpdr: false },
-  },
-  {
     path: 'create-better',
     component: CreateBetterComponent,
   },

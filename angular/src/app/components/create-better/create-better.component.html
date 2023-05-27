@@ -3,88 +3,103 @@
     <h2>Créer un compte Winabad</h2>
 
     <form [formGroup]="formGroup">
-      <p>
-        <mat-form-field hideRequiredMarker="true">
-          <mat-label>Nom</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="name"
-            required
-            autocomplete="on"
-            (input)="upperCase($event)"
-          />
-        </mat-form-field>
-      </p>
+      <mat-form-field hideRequiredMarker="true">
+        <mat-label>Nom</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          required
+          autocomplete="on"
+          (input)="upperCase($event)"
+        />
+      </mat-form-field>
+      <br />
 
-      <p>
-        <mat-form-field hideRequiredMarker="true">
-          <mat-label>Prénom</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="firstName"
-            required
-            autocomplete="on"
-          />
-        </mat-form-field>
-      </p>
+      <mat-form-field hideRequiredMarker="true">
+        <mat-label>Prénom</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="firstName"
+          required
+          autocomplete="on"
+        />
+      </mat-form-field>
+      <br />
 
-      <p>
-        <mat-form-field hideRequiredMarker="true">
-          <mat-label>Code à 4 chiffres</mat-label>
-          <input
-            matInput
-            [type]="passwordVisibility ? 'text' : 'password'"
-            formControlName="password"
-            required
-            autocomplete="on"
-            minlength="4"
-            maxlength="4"
-            (input)="checkPassword($event)"
-          />
-          <mat-icon
-            matSuffix
-            *ngIf="!passwordVisibility"
-            (click)="toggleVisibility()"
-            >visibility</mat-icon
-          >
-          <mat-icon
-            matSuffix
-            *ngIf="passwordVisibility"
-            (click)="toggleVisibility()"
-            >visibility_off</mat-icon
-          >
-        </mat-form-field>
-      </p>
+      <mat-form-field hideRequiredMarker="true">
+        <mat-label>Code à 4 chiffres</mat-label>
+        <input
+          matInput
+          [type]="passwordVisibility ? 'text' : 'password'"
+          formControlName="password"
+          required
+          autocomplete="on"
+          minlength="4"
+          maxlength="4"
+          (input)="checkPassword($event)"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="!passwordVisibility"
+          (click)="toggleVisibility()"
+          >visibility</mat-icon
+        >
+        <mat-icon
+          matSuffix
+          *ngIf="passwordVisibility"
+          (click)="toggleVisibility()"
+          >visibility_off</mat-icon
+        >
+      </mat-form-field>
+      <br />
 
-      <p>
-        <mat-form-field hideRequiredMarker="true">
-          <mat-label>Mail / N° de téléphone</mat-label>
-          <input
-            matInput
-            type="text"
-            maxlength="200"
-            formControlName="contact"
-            required
-            autocomplete="on"
-          />
-        </mat-form-field>
-      </p>
+      <mat-form-field hideRequiredMarker="true">
+        <mat-label>Mail / N° de téléphone</mat-label>
+        <input
+          matInput
+          type="text"
+          maxlength="200"
+          formControlName="contact"
+          required
+          autocomplete="on"
+        />
+      </mat-form-field>
+      <br />
     </form>
 
-    <p>
-      <mat-checkbox [(ngModel)]="hasMajority" required
-        >Je certifie avoir 18 ans ou plus</mat-checkbox
-      >
-    </p>
+    <span class="accept-panel">
+      <span class="accept-row">
+        <span class="checkbox-area"
+          ><mat-checkbox [(ngModel)]="hasMajority" required></mat-checkbox
+        ></span>
+        <span class="label">Je certifie avoir 18 ans ou plus</span>
+      </span>
+
+      <span class="accept-row">
+        <span class="checkbox-area">
+          <mat-checkbox [(ngModel)]="hasGDPRAccepted"> </mat-checkbox>
+        </span>
+        <span class="label">J'accepte la Charte Vie Privée</span>
+      </span>
+
+      <span class="accept-row">
+        <span class="checkbox-area"> </span>
+        <span class="label"
+          ><a (click)="openGDPR()" class="read-gdpr"
+            >Consulter la Charte Vie Privée</a
+          ></span
+        >
+      </span>
+    </span>
 
     <button
-      mat-flat-button
+      mat-raised-button
       color="primary"
       class="create-button"
       (click)="createBetter()"
-      [disabled]="disabled"
+      [disabled]="createBetterDisabled"
     >
       Créer le compte
     </button>

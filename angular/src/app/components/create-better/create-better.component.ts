@@ -18,6 +18,7 @@ import {
 } from 'src/app/models/information-dialog-type';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { GdprComponent } from '../gdpr/gdpr.component';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -36,14 +37,14 @@ export class CreateBetterComponent implements OnInit {
   private betterService = inject(BetterService);
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
-  private utilsService = inject(UtilsService);
 
   public formGroup!: FormGroup;
 
   public passwordVisibility: boolean = false;
   public hasMajority: boolean = false;
+  public hasGDPRAccepted: boolean = false;
 
-  public get disabled(): boolean {
+  public get createBetterDisabled(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
     const firstName: string = this.formGroup?.get(['firstName'])?.value || '';
     const password: string = this.formGroup?.get(['password'])?.value || '';
@@ -54,7 +55,8 @@ export class CreateBetterComponent implements OnInit {
       password === '' ||
       password.length < 4 ||
       contact === '' ||
-      this.hasMajority === false
+      this.hasMajority === false ||
+      this.hasGDPRAccepted === false
     );
   }
 
@@ -115,7 +117,7 @@ export class CreateBetterComponent implements OnInit {
   }
 
   public back() {
-    this.persistenceService.navigate('logout');
+    this.persistenceService.navigate('login');
   }
 
   public upperCase($event: any) {
@@ -128,5 +130,17 @@ export class CreateBetterComponent implements OnInit {
 
   public toggleVisibility() {
     this.passwordVisibility = !this.passwordVisibility;
+  }
+
+  public openGDPR() {
+    // Ouverture de la boîte de dialogue RGPD
+    const config: MatDialogConfig = {
+      disableClose: true,
+      height: '90vh',
+      width: '95vw',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+    };
+    this.dialog.open(GdprComponent, config);
   }
 }

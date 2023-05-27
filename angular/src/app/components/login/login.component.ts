@@ -10,15 +10,12 @@ import {
 import { BetterService } from 'src/app/services/rest/better.service';
 import { Store } from '@ngxs/store';
 import { BetActions } from 'src/app/store/action/bet.action';
-import { ActivatedRoute } from '@angular/router';
 import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
-import { GdprComponent } from '../gdpr/gdpr.component';
-import { Subject, map, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { UtilsService } from 'src/app/services/utils.service';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -32,10 +29,9 @@ export interface ILoginFormGroup {
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
-  private fb = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder);
   private betterService = inject(BetterService);
   private store = inject(Store);
-  private route = inject(ActivatedRoute);
   private persistenceService = inject(PersistenceService);
 
   public formGroup!: FormGroup;
@@ -52,29 +48,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
-    this.formGroup = this.fb.group({
+    this.formGroup = this.formBuilder.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
     });
-
-    this.route.data
-      .pipe(
-        takeUntil(this.destroy$),
-        map((data) => {
-          if (data['withGpdr'] === true) {
-            // Ouverture de la boîte de dialogue RGPD
-            const config: MatDialogConfig = {
-              disableClose: true,
-              height: '90vh',
-              width: '95vw',
-              maxWidth: '95vw',
-              maxHeight: '90vh',
-            };
-            this.dialog.open(GdprComponent, config);
-          }
-        })
-      )
-      .subscribe();
   }
 
   public ngOnDestroy() {

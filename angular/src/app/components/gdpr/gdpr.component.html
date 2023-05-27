@@ -1,8 +1,5 @@
 <h2 mat-dialog-title>Charte Vie Privée</h2>
-<mat-dialog-content
-  style="height: calc(100% - 6em)"
-  (scroll)="onScroll($event)"
->
+<mat-dialog-content style="height: calc(100% - 6em)">
   <h3>1 – NOS ENGAGEMENTS</h3>
   <p>
     Votre vie privée est une priorité pour le club Istres Sports Badminton. Le
@@ -95,20 +92,5 @@
   </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <div>
-    <mat-checkbox
-      [(ngModel)]="isCloseButtonDisabled"
-      [disabled]="!scrollToEndOfGDPRContent"
-      >Accepter les conditions</mat-checkbox
-    >
-    <br />
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="close()"
-      [disabled]="!isCloseButtonDisabled"
-    >
-      Accepter
-    </button>
-  </div>
+  <button mat-raised-button color="primary" (click)="close()">Fermer</button>
 </mat-dialog-actions>

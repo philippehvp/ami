@@ -20,7 +20,7 @@
         </p>
 
         <h4>Bons pronostics à toi !</h4>
-        <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
+        <button mat-raised-button color="primary" (click)="gotoNextTutorial()">
           Fermer
         </button>
       </div>
@@ -42,7 +42,11 @@
             Le pronostic sur la durée du match le plus long se fait en déplaçant
             la jauge (de 30 à 120 minutes).
           </p>
-          <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="gotoNextTutorial()"
+          >
             Suivant
           </button>
         </div>
@@ -68,7 +72,11 @@
             d'une série pour l'afficher. Tes pronostics sont remplis lorsque
             toutes les pastilles sont vertes.
           </p>
-          <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="gotoNextTutorial()"
+          >
             Suivant
           </button>
         </div>
@@ -84,7 +92,11 @@
             finaliste.
           </p>
 
-          <button mat-flat-button color="primary" (click)="gotoNextTutorial()">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="gotoNextTutorial()"
+          >
             Suivant
           </button>
         </div>
@@ -114,11 +126,11 @@
       </button>
       <mat-menu #menu="matMenu">
         <span class="evaluation">
-          <span *ngFor="let evaluation of evaluations; let index">
+          <ng-container *ngFor="let evaluation of evaluations; let index">
             <span class="star-icon" (click)="like(evaluation)">
               {{ evaluationIcon(data?.better?.evaluation || -1, index) }}
             </span>
-          </span>
+          </ng-container>
         </span>
       </mat-menu>
     </div>

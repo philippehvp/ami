@@ -20,7 +20,28 @@
 }
 
 .create-button {
-  margin-bottom: 0.7em;
+  margin-bottom: 1.5em;
+}
+
+.accept-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1.5em;
+}
+
+.accept-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .checkbox-area {
+    width: 3em;
+  }
+}
+
+.read-gdpr {
+  text-decoration: underline;
 }
 
 .back {

@@ -4,16 +4,16 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div *ngIf="isInformationType; else yesNo">
-    <button mat-flat-button color="primary" (click)="close()" cdkFocusInitial>
+    <button mat-raised-button color="primary" (click)="close()" cdkFocusInitial>
       {{ firstButtonLabel }}
     </button>
   </div>
 
   <ng-template #yesNo>
-    <button mat-flat-button (click)="cancel()" cdkFocusInitial>
+    <button mat-raised-button (click)="cancel()" cdkFocusInitial>
       {{ firstButtonLabel }}
     </button>
-    <button mat-flat-button (click)="validate()">
+    <button mat-raised-button (click)="validate()">
       {{ secondButtonLabel }}
     </button>
   </ng-template>
