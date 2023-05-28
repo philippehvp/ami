@@ -20,8 +20,8 @@
     "@angular/platform-browser": "^16.0.3",
     "@angular/platform-browser-dynamic": "^16.0.3",
     "@angular/router": "^16.0.3",
-    "@ngxs/store": "^3.8.0",
-    "ngx-markdown": "^15.1.2",
+    "@ngxs/store": "^3.8.1",
+    "ngx-markdown": "^16.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
