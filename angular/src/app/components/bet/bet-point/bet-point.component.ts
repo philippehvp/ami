@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, map, switchMap, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterPoint } from 'src/app/models/better-point';
 import { BetActions } from 'src/app/store/action/bet.action';

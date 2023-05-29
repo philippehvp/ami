@@ -17,7 +17,6 @@ import {
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { UtilsService } from 'src/app/services/utils.service';
 import { GdprComponent } from '../gdpr/gdpr.component';
 
 export interface ICreateBetterFormGroup {

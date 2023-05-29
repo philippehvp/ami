@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { PersistenceService } from 'src/app/services/persistence.service';
+import { Component } from '@angular/core';
 
 export interface IRule {
   points: number;

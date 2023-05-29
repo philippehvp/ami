@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
-import { IBetterBet, IPlayer, IPlayerBet } from 'src/app/models/better-bet';
+import { IBetterBet, IPlayer } from 'src/app/models/better-bet';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BetterBetState } from 'src/app/store/state/better-bet.state';
