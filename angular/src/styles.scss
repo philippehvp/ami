@@ -54,6 +54,14 @@ hr {
     color: white;
     background-color: black;
   }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+  }
 }
 
 .dark-mode {
@@ -104,6 +112,56 @@ hr {
   animation: fadeIn 0.75s;
 }
 
-.slow-animation {
-  animation: fadeIn 0.75s;
+.logo-panel {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-top: 1em;
+
+  span {
+    display: flex;
+    justify-content: center;
+    background-repeat: no-repeat;
+    width: 100%;
+  }
+}
+
+.isb {
+  background-image: url("~/assets/img/logos/logo-isb-text.png");
+}
+.phocea {
+  background-image: url("~/assets/img/logos/logo-phocea-light.png");
+}
+
+@media (max-width: 768px) {
+  .logo-panel {
+    span {
+      height: 40px;
+      background-position: center;
+    }
+
+    .isb {
+      background-size: 140px;
+    }
+    .phocea {
+      background-size: 90px;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  .logo-panel {
+    span {
+      height: 80px;
+      background-position: center;
+    }
+
+    .isb {
+      margin-block: 1em;
+      background-size: 140px;
+    }
+    .phocea {
+      background-size: 90px;
+    }
+  }
 }

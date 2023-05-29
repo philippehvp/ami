@@ -267,8 +267,8 @@ export class BetComponent implements OnInit, OnDestroy {
   public getLikePanelClass(better: IBetter | null): string {
     if (better) {
       return better.setting.isPlayerReverse
-        ? 'like-panel left'
-        : 'like-panel right';
+        ? 'like-panel right'
+        : 'like-panel left';
     }
 
     return '';
