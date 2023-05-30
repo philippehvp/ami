@@ -62,11 +62,18 @@ hr {
   .mat-mdc-form-field-focus-overlay {
     background-color: transparent;
   }
+
+  .setting-panel {
+    .setting.active {
+      color: #6b54ff;
+    }
+  }
 }
 
 .dark-mode {
   $color: #bcc0c3;
   $background: #212529;
+  $active: #5c4e91;
 
   .mat-drawer-container {
     background-position: bottom right;
@@ -96,6 +103,12 @@ hr {
   .setting-open-close {
     color: $background;
     background-color: $color;
+  }
+
+  .setting-panel {
+    .setting.active {
+      color: $active;
+    }
   }
 }
 

@@ -102,19 +102,52 @@
       </div>
 
       <!-- Joueurs -->
-      <div
+      <bet-player
         [class]="{
           'row growing': true,
           highlight: tutorialStep === 3 ? true : false
         }"
-      >
-        <bet-player
-          *ngIf="(contest$ | async) && (category$ | async)"
-        ></bet-player>
-      </div>
+        *ngIf="(contest$ | async) && (category$ | async)"
+      ></bet-player>
     </div>
   </div>
-  <div
+
+  <div class="row no-growing setting-panel">
+    <span
+      class="setting"
+      [class]="{ active: withClubName }"
+      (click)="toggleWithClubName(data.better || null)"
+    >
+      <span class="material-icons-outlined icon"> place </span>
+      <span class="label">Club</span>
+    </span>
+    <span
+      class="setting"
+      [class]="{ active: isAutoNavigation }"
+      (click)="toggleAutoNavigation(data.better || null)"
+    >
+      <span class="material-icons-outlined icon"> gps_fixed </span>
+      <span class="label">Nav. auto.</span>
+    </span>
+    <span
+      class="setting"
+      [class]="{ active: isPlayerReverse }"
+      (click)="togglePlayerReverse(data.better || null)"
+    >
+      <span class="material-icons-outlined icon"> swipe_left </span>
+      <span class="label">Gaucher</span>
+    </span>
+    <span
+      class="setting"
+      [class]="{ active: isDarkMode }"
+      (click)="toggleDarkMode(data.better || null)"
+    >
+      <span class="material-icons-outlined icon"> nightlight </span>
+      <span class="label">Sombre</span>
+    </span>
+  </div>
+
+  <!-- <div
     [class]="getLikePanelClass(data.better || null)"
     *ngIf="!isEvaluationDone"
   >
@@ -132,5 +165,5 @@
         </span>
       </mat-menu>
     </div>
-  </div>
+  </div> -->
 </ng-container>

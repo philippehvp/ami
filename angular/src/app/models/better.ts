@@ -19,7 +19,6 @@ export interface IBetter {
   isAdmin: boolean;
   isTutorialDone: boolean;
   evaluation: number;
-  setting: ISetting;
 }
 
 export interface IBetterRaw {

@@ -17,6 +17,22 @@ export class PersistenceService {
     this._withClubName = withClubName;
   }
 
+  public _isAutoNavigation: boolean = false;
+  public get isAutoNavigation(): boolean {
+    return this._isAutoNavigation;
+  }
+  public set isAutoNavigation(isAutoNavigation: boolean) {
+    this._isAutoNavigation = isAutoNavigation;
+  }
+
+  private _isDarkMode: boolean = false;
+  public get isDarkMode(): boolean {
+    return this._isDarkMode;
+  }
+  public set isDarkMode(isDarkMode: boolean) {
+    this._isDarkMode = isDarkMode;
+  }
+
   private _categoryId!: number;
   public get categoryId(): number {
     return this._categoryId;
@@ -74,14 +90,6 @@ export class PersistenceService {
   }
   public set isEvaluationDone(isEvaluationDone: boolean) {
     this._isEvaluationDone = isEvaluationDone;
-  }
-
-  private _isScrolled: boolean = false;
-  public get isScrolled(): boolean {
-    return this._isScrolled;
-  }
-  public set isScrolled(isScrolled: boolean) {
-    this._isScrolled = isScrolled;
   }
 
   public navigate(link: string) {

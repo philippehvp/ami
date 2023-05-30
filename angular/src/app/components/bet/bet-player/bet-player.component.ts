@@ -54,8 +54,8 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   public headerContestLabelDisplayed!: string;
   public headerCategoryLabelDisplayed!: string;
 
-  public displayedColumns: string[] = ['winner', 'runnerUp', 'name'];
-  public displayedColumnsReverse: string[] = ['name', 'winner', 'runnerUp'];
+  public displayedColumns: string[] = ['name', 'winner', 'runnerUp'];
+  public displayedColumnsReverse: string[] = ['winner', 'runnerUp', 'name'];
 
   public get withClubName() {
     return this.persistenceService.withClubName;

@@ -23,31 +23,43 @@ export class SettingDialogComponent {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
-  public toggleWithClubName(better: IBetter | null) {
-    if (better) {
-      better.setting.withClubName = !better.setting.withClubName;
-      this.persistenceService.withClubName = better.setting.withClubName;
-    }
+  public get withClubName(): boolean {
+    return this.persistenceService.withClubName;
   }
 
-  public toggleAutoNavigation(better: IBetter | null) {
-    if (better) {
-      better.setting.isAutoNavigation = !better.setting.isAutoNavigation;
-    }
+  public toggleWithClubName() {
+    this.persistenceService.withClubName =
+      !this.persistenceService.withClubName;
   }
 
-  public togglePlayerReverse(better: IBetter | null) {
-    if (better) {
-      better.setting.isPlayerReverse = !better.setting.isPlayerReverse;
-      this.persistenceService.isPlayerReverse = better.setting.isPlayerReverse;
-    }
+  public get isAutoNavigation(): boolean {
+    return this.persistenceService.isAutoNavigation;
   }
 
-  public toggleDarkMode(better: IBetter | null) {
-    if (better) {
-      better.setting.isDarkMode = !better.setting.isDarkMode;
-      this.utilsService.setMode(this.renderer, better.setting.isDarkMode);
-    }
+  public toggleAutoNavigation() {
+    this.persistenceService.isAutoNavigation =
+      !this.persistenceService.isAutoNavigation;
+  }
+
+  public get isPlayerReverse(): boolean {
+    return this.persistenceService.isPlayerReverse;
+  }
+
+  public togglePlayerReverse() {
+    this.persistenceService.isPlayerReverse =
+      !this.persistenceService.isPlayerReverse;
+  }
+
+  public get isDarkMode(): boolean {
+    return this.persistenceService.isDarkMode;
+  }
+
+  public toggleDarkMode() {
+    this.persistenceService.isDarkMode = !this.persistenceService.isDarkMode;
+    this.utilsService.setMode(
+      this.renderer,
+      this.persistenceService.isDarkMode
+    );
   }
 
   public close(better: IBetter | null) {

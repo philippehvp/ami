@@ -91,9 +91,9 @@
     <div>
       <tr
         mat-header-row
-        *matHeaderRowDef="displayedColumnsReverse; sticky: false"
+        *matHeaderRowDef="displayedColumns; sticky: false"
       ></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsReverse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </div>
   </mat-table>
 
@@ -190,9 +190,9 @@
       <div>
         <tr
           mat-header-row
-          *matHeaderRowDef="displayedColumns; sticky: false"
+          *matHeaderRowDef="displayedColumnsReverse; sticky: false"
         ></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsReverse"></tr>
       </div>
     </mat-table>
   </ng-template>

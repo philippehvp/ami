@@ -222,17 +222,13 @@ export class AppComponent implements AfterViewInit {
     ],
   ];
 
-  public getLogoFile(better: IBetter | null, logo: ILogo): string {
-    if (better && better.setting) {
-      const prefix = 'assets/img/logos/';
-      if (!better.setting.isDarkMode || !logo.isLightAndDark) {
-        return prefix + logo.icon + '.png';
-      } else {
-        return prefix + logo.icon + '_dark.png';
-      }
+  public getLogoFile(logo: ILogo): string {
+    const prefix = 'assets/img/logos/';
+    if (!this.persistenceService.isDarkMode || !logo.isLightAndDark) {
+      return prefix + logo.icon + '.png';
+    } else {
+      return prefix + logo.icon + '_dark.png';
     }
-
-    return '';
   }
 
   public openGDPR() {

@@ -4,16 +4,27 @@ import { Observable, map } from 'rxjs';
 import { IBetter, IBetterRaw } from 'src/app/models/better';
 import { CommonService } from './common.service';
 import { IEmpty, IError, IOffline } from 'src/app/models/utils';
+import { PersistenceService } from '../persistence.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BetterService {
   private httpClient = inject(HttpClient);
+  private persistenceService = inject(PersistenceService);
 
   public login(name: string, password: string): Observable<IBetter | null> {
     return this.loginRaw(name, password).pipe(
       map((betterRaw: IBetterRaw) => {
+        this.persistenceService.withClubName =
+          betterRaw.setting.clubName === 1 ? true : false;
+        this.persistenceService.isAutoNavigation =
+          betterRaw.setting.autoNavigation === 1 ? true : false;
+        this.persistenceService.isPlayerReverse =
+          betterRaw.setting.playerReverse === 1 ? true : false;
+        this.persistenceService.isDarkMode =
+          betterRaw.setting.darkMode === 1 ? true : false;
+
         return betterRaw
           ? {
               accessKey: betterRaw.accessKey,
@@ -22,14 +33,6 @@ export class BetterService {
               isAdmin: betterRaw.isAdmin === 1 ? true : false,
               isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
               evaluation: betterRaw.evaluation,
-              setting: {
-                withClubName: betterRaw.setting.clubName === 1 ? true : false,
-                isAutoNavigation:
-                  betterRaw.setting.autoNavigation === 1 ? true : false,
-                isPlayerReverse:
-                  betterRaw.setting.playerReverse === 1 ? true : false,
-                isDarkMode: betterRaw.setting.darkMode === 1 ? true : false,
-              },
             }
           : null;
       })
@@ -85,10 +88,10 @@ export class BetterService {
     const url = CommonService.getURL('better/updateSetting');
     return this.httpClient.post<IEmpty>(url, {
       accessKey: better.accessKey,
-      clubName: better.setting.withClubName ? 1 : 0,
-      autoNavigation: better.setting.isAutoNavigation ? 1 : 0,
-      playerReverse: better.setting.isPlayerReverse ? 1 : 0,
-      darkMode: better.setting.isDarkMode ? 1 : 0,
+      clubName: this.persistenceService.withClubName ? 1 : 0,
+      autoNavigation: this.persistenceService.isAutoNavigation ? 1 : 0,
+      playerReverse: this.persistenceService.isPlayerReverse ? 1 : 0,
+      darkMode: this.persistenceService.isDarkMode ? 1 : 0,
     });
   }
 }

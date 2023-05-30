@@ -32,11 +32,7 @@
           <span class="logo-row" *ngFor="let logoRow of logos">
             <span *ngFor="let logo of logoRow">
               <span class="logo">
-                <img
-                  [src]="getLogoFile(data.better || null, logo)"
-                  alt=""
-                  class="icon"
-                />
+                <img [src]="getLogoFile(logo)" alt="" class="icon" />
                 {{ logo.label }}
               </span>
             </span>
@@ -89,7 +85,7 @@
         <ng-container *ngIf="!data.better?.isAdmin">
           <hr />
           <span class="link" (click)="eraseBets(data?.better || null)">
-            <span class="material-icons-outlined icon"> history </span>
+            <span class="material-icons-outlined icon"> restart_alt </span>
             <span class="label">RAZ des pronostics</span>
           </span>
           <span class="link" (click)="deleteAccount(data?.better || null)">

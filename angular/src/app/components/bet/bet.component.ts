@@ -27,7 +27,7 @@ import { BetReviewComponent } from './bet-review/bet-review.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
 import { UtilsService } from 'src/app/services/utils.service';
-import { DOCUMENT } from '@angular/common';
+import { BetterService } from 'src/app/services/rest/better.service';
 
 @Component({
   selector: 'bet',
@@ -41,7 +41,7 @@ export class BetComponent implements OnInit, OnDestroy {
   private snackBar = inject(MatSnackBar);
   private utilsService = inject(UtilsService);
   private renderer = inject(Renderer2);
-  private document = inject(DOCUMENT);
+  private betterService = inject(BetterService);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -74,8 +74,6 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
 
-  public withClubName!: boolean;
-
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
   }
@@ -92,8 +90,24 @@ export class BetComponent implements OnInit, OnDestroy {
     this.persistenceService.isEvaluationDone = isEvaluationDone;
   }
 
+  public get withClubName(): boolean {
+    return this.persistenceService.withClubName;
+  }
+
+  public get isAutoNavigation(): boolean {
+    return this.persistenceService.isAutoNavigation;
+  }
+
+  public get isPlayerReverse(): boolean {
+    return this.persistenceService.isPlayerReverse;
+  }
+
+  public get isDarkMode(): boolean {
+    return this.persistenceService.isDarkMode;
+  }
+
   public ngOnInit() {
-    this.betPanelHeight = window.innerHeight - 53;
+    this.betPanelHeight = window.innerHeight - 104;
     this.destroy$ = new Subject<boolean>();
 
     combineLatest([this.isOffline$, this.better$])
@@ -125,7 +139,7 @@ export class BetComponent implements OnInit, OnDestroy {
             if (better.isTutorialDone) {
               this.utilsService.setMode(
                 this.renderer,
-                better.setting.isDarkMode
+                this.persistenceService.isDarkMode
               );
 
               if (!CommonService.isProduction) {
@@ -219,6 +233,7 @@ export class BetComponent implements OnInit, OnDestroy {
               .subscribe((action: boolean) => {
                 this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
                 if (action) {
+                  this.persistenceService.isAutoNavigation = true;
                   this.store.dispatch([new BetActions.GotoNextCategory()]);
                 }
               });
@@ -262,14 +277,10 @@ export class BetComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getLikePanelClass(better: IBetter | null): string {
-    if (better) {
-      return better.setting.isPlayerReverse
-        ? 'like-panel right'
-        : 'like-panel left';
-    }
-
-    return '';
+  public get likePanelClass(): string {
+    return this.persistenceService.isPlayerReverse
+      ? 'like-panel right'
+      : 'like-panel left';
   }
 
   public like(evaluationLevel: number) {
@@ -287,5 +298,45 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public evaluationIcon(evaluation: number, index: number): string {
     return evaluation >= index ? 'star' : 'star_border';
+  }
+
+  public toggleWithClubName(better: IBetter | null) {
+    this.persistenceService.withClubName =
+      !this.persistenceService.withClubName;
+
+    if (better) {
+      this.updateSetting(better);
+    }
+  }
+
+  public toggleAutoNavigation(better: IBetter | null) {
+    this.persistenceService.isAutoNavigation =
+      !this.persistenceService.isAutoNavigation;
+    if (better) {
+      this.updateSetting(better);
+    }
+  }
+
+  public togglePlayerReverse(better: IBetter | null) {
+    this.persistenceService.isPlayerReverse =
+      !this.persistenceService.isPlayerReverse;
+    if (better) {
+      this.updateSetting(better);
+    }
+  }
+
+  public toggleDarkMode(better: IBetter | null) {
+    this.persistenceService.isDarkMode = !this.persistenceService.isDarkMode;
+    this.utilsService.setMode(
+      this.renderer,
+      this.persistenceService.isDarkMode
+    );
+    if (better) {
+      this.updateSetting(better);
+    }
+  }
+
+  private updateSetting(better: IBetter) {
+    this.betterService.updateSetting(better).subscribe();
   }
 }
