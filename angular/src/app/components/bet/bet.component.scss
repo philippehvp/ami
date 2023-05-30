@@ -70,24 +70,41 @@
   padding: 0.5em 0.5em 0 0.5em;
 }
 
-.options {
-  display: flex;
-  flex-direction: row;
-}
-
 .like-panel {
   display: flex;
-  flex-direction: column;
   position: absolute;
-  bottom: 4em;
+  align-items: center;
+  justify-content: center;
+  top: 75%;
 }
 
 .like-panel.left {
-  left: 0.75em;
+  left: 0;
 }
 
 .like-panel.right {
-  right: 0.75em;
+  right: 0;
+}
+
+.thumb {
+  display: flex;
+  font-size: 1.25em;
+  height: 4em;
+  width: 1.35em;
+  background-color: #3f2f7d;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.thumb.left {
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+
+.thumb.right {
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
 }
 
 .evaluation {

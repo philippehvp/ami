@@ -42,6 +42,7 @@ export class BetterBetComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map((betterBet) => {
           if (betterBet) {
+            this.displayedColumns = [];
             betterBet.header.map((header) => {
               this.displayedColumns.push(
                 header.contestName + ' - ' + header.categoryName

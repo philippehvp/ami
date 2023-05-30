@@ -8,10 +8,7 @@
       <div class="overlay-transparent"></div>
       <div class="tutorial4">
         <h5>Paramétrage (4/4)</h5>
-        <p>
-          Des options sont disponibles en appuyant sur la roue crantée en haut
-          de l'écran.
-        </p>
+        <p>Des options sont disponibles en bas de la page.</p>
         <p>
           Une fois tous les pronostics saisis, tu pourras te déconnecter en
           choisissant Déconnexion du menu latéral (<span class="material-icons"
@@ -147,23 +144,22 @@
     </span>
   </div>
 
-  <!-- <div
-    [class]="getLikePanelClass(data.better || null)"
-    *ngIf="!isEvaluationDone"
-  >
-    <div class="like-container" cdkDrag>
-      <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
-        <span class="material-icons-outlined"> thumb_up </span>
-      </button>
-      <mat-menu #menu="matMenu">
-        <span class="evaluation">
-          <ng-container *ngFor="let evaluation of evaluations; let index">
-            <span class="star-icon" (click)="like(evaluation)">
-              {{ evaluationIcon(data?.better?.evaluation || -1, index) }}
-            </span>
-          </ng-container>
-        </span>
-      </mat-menu>
-    </div>
-  </div> -->
+  <div [class]="likePanelClass" *ngIf="!isEvaluationDone">
+    <span
+      [matMenuTriggerFor]="menu"
+      class="material-icons-outlined thumb"
+      [class]="likeClass"
+    >
+      thumb_up
+    </span>
+    <mat-menu #menu="matMenu">
+      <span class="evaluation">
+        <ng-container *ngFor="let evaluation of evaluations; let index">
+          <span class="star-icon" (click)="like(evaluation)">
+            {{ evaluationIcon(data?.better?.evaluation || -1, index) }}
+          </span>
+        </ng-container>
+      </span>
+    </mat-menu>
+  </div>
 </ng-container>

@@ -283,6 +283,10 @@ export class BetComponent implements OnInit, OnDestroy {
       : 'like-panel left';
   }
 
+  public get likeClass(): string {
+    return this.persistenceService.isPlayerReverse ? 'like right' : 'like left';
+  }
+
   public like(evaluationLevel: number) {
     this.store
       .dispatch([new BetActions.SetEvaluation(evaluationLevel)])
