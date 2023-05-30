@@ -76,6 +76,14 @@ export class PersistenceService {
     this._isEvaluationDone = isEvaluationDone;
   }
 
+  private _isScrolled: boolean = false;
+  public get isScrolled(): boolean {
+    return this._isScrolled;
+  }
+  public set isScrolled(isScrolled: boolean) {
+    this._isScrolled = isScrolled;
+  }
+
   public navigate(link: string) {
     if (link === 'bet') {
       this._isToolbarVisible = true;

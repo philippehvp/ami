@@ -118,7 +118,7 @@
     [class]="getLikePanelClass(data.better || null)"
     *ngIf="!isEvaluationDone"
   >
-    <div class="like-container">
+    <div class="like-container" cdkDrag>
       <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
         <span class="material-icons-outlined"> thumb_up </span>
       </button>

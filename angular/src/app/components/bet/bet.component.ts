@@ -74,8 +74,6 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
 
-  public isCategoryHidden: boolean = false;
-
   public withClubName!: boolean;
 
   public get tutorialStep(): number {

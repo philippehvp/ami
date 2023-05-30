@@ -134,6 +134,30 @@ export class AppComponent implements AfterViewInit {
     this.persistenceService.tutorialStep = 1;
   }
 
+  public eraseBets(better: IBetter | null) {
+    if (better) {
+      const config: MatDialogConfig<IInformationDialogConfig> = {
+        data: {
+          title: 'Réinitialisation des pronostics',
+          message: 'Es-tu sûr de vouloir réinitialiser tes pronostics ?',
+          dialogType: InformationDialogType.YesNo,
+          labels: ['Annuler', 'Réinitialiser'],
+        },
+      };
+
+      this.dialog
+        .open(InformationComponent, config)
+        .afterClosed()
+        .subscribe((action: boolean) => {
+          if (action) {
+            this.store.dispatch([
+              new BetActions.EraseBets(better.accessKey || ''),
+            ]);
+          }
+        });
+    }
+  }
+
   public deleteAccount(better: IBetter | null) {
     if (better) {
       const config: MatDialogConfig<IInformationDialogConfig> = {

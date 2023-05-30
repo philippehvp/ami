@@ -65,13 +65,13 @@
     return false;
 	}
 
-  function isDurationUpdatable($db, $accessKey) {
+  function isDurationUpdatableOrBetsErasable($db, $accessKey) {
     $query =
       " SELECT DISTINCT       CASE" .
       "                         WHEN cpi_better.isAdmin = 1 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endAdminDate THEN 1" .
       "                         WHEN cpi_better.isAdmin = 0 AND cpi_contest.startDate <= NOW() AND NOW() <= cpi_contest.endBetDate THEN 1" .
       "                         ELSE 0" .
-      "                       END isDurationUpdatable" .
+      "                       END isActionPossible" .
       " FROM                  cpi_contest" .
       " JOIN                  cpi_betting" .
       "                       ON    cpi_contest.id = cpi_betting.contest_id" .
@@ -84,11 +84,20 @@
       $req = $db->prepare($query);
       $req->execute(array($accessKey));
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
-      if ($res[0]["isDurationUpdatable"] == 1) {
+      if ($res[0]["isActionPossible"] == 1) {
         return true;
       } else {
         return false;
       }
+
+  }
+
+  function isDurationUpdatable($db, $accessKey) {
+    return isDurationUpdatableOrBetsErasable($db, $accessKey);
+  }
+
+  function isBetsErasable($db, $accessKey) {
+    return isDurationUpdatableOrBetsErasable($db, $accessKey);
   }
 
 	function isAccessKeyValid($db, $accessKey) {

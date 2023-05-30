@@ -53,7 +53,6 @@ export class BetService {
         return bets.map(
           (bet) =>
             <IBet>{
-              betterAccessKey: bet.betterAccessKey,
               categoryId: bet.categoryId,
               winnerId: bet.winnerId,
               runnerUpId: bet.runnerUpId,
@@ -178,5 +177,14 @@ export class BetService {
   public getBetsReviewRaw(accessKey: string): Observable<IBetReviewRaw[]> {
     const url = CommonService.getURL('bet/review');
     return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey });
+  }
+
+  public eraseBets(
+    accessKey: string
+  ): Observable<IEmpty | IOffline | INotUpdatable> {
+    const url = CommonService.getURL('bet/eraseBets');
+    return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
+      accessKey: accessKey,
+    });
   }
 }

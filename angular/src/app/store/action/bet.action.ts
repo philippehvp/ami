@@ -105,4 +105,9 @@ export namespace BetActions {
     static readonly type = '[Bet] Propose Auto Navigation';
     constructor() {}
   }
+
+  export class EraseBets {
+    static readonly type = '[Bet] Erase Bets';
+    constructor(public accessKey: string) {}
+  }
 }

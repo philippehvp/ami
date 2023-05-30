@@ -800,4 +800,50 @@ export class BetState {
   unsetAllBetsDone(state: StateContext<BetStateModel>) {
     state.patchState({ allBetsDone: undefined });
   }
+
+  @Action(BetActions.EraseBets)
+  eraseBets(state: StateContext<BetStateModel>, action: BetActions.EraseBets) {
+    this.betService
+      .eraseBets(action.accessKey || '')
+      .pipe(
+        map(() => {
+          state.getState().bets.map((bet) => {
+            state.setState(
+              patch({
+                bets: updateItem<IBet>(
+                  (b) => b.categoryId === bet.categoryId,
+                  patch({
+                    winnerId: 0,
+                    runnerUpId: 0,
+                    isComplete: false,
+                  })
+                ),
+              })
+            );
+          });
+
+          if (
+            state.getState().bet.categoryId ===
+            state.getState().bets[0].categoryId
+          ) {
+            // Si on est déjà sur la première série, on doit la rafraîchir sinon l'interface n'est pas mise à zéro
+            state.patchState({
+              bet: {
+                categoryId: state.getState().bets[0].categoryId,
+                winnerId: 0,
+                runnerUpId: 0,
+                isComplete: false,
+              },
+            });
+          }
+
+          state.patchState({ completedBets: 0 });
+
+          state.dispatch([
+            new BetActions.SetCategory(state.getState().bets[0].categoryId),
+          ]);
+        })
+      )
+      .subscribe();
+  }
 }

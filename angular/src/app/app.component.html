@@ -86,13 +86,17 @@
           ><span class="label">Déconnexion</span></span
         >
 
-        <span *ngIf="!data.better?.isAdmin">
+        <ng-container *ngIf="!data.better?.isAdmin">
           <hr />
+          <span class="link" (click)="eraseBets(data?.better || null)">
+            <span class="material-icons-outlined icon"> history </span>
+            <span class="label">RAZ des pronostics</span>
+          </span>
           <span class="link" (click)="deleteAccount(data?.better || null)">
             <span class="material-icons-outlined icon"> delete </span>
             <span class="label">Effacement du compte</span>
           </span>
-        </span>
+        </ng-container>
       </mat-nav-list>
     </mat-sidenav>
   </mat-sidenav-container>
