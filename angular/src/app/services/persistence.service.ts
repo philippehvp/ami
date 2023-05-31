@@ -58,13 +58,13 @@ export class PersistenceService {
   }
 
   private _tutorialStep: number = 0;
-  public tutorialStepSubject: Subject<number> = new Subject<number>();
+  //public tutorialStepSubject: Subject<number> = new Subject<number>();
   public get tutorialStep(): number {
     return this._tutorialStep;
   }
   public set tutorialStep(tutorialStep: number) {
     this._tutorialStep = tutorialStep;
-    this.tutorialStepSubject.next(tutorialStep);
+    //this.tutorialStepSubject.next(tutorialStep);
   }
 
   private _isToolbarVisible: boolean = false;
@@ -82,6 +82,30 @@ export class PersistenceService {
   }
   public set isPlayerReverse(isPlayerReverse: boolean) {
     this._isPlayerReverse = isPlayerReverse;
+  }
+
+  private _isCompactMode: boolean = false;
+  public get isCompactMode(): boolean {
+    return this._isCompactMode;
+  }
+  public set isCompactMode(isCompactMode: boolean) {
+    this._isCompactMode = isCompactMode;
+    if (isCompactMode) {
+      this._freeSpace = 54;
+    } else {
+      this._freeSpace = 104;
+    }
+    this.freeSpaceSubject.next(this._freeSpace);
+  }
+
+  private _freeSpace: number = 104;
+  public freeSpaceSubject: Subject<number> = new Subject<number>();
+  public get freeSpace(): number {
+    return this._freeSpace;
+  }
+  public set freeSpace(freeSpace: number) {
+    this.freeSpace = freeSpace;
+    this.freeSpaceSubject.next(freeSpace);
   }
 
   private _isEvaluationDone: boolean = false;

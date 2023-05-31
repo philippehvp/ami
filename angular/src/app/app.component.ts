@@ -131,6 +131,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   public displayTutorial() {
+    this.persistenceService.isCompactMode = false;
     this.persistenceService.tutorialStep = 1;
   }
 

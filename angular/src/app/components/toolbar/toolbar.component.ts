@@ -48,7 +48,18 @@ export class ToolbarComponent {
     this.dialog.open(BetReviewComponent, config);
   }
 
-  // public openSettingDialog() {
-  //   this.dialog.open(SettingDialogComponent);
-  // }
+  public get compactMode(): boolean {
+    return this.persistenceService.isCompactMode;
+  }
+
+  public toggleCompactMode() {
+    this.persistenceService.isCompactMode =
+      !this.persistenceService.isCompactMode;
+  }
+
+  public get compactModeIcon(): string {
+    return this.persistenceService.isCompactMode
+      ? 'close_fullscreen'
+      : 'launch';
+  }
 }

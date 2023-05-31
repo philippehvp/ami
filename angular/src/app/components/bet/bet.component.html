@@ -24,7 +24,10 @@
     </div>
 
     <!-- Durée du match -->
-    <div class="row no-growing card duration">
+    <div
+      class="row no-growing card duration animation"
+      [class]="{ 'compact-mode': isCompactMode }"
+    >
       <bet-duration
         *ngIf="(contest$ | async) && (category$ | async)"
         [class]="{
@@ -109,7 +112,10 @@
     </div>
   </div>
 
-  <div class="row no-growing setting-panel">
+  <div
+    class="row no-growing setting-panel animation"
+    [class]="{ 'compact-mode': isCompactMode }"
+  >
     <span
       class="setting"
       [class]="{ active: withClubName }"

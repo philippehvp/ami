@@ -106,8 +106,13 @@ export class BetComponent implements OnInit, OnDestroy {
     return this.persistenceService.isDarkMode;
   }
 
+  public get isCompactMode(): boolean {
+    return this.persistenceService.isCompactMode;
+  }
+
   public ngOnInit() {
-    this.betPanelHeight = window.innerHeight - 104;
+    this.betPanelHeight =
+      window.innerHeight - this.persistenceService.freeSpace;
     this.destroy$ = new Subject<boolean>();
 
     combineLatest([this.isOffline$, this.better$])
@@ -238,6 +243,16 @@ export class BetComponent implements OnInit, OnDestroy {
                 }
               });
           }
+        })
+      )
+      .subscribe();
+
+    this.persistenceService.freeSpaceSubject
+      .asObservable()
+      .pipe(
+        takeUntil(this.destroy$),
+        map((freeSpace) => {
+          this.betPanelHeight = window.innerHeight - freeSpace;
         })
       )
       .subscribe();

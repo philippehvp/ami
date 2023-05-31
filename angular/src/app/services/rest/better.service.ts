@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { EMPTY, Observable, map } from 'rxjs';
 import { IBetter, IBetterRaw } from 'src/app/models/better';
 import { CommonService } from './common.service';
 import { IEmpty, IError, IOffline } from 'src/app/models/utils';
@@ -51,12 +51,25 @@ export class BetterService {
     contact: string
   ): Observable<IError | IBetter> {
     const url = CommonService.getURL('better/createBetter');
-    return this.httpClient.post<IBetter>(url, {
-      name,
-      password,
-      firstName,
-      contact,
-    });
+    return this.httpClient
+      .post<IBetterRaw>(url, {
+        name,
+        password,
+        firstName,
+        contact,
+      })
+      .pipe(
+        map((better) => {
+          return <IBetter>{
+            accessKey: better.accessKey,
+            name: better.name,
+            firstName: better.firstName,
+            isAdmin: better.isAdmin === 1 ? true : false,
+            isTutorialDone: better.isTutorialDone == 1 ? true : false,
+            evaluation: better.evaluation,
+          };
+        })
+      );
   }
 
   public setIsTutorialDone(accessKey: string): Observable<IEmpty | IOffline> {

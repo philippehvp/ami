@@ -58,6 +58,8 @@
           "name" => $name,
           "firstName" => $firstName,
           "isAdmin" => 0,
+          "isTutorialDone" => 0,
+          "evaluation" => -1,
           "setting" => array(
             "clubName" => 0,
             "autoNavigation" => 0,
