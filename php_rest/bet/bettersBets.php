@@ -52,16 +52,19 @@
       $countOfCategories = sizeof($betsRaw) / sizeof($betters);
 
       $query =
-        " SELECT          cpi_duration.duration" .
+        " SELECT          cpi_duration.better_id, cpi_duration.duration" .
         " FROM            cpi_duration" .
         " JOIN            cpi_better" .
         "                 ON    cpi_duration.better_id = cpi_better.id" .
-        " JOIN            cpi_contest" .
+        " JOIN            (" .
+        "                   SELECT              cpi_contest.day" .
+        "                   FROM                cpi_contest" .
+        "                   WHERE               cpi_contest.startDate <= NOW()" .
+        "                                       AND     NOW() <= cpi_contest.endAdminDate" .
+        "                   LIMIT               1" .
+        "                 ) cpi_contest" .
         "                 ON    cpi_duration.contest_day = cpi_contest.day" .
-        " JOIN            cpi_category" .
-        "                 ON      cpi_contest.id = cpi_category.contest_id" .
-        " WHERE           cpi_contest.startDate <= NOW()" .
-        "                 AND   NOW() <= cpi_contest.endAdminDate" .
+        " WHERE           cpi_better.isAdmin = 0" .
         " ORDER BY        cpi_better.name, cpi_better.firstName, cpi_better.id";
       $req = $db->query($query);
       $duration = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -69,6 +72,7 @@
       $bets = array();
 
       $betsIndex = 0;
+      $betterIndex = 0;
 
       foreach($betters as $better) {
         $winners = array();
@@ -100,9 +104,11 @@
             "name" => $better["name"],
             "winners" => $winners,
             "runnersUp" => $runnersUp,
-            "duration" => $duration[0]["duration"]
+            "duration" => $duration[$betterIndex]["duration"]
           )
         );
+
+        $betterIndex++;
       }
 
       $pointsArray = array("header" => $header, "bets" => $bets);
