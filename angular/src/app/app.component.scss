@@ -29,11 +29,6 @@
     margin-right: 0.5em;
   }
 
-  .logo {
-    width: 100%;
-    max-width: 32px;
-  }
-
   .logout {
     margin-bottom: 2em;
   }
@@ -65,7 +60,7 @@
 .logo-row {
   display: flex;
   flex-direction: row;
-  margin-block: 1em;
+  margin-block: 2em;
 }
 
 .logo {
@@ -82,4 +77,14 @@
   width: 100%;
   max-width: 32px;
   margin-bottom: 0.25em;
+}
+
+.icon-small {
+  width: 100%;
+  max-width: 32px;
+}
+
+.icon-large {
+  width: 100%;
+  max-width: 64px;
 }

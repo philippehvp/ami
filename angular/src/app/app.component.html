@@ -25,14 +25,20 @@
           <p>
             Le club d'Istres Sports Badminton est heureux de présenter le jeu
             Winabad en collaboration avec Phocea Light, spécialiste du matériel
-            et de l'éclairage événementiel.
+            et de l'éclairage événementiel, ainsi que Balotti, l'équipementier
+            sportif pour tous.
           </p>
         </span>
         <span class="logo-panel">
           <span class="logo-row" *ngFor="let logoRow of logos">
             <span *ngFor="let logo of logoRow">
               <span class="logo">
-                <img [src]="getLogoFile(logo)" alt="" class="icon" />
+                <img
+                  [src]="getLogoFile(logo)"
+                  alt=""
+                  class="icon"
+                  [class]="logo.class"
+                />
                 {{ logo.label }}
               </span>
             </span>

@@ -29,6 +29,7 @@ export interface ILogo {
   icon: string;
   label: string;
   isLightAndDark: boolean;
+  class: string;
 }
 
 @Component({
@@ -204,21 +205,43 @@ export class AppComponent implements AfterViewInit {
 
   public logos: ILogo[][] = [
     [
-      { icon: 'logo-isb', label: 'ISB', isLightAndDark: true },
+      {
+        icon: 'logo-isb',
+        label: 'ISB',
+        isLightAndDark: true,
+        class: 'icon-small',
+      },
       {
         icon: 'logo-phocea-light',
         label: 'Phocea Light',
         isLightAndDark: true,
+        class: 'icon-large',
       },
-      { icon: 'logo-balotti', label: 'Balotti', isLightAndDark: false },
+      {
+        icon: 'logo-balotti',
+        label: 'Balotti',
+        isLightAndDark: false,
+        class: 'icon-small',
+      },
     ],
     [
-      { icon: 'logo-liguesud', label: 'Ligue Sud', isLightAndDark: false },
-      { icon: 'logo-ffbad', label: 'FFBAD', isLightAndDark: false },
+      {
+        icon: 'logo-liguesud',
+        label: 'Ligue Sud',
+        isLightAndDark: false,
+        class: 'icon-large',
+      },
+      {
+        icon: 'logo-ffbad',
+        label: 'FFBAD',
+        isLightAndDark: false,
+        class: 'icon-large',
+      },
       {
         icon: 'logo-ville-istres',
         label: "Ville d'Istres",
         isLightAndDark: false,
+        class: 'icon-large',
       },
     ],
   ];

@@ -225,7 +225,7 @@ export class BetComponent implements OnInit, OnDestroy {
               data: {
                 title: "Activer l'auto-navigation ?",
                 message:
-                  "L'auto-navigation va automatiquement à la série suivante lorsque tu viens de faire un pronostic. Veux-tu l'activer ?",
+                  "L'auto-navigation te place à la série suivante lorsque tu viens de faire le pronostic d'une série. Veux-tu l'activer ?",
                 dialogType: InformationDialogType.YesNo,
                 labels: ["Non, ne pas l'activer", "Oui, l'activer"],
               },
