@@ -158,14 +158,15 @@ hr {
   .logo-panel {
     span {
       height: 40px;
-      background-position: center;
     }
 
     .isb {
       background-size: 140px;
+      background-position: 75%;
     }
     .phocea {
       background-size: 90px;
+      background-position: 25%;
     }
   }
 }
@@ -174,15 +175,15 @@ hr {
   .logo-panel {
     span {
       height: 80px;
-      background-position: center;
     }
 
     .isb {
-      margin-block: 1em;
       background-size: 140px;
+      background-position: 95%;
     }
     .phocea {
       background-size: 90px;
+      background-position: 5%;
     }
   }
 }

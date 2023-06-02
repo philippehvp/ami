@@ -224,7 +224,7 @@ export class AppComponent implements AfterViewInit {
       {
         icon: 'logo-badventure',
         label: 'Badventure',
-        isLightAndDark: true,
+        isLightAndDark: false,
         class: 'icon-large',
       },
     ],
