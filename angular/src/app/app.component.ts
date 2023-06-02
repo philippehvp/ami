@@ -203,14 +203,12 @@ export class AppComponent implements AfterViewInit {
     this.persistenceService.navigate('better-name');
   }
 
+  public displayBetStat() {
+    this.persistenceService.navigate('bet-stat');
+  }
+
   public logos: ILogo[][] = [
     [
-      {
-        icon: 'logo-isb',
-        label: 'ISB',
-        isLightAndDark: true,
-        class: 'icon-small',
-      },
       {
         icon: 'logo-phocea-light',
         label: 'Phocea Light',
@@ -222,6 +220,12 @@ export class AppComponent implements AfterViewInit {
         label: 'Balotti',
         isLightAndDark: false,
         class: 'icon-small',
+      },
+      {
+        icon: 'logo-badventure',
+        label: 'Badventure',
+        isLightAndDark: true,
+        class: 'icon-large',
       },
     ],
     [

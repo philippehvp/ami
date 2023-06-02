@@ -31,13 +31,13 @@
       <bet-duration
         *ngIf="(contest$ | async) && (category$ | async)"
         [class]="{
-          highlight: tutorialStep === 2 ? true : false
+          highlight: tutorialStep === 3 ? true : false
         }"
       ></bet-duration>
-      <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
+      <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
         <div class="overlay"></div>
-        <div class="tutorial2">
-          <h5>Durée du match le plus long (2/4)</h5>
+        <div class="tutorial3">
+          <h5>Durée du match le plus long (3/4)</h5>
           <p>
             Le pronostic sur la durée du match le plus long se fait en déplaçant
             la jauge (de 30 à 120 minutes).
@@ -67,9 +67,9 @@
         <div class="tutorial1">
           <h5>Catégories et séries (1/4)</h5>
           <p>
-            Voici les catégories et leurs séries (de S1 à Sn). Appuie sur le nom
-            d'une série pour l'afficher. Tes pronostics sont remplis lorsque
-            toutes les pastilles sont vertes.
+            Les catégories et leurs séries (de S1 à Sn) sont ici. Appuie sur le
+            nom d'une série pour l'afficher. Tes pronostics sont entièrement
+            remplis lorsque toutes les pastilles sont vertes.
           </p>
           <button
             mat-raised-button
@@ -81,12 +81,12 @@
         </div>
       </div>
 
-      <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
+      <div *ngIf="tutorialStep === 2" class="tutorial-wrap">
         <div class="overlay"></div>
-        <div class="tutorial3">
-          <h5>Pronostic des vainqueurs et finalistes (3/4)</h5>
+        <div class="tutorial2">
+          <h5>Pronostic des vainqueurs et finalistes (2/4)</h5>
           <p>
-            Voici les joueurs de la série en cours. Clique sur la première
+            Les joueurs de la série en cours sont ici. Clique sur la première
             colonne pour choisir le vainqueur et sur la deuxième pour le
             finaliste.
           </p>
@@ -105,7 +105,7 @@
       <bet-player
         [class]="{
           'row growing': true,
-          highlight: tutorialStep === 3 ? true : false
+          highlight: tutorialStep === 2 ? true : false
         }"
         *ngIf="(contest$ | async) && (category$ | async)"
       ></bet-player>

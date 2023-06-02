@@ -1,5 +1,5 @@
 <div class="ranking-panel">
-  <titlebar title="Classement"></titlebar>
+  <titlebar [title]="title"></titlebar>
 
   <table mat-table [dataSource]="(bettersRanking$ | async) || []">
     <ng-container matColumnDef="ranking">

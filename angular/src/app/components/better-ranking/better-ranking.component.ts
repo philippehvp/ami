@@ -29,6 +29,8 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = ['ranking', 'name', 'points', 'duration'];
 
+  public title!: string;
+
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
@@ -37,6 +39,7 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map(([better, data]) => {
           this.better = better;
+          this.title = data['byRanking'] ? 'Classement' : 'Récapitulatif';
           this.store.dispatch([
             new BetterRankingActions.GetBetterRanking(
               this.better.accessKey,

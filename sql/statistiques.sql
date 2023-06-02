@@ -1,25 +1,7 @@
-DECLARE             l_countOfBetters INT;
-
-/* Nombre de pronostiqueurs */
-SELECT              COUNT(*) AS countOf
-INTO                l_CountOfBetters
-FROM                (
-                        SELECT              cpi_contest.id
-                        FROM                cpi_contest
-                        WHERE               cpi_contest.startDate <= NOW()
-                                            AND     NOW() <= cpi_contest.endAdminDate
-                        LIMIT               1
-                    ) cpi_contest
-JOIN                cpi_betting
-                    ON      cpi_contest.id = cpi_betting.contest_id
-JOIN                cpi_better
-                    ON      cpi_betting.better_id = cpi_better.id
-WHERE               cpi_better.isAdmin = 0;
-
 
 SELECT              CONCAT(cpi_player.playerName1, ' - ', cpi_player.playerName2) AS "players",
-                    TRUNCATE(IFNULL(winners.countOfWinner, 0) / l_CountOfBetters * 100, 2) AS "winner",
-                    TRUNCATE(IFNULL(runnersUp.countOfRunnerUp, 0) / l_CountOfBetters * 100, 2) AS "runnerUp",
+                    TRUNCATE(IFNULL(winners.countOfWinner, 0) / fn_count_of_betters() * 100, 2) AS "winner",
+                    TRUNCATE(IFNULL(runnersUp.countOfRunnerUp, 0) / fn_count_of_betters() * 100, 2) AS "runnerUp",
                     CONCAT(cpi_contest.longName, ' - ', cpi_category.longName) AS "category"
 FROM                cpi_player
 JOIN                cpi_category

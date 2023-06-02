@@ -6,7 +6,7 @@
   } as data"
 >
   <span *ngFor="let contest of data.contests" class="contest-panel">
-    <span class="contest-label">{{ contest.shortName }}</span>
+    <span>{{ contest.shortName }}</span>
     <span
       *ngFor="let category of contest.categories"
       (click)="changeCategory(category.id)"
