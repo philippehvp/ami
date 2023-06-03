@@ -16,25 +16,29 @@ export class BetterService {
   public login(name: string, password: string): Observable<IBetter | null> {
     return this.loginRaw(name, password).pipe(
       map((betterRaw: IBetterRaw) => {
-        this.persistenceService.withClubName =
-          betterRaw.setting.clubName === 1 ? true : false;
-        this.persistenceService.isAutoNavigation =
-          betterRaw.setting.autoNavigation === 1 ? true : false;
-        this.persistenceService.isPlayerReverse =
-          betterRaw.setting.playerReverse === 1 ? true : false;
-        this.persistenceService.isDarkMode =
-          betterRaw.setting.darkMode === 1 ? true : false;
+        if (betterRaw) {
+          this.persistenceService.withClubName =
+            betterRaw.setting.clubName === 1 ? true : false;
+          this.persistenceService.isAutoNavigation =
+            betterRaw.setting.autoNavigation === 1 ? true : false;
+          this.persistenceService.isPlayerReverse =
+            betterRaw.setting.playerReverse === 1 ? true : false;
+          this.persistenceService.isDarkMode =
+            betterRaw.setting.darkMode === 1 ? true : false;
 
-        return betterRaw
-          ? {
-              accessKey: betterRaw.accessKey,
-              name: betterRaw.name,
-              firstName: betterRaw.firstName,
-              isAdmin: betterRaw.isAdmin === 1 ? true : false,
-              isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
-              evaluation: betterRaw.evaluation,
-            }
-          : null;
+          return betterRaw
+            ? {
+                accessKey: betterRaw.accessKey,
+                name: betterRaw.name,
+                firstName: betterRaw.firstName,
+                isAdmin: betterRaw.isAdmin === 1 ? true : false,
+                isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
+                evaluation: betterRaw.evaluation,
+              }
+            : null;
+        } else {
+          return null;
+        }
       })
     );
   }
@@ -52,22 +56,26 @@ export class BetterService {
   ): Observable<IError | IBetter> {
     const url = CommonService.getURL('better/createBetter');
     return this.httpClient
-      .post<IBetterRaw>(url, {
+      .post<IBetterRaw | IError>(url, {
         name,
         password,
         firstName,
         contact,
       })
       .pipe(
-        map((better) => {
-          return <IBetter>{
-            accessKey: better.accessKey,
-            name: better.name,
-            firstName: better.firstName,
-            isAdmin: better.isAdmin === 1 ? true : false,
-            isTutorialDone: better.isTutorialDone == 1 ? true : false,
-            evaluation: better.evaluation,
-          };
+        map((better: IBetterRaw | IError) => {
+          if ('errorMessage' in better) {
+            return better;
+          } else {
+            return <IBetter>{
+              accessKey: better.accessKey,
+              name: better.name,
+              firstName: better.firstName,
+              isAdmin: better.isAdmin === 1 ? true : false,
+              isTutorialDone: better.isTutorialDone == 1 ? true : false,
+              evaluation: better.evaluation,
+            };
+          }
         })
       );
   }

@@ -25,7 +25,7 @@
 
       if ($res && sizeof($res)) {
         // Nom existant
-        $ret = array("errorMessage" => "Pronostiqueur existant");
+        $ret = array("errorMessage" => "Le pronostiqueur existe");
         echo json_encode($ret);
       } else {
         $now = new DateTime();
