@@ -232,9 +232,7 @@ export class BetState {
               })
             );
 
-            state.dispatch([
-              new BetActions.GetBets(state.getState().better?.accessKey || ''),
-            ]);
+            state.dispatch([new BetActions.GetBets()]);
           });
         }
       })
@@ -256,10 +254,7 @@ export class BetState {
 
             state.dispatch([
               new BetActions.IsLoadingData(true),
-              new BetActions.GetPlayers(
-                currentState.better?.accessKey || '',
-                category.id
-              ),
+              new BetActions.GetPlayers(category.id),
               new BetActions.SetBet(action.categoryId),
             ]);
           }
@@ -280,7 +275,7 @@ export class BetState {
     state.patchState({ isLoadingData: true });
 
     return this.playerService
-      .getPlayers(action.accessKey, action.categoryId)
+      .getPlayers(currentState.better.accessKey, action.categoryId)
       .pipe(
         tap((readPlayers: IPlayer[] | IOffline) => {
           if ('isOffline' in readPlayers) {
@@ -309,10 +304,10 @@ export class BetState {
   }
 
   @Action(BetActions.GetBets)
-  getBets(state: StateContext<BetStateModel>, action: BetActions.GetBets) {
+  getBets(state: StateContext<BetStateModel>) {
     const currentState = state.getState();
 
-    return this.betService.getBets(action.accessKey).pipe(
+    return this.betService.getBets(currentState.better.accessKey).pipe(
       tap((readBets: IBet[] | IOffline) => {
         if ('isOffline' in readBets) {
           state.dispatch([new ConnectionActions.IsOffline()]);
@@ -328,7 +323,7 @@ export class BetState {
           const categoryId = this.searchFirstBetToFill(state);
           if (categoryId !== -1) {
             state.dispatch([
-              new BetActions.GetDuration(currentState.better?.accessKey || ''),
+              new BetActions.GetDuration(),
               new BetActions.SetCategory(categoryId),
               new BetActions.SetBet(categoryId),
             ]);
@@ -347,6 +342,28 @@ export class BetState {
 
     return this.betService
       .getBetsReview(currentState.better?.accessKey || '')
+      .pipe(
+        tap((readBetsReview: IBetReview[] | IOffline) => {
+          if ('isOffline' in readBetsReview) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            state.patchState({
+              isOffline: false,
+              betsReview: <IBetReview[]>readBetsReview,
+            });
+          }
+        })
+      );
+  }
+
+  @Action(BetActions.GetBetsReviewOf)
+  getBetsReviewOf(
+    state: StateContext<BetStateModel>,
+    action: BetActions.GetBetsReviewOf
+  ) {
+    const currentState = state.getState();
+    return this.betService
+      .getBetsReviewOf(currentState.better?.accessKey || '', action.randomKey)
       .pipe(
         tap((readBetsReview: IBetReview[] | IOffline) => {
           if ('isOffline' in readBetsReview) {
@@ -650,13 +667,10 @@ export class BetState {
   }
 
   @Action(BetActions.GetDuration)
-  getDuration(
-    state: StateContext<BetStateModel>,
-    action: BetActions.GetDuration
-  ) {
+  getDuration(state: StateContext<BetStateModel>) {
     const currentState = state.getState();
 
-    return this.betService.getDuration(action.accessKey).pipe(
+    return this.betService.getDuration(currentState.better.accessKey).pipe(
       tap((readDuration: IDuration | IOffline) => {
         if ('isOffline' in readDuration) {
           state.dispatch([new ConnectionActions.IsOffline()]);
@@ -707,10 +721,7 @@ export class BetState {
       .calculatepointsAndRanking(state.getState().better?.accessKey || '')
       .subscribe(() => {
         state.dispatch([
-          new BetActions.GetBetterPoint(
-            state.getState().better.accessKey,
-            this.persistenceService.categoryId
-          ),
+          new BetActions.GetBetterPoint(this.persistenceService.categoryId),
         ]);
       });
   }
@@ -721,7 +732,7 @@ export class BetState {
     action: BetActions.GetBetterPoint
   ) {
     return this.pointService
-      .getBettersPoints(action.accessKey, action.categoryId)
+      .getBettersPoints(state.getState().better.accessKey, action.categoryId)
       .pipe(
         tap((readBetterPoints: IBetterPoint[] | IOffline) => {
           if (readBetterPoints && 'isOffline' in readBetterPoints) {
@@ -766,6 +777,10 @@ export class BetState {
     });
 
     this.persistenceService.isEvaluationDone = false;
+    this.persistenceService.withClubName = false;
+    this.persistenceService.isAutoNavigation = false;
+    this.persistenceService.isPlayerReverse = false;
+    this.persistenceService.isDarkMode = false;
   }
 
   @Action(BetActions.IsLoadingData)
@@ -802,9 +817,9 @@ export class BetState {
   }
 
   @Action(BetActions.EraseBets)
-  eraseBets(state: StateContext<BetStateModel>, action: BetActions.EraseBets) {
+  eraseBets(state: StateContext<BetStateModel>) {
     this.betService
-      .eraseBets(action.accessKey || '')
+      .eraseBets(state.getState().better.accessKey)
       .pipe(
         map(() => {
           state.getState().bets.map((bet) => {

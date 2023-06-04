@@ -68,8 +68,16 @@ export class AppComponent implements AfterViewInit {
       const better: string = window.localStorage.getItem('better') || '';
 
       if (better) {
-        this.store.dispatch([new BetActions.SetBetter(JSON.parse(better))]);
-        this.persistenceService.navigate('bet');
+        const betterRestored: IBetter = JSON.parse(better);
+        this.store.dispatch([new BetActions.SetBetter(betterRestored)]);
+        if (betterRestored.endBetDate) {
+          // Les données restaurées par cookies remontent des champs en chaîne de caractères
+          if (new Date(betterRestored.endBetDate) < new Date()) {
+            this.persistenceService.navigate('better-ranking');
+          } else {
+            this.persistenceService.navigate('bet');
+          }
+        }
       } else {
         this.persistenceService.navigate('login');
       }
@@ -152,9 +160,7 @@ export class AppComponent implements AfterViewInit {
         .afterClosed()
         .subscribe((action: boolean) => {
           if (action) {
-            this.store.dispatch([
-              new BetActions.EraseBets(better.accessKey || ''),
-            ]);
+            this.store.dispatch([new BetActions.EraseBets()]);
           }
         });
     }
@@ -265,5 +271,16 @@ export class AppComponent implements AfterViewInit {
       disableClose: true,
     };
     this.dialog.open(GdprComponent, config);
+  }
+
+  public isBettingPhase(endBetDate: Date | null): boolean {
+    if (endBetDate) {
+      if (typeof endBetDate === 'string') {
+        return new Date(endBetDate) > new Date();
+      } else {
+        return endBetDate > new Date();
+      }
+    }
+    return true;
   }
 }

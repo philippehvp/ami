@@ -20,7 +20,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    data: { withGpdr: true },
   },
   {
     path: 'create-better',
@@ -64,6 +63,7 @@ const routes: Routes = [
     path: 'bet-stat',
     component: BetStatComponent,
   },
+
   {
     path: '**',
     component: BetComponent,

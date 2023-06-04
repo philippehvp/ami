@@ -17,7 +17,7 @@ export class PersistenceService {
     this._withClubName = withClubName;
   }
 
-  public _isAutoNavigation: boolean = false;
+  private _isAutoNavigation: boolean = false;
   public get isAutoNavigation(): boolean {
     return this._isAutoNavigation;
   }
@@ -71,7 +71,6 @@ export class PersistenceService {
   public get isToolbarVisible(): boolean {
     return this._isToolbarVisible;
   }
-
   public set isToolbarVisible(isToolbarVisible: boolean) {
     this._isToolbarVisible = isToolbarVisible;
   }
@@ -98,6 +97,14 @@ export class PersistenceService {
     this.freeSpaceSubject.next(this._freeSpace);
   }
 
+  private _isToolbarLimitedMode: boolean = false;
+  public get isToolbarLimitedMode(): boolean {
+    return this._isToolbarLimitedMode;
+  }
+  public set isToolbarLimitedMode(isToolbarLimitedMode: boolean) {
+    this._isToolbarLimitedMode = isToolbarLimitedMode;
+  }
+
   private _freeSpace: number = 104;
   public freeSpaceSubject: Subject<number> = new Subject<number>();
   public get freeSpace(): number {
@@ -116,12 +123,18 @@ export class PersistenceService {
     this._isEvaluationDone = isEvaluationDone;
   }
 
+  private _gobackPage!: string;
+  public get gobackPage(): string {
+    return this._gobackPage;
+  }
+  public set gobackPage(gobackPage: string) {
+    this._gobackPage = gobackPage;
+  }
+
   public navigate(link: string) {
-    if (link === 'bet') {
-      this._isToolbarVisible = true;
-    } else {
-      this._isToolbarVisible = false;
-    }
+    this._isToolbarVisible = link === 'bet' || link === 'better-ranking';
+    this._isToolbarLimitedMode = link !== 'bet';
+
     this.router.navigate([link]);
   }
 }

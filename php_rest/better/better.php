@@ -46,7 +46,12 @@
         " WHERE           cpi_setting.better_id = ?";
       $req = $db->prepare($query);
       $req->execute(array($betterId)); 
-      $res = $req->fetchAll(PDO::FETCH_ASSOC);
+      $setting = $req->fetchAll(PDO::FETCH_ASSOC);
+
+      // Lecture de la date maximale de pronostic de la journée en cours
+      $query = "SELECT fn_end_bet_date() AS endBetDate";
+      $req = $db->query($query); 
+      $endBetDate = $req->fetchAll(PDO::FETCH_ASSOC);
 
       $ret = array(
         "accessKey" => $accessKey,
@@ -55,11 +60,12 @@
         "isAdmin" => $better["isAdmin"],
         "isTutorialDone" => $better["isTutorialDone"],
         "evaluation" => $better["evaluation"],
+        "endBetDate" => $endBetDate[0]["endBetDate"],
         "setting" => array(
-          "clubName" => $res[0]["clubName"] ? $res[0]["clubName"] : 0,
-          "autoNavigation" => $res[0]["autoNavigation"] ? $res[0]["autoNavigation"] : 0, 
-          "playerReverse" => $res[0]["playerReverse"] ? $res[0]["playerReverse"] : 0,
-          "darkMode" => $res[0]["darkMode"] ? $res[0]["darkMode"] : 0
+          "clubName" => $setting[0]["clubName"] ? $setting[0]["clubName"] : 0,
+          "autoNavigation" => $setting[0]["autoNavigation"] ? $setting[0]["autoNavigation"] : 0, 
+          "playerReverse" => $setting[0]["playerReverse"] ? $setting[0]["playerReverse"] : 0,
+          "darkMode" => $setting[0]["darkMode"] ? $setting[0]["darkMode"] : 0
         )
       );
 

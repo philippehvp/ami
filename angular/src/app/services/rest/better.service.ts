@@ -34,6 +34,9 @@ export class BetterService {
                 isAdmin: betterRaw.isAdmin === 1 ? true : false,
                 isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
                 evaluation: betterRaw.evaluation,
+                endBetDate: betterRaw.endBetDate
+                  ? new Date(betterRaw.endBetDate)
+                  : null,
               }
             : null;
         } else {

@@ -30,9 +30,9 @@
           " FROM      cpi_category" .
           " WHERE     cpi_category.contest_id = " . $c["id"];
     
-          $req = $db->query($query);
-          $categories = $req->fetchAll(PDO::FETCH_ASSOC);
-          $c["categories"] = $categories;
+        $req = $db->query($query);
+        $categories = $req->fetchAll(PDO::FETCH_ASSOC);
+        $c["categories"] = $categories;
       }
       echo json_encode($res, JSON_NUMERIC_CHECK);
     } else {

@@ -115,6 +115,8 @@ export class BetComponent implements OnInit, OnDestroy {
       window.innerHeight - this.persistenceService.freeSpace;
     this.destroy$ = new Subject<boolean>();
 
+    this.persistenceService.gobackPage = 'bet';
+
     combineLatest([this.isOffline$, this.better$])
       .pipe(
         takeUntil(this.destroy$),

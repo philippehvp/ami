@@ -11,6 +11,10 @@ import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { IBetterBet } from 'src/app/models/better-bet';
 import { IBetReview, IBetReviewRaw } from 'src/app/models/review';
 import { IBetterPoint } from 'src/app/models/better-point';
+import {
+  ICanCreateBetter,
+  ICanCreateBetterRaw,
+} from 'src/app/models/can-create-better';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +33,7 @@ export class BetService {
             isAdmin: betterRaw.isAdmin === 1 ? true : false,
             isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
             evaluation: betterRaw.evaluation,
+            endBetDate: null,
             setting: <ISetting>{},
           };
         });
@@ -174,9 +179,38 @@ export class BetService {
     );
   }
 
+  public getBetsReviewOf(
+    accessKey: string,
+    randomKey: string
+  ): Observable<IBetReview[] | IOffline> {
+    return this.getBetsReviewOfRaw(accessKey, randomKey).pipe(
+      map((betsReviewOfRaw) => {
+        return betsReviewOfRaw.map((betReviewOfRaw) => {
+          return {
+            contestId: betReviewOfRaw.contest_id,
+            categoryId: betReviewOfRaw.category_id,
+            categoryShortName: betReviewOfRaw.categoryShortName,
+            winnerPlayerName1: betReviewOfRaw.winner_playerName1,
+            winnerPlayerName2: betReviewOfRaw.winner_playerName2,
+            runnerUpPlayerName1: betReviewOfRaw.runnerUp_playerName1,
+            runnerUpPlayerName2: betReviewOfRaw.runnerUp_playerName2,
+          };
+        });
+      })
+    );
+  }
+
   public getBetsReviewRaw(accessKey: string): Observable<IBetReviewRaw[]> {
     const url = CommonService.getURL('bet/review');
     return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey });
+  }
+
+  public getBetsReviewOfRaw(
+    accessKey: string,
+    randomKey: string
+  ): Observable<IBetReviewRaw[]> {
+    const url = CommonService.getURL('bet/reviewOf');
+    return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey, randomKey });
   }
 
   public eraseBets(
@@ -186,5 +220,17 @@ export class BetService {
     return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
       accessKey: accessKey,
     });
+  }
+
+  public canCreateBetter(): Observable<ICanCreateBetter> {
+    const url = CommonService.getURL('better/canCreateBetter');
+    return this.httpClient.get<ICanCreateBetterRaw>(url).pipe(
+      map((canCreateBetterRaw) => {
+        return {
+          canCreateBetter:
+            canCreateBetterRaw.canCreateBetter === 1 ? true : false,
+        };
+      })
+    );
   }
 }

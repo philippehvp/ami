@@ -13,6 +13,6 @@ export class TitlebarComponent {
   title!: string;
 
   public back() {
-    this.persistenceService.navigate('bet');
+    this.persistenceService.navigate(this.persistenceService.gobackPage);
   }
 }

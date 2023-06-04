@@ -14,8 +14,10 @@ import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
-import { Subject } from 'rxjs';
+import { Subject, map } from 'rxjs';
 import { PersistenceService } from 'src/app/services/persistence.service';
+import { BetService } from 'src/app/services/rest/bet.service';
+import { CommonService } from 'src/app/services/rest/common.service';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -33,11 +35,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   private betterService = inject(BetterService);
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
+  private betService = inject(BetService);
 
   public formGroup!: FormGroup;
 
   public passwordVisibility: boolean = false;
   private destroy$!: Subject<boolean>;
+
+  public canCreateBetter!: boolean;
 
   public get disabled(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
@@ -52,6 +57,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       name: ['', Validators.required],
       password: ['', Validators.required],
     });
+
+    this.betService
+      .canCreateBetter()
+      .pipe(
+        map((canCreateBetter) => {
+          this.canCreateBetter = canCreateBetter.canCreateBetter;
+        })
+      )
+      .subscribe();
   }
 
   public ngOnDestroy() {
@@ -68,7 +82,21 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (better) {
           this.store.dispatch([new BetActions.SetBetter(better)]);
 
-          const link: string = better.isTutorialDone ? 'bet' : 'welcome';
+          // Si le tutoriel n'est pas encore fait, on l'affiche toujours
+          // Si le tutoriel est fait, si on n'a pas encore dépassé la date de fin de pronostic de la journée, alors on affiche la page de pronostic
+          // Sinon on affiche le classement de la journée
+          const link: string = !better.isTutorialDone
+            ? 'welcome'
+            : better.endBetDate && better.endBetDate > new Date()
+            ? 'bet'
+            : 'better-ranking';
+
+          if (link === 'better-ranking') {
+            if (!CommonService.isProduction) {
+              window.localStorage.setItem('better', JSON.stringify(better));
+            }
+          }
+
           this.persistenceService.navigate(link);
         } else {
           const config: MatDialogConfig<IInformationDialogConfig> = {

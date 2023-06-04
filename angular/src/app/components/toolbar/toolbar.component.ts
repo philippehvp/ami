@@ -48,8 +48,12 @@ export class ToolbarComponent {
     this.dialog.open(BetReviewComponent, config);
   }
 
-  public get compactMode(): boolean {
-    return this.persistenceService.isCompactMode;
+  public get isShowBetsAvailable(): boolean {
+    return true;
+  }
+
+  public get isToolbarLimitedMode(): boolean {
+    return this.persistenceService.isToolbarLimitedMode;
   }
 
   public toggleCompactMode() {

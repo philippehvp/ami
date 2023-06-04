@@ -30,13 +30,15 @@
       } else {
         $now = new DateTime();
         $accessKey = generateAccessKey($name . $firstName . $now->getTimestamp());
+        $randomKey = generateAccessKey($name . $firstName . "randomKey" . $now->getTimestamp());
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
-          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, endAccessKeyValidityDate, contact, isTutorialDone, evaluation)" .
-          " VALUES              (?, ?, ?, 0, ?, fn_connection_validity(), ?, 0, -1)";
+          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, randomKey, endAccessKeyValidityDate, contact, isTutorialDone, evaluation)" .
+          " SELECT              ?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, ?, ?" .
+          " WHERE               fn_can_create_better() = 1";
         $req = $db->prepare($query);
-        $req->execute(array(strtoupper($name), $firstName, $password, $accessKey, $contact));
+        $req->execute(array(strtoupper($name), $firstName, $password, 0, $accessKey, $randomKey, $contact, 0, -1));
     
         // Identifiant du dernier enregistrement ajouté
         $betterId = $db->lastInsertId();
@@ -49,9 +51,20 @@
         // Création du paramétrage de l'interface
         $query =
           " INSERT INTO         cpi_setting(better_id, clubName, autoNavigation, playerReverse, darkMode)" .
-          " VALUES              (?, 0, 0, 0, 0)";
+          " SELECT              ?, 0, 0, 0, 0" .
+          " WHERE               fn_can_create_better() = 1";
         $req = $db->prepare($query);
         $req->execute(array($betterId));
+
+        // Lecture de la date maximale de pronostic de la journée en cours
+        $query = "SELECT fn_end_bet_date() AS endBetDate";
+        $req = $db->query($query); 
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+        if ($res && sizeof($res)) {
+          $endBetDate = $res[0]["endBetDate"];
+        } else {
+          $endBetDate  = null;
+        }
 
         $ret = array(
           "accessKey" => $accessKey,
@@ -60,6 +73,7 @@
           "isAdmin" => 0,
           "isTutorialDone" => 0,
           "evaluation" => -1,
+          "endBetDate" => $endBetDate,
           "setting" => array(
             "clubName" => 0,
             "autoNavigation" => 0,
@@ -67,10 +81,11 @@
             "darkMode" => 0
           )
         );
+
         echo json_encode($ret, JSON_NUMERIC_CHECK);
       }
     } catch(PDOException $e) {
-      $error = array("message" => $db->errorInfo());
+      $error = array("errorMessage" => $db->errorInfo());
       echo json_encode($error);
       return http_response_code(400);
     }

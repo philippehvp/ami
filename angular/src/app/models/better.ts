@@ -19,6 +19,7 @@ export interface IBetter {
   isAdmin: boolean;
   isTutorialDone: boolean;
   evaluation: number;
+  endBetDate: Date | null;
 }
 
 export interface IBetterRaw {
@@ -28,5 +29,6 @@ export interface IBetterRaw {
   isAdmin: number;
   isTutorialDone: number;
   evaluation: number;
+  endBetDate: string;
   setting: ISettingRaw;
 }

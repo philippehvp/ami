@@ -3,6 +3,7 @@
     better: better$ | async,
   } as data"
 >
+  <!-- Pronostic -->
   <div class="bet-panel" [style.height.px]="betPanelHeight" #betPanel>
     <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
       <div class="overlay-transparent"></div>
@@ -11,7 +12,8 @@
         <p>Des options sont disponibles en bas de la page.</p>
         <p>
           Une fois tous les pronostics saisis, tu pourras te déconnecter en
-          choisissant Déconnexion du menu latéral (<span class="material-icons"
+          choisissant Déconnexion du menu latéral (<span
+            class="material-icons-outlined"
             >menu</span
           >).
         </p>
@@ -53,6 +55,7 @@
       </div>
     </div>
 
+    <!-- Séries et joueurs -->
     <div class="card row growing">
       <!-- Séries -->
       <div
@@ -112,6 +115,7 @@
     </div>
   </div>
 
+  <!-- Paramétrage -->
   <div
     class="row no-growing setting-panel slow-animation"
     [class]="{ 'compact-mode': isCompactMode }"
@@ -150,6 +154,7 @@
     </span>
   </div>
 
+  <!-- Bouton d'appréciation -->
   <div [class]="likePanelClass" *ngIf="!isEvaluationDone">
     <span
       [matMenuTriggerFor]="menu"

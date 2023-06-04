@@ -33,7 +33,7 @@ export namespace BetActions {
 
   export class GetPlayers {
     static readonly type = '[Bet] Get Players';
-    constructor(public accessKey: string, public categoryId: number) {}
+    constructor(public categoryId: number) {}
   }
 
   export class SetBet {
@@ -43,7 +43,7 @@ export namespace BetActions {
 
   export class GetBets {
     static readonly type = '[Bet] Get Bets';
-    constructor(public accessKey: string) {}
+    constructor() {}
   }
 
   export class GetBetsReview {
@@ -51,9 +51,14 @@ export namespace BetActions {
     constructor() {}
   }
 
+  export class GetBetsReviewOf {
+    static readonly type = '[Bet] Get Bets Review Of';
+    constructor(public randomKey: string) {}
+  }
+
   export class GetDuration {
     static readonly type = '[Bet] Get Duration';
-    constructor(public accessKey: string) {}
+    constructor() {}
   }
 
   export class SetDuration {
@@ -78,7 +83,7 @@ export namespace BetActions {
 
   export class GetBetterPoint {
     static readonly type = '[Bet] Get Better Point';
-    constructor(public accessKey: string, public categoryId: number) {}
+    constructor(public categoryId: number) {}
   }
 
   export class GetBetterBet {
@@ -108,6 +113,6 @@ export namespace BetActions {
 
   export class EraseBets {
     static readonly type = '[Bet] Erase Bets';
-    constructor(public accessKey: string) {}
+    constructor() {}
   }
 }

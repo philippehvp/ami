@@ -60,11 +60,32 @@
         </span>
 
         <ng-template #normal>
+          <span
+            class="link"
+            *ngIf="isBettingPhase(data.better?.endBetDate || null)"
+            (click)="navigate('bet')"
+            ><span class="material-icons-outlined icon"> home </span
+            ><span class="label">Pronostics</span></span
+          >
+
+          <span
+            class="link"
+            *ngIf="!isBettingPhase(data.better?.endBetDate || null)"
+            (click)="displayBettersRanking()"
+          >
+            <span class="material-icons-outlined icon"> emoji_events </span>
+            <span class="label">Classement</span>
+          </span>
+
           <span class="link" (click)="navigate('rule')"
             ><span class="material-icons-outlined icon"> calculate </span
             ><span class="label">Barème</span></span
           >
-          <span class="link" (click)="displayTutorial()">
+          <span
+            class="link"
+            *ngIf="isBettingPhase(data.better?.endBetDate || null)"
+            (click)="displayTutorial()"
+          >
             <span class="material-icons-outlined icon"> help_outline </span>
             <span class="label">Tutoriel</span>
           </span>
@@ -90,7 +111,11 @@
 
         <ng-container *ngIf="!data.better?.isAdmin">
           <hr />
-          <span class="link" (click)="eraseBets(data?.better || null)">
+          <span
+            class="link"
+            *ngIf="isBettingPhase(data.better?.endBetDate || null)"
+            (click)="eraseBets(data?.better || null)"
+          >
             <span class="material-icons-outlined icon"> restart_alt </span>
             <span class="label">RAZ des pronostics</span>
           </span>

@@ -9,7 +9,7 @@
   if ($accessKey && ($byRanking == 0 || $byRanking == 1)) {
     if (isAccessKeyValid($db, $accessKey)) {
       $query =
-        " SELECT      cpi_better.name, cpi_better.firstName, cpi_ranking.points, cpi_ranking.ranking, cpi_duration.duration" .
+        " SELECT      cpi_better.name, cpi_better.firstName, cpi_better.randomKey, cpi_ranking.points, cpi_ranking.ranking, cpi_duration.duration" .
         " FROM        cpi_better" .
         " JOIN        cpi_ranking" .
         "             ON    cpi_better.id = cpi_ranking.better_id" .
