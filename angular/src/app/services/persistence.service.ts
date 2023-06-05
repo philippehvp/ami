@@ -19,7 +19,6 @@ export class PersistenceService {
     this._isPlayerReverse = false;
     this._isCompactMode = false;
     this._isToolbarLimitedMode = false;
-    this._freeSpace = 104;
     this._isEvaluationDone = false;
     this._gobackPage = '';
     this._isReviewOfVisible = false;
@@ -80,7 +79,6 @@ export class PersistenceService {
   }
   public set tutorialStep(tutorialStep: number) {
     this._tutorialStep = tutorialStep;
-    //this.tutorialStepSubject.next(tutorialStep);
   }
 
   private _isToolbarVisible: boolean = false;
@@ -105,12 +103,6 @@ export class PersistenceService {
   }
   public set isCompactMode(isCompactMode: boolean) {
     this._isCompactMode = isCompactMode;
-    if (isCompactMode) {
-      this._freeSpace = 54;
-    } else {
-      this._freeSpace = 104;
-    }
-    this.freeSpaceSubject.next(this._freeSpace);
   }
 
   private _isToolbarLimitedMode: boolean = false;
@@ -119,16 +111,6 @@ export class PersistenceService {
   }
   public set isToolbarLimitedMode(isToolbarLimitedMode: boolean) {
     this._isToolbarLimitedMode = isToolbarLimitedMode;
-  }
-
-  private _freeSpace: number = 104;
-  public freeSpaceSubject: Subject<number> = new Subject<number>();
-  public get freeSpace(): number {
-    return this._freeSpace;
-  }
-  public set freeSpace(freeSpace: number) {
-    this.freeSpace = freeSpace;
-    this.freeSpaceSubject.next(freeSpace);
   }
 
   private _isEvaluationDone: boolean = false;

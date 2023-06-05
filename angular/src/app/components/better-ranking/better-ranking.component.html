@@ -7,7 +7,7 @@
           <th class="ranking" mat-header-cell *matHeaderCellDef>
             <span class="material-icons-outlined icon"> emoji_events </span>
           </th>
-          <td mat-cell *matCellDef="let ranking">
+          <td mat-cell *matCellDef="let ranking" class="ranking">
             {{ ranking.ranking }}
           </td>
         </ng-container>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div class="review-panel slow-animation" *ngIf="isReviewOfVisible">
+  <div class="review-of-panel slow-animation" *ngIf="isReviewOfVisible">
     <div class="card row growing">
       <bet-review-of></bet-review-of>
     </div>

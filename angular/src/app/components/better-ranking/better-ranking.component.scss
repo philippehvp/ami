@@ -1,5 +1,5 @@
 .ranking-panel,
-.review-panel {
+.review-of-panel {
   display: flex;
   height: calc(100vh - 54px);
 }
@@ -7,6 +7,7 @@
 .ranking {
   padding: 0 0 0 0.25em;
   width: 1em;
+  text-align: center;
 }
 
 .review-of-row {

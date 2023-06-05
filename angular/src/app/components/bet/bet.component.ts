@@ -70,7 +70,6 @@ export class BetComponent implements OnInit, OnDestroy {
   private destroy$!: Subject<boolean>;
   private better!: IBetter;
   public tutorialLastStep: number = 4;
-  public betPanelHeight!: number;
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
 
@@ -110,9 +109,11 @@ export class BetComponent implements OnInit, OnDestroy {
     return this.persistenceService.isCompactMode;
   }
 
+  public get betPanelClass(): string {
+    return this.persistenceService.isCompactMode ? 'zoom-mode' : 'normal-mode';
+  }
+
   public ngOnInit() {
-    this.betPanelHeight =
-      window.innerHeight - this.persistenceService.freeSpace;
     this.destroy$ = new Subject<boolean>();
 
     this.persistenceService.gobackPage = 'bet';
@@ -245,16 +246,6 @@ export class BetComponent implements OnInit, OnDestroy {
                 }
               });
           }
-        })
-      )
-      .subscribe();
-
-    this.persistenceService.freeSpaceSubject
-      .asObservable()
-      .pipe(
-        takeUntil(this.destroy$),
-        map((freeSpace) => {
-          this.betPanelHeight = window.innerHeight - freeSpace;
         })
       )
       .subscribe();

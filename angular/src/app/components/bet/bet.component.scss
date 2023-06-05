@@ -3,6 +3,14 @@
   flex-flow: nowrap column;
 }
 
+.bet-panel.zoom-mode {
+  height: calc(100vh - 54px);
+}
+
+.bet-panel.normal-mode {
+  height: calc(100vh - 104px);
+}
+
 .bet-panel .title {
   margin-left: 0.5em;
 }
