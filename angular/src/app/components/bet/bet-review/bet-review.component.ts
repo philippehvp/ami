@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IContest } from 'src/app/models/contest';
-import { IBetReview } from 'src/app/models/review';
+import { IBetReview } from 'src/app/models/bet-review';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 

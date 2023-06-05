@@ -14,11 +14,9 @@
         " JOIN        cpi_ranking" .
         "             ON    cpi_better.id = cpi_ranking.better_id" .
         " JOIN        (" .
-        "                 SELECT DISTINCT       cpi_contest.day" .
+        "                 SELECT                MAX(cpi_contest.day) AS day" .
         "                 FROM                  cpi_contest" .
         "                 WHERE                 cpi_contest.startDate <= NOW()" .
-        "                                       AND   NOW() <= cpi_contest.endAdminDate" .
-        "                 LIMIT 1" .
         "             ) cpi_contest" .
         "             ON    cpi_ranking.contest_day = cpi_contest.day" .
         " JOIN        cpi_duration" .
@@ -27,7 +25,7 @@
         " WHERE       cpi_better.isAdmin <> 1";
 
       if ($byRanking == 1) {
-        $query .= " ORDER BY    cpi_ranking.ranking, cpi_better.name, cpi_better.firstName";
+        $query .= " ORDER BY    cpi_ranking.ranking, cpi_better.name, cpi_better.firstName, cpi_better.id";
       } else {
         $query .= " ORDER BY    cpi_better.name, cpi_better.firstName, cpi_better.id";
       }

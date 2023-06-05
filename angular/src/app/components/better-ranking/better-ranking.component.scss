@@ -1,9 +1,14 @@
-.ranking-panel {
-  display: block;
-  height: 100vh;
+.ranking-panel,
+.review-panel {
+  display: flex;
+  height: calc(100vh - 54px);
 }
 
 .ranking {
   padding: 0 0 0 0.25em;
   width: 1em;
+}
+
+.review-of-row {
+  margin-bottom: 1em;
 }

@@ -14,9 +14,11 @@ import { IDuration } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
 import { BetterService } from 'src/app/services/rest/better.service';
-import { IBetReview } from 'src/app/models/review';
+import { IBetReview } from 'src/app/models/bet-review';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { IBetterPoint } from 'src/app/models/better-point';
+import { IBetReviewOf } from 'src/app/models/bet-review-of';
+import { EMPTY } from 'rxjs';
 
 export class BetStateModel {
   isOffline!: boolean;
@@ -29,6 +31,7 @@ export class BetStateModel {
   bet!: IBet;
   bets!: IBet[];
   betsReview!: IBetReview[];
+  betsReviewOf!: IBetReviewOf[];
   duration!: IDuration;
   completedBets!: number;
   isLoadingData!: boolean;
@@ -51,6 +54,7 @@ export class BetStateModel {
     bet: <IBet>{},
     bets: [],
     betsReview: [],
+    betsReviewOf: [],
     duration: <IDuration>{},
     completedBets: 0,
     isLoadingData: false,
@@ -116,6 +120,11 @@ export class BetState {
   @Selector()
   static betsReview(state: BetStateModel) {
     return state.betsReview;
+  }
+
+  @Selector()
+  static betsReviewOf(state: BetStateModel) {
+    return state.betsReviewOf;
   }
 
   @Selector()
@@ -362,20 +371,33 @@ export class BetState {
     action: BetActions.GetBetsReviewOf
   ) {
     const currentState = state.getState();
-    return this.betService
-      .getBetsReviewOf(currentState.better?.accessKey || '', action.randomKey)
-      .pipe(
-        tap((readBetsReview: IBetReview[] | IOffline) => {
-          if ('isOffline' in readBetsReview) {
-            state.dispatch([new ConnectionActions.IsOffline()]);
-          } else {
-            state.patchState({
-              isOffline: false,
-              betsReview: <IBetReview[]>readBetsReview,
-            });
-          }
-        })
-      );
+
+    // Dans le cas où un utilisateur décide de regarder deux fois d'affilée les pronostics d'un pronostiqueur,
+    // il est nécessaire entre les deux de remettre à zéro les pronostics consultés
+    // En effet, si ce sont deux fois les mêmes, on ne déclenche pas de mise à jour de l'affichage
+    if (action.randomKey) {
+      return this.betService
+        .getBetsReviewOf(currentState.better?.accessKey || '', action.randomKey)
+        .pipe(
+          tap((readBetsReviewOf: IBetReviewOf[] | IOffline) => {
+            if ('isOffline' in readBetsReviewOf) {
+              state.dispatch([new ConnectionActions.IsOffline()]);
+            } else {
+              state.patchState({
+                isOffline: false,
+                betsReviewOf: <IBetReviewOf[]>readBetsReviewOf,
+              });
+            }
+          })
+        );
+    } else {
+      state.patchState({
+        isOffline: false,
+        betsReviewOf: [],
+      });
+
+      return EMPTY;
+    }
   }
 
   private calculateCompletedBetsOnLoad(state: StateContext<BetStateModel>) {
@@ -769,6 +791,7 @@ export class BetState {
       completedBets: undefined,
       allBetsDone: false,
       betsReview: undefined,
+      betsReviewOf: undefined,
       isLoadingData: false,
       isOffline: false,
       proposeAutoNavigation: false,
@@ -776,11 +799,7 @@ export class BetState {
       betterPoints: undefined,
     });
 
-    this.persistenceService.isEvaluationDone = false;
-    this.persistenceService.withClubName = false;
-    this.persistenceService.isAutoNavigation = false;
-    this.persistenceService.isPlayerReverse = false;
-    this.persistenceService.isDarkMode = false;
+    this.persistenceService.init();
   }
 
   @Action(BetActions.IsLoadingData)

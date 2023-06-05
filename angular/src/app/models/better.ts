@@ -14,6 +14,7 @@ export interface ISettingRaw {
 
 export interface IBetter {
   accessKey: string;
+  randomKey: string;
   firstName: string;
   name: string;
   isAdmin: boolean;
@@ -24,6 +25,7 @@ export interface IBetter {
 
 export interface IBetterRaw {
   accessKey: string;
+  randomKey: string;
   firstName: string;
   name: string;
   isAdmin: number;

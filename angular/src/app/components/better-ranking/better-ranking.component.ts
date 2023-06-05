@@ -1,6 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
@@ -8,8 +6,10 @@ import { IBetterRanking } from 'src/app/models/better-ranking';
 import { BetterRankingActions } from 'src/app/store/action/better-ranking.action';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BetterRankingState } from 'src/app/store/state/better-ranking.state';
-import { BetReviewOfComponent } from '../bet/bet-review-of/bet-review-of.component';
 import { PersistenceService } from 'src/app/services/persistence.service';
+import { BetActions } from 'src/app/store/action/bet.action';
+import { UtilsService } from 'src/app/services/utils.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'better-ranking',
@@ -18,9 +18,10 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 })
 export class BetterRankingComponent implements OnInit, OnDestroy {
   private store = inject(Store);
-  private route = inject(ActivatedRoute);
-  private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
+  private renderer = inject(Renderer2);
+  private utilsService = inject(UtilsService);
+  private route = inject(ActivatedRoute);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -30,9 +31,13 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   private destroy$!: Subject<boolean>;
 
+  public title!: string;
+
   public displayedColumns: string[] = ['ranking', 'name', 'points'];
 
-  public title!: string;
+  public get isReviewOfVisible(): boolean {
+    return this.persistenceService.isReviewOfVisible;
+  }
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
@@ -42,13 +47,23 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     combineLatest([this.better$, this.route.data])
       .pipe(
         takeUntil(this.destroy$),
-        map(([better, data]) => {
-          this.title = data['byRanking'] ? 'Classement' : 'Récapitulatif';
-          if (better) {
+        map(([better, route]) => {
+          if (better && route) {
+            this.utilsService.setMode(
+              this.renderer,
+              this.persistenceService.isDarkMode
+            );
+
+            const byRanking: boolean = route && route['byRanking'] === 1;
+            this.title =
+              route && route['byRanking'] === 1
+                ? 'Classement des joueurs'
+                : 'Nombre de points';
+
             this.store.dispatch([
               new BetterRankingActions.GetBetterRanking(
                 better.accessKey,
-                data['byRanking'] ? true : false
+                byRanking
               ),
             ]);
           }
@@ -61,12 +76,38 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
   }
 
-  public showBetsReviewOf(randomKey: string) {
-    const config: MatDialogConfig = {
-      disableClose: true,
-      data: randomKey,
-    };
+  public showBetsReviewOf(
+    betterRanking: IBetterRanking,
+    better: IBetter | null
+  ) {
+    this.store.dispatch([
+      new BetActions.GetBetsReviewOf(betterRanking.randomKey),
+    ]);
 
-    this.dialog.open(BetReviewOfComponent, config);
+    if (better) {
+      this.persistenceService.reviewOfBetterName =
+        betterRanking.randomKey === better.randomKey
+          ? 'Mes pronostics'
+          : 'Pronostics de ' +
+            betterRanking.name +
+            ' ' +
+            betterRanking.firstName;
+    } else {
+      this.persistenceService.reviewOfBetterName = '?';
+    }
+    this.persistenceService.isReviewOfVisible = true;
+  }
+
+  public getRankingBetterName(
+    betterRanking: IBetterRanking,
+    better: IBetter | null
+  ): string {
+    if (betterRanking && better) {
+      return betterRanking.randomKey === better.randomKey
+        ? 'Moi'
+        : betterRanking.name + ' ' + betterRanking.firstName;
+    }
+
+    return '?';
   }
 }

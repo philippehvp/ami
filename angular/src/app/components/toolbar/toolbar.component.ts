@@ -33,11 +33,15 @@ export class ToolbarComponent {
   bets$!: Observable<IBet[]>;
 
   public toggleSideNav() {
-    this.persistenceService.sidenav.open();
+    if (this.persistenceService.sidenav) {
+      this.persistenceService.sidenav.open();
+    }
   }
 
   public toggleSponsor() {
-    this.persistenceService.aboutnav.open();
+    if (this.persistenceService.aboutnav) {
+      this.persistenceService.aboutnav.open();
+    }
   }
 
   public showBetsReview() {

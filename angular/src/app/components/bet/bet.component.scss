@@ -3,15 +3,6 @@
   flex-flow: nowrap column;
 }
 
-.bet-panel .row.no-growing {
-  flex: 0 1 auto;
-}
-
-.bet-panel .row.growing {
-  flex: 1 1 auto;
-  overflow-y: auto;
-}
-
 .bet-panel .title {
   margin-left: 0.5em;
 }
@@ -61,14 +52,6 @@
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.8);
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 0.5em;
-  margin: 0 0.5em 0.5em 0.5em;
-  padding: 0.5em 0.5em 0 0.5em;
 }
 
 .like-panel {

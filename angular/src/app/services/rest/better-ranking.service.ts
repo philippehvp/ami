@@ -18,7 +18,7 @@ export class BetterRankingService {
     const url = CommonService.getURL('ranking/bettersRanking');
     return this.httpClient.post<IBetterRanking[]>(url, {
       accessKey,
-      byRanking: byRanking === true ? 1 : 0,
+      byRanking: byRanking ? 1 : 0,
     });
   }
 }

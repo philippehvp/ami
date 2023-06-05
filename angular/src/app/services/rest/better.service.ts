@@ -29,6 +29,7 @@ export class BetterService {
           return betterRaw
             ? {
                 accessKey: betterRaw.accessKey,
+                randomKey: betterRaw.randomKey,
                 name: betterRaw.name,
                 firstName: betterRaw.firstName,
                 isAdmin: betterRaw.isAdmin === 1 ? true : false,

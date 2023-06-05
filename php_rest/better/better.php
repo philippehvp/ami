@@ -8,7 +8,7 @@
 
   if ($name && $password) {
     $query =
-      " SELECT DISTINCT     cpi_better.accessKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin,".
+      " SELECT DISTINCT     cpi_better.accessKey, cpi_better.randomKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin,".
       "                     cpi_better.isTutorialDone, cpi_better.evaluation" .
       " FROM                cpi_better" .
       " WHERE               UPPER(cpi_better.name) = ?" .
@@ -55,6 +55,7 @@
 
       $ret = array(
         "accessKey" => $accessKey,
+        "randomKey" => $better["randomKey"],
         "name" => $better["name"],
         "firstName" => $better["firstName"],
         "isAdmin" => $better["isAdmin"],

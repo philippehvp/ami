@@ -11,7 +11,7 @@ export interface IBetReview {
 export interface IBetReviewRaw {
   contest_id: number;
   category_id: number;
-  categoryShortName: string;
+  category_shortName: string;
   winner_playerName1: string;
   winner_playerName2: string;
   runnerUp_playerName1: string;

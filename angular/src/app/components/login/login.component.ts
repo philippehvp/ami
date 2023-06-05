@@ -85,7 +85,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           // Si le tutoriel n'est pas encore fait, on l'affiche toujours
           // Si le tutoriel est fait, si on n'a pas encore dépassé la date de fin de pronostic de la journée, alors on affiche la page de pronostic
           // Sinon on affiche le classement de la journée
-          const link: string = !better.isTutorialDone
+          const link: string = better.isAdmin
+            ? 'bet'
+            : !better.isTutorialDone
             ? 'welcome'
             : better.endBetDate && better.endBetDate > new Date()
             ? 'bet'

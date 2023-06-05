@@ -9,6 +9,23 @@ import { Subject } from 'rxjs';
 export class PersistenceService {
   private router = inject(Router);
 
+  public init() {
+    this._withClubName = false;
+    this._isAutoNavigation = false;
+    this._isDarkMode = false;
+    this._categoryId = -1;
+    this._tutorialStep = 0;
+    this._isToolbarVisible = false;
+    this._isPlayerReverse = false;
+    this._isCompactMode = false;
+    this._isToolbarLimitedMode = false;
+    this._freeSpace = 104;
+    this._isEvaluationDone = false;
+    this._gobackPage = '';
+    this._isReviewOfVisible = false;
+    this._reviewOfBetterName = '';
+  }
+
   private _withClubName: boolean = false;
   public get withClubName(): boolean {
     return this._withClubName;
@@ -41,24 +58,23 @@ export class PersistenceService {
     this._categoryId = categoryId;
   }
 
-  private _sidenav!: MatSidenav;
-  public get sidenav(): MatSidenav {
+  private _sidenav!: MatSidenav | undefined;
+  public get sidenav(): MatSidenav | undefined {
     return this._sidenav;
   }
-  public set sidenav(sidenav: MatSidenav) {
+  public set sidenav(sidenav: MatSidenav | undefined) {
     this._sidenav = sidenav;
   }
 
-  private _aboutnav!: MatSidenav;
-  public get aboutnav(): MatSidenav {
+  private _aboutnav!: MatSidenav | undefined;
+  public get aboutnav(): MatSidenav | undefined {
     return this._aboutnav;
   }
-  public set aboutnav(aboutnav: MatSidenav) {
+  public set aboutnav(aboutnav: MatSidenav | undefined) {
     this._aboutnav = aboutnav;
   }
 
   private _tutorialStep: number = 0;
-  //public tutorialStepSubject: Subject<number> = new Subject<number>();
   public get tutorialStep(): number {
     return this._tutorialStep;
   }
@@ -131,8 +147,25 @@ export class PersistenceService {
     this._gobackPage = gobackPage;
   }
 
+  private _isReviewOfVisible: boolean = false;
+  public get isReviewOfVisible(): boolean {
+    return this._isReviewOfVisible;
+  }
+  public set isReviewOfVisible(isReviewOfVisible: boolean) {
+    this._isReviewOfVisible = isReviewOfVisible;
+  }
+
+  private _reviewOfBetterName: string = '';
+  public get reviewOfBetterName(): string {
+    return this._reviewOfBetterName;
+  }
+  public set reviewOfBetterName(reviewOfBetterName: string) {
+    this._reviewOfBetterName = reviewOfBetterName;
+  }
+
   public navigate(link: string) {
-    this._isToolbarVisible = link === 'bet' || link === 'better-ranking';
+    this._isToolbarVisible =
+      link === 'bet' || link === 'better-ranking' || link === 'better-name';
     this._isToolbarLimitedMode = link !== 'bet';
 
     this.router.navigate([link]);

@@ -9,12 +9,13 @@ import { IBet } from 'src/app/models/bet';
 import { IDuration, IDurationRaw } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { IBetterBet } from 'src/app/models/better-bet';
-import { IBetReview, IBetReviewRaw } from 'src/app/models/review';
+import { IBetReview, IBetReviewRaw } from 'src/app/models/bet-review';
 import { IBetterPoint } from 'src/app/models/better-point';
 import {
   ICanCreateBetter,
   ICanCreateBetterRaw,
 } from 'src/app/models/can-create-better';
+import { IBetReviewOf, IBetReviewOfRaw } from 'src/app/models/bet-review-of';
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +29,11 @@ export class BetService {
         return bettersRaw.map((betterRaw) => {
           return {
             accessKey: betterRaw.accessKey,
+            randomKey: betterRaw.randomKey,
             firstName: betterRaw.firstName,
             name: betterRaw.name,
-            isAdmin: betterRaw.isAdmin === 1 ? true : false,
-            isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
+            isAdmin: betterRaw.isAdmin === 1,
+            isTutorialDone: betterRaw.isTutorialDone === 1,
             evaluation: betterRaw.evaluation,
             endBetDate: null,
             setting: <ISetting>{},
@@ -61,7 +63,7 @@ export class BetService {
               categoryId: bet.categoryId,
               winnerId: bet.winnerId,
               runnerUpId: bet.runnerUpId,
-              isComplete: bet.winnerId && bet.runnerUpId ? true : false,
+              isComplete: !!bet.winnerId && !!bet.runnerUpId,
             }
         );
       })
@@ -73,12 +75,10 @@ export class BetService {
       map((durationRaw: IDurationRaw | IOffline) => {
         return {
           duration: (<IDurationRaw>durationRaw).duration,
-          isDurationUpdatable:
-            (<IDurationRaw>durationRaw).isDurationUpdatable === 1
-              ? true
-              : false,
+          isDurationUpdatable: !!(<IDurationRaw>durationRaw)
+            .isDurationUpdatable,
           isDurationModified:
-            (<IDurationRaw>durationRaw).isDurationModified === 1 ? true : false,
+            (<IDurationRaw>durationRaw).isDurationModified === 1,
         };
       })
     );
@@ -168,32 +168,11 @@ export class BetService {
           return {
             contestId: betReviewRaw.contest_id,
             categoryId: betReviewRaw.category_id,
-            categoryShortName: betReviewRaw.categoryShortName,
+            categoryShortName: betReviewRaw.category_shortName,
             winnerPlayerName1: betReviewRaw.winner_playerName1,
             winnerPlayerName2: betReviewRaw.winner_playerName2,
             runnerUpPlayerName1: betReviewRaw.runnerUp_playerName1,
             runnerUpPlayerName2: betReviewRaw.runnerUp_playerName2,
-          };
-        });
-      })
-    );
-  }
-
-  public getBetsReviewOf(
-    accessKey: string,
-    randomKey: string
-  ): Observable<IBetReview[] | IOffline> {
-    return this.getBetsReviewOfRaw(accessKey, randomKey).pipe(
-      map((betsReviewOfRaw) => {
-        return betsReviewOfRaw.map((betReviewOfRaw) => {
-          return {
-            contestId: betReviewOfRaw.contest_id,
-            categoryId: betReviewOfRaw.category_id,
-            categoryShortName: betReviewOfRaw.categoryShortName,
-            winnerPlayerName1: betReviewOfRaw.winner_playerName1,
-            winnerPlayerName2: betReviewOfRaw.winner_playerName2,
-            runnerUpPlayerName1: betReviewOfRaw.runnerUp_playerName1,
-            runnerUpPlayerName2: betReviewOfRaw.runnerUp_playerName2,
           };
         });
       })
@@ -205,12 +184,43 @@ export class BetService {
     return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey });
   }
 
+  public getBetsReviewOf(
+    accessKey: string,
+    randomKey: string
+  ): Observable<IBetReviewOf[] | IOffline> {
+    return this.getBetsReviewOfRaw(accessKey, randomKey).pipe(
+      map((betsReviewOfRaw) => {
+        return betsReviewOfRaw.map((betReviewOfRaw) => {
+          return {
+            contestId: betReviewOfRaw.contest_id,
+            categoryId: betReviewOfRaw.category_id,
+            contestLongName: betReviewOfRaw.contest_longName,
+            categoryLongName: betReviewOfRaw.category_longName,
+            winnerPlayerName1: betReviewOfRaw.winner_playerName1,
+            winnerPlayerName2: betReviewOfRaw.winner_playerName2,
+            runnerUpPlayerName1: betReviewOfRaw.runnerUp_playerName1,
+            runnerUpPlayerName2: betReviewOfRaw.runnerUp_playerName2,
+            realWinnerPlayerName1: betReviewOfRaw.realWinner_playerName1,
+            realWinnerPlayerName2: betReviewOfRaw.realWinner_playerName2,
+            realRunnerUpPlayerName1: betReviewOfRaw.realRunnerUp_playerName1,
+            realRunnerUpPlayerName2: betReviewOfRaw.realRunnerUp_playerName2,
+            points: betReviewOfRaw.points,
+            isCategoryDone: betReviewOfRaw.category_done === 1,
+          };
+        });
+      })
+    );
+  }
+
   public getBetsReviewOfRaw(
     accessKey: string,
     randomKey: string
-  ): Observable<IBetReviewRaw[]> {
+  ): Observable<IBetReviewOfRaw[]> {
     const url = CommonService.getURL('bet/reviewOf');
-    return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey, randomKey });
+    return this.httpClient.post<IBetReviewOfRaw[]>(url, {
+      accessKey,
+      randomKey,
+    });
   }
 
   public eraseBets(
@@ -227,8 +237,7 @@ export class BetService {
     return this.httpClient.get<ICanCreateBetterRaw>(url).pipe(
       map((canCreateBetterRaw) => {
         return {
-          canCreateBetter:
-            canCreateBetterRaw.canCreateBetter === 1 ? true : false,
+          canCreateBetter: canCreateBetterRaw.canCreateBetter === 1,
         };
       })
     );

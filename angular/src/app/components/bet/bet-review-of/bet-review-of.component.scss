@@ -3,7 +3,46 @@
   text-align: center;
 }
 
-td,
-th {
-  vertical-align: middle;
+.points {
+  color: white;
+  background-color: black;
+  padding-inline: 0.5em;
+  margin-right: 1em;
+}
+
+.contest {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.review-of-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  span {
+    display: flex;
+  }
+}
+
+.bet-label {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.review-of-detail.real {
+  margin-top: 1em;
+}
+
+hr {
+  margin-block: 1em;
+}
+
+.back {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2em;
 }

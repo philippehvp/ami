@@ -51,12 +51,23 @@
         <span class="material-icons-outlined close"> close </span>
 
         <span *ngIf="data.better?.isAdmin; else normal">
-          <span class="link" (click)="displayBettersBet()">Pronostics</span>
-          <span class="link" (click)="displayBettersRanking()">Classement</span>
-          <span class="link" (click)="displayBettersOrderedByName()"
-            >Récapitulatif</span
+          <span class="link" (click)="navigate('bet')"
+            ><span class="label">Remplir résultats</span></span
+          >
+          <hr />
+          <span class="link" (click)="displayBettersBet()"
+            >Résumé pronostics</span
           >
           <span class="link" (click)="displayBetStat()">Statistiques</span>
+
+          <hr />
+          <span class="link" (click)="displayBettersOrderedByName()"
+            >Nombre de points</span
+          >
+          <span class="link" (click)="displayBettersRanking()">
+            <span class="label">Classement</span>
+          </span>
+          <hr />
         </span>
 
         <ng-template #normal>

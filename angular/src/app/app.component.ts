@@ -132,11 +132,15 @@ export class AppComponent implements AfterViewInit {
   }
 
   public toggleSideMenu() {
-    this.persistenceService.sidenav.toggle();
+    if (this.persistenceService.sidenav) {
+      this.persistenceService.sidenav.toggle();
+    }
   }
 
   public toggleAboutNav() {
-    this.persistenceService.aboutnav.toggle();
+    if (this.persistenceService.aboutnav) {
+      this.persistenceService.aboutnav.toggle();
+    }
   }
 
   public displayTutorial() {
