@@ -37,9 +37,11 @@ export class BetStatComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         map((better) => {
-          this.store.dispatch([
-            new BetStatActions.GetBetStat(better.accessKey),
-          ]);
+          if (better) {
+            this.store.dispatch([
+              new BetStatActions.GetBetStat(better.accessKey),
+            ]);
+          }
         })
       )
       .subscribe();

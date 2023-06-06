@@ -29,10 +29,12 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   private destroy$!: Subject<boolean>;
 
-  private longInterval!: any;
-  private shortInterval!: any;
+  private interval!: any;
   public seconds!: number;
   private longIntervalDuration: number = 30;
+  public isRefreshSuspended: boolean = false;
+  public spinnerValue!: number;
+  private byRanking!: boolean;
 
   public title!: string;
 
@@ -48,12 +50,22 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     this.persistenceService.gobackPage = 'better-ranking';
     this.seconds = this.longIntervalDuration;
 
-    this.longInterval = setInterval(() => {
-      this.refreshLongInterval();
-    }, this.longIntervalDuration * 1000);
+    this.interval = setInterval(() => {
+      if (!this.isRefreshSuspended) {
+        this.seconds--;
+        this.spinnerValue =
+          100 -
+          ((this.longIntervalDuration - this.seconds) /
+            this.longIntervalDuration) *
+            100;
 
-    this.shortInterval = setInterval(() => {
-      this.seconds--;
+        if (this.seconds === 0) {
+          this.store.dispatch([
+            new BetActions.GetBetterRanking(this.byRanking),
+          ]);
+          this.seconds = this.longIntervalDuration;
+        }
+      }
     }, 1000);
 
     combineLatest([this.better$, this.route.data])
@@ -66,13 +78,15 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
               this.persistenceService.isDarkMode
             );
 
-            const byRanking: boolean = route && route['byRanking'] === 1;
+            this.byRanking = route && route['byRanking'] === 1;
             this.title =
               route && route['byRanking'] === 1
                 ? 'Classement des joueurs'
                 : 'Nombre de points';
 
-            this.store.dispatch([new BetActions.GetBetterRanking(byRanking)]);
+            this.store.dispatch([
+              new BetActions.GetBetterRanking(this.byRanking),
+            ]);
           }
         })
       )
@@ -81,12 +95,8 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
-    if (this.longInterval) {
-      clearInterval(this.longInterval);
-    }
-
-    if (this.shortInterval) {
-      clearInterval(this.shortInterval);
+    if (this.interval) {
+      clearInterval(this.interval);
     }
   }
 
@@ -125,8 +135,7 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     return '?';
   }
 
-  public refreshLongInterval() {
-    this.store.dispatch([new BetActions.GetBetterRanking(true)]);
-    this.seconds = this.longIntervalDuration;
+  public toggleRefresh() {
+    this.isRefreshSuspended = !this.isRefreshSuspended;
   }
 }

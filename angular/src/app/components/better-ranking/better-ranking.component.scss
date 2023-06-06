@@ -13,3 +13,18 @@
 .review-of-row {
   margin-bottom: 1em;
 }
+
+.title {
+  font-weight: bold;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.spinner-panel {
+  display: flex;
+  flex-direction: row;
+}

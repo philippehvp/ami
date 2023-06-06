@@ -68,7 +68,6 @@ export class BetComponent implements OnInit, OnDestroy {
   duration$!: Observable<IDuration>;
 
   private destroy$!: Subject<boolean>;
-  private better!: IBetter;
   public tutorialLastStep: number = 4;
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
@@ -141,8 +140,6 @@ export class BetComponent implements OnInit, OnDestroy {
               });
           }
 
-          this.better = better;
-
           if (better) {
             if (better.isTutorialDone) {
               this.utilsService.setMode(
@@ -151,10 +148,7 @@ export class BetComponent implements OnInit, OnDestroy {
               );
 
               if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'better',
-                  JSON.stringify(this.better)
-                );
+                window.localStorage.setItem('better', JSON.stringify(better));
               }
             } else {
               this.persistenceService.tutorialStep = 1;
@@ -269,19 +263,21 @@ export class BetComponent implements OnInit, OnDestroy {
     return !!betterPointsCategoryToDisplay;
   }
 
-  public gotoNextTutorial() {
-    this.tutorialStep++;
-    if (this.tutorialStep === this.tutorialLastStep + 1) {
-      // Dernier tutoriel à afficher
-      this.better.isTutorialDone = true;
-      this.storeBetterInLocalStorage();
-      this.store.dispatch([new BetActions.SetTutorialDone()]);
+  public gotoNextTutorial(better: IBetter | null) {
+    if (better) {
+      this.tutorialStep++;
+      if (this.tutorialStep === this.tutorialLastStep + 1) {
+        // Dernier tutoriel à afficher
+        better.isTutorialDone = true;
+        this.storeBetterInLocalStorage(better);
+        this.store.dispatch([new BetActions.SetTutorialDone()]);
+      }
     }
   }
 
-  private storeBetterInLocalStorage() {
+  private storeBetterInLocalStorage(better: IBetter) {
     if (!CommonService.isProduction) {
-      window.localStorage.setItem('better', JSON.stringify(this.better));
+      window.localStorage.setItem('better', JSON.stringify(better));
     }
   }
 
@@ -295,17 +291,19 @@ export class BetComponent implements OnInit, OnDestroy {
     return this.persistenceService.isPlayerReverse ? 'like right' : 'like left';
   }
 
-  public like(evaluationLevel: number) {
-    this.store
-      .dispatch([new BetActions.SetEvaluation(evaluationLevel)])
-      .subscribe(() => {
-        this.storeBetterInLocalStorage();
+  public like(better: IBetter | null, evaluationLevel: number) {
+    if (better) {
+      this.store
+        .dispatch([new BetActions.SetEvaluation(evaluationLevel)])
+        .subscribe(() => {
+          this.storeBetterInLocalStorage(better);
 
-        this.snackBar.open('Merci pour ton vote', 'Fermer', {
-          duration: 2500,
+          this.snackBar.open('Merci pour ton vote', 'Fermer', {
+            duration: 2500,
+          });
+          this.persistenceService.isEvaluationDone = true;
         });
-        this.persistenceService.isEvaluationDone = true;
-      });
+    }
   }
 
   public evaluationIcon(evaluation: number, index: number): string {

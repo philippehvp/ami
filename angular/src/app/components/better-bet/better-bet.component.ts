@@ -32,7 +32,11 @@ export class BetterBetComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         map((better) => {
-          this.store.dispatch([new BetActions.GetBetterBet(better.accessKey)]);
+          if (better) {
+            this.store.dispatch([
+              new BetActions.GetBetterBet(better.accessKey),
+            ]);
+          }
         })
       )
       .subscribe();

@@ -1,13 +1,36 @@
 <ng-container *ngIf="{ better: better$ | async } as data">
   <div class="ranking-panel slow-animation" *ngIf="!isReviewOfVisible">
     <div class="card row growing">
-      <h4>{{ title }} (MAJ dans {{ seconds }}s)</h4>
+      <span class="header">
+        <span class="title">{{ title }}</span>
+
+        <span class="spinner-panel">
+          <span *ngIf="isRefreshSuspended" (click)="toggleRefresh()"
+            ><span class="material-icons-outlined"> play_arrow </span></span
+          >
+          <span *ngIf="!isRefreshSuspended" (click)="toggleRefresh()"
+            ><span class="material-icons-outlined"> pause </span></span
+          >
+          <mat-progress-spinner
+            mode="determinate"
+            [value]="spinnerValue"
+            diameter="30"
+          >
+          </mat-progress-spinner>
+        </span>
+      </span>
+
       <table mat-table [dataSource]="(bettersRanking$ | async) || []">
         <ng-container matColumnDef="ranking">
           <th class="ranking" mat-header-cell *matHeaderCellDef>
             <span class="material-icons-outlined icon"> emoji_events </span>
           </th>
-          <td mat-cell *matCellDef="let ranking" class="ranking">
+          <td
+            mat-cell
+            *matCellDef="let ranking"
+            class="ranking"
+            (click)="showBetsReviewOf(ranking, data.better || null)"
+          >
             {{ ranking.ranking }}
           </td>
         </ng-container>
@@ -29,7 +52,11 @@
           <th mat-header-cell *matHeaderCellDef>
             <span>Points</span>
           </th>
-          <td mat-cell *matCellDef="let ranking">
+          <td
+            mat-cell
+            *matCellDef="let ranking"
+            (click)="showBetsReviewOf(ranking, data.better || null)"
+          >
             {{ ranking.points }}
           </td>
         </ng-container>
