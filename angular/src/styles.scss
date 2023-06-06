@@ -58,7 +58,7 @@ hr {
   }
 
   .card {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.5);
   }
 
   .login-card,
@@ -96,8 +96,8 @@ hr {
 
   .mat-drawer-container {
     background-position: bottom right;
-    background-repeat: no-repeat;
-    background-image: url("~/assets/img/background-dark.png");
+    // background-repeat: no-repeat;
+    // background-image: url("~/assets/img/background-dark.png");
     background-color: $background;
     color: $color;
   }
@@ -130,6 +130,10 @@ hr {
 
   .active {
     color: $active;
+  }
+
+  .mat-toolbar {
+    background-color: $background;
   }
 }
 
