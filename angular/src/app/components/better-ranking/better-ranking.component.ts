@@ -3,9 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterRanking } from 'src/app/models/better-ranking';
-import { BetterRankingActions } from 'src/app/store/action/better-ranking.action';
 import { BetState } from 'src/app/store/state/bet.state';
-import { BetterRankingState } from 'src/app/store/state/better-ranking.state';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -26,10 +24,15 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
-  @Select(BetterRankingState.bettersRanking)
+  @Select(BetState.bettersRanking)
   bettersRanking$!: Observable<IBetterRanking[]>;
 
   private destroy$!: Subject<boolean>;
+
+  private longInterval!: any;
+  private shortInterval!: any;
+  public seconds!: number;
+  private longIntervalDuration: number = 30;
 
   public title!: string;
 
@@ -43,6 +46,15 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     this.destroy$ = new Subject<boolean>();
 
     this.persistenceService.gobackPage = 'better-ranking';
+    this.seconds = this.longIntervalDuration;
+
+    this.longInterval = setInterval(() => {
+      this.refreshLongInterval();
+    }, this.longIntervalDuration * 1000);
+
+    this.shortInterval = setInterval(() => {
+      this.seconds--;
+    }, 1000);
 
     combineLatest([this.better$, this.route.data])
       .pipe(
@@ -60,12 +72,7 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
                 ? 'Classement des joueurs'
                 : 'Nombre de points';
 
-            this.store.dispatch([
-              new BetterRankingActions.GetBetterRanking(
-                better.accessKey,
-                byRanking
-              ),
-            ]);
+            this.store.dispatch([new BetActions.GetBetterRanking(byRanking)]);
           }
         })
       )
@@ -74,6 +81,13 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
+    if (this.longInterval) {
+      clearInterval(this.longInterval);
+    }
+
+    if (this.shortInterval) {
+      clearInterval(this.shortInterval);
+    }
   }
 
   public showBetsReviewOf(
@@ -109,5 +123,10 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     }
 
     return '?';
+  }
+
+  public refreshLongInterval() {
+    this.store.dispatch([new BetActions.GetBetterRanking(true)]);
+    this.seconds = this.longIntervalDuration;
   }
 }

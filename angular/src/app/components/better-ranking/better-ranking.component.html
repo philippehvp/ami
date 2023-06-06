@@ -1,7 +1,7 @@
 <ng-container *ngIf="{ better: better$ | async } as data">
   <div class="ranking-panel slow-animation" *ngIf="!isReviewOfVisible">
     <div class="card row growing">
-      <h4>{{ title }}</h4>
+      <h4>{{ title }} (MAJ dans {{ seconds }}s)</h4>
       <table mat-table [dataSource]="(bettersRanking$ | async) || []">
         <ng-container matColumnDef="ranking">
           <th class="ranking" mat-header-cell *matHeaderCellDef>

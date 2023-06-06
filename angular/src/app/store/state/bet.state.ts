@@ -19,6 +19,8 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 import { IBetterPoint } from 'src/app/models/better-point';
 import { IBetReviewOf } from 'src/app/models/bet-review-of';
 import { EMPTY } from 'rxjs';
+import { IBetterRanking } from 'src/app/models/better-ranking';
+import { BetterRankingService } from 'src/app/services/rest/better-ranking.service';
 
 export class BetStateModel {
   isOffline!: boolean;
@@ -39,6 +41,7 @@ export class BetStateModel {
   proposeAutoNavigation!: boolean;
   categoryToDisplay!: number;
   betterPoints!: IBetterPoint[];
+  bettersRanking!: IBetterRanking[] | undefined;
 }
 
 @State<BetStateModel>({
@@ -62,6 +65,7 @@ export class BetStateModel {
     proposeAutoNavigation: false,
     categoryToDisplay: -1,
     betterPoints: [],
+    bettersRanking: [],
   },
 })
 @Injectable()
@@ -71,6 +75,7 @@ export class BetState {
   private betterService = inject(BetterService);
   private playerService = inject(PlayerService);
   private pointService = inject(BetService);
+  private rankingService = inject(BetterRankingService);
 
   @Selector()
   static isOffline(state: BetStateModel) {
@@ -155,6 +160,31 @@ export class BetState {
   @Selector()
   static betterPoints(state: BetStateModel) {
     return state.betterPoints;
+  }
+
+  @Selector()
+  static bettersRanking(state: BetStateModel) {
+    return state.bettersRanking;
+  }
+
+  @Action(BetActions.GetBetterRanking)
+  getBetterRanking(
+    state: StateContext<BetStateModel>,
+    action: BetActions.GetBetterRanking
+  ) {
+    return this.rankingService
+      .getBettersRanking(state.getState().better.accessKey, action.byRanking)
+      .pipe(
+        tap((readBettersRanking: IBetterRanking[] | IOffline) => {
+          if (readBettersRanking && 'isOffline' in readBettersRanking) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          } else {
+            state.patchState({
+              bettersRanking: <IBetterRanking[]>readBettersRanking,
+            });
+          }
+        })
+      );
   }
   @Action(BetActions.SetBetter)
   setBetter(state: StateContext<BetStateModel>, action: BetActions.SetBetter) {

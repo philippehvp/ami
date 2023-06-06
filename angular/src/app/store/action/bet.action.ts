@@ -115,4 +115,9 @@ export namespace BetActions {
     static readonly type = '[Bet] Erase Bets';
     constructor() {}
   }
+
+  export class GetBetterRanking {
+    static readonly type = '[Bet] Get Better Ranking';
+    constructor(public byRanking: boolean) {}
+  }
 }

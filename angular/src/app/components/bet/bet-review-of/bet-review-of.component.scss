@@ -3,17 +3,29 @@
   text-align: center;
 }
 
-.points {
-  color: white;
-  background-color: black;
-  padding-inline: 0.5em;
-  margin-right: 1em;
-}
-
 .contest {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 0.5em;
+  align-items: center;
+}
+
+.contest-label {
+  font-weight: bold;
+}
+
+.points {
+  color: white;
+  background-color: black;
+  padding: 0.5em 0.75em;
+}
+
+.review-of-row {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding-bottom: 1em;
   margin-bottom: 1em;
 }
 
@@ -29,7 +41,7 @@
 
 .bet-label {
   font-weight: bold;
-  text-decoration: underline;
+  margin-bottom: 0.5em;
 }
 
 .review-of-detail.real {
