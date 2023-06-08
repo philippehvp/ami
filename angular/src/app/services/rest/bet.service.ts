@@ -161,24 +161,6 @@ export class BetService {
     return this.httpClient.post<IBetterBet | IOffline>(url, { accessKey });
   }
 
-  public getBetsReview(accessKey: string): Observable<IBetReview[] | IOffline> {
-    return this.getBetsReviewRaw(accessKey).pipe(
-      map((betsReviewRaw) => {
-        return betsReviewRaw.map((betReviewRaw) => {
-          return {
-            contestId: betReviewRaw.contest_id,
-            categoryId: betReviewRaw.category_id,
-            categoryShortName: betReviewRaw.category_shortName,
-            winnerPlayerName1: betReviewRaw.winner_playerName1,
-            winnerPlayerName2: betReviewRaw.winner_playerName2,
-            runnerUpPlayerName1: betReviewRaw.runnerUp_playerName1,
-            runnerUpPlayerName2: betReviewRaw.runnerUp_playerName2,
-          };
-        });
-      })
-    );
-  }
-
   public getBetsReviewRaw(accessKey: string): Observable<IBetReviewRaw[]> {
     const url = CommonService.getURL('bet/review');
     return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey });

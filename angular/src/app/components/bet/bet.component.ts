@@ -23,7 +23,6 @@ import {
 } from 'src/app/models/information-dialog-type';
 import { CommonService } from 'src/app/services/rest/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetReviewComponent } from './bet-review/bet-review.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -109,7 +108,19 @@ export class BetComponent implements OnInit, OnDestroy {
   }
 
   public get betPanelClass(): string {
-    return this.persistenceService.isCompactMode ? 'zoom-mode' : 'normal-mode';
+    return this.persistenceService.isCompactMode
+      ? 'compact-mode'
+      : 'normal-mode';
+  }
+
+  public get isReviewOfVisible(): boolean {
+    return this.persistenceService.isReviewOfVisible;
+  }
+
+  public get reviewOfClass(): string {
+    return this.persistenceService.isCompactMode
+      ? 'compact-mode'
+      : 'normal-mode';
   }
 
   public ngOnInit() {
@@ -170,8 +181,8 @@ export class BetComponent implements OnInit, OnDestroy {
                   title: 'Pronostics entièrement saisis',
                   message:
                     "Tous les pronostics ont été saisis mais tu n'as pas encore modifié le pronostic sur la durée du match le plus long de la journée.",
-                  dialogType: InformationDialogType.YesNo,
-                  labels: ['Fermer', 'Voir mes pronostics'],
+                  dialogType: InformationDialogType.Information,
+                  labels: ['Fermer'],
                 },
                 disableClose: true,
               };
@@ -179,11 +190,8 @@ export class BetComponent implements OnInit, OnDestroy {
               this.dialog
                 .open(InformationComponent, config)
                 .afterClosed()
-                .subscribe((action: boolean) => {
+                .subscribe(() => {
                   this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
-                  if (action) {
-                    this.showBetsReview();
-                  }
                 });
             } else {
               // Le pronostic sur la durée du match n'a pas encore été modifié
@@ -192,8 +200,8 @@ export class BetComponent implements OnInit, OnDestroy {
                   title: 'Pronostics entièrement saisis',
                   message:
                     'Tous les pronostics ont été saisis et seront pris en compte. Tu peux te déconnecter.',
-                  dialogType: InformationDialogType.YesNo,
-                  labels: ['Fermer', 'Voir mes pronostics'],
+                  dialogType: InformationDialogType.Information,
+                  labels: ['Fermer'],
                 },
                 disableClose: true,
               };
@@ -201,11 +209,8 @@ export class BetComponent implements OnInit, OnDestroy {
               this.dialog
                 .open(InformationComponent, config)
                 .afterClosed()
-                .subscribe((action: boolean) => {
+                .subscribe(() => {
                   this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
-                  if (action) {
-                    this.showBetsReview();
-                  }
                 });
             }
           }
@@ -247,14 +252,6 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
-  }
-
-  private showBetsReview() {
-    const config: MatDialogConfig = {
-      disableClose: true,
-    };
-
-    this.dialog.open(BetReviewComponent, config);
   }
 
   public displayBetterPoints(

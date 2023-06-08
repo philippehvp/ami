@@ -46,11 +46,6 @@ export namespace BetActions {
     constructor() {}
   }
 
-  export class GetBetsReview {
-    static readonly type = '[Bet] Get Bets Review';
-    constructor() {}
-  }
-
   export class GetBetsReviewOf {
     static readonly type = '[Bet] Get Bets Review Of';
     constructor(public randomKey: string) {}

@@ -61,11 +61,10 @@
       <span class="title">WINABAD</span>
     </span>
 
-    <ng-container *ngIf="!isToolbarLimitedMode">
-      <span (click)="showBetsReview()"
+    <ng-container *ngIf="!isToolbarLimitedMode; else limitedMode">
+      <span (click)="showBetsReviewOf(data.better)"
         >{{ data?.completedBets || 0 }} / {{ (data?.bets || []).length }}
         <mat-progress-bar
-          class="progress-bar"
           mode="determinate"
           [value]="
             ((data?.completedBets || 0 * 1.0) / (data?.bets || []).length) * 100
@@ -78,6 +77,16 @@
         compactModeIcon
       }}</span>
     </ng-container>
+
+    <ng-template #limitedMode>
+      <span
+        class="setting"
+        [class]="{ active: isDarkMode }"
+        (click)="toggleDarkMode(data.better || null)"
+      >
+        <span class="material-icons-outlined icon"> nightlight </span>
+      </span>
+    </ng-template>
 
     <span class="material-icons-outlined" (click)="toggleSideNav()">menu</span>
   </div>

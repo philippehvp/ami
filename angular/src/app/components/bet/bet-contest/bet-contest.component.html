@@ -5,16 +5,20 @@
     contests: contests$ | async
   } as data"
 >
-  <span *ngFor="let contest of data.contests" class="contest-panel">
-    <span>{{ contest.shortName }}</span>
-    <span
-      *ngFor="let category of contest.categories"
-      (click)="changeCategory(category.id)"
-      [class]="
-        getCategoryClass(data?.bets || [], category, data.category || null)
-      "
-    >
-      {{ category.shortName }}
+  <span class="contest-panel">
+    <span *ngFor="let contest of data.contests" class="contest">
+      <span class="label">{{ contest.longName }}</span>
+      <span class="category">
+        <span
+          *ngFor="let category of contest.categories"
+          (click)="changeCategory(category.id)"
+          [class]="
+            getCategoryClass(data?.bets || [], category, data.category || null)
+          "
+        >
+          {{ category.shortName }}
+        </span>
+      </span>
     </span>
   </span>
 </ng-container>

@@ -4,19 +4,15 @@
       <span class="header">
         <span class="title">{{ title }}</span>
 
-        <span class="spinner-panel">
+        <span class="timer-panel">
           <span *ngIf="isRefreshSuspended" (click)="toggleRefresh()"
             ><span class="material-icons-outlined"> play_arrow </span></span
           >
           <span *ngIf="!isRefreshSuspended" (click)="toggleRefresh()"
             ><span class="material-icons-outlined"> pause </span></span
           >
-          <mat-progress-spinner
-            mode="determinate"
-            [value]="spinnerValue"
-            diameter="30"
-          >
-          </mat-progress-spinner>
+          <mat-progress-bar class="progress-bar" [value]="spinnerValue">
+          </mat-progress-bar>
         </span>
       </span>
 

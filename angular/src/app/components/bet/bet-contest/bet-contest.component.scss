@@ -1,12 +1,28 @@
 .contest-panel {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.contest {
+  display: flex;
+  flex-direction: column;
+  margin-right: 0.5em;
+}
+
+.contest:last-child {
+  margin-right: 0;
 }
 
 .category {
-  font-size: 0.75em;
+  display: flex;
+  flex-direction: row;
+}
+
+.label {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5em;
 }
 
 .mat-button.mat-small {
@@ -16,14 +32,20 @@
 .complete,
 .uncomplete {
   display: flex;
+  justify-content: center;
   align-items: center;
-  height: 2em;
+  height: 1.6em;
+  width: 1.6em;
   color: rgb(33, 33, 33);
-  padding-inline: 0.75em;
-  margin: 0.25em 0 0.25em 0.25em;
+  margin-right: 0.25em;
   border-radius: 0.5em;
   border-width: 0.125em;
   border-style: solid;
+}
+
+.complete:last-child,
+.uncomplete:last-child {
+  margin-right: 0;
 }
 
 .complete {

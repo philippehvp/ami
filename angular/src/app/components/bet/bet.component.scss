@@ -3,12 +3,12 @@
   flex-flow: nowrap column;
 }
 
-.bet-panel.zoom-mode {
-  height: calc(100vh - 54px);
+.bet-panel.compact-mode {
+  height: calc(100svh - 54px);
 }
 
 .bet-panel.normal-mode {
-  height: calc(100vh - 104px);
+  height: calc(100svh - 104px);
 }
 
 .bet-panel .title {
@@ -67,7 +67,7 @@
   position: absolute;
   align-items: center;
   justify-content: center;
-  top: 75%;
+  bottom: 4.5em;
 }
 
 .like-panel.left {
@@ -146,6 +146,18 @@
   }
 }
 
-.compact-mode {
+.hidden {
   display: none;
+}
+
+.review-of-panel {
+  display: flex;
+}
+
+.review-of-panel.compact-mode {
+  height: calc(100svh - 54px);
+}
+
+.review-of-panel.normal-mode {
+  height: calc(100svh - 104px);
 }

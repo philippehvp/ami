@@ -4,7 +4,12 @@
   } as data"
 >
   <!-- Pronostic -->
-  <div class="bet-panel" [class]="betPanelClass" #betPanel>
+  <div
+    class="bet-panel slow-animation"
+    [class]="betPanelClass"
+    *ngIf="!isReviewOfVisible"
+    #betPanel
+  >
     <div *ngIf="tutorialStep === 4" class="tutorial-wrap">
       <div class="overlay-transparent"></div>
       <div class="tutorial4">
@@ -32,7 +37,7 @@
     <!-- Durée du match -->
     <div
       class="row no-growing card duration slow-animation"
-      [class]="{ 'compact-mode': isCompactMode }"
+      [class]="{ hidden: isCompactMode }"
     >
       <bet-duration
         *ngIf="(contest$ | async) && (category$ | async)"
@@ -74,9 +79,9 @@
         <div class="tutorial1">
           <h5>Catégories et séries (1/4)</h5>
           <p>
-            Les catégories et leurs séries sont ici. Appuie sur le nom d'une
-            série pour l'afficher. Tes pronostics sont entièrement remplis
-            lorsque toutes les pastilles sont vertes.
+            Les tableaux et leurs séries sont ici. Appuie sur le nom d'une série
+            pour l'afficher. Tes pronostics sont entièrement remplis lorsque
+            toutes les séries sont vertes.
           </p>
           <button
             mat-raised-button
@@ -110,8 +115,8 @@
 
       <!-- Joueurs -->
       <bet-player
+        class="row growing"
         [class]="{
-          'row growing': true,
           highlight: tutorialStep === 2 ? true : false
         }"
         *ngIf="(contest$ | async) && (category$ | async)"
@@ -119,10 +124,21 @@
     </div>
   </div>
 
+  <!-- Résumé des pronostics -->
+  <div
+    class="review-of-panel slow-animation"
+    [class]="reviewOfClass"
+    *ngIf="isReviewOfVisible"
+  >
+    <div class="card row growing">
+      <bet-review-of></bet-review-of>
+    </div>
+  </div>
+
   <!-- Paramétrage -->
   <div
     class="row no-growing setting-panel slow-animation"
-    [class]="{ 'compact-mode': isCompactMode }"
+    [class]="{ hidden: isCompactMode }"
   >
     <span
       class="setting"
@@ -159,7 +175,7 @@
   </div>
 
   <!-- Bouton d'appréciation -->
-  <div [class]="likePanelClass" *ngIf="!isEvaluationDone">
+  <div [class]="likePanelClass" *ngIf="!isEvaluationDone && !isReviewOfVisible">
     <span
       [matMenuTriggerFor]="menu"
       class="material-icons-outlined thumb"

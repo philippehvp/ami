@@ -12,7 +12,7 @@
         " SELECT  		cpi_contest.id AS contestId, cpi_category.id as categoryId, cpi_contest.longName AS contest_longName, cpi_category.longName AS category_longName," .
         "             IFNULL(cpi_winner.playerName1, '-') AS winner_playerName1, IFNULL(cpi_winner.playerName2, '-') AS winner_playerName2," .
         "             IFNULL(cpi_runnerUp.playerName1, '-') AS runnerUp_playerName1, IFNULL(cpi_runnerUp.playerName2, '-') AS runnerUp_playerName2," .
-        "             cpi_point.points," .
+        "             IFNULL(cpi_point.points, 0) AS points," .
         "             results.winner_playerName1 AS realWinner_playerName1, results.winner_playerName2 AS realWinner_playerName2," .
         "             results.runnerUp_playerName1 AS realRunnerUp_playerName1, results.runnerUp_playerName2 AS realRunnerUp_playerName2," .
         "             results.category_done" .
@@ -31,7 +31,7 @@
 			  "             ON		cpi_bet.runnerUp_player_id = cpi_runnerUp.id" .
         " JOIN        cpi_better" .
         "             ON    cpi_bet.better_id = cpi_better.id" .
-        " JOIN        cpi_point" .
+        " LEFT JOIN   cpi_point" .
         "             ON    cpi_better.id = cpi_point.better_id" .
         "                   AND   cpi_category.id = cpi_point.category_id" .
         " JOIN        (" .
@@ -60,7 +60,6 @@
         "             ON    cpi_category.id = results.category_id" .
         " WHERE		    cpi_better.randomKey = ?" .
         " ORDER BY    cpi_contest.id, cpi_category.id";
-
       $req = $db->prepare($query);
       $req->execute(array($randomKey));
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
