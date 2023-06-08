@@ -17,14 +17,16 @@ export class BetterService {
     return this.loginRaw(name, password).pipe(
       map((betterRaw: IBetterRaw) => {
         if (betterRaw) {
-          this.persistenceService.withClubName =
-            betterRaw.setting.clubName === 1 ? true : false;
+          this.persistenceService.isClubName = betterRaw.setting.clubName === 1;
           this.persistenceService.isAutoNavigation =
-            betterRaw.setting.autoNavigation === 1 ? true : false;
+            betterRaw.setting.autoNavigation === 1;
           this.persistenceService.isPlayerReverse =
-            betterRaw.setting.playerReverse === 1 ? true : false;
-          this.persistenceService.isDarkMode =
-            betterRaw.setting.darkMode === 1 ? true : false;
+            betterRaw.setting.playerReverse === 1;
+          this.persistenceService.isDarkMode = betterRaw.setting.darkMode === 1;
+          this.persistenceService.isPlayerRanking =
+            betterRaw.setting.playerRanking === 1;
+          this.persistenceService.isPlayerNameOnly =
+            betterRaw.setting.playerNameOnly === 1;
 
           return betterRaw
             ? {
@@ -113,10 +115,12 @@ export class BetterService {
     const url = CommonService.getURL('better/updateSetting');
     return this.httpClient.post<IEmpty>(url, {
       accessKey: better.accessKey,
-      clubName: this.persistenceService.withClubName ? 1 : 0,
+      clubName: this.persistenceService.isClubName ? 1 : 0,
       autoNavigation: this.persistenceService.isAutoNavigation ? 1 : 0,
       playerReverse: this.persistenceService.isPlayerReverse ? 1 : 0,
       darkMode: this.persistenceService.isDarkMode ? 1 : 0,
+      playerRanking: this.persistenceService.isPlayerRanking ? 1 : 0,
+      playerNameOnly: this.persistenceService.isPlayerNameOnly ? 1 : 0,
     });
   }
 }

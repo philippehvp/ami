@@ -140,14 +140,40 @@
     class="row no-growing setting-panel slow-animation"
     [class]="{ hidden: isCompactMode }"
   >
-    <span
-      class="setting"
-      [class]="{ active: withClubName }"
-      (click)="toggleWithClubName(data.better || null)"
-    >
-      <span class="material-icons-outlined icon"> place </span>
-      <span class="label">Club</span>
+    <span class="setting">
+      <span
+        [matMenuTriggerFor]="displaySettings"
+        class="material-icons-outlined"
+        [class]="likeClass"
+      >
+        tune
+      </span>
+      <mat-menu #displaySettings="matMenu">
+        <span
+          class="display-setting"
+          (click)="toggleClubName(data.better, $event)"
+        >
+          <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
+          <span class="label">Nom des clubs</span>
+        </span>
+        <span
+          class="display-setting"
+          (click)="togglePlayerRanking(data.better, $event)"
+        >
+          <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
+          <span class="label">Classement des joueurs</span>
+        </span>
+        <span
+          class="display-setting"
+          (click)="togglePlayerNameOnly(data.better, $event)"
+        >
+          <mat-slide-toggle [checked]="isPlayerNameOnly"> </mat-slide-toggle>
+          <span class="label">Nom seul</span>
+        </span>
+      </mat-menu>
+      <span class="label">Affichage</span>
     </span>
+
     <span
       class="setting"
       [class]="{ active: isAutoNavigation }"

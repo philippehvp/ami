@@ -287,4 +287,8 @@ export class AppComponent implements AfterViewInit {
     }
     return true;
   }
+
+  public setPlayerName() {
+    this.store.dispatch([new BetActions.SetPlayersName()]);
+  }
 }

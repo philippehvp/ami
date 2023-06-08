@@ -57,12 +57,12 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['name', 'winner', 'runnerUp'];
   public displayedColumnsReverse: string[] = ['winner', 'runnerUp', 'name'];
 
-  public get withClubName() {
-    return this.persistenceService.withClubName;
+  public get isClubName() {
+    return this.persistenceService.isClubName;
   }
 
-  public set withClubName(withClubName: boolean) {
-    this.persistenceService.withClubName = withClubName;
+  public set isClubName(isClubName: boolean) {
+    this.persistenceService.isClubName = isClubName;
   }
 
   public get isPlayerReverse(): boolean {
@@ -201,6 +201,30 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   public secondPlayerName(player: IPlayer): string {
     return player.playerName2;
+  }
+
+  public firstPlayerLabel(player: IPlayer): string {
+    let ret: string = this.persistenceService.isPlayerRanking
+      ? player.playerRanking1 + ' - '
+      : '';
+
+    ret += this.persistenceService.isPlayerNameOnly
+      ? player.playerNameOnly1
+      : player.playerName1;
+
+    return ret;
+  }
+
+  public secondPlayerLabel(player: IPlayer): string {
+    let ret: string = this.persistenceService.isPlayerRanking
+      ? player.playerRanking2 + ' - '
+      : '';
+
+    ret += this.persistenceService.isPlayerNameOnly
+      ? player.playerNameOnly2
+      : player.playerName2;
+
+    return ret;
   }
 
   public firstPlayerRanking(player: IPlayer): string {

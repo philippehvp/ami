@@ -10,7 +10,9 @@ export class PersistenceService {
   private router = inject(Router);
 
   public init() {
-    this._withClubName = false;
+    this._isClubName = false;
+    this._isPlayerRanking = true;
+    this._isPlayerNameOnly = false;
     this._isAutoNavigation = false;
     this._isDarkMode = false;
     this._categoryId = -1;
@@ -25,12 +27,28 @@ export class PersistenceService {
     this._reviewOfBetterName = '';
   }
 
-  private _withClubName: boolean = false;
-  public get withClubName(): boolean {
-    return this._withClubName;
+  private _isClubName: boolean = false;
+  public get isClubName(): boolean {
+    return this._isClubName;
   }
-  public set withClubName(withClubName: boolean) {
-    this._withClubName = withClubName;
+  public set isClubName(isClubName: boolean) {
+    this._isClubName = isClubName;
+  }
+
+  private _isPlayerRanking: boolean = true;
+  public get isPlayerRanking(): boolean {
+    return this._isPlayerRanking;
+  }
+  public set isPlayerRanking(isPlayerRanking: boolean) {
+    this._isPlayerRanking = isPlayerRanking;
+  }
+
+  private _isPlayerNameOnly: boolean = false;
+  public get isPlayerNameOnly(): boolean {
+    return this._isPlayerNameOnly;
+  }
+  public set isPlayerNameOnly(isPlayerNameOnly: boolean) {
+    this._isPlayerNameOnly = isPlayerNameOnly;
   }
 
   private _isAutoNavigation: boolean = false;

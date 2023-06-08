@@ -7,6 +7,8 @@
   $autoNavigation = json_decode($data["autoNavigation"]) ? json_decode($data["autoNavigation"]) : $data["autoNavigation"];
   $playerReverse = json_decode($data["playerReverse"]) ? json_decode($data["playerReverse"]) : $data["playerReverse"];
   $darkMode = json_decode($data["darkMode"]) ? json_decode($data["darkMode"]) : $data["darkMode"];
+  $playerRanking = json_decode($data["playerRanking"]) ? json_decode($data["playerRanking"]) : $data["playerRanking"];
+  $playerNameOnly = json_decode($data["playerNameOnly"]) ? json_decode($data["playerNameOnly"]) : $data["playerNameOnly"];
 
   if ($accessKey) {
     if (isAccessKeyValid($db, $accessKey)) {
@@ -14,11 +16,12 @@
         " UPDATE            cpi_setting" .
         " JOIN              cpi_better" .
         "                   ON    cpi_setting.better_id = cpi_better.id" .
-        " SET               cpi_setting.clubName = ?, cpi_setting.autoNavigation = ?, cpi_setting.playerReverse = ?, cpi_setting.darkMode = ?" .
+        " SET               cpi_setting.clubName = ?, cpi_setting.autoNavigation = ?, cpi_setting.playerReverse = ?," .
+        "                   cpi_setting.darkMode = ?, cpi_setting.playerRanking = ?, cpi_setting.playerNameOnly = ?" .
         " WHERE             cpi_better.accessKey = ?";
   
       $req = $db->prepare($query);
-      $req->execute(array($clubName, $autoNavigation, $playerReverse, $darkMode, $accessKey));
+      $req->execute(array($clubName, $autoNavigation, $playerReverse, $darkMode, $playerRanking, $playerNameOnly, $accessKey));
   
       $ret = array("setting" => array("clubName" => $clubName, "autoNavigation" => $autoNavigation, "playerReverse" => $playerReverse, "darkMode" => $darkMode));
       echo json_encode($ret, JSON_NUMERIC_CHECK);

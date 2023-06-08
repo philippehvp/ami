@@ -41,7 +41,8 @@
 
       // Lecture du paramétrage de l'interface
       $query =
-        " SELECT          cpi_setting.clubName, cpi_setting.autoNavigation, cpi_setting.playerReverse, cpi_setting.darkMode" .
+        " SELECT          cpi_setting.clubName, cpi_setting.autoNavigation, cpi_setting.playerReverse," .
+        "                 cpi_setting.darkMode, cpi_setting.playerRanking, cpi_setting.playerNameOnly" .
         " FROM            cpi_setting" .
         " WHERE           cpi_setting.better_id = ?";
       $req = $db->prepare($query);
@@ -66,7 +67,9 @@
           "clubName" => $setting[0]["clubName"] ? $setting[0]["clubName"] : 0,
           "autoNavigation" => $setting[0]["autoNavigation"] ? $setting[0]["autoNavigation"] : 0, 
           "playerReverse" => $setting[0]["playerReverse"] ? $setting[0]["playerReverse"] : 0,
-          "darkMode" => $setting[0]["darkMode"] ? $setting[0]["darkMode"] : 0
+          "darkMode" => $setting[0]["darkMode"] ? $setting[0]["darkMode"] : 0,
+          "playerRanking" => $setting[0]["playerRanking"] ? $setting[0]["playerRanking"] : 0,
+          "playerNameOnly" => $setting[0]["playerNameOnly"] ? $setting[0]["playerNameOnly"] : 0
         )
       );
 

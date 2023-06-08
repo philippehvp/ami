@@ -1,5 +1,5 @@
 export interface ISetting {
-  withClubName: boolean;
+  isClubName: boolean;
   isAutoNavigation: boolean;
   isPlayerReverse: boolean;
   isDarkMode: boolean;
@@ -10,6 +10,8 @@ export interface ISettingRaw {
   autoNavigation: number;
   playerReverse: number;
   darkMode: number;
+  playerRanking: number;
+  playerNameOnly: number;
 }
 
 export interface IBetter {

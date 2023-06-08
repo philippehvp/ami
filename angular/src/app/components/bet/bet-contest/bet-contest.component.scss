@@ -4,10 +4,11 @@
   margin-bottom: 0.5em;
 }
 
-.contest {
+.contest-card {
   display: flex;
   flex-direction: column;
   margin-right: 0.5em;
+  padding: 0 0.5em 0.5em 0.5em;
 }
 
 .contest:last-child {
@@ -21,7 +22,6 @@
 
 .label {
   width: 100%;
-  text-align: center;
   margin-bottom: 0.5em;
 }
 
@@ -37,7 +37,7 @@
   height: 1.6em;
   width: 1.6em;
   color: rgb(33, 33, 33);
-  margin-right: 0.25em;
+  margin-right: 0.2em;
   border-radius: 0.5em;
   border-width: 0.125em;
   border-style: solid;

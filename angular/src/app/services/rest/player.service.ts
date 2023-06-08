@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { CommonService } from './common.service';
 import { IPlayer } from 'src/app/models/player';
 import { map, of } from 'rxjs';
+import { IEmpty, IOffline } from 'src/app/models/utils';
 
 export interface IStoredPlayer {
   categoryId: number;
@@ -21,7 +22,7 @@ export class PlayerService {
   public getPlayers(
     accessKey: string,
     categoryId: number
-  ): Observable<IPlayer[]> {
+  ): Observable<IOffline | IPlayer[]> {
     // Recherche des joueurs qui auraient déjà été lus
     const storedPlayer = this._allPlayers.find(
       (storedPlayer: IStoredPlayer) => {
@@ -45,5 +46,15 @@ export class PlayerService {
           })
         );
     }
+  }
+
+  public setPlayerName(accessKey: string): Observable<IOffline | IEmpty> {
+    const url = CommonService.getURL('player/setPlayersName');
+
+    return this.httpClient
+      .post<IOffline | IEmpty>(url, {
+        accessKey,
+      })
+      .pipe();
   }
 }

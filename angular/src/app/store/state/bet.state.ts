@@ -879,4 +879,17 @@ export class BetState {
       )
       .subscribe();
   }
+
+  @Action(BetActions.SetPlayersName)
+  setPlayersName(state: StateContext<BetStateModel>) {
+    return this.playerService
+      .setPlayerName(state.getState().better.accessKey)
+      .pipe(
+        tap((ret: IOffline | IEmpty) => {
+          if (ret && 'isOffline' in ret) {
+            state.dispatch([new ConnectionActions.IsOffline()]);
+          }
+        })
+      );
+  }
 }

@@ -87,8 +87,8 @@ export class BetComponent implements OnInit, OnDestroy {
     this.persistenceService.isEvaluationDone = isEvaluationDone;
   }
 
-  public get withClubName(): boolean {
-    return this.persistenceService.withClubName;
+  public get isClubName(): boolean {
+    return this.persistenceService.isClubName;
   }
 
   public get isAutoNavigation(): boolean {
@@ -307,13 +307,59 @@ export class BetComponent implements OnInit, OnDestroy {
     return evaluation >= index ? 'star' : 'star_border';
   }
 
-  public toggleWithClubName(better: IBetter | null) {
-    this.persistenceService.withClubName =
-      !this.persistenceService.withClubName;
+  public get clubName(): boolean {
+    return this.persistenceService.isClubName;
+  }
+
+  public set clubName(isClubName: boolean) {
+    this.persistenceService.isClubName = isClubName;
+  }
+
+  public toggleClubName(better: IBetter | null, $event: any) {
+    this.persistenceService.isClubName = !this.persistenceService.isClubName;
 
     if (better) {
       this.updateSetting(better);
     }
+
+    $event.stopPropagation();
+  }
+
+  public get isPlayerNameOnly(): boolean {
+    return this.persistenceService.isPlayerNameOnly;
+  }
+
+  public set isPlayerNameOnly(isPlayerNameOnly: boolean) {
+    this.persistenceService.isPlayerNameOnly = isPlayerNameOnly;
+  }
+
+  public togglePlayerNameOnly(better: IBetter | null, $event: any) {
+    this.persistenceService.isPlayerNameOnly =
+      !this.persistenceService.isPlayerNameOnly;
+
+    if (better) {
+      this.updateSetting(better);
+    }
+
+    $event.stopPropagation();
+  }
+
+  public get isPlayerRanking(): boolean {
+    return this.persistenceService.isPlayerRanking;
+  }
+
+  public set isPlayerRanking(isPlayerRanking: boolean) {
+    this.persistenceService.isPlayerRanking = isPlayerRanking;
+  }
+  public togglePlayerRanking(better: IBetter | null, $event: any) {
+    this.persistenceService.isPlayerRanking =
+      !this.persistenceService.isPlayerRanking;
+
+    if (better) {
+      this.updateSetting(better);
+    }
+
+    $event.stopPropagation();
   }
 
   public toggleAutoNavigation(better: IBetter | null) {

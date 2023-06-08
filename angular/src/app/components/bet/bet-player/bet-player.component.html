@@ -20,19 +20,11 @@
         </th>
       </tr>
       <td mat-cell *matCellDef="let player">
-        <span *ngIf="withClubName">
-          {{ firstPlayerRanking(player) }} - <b>{{ firstPlayerName(player) }}</b
-          ><br />{{ firstPlayerClub(player) }}
-          <br />
-          {{ secondPlayerRanking(player) }} -
-          <b>{{ secondPlayerName(player) }}</b
-          ><br />{{ firstPlayerClub(player) }}
-        </span>
-        <span *ngIf="!withClubName">
-          {{ firstPlayerRanking(player) }} - {{ firstPlayerName(player) }}
-          <br />
-          {{ secondPlayerRanking(player) }} - {{ secondPlayerName(player) }}
-        </span>
+        <span [class.bold]="isClubName">{{ firstPlayerLabel(player) }}</span>
+        <span *ngIf="isClubName"><br />{{ firstPlayerClub(player) }}</span>
+        <br />
+        <span [class.bold]="isClubName">{{ secondPlayerLabel(player) }}</span>
+        <span *ngIf="isClubName"><br />{{ secondPlayerClub(player) }}</span>
       </td>
     </ng-container>
 
@@ -170,20 +162,11 @@
           </th>
         </tr>
         <td mat-cell *matCellDef="let player">
-          <span *ngIf="withClubName">
-            {{ firstPlayerRanking(player) }} -
-            <b>{{ firstPlayerName(player) }}</b
-            ><br />{{ firstPlayerClub(player) }}
-            <br />
-            {{ secondPlayerRanking(player) }} -
-            <b>{{ secondPlayerName(player) }}</b
-            ><br />{{ firstPlayerClub(player) }}
-          </span>
-          <span *ngIf="!withClubName">
-            {{ firstPlayerRanking(player) }} - {{ firstPlayerName(player) }}
-            <br />
-            {{ secondPlayerRanking(player) }} - {{ secondPlayerName(player) }}
-          </span>
+          <span [class.bold]="isClubName">{{ firstPlayerLabel(player) }}</span>
+          <span *ngIf="isClubName"><br />{{ firstPlayerClub(player) }}</span>
+          <br />
+          <span [class.bold]="isClubName">{{ secondPlayerLabel(player) }}</span>
+          <span *ngIf="isClubName"><br />{{ secondPlayerClub(player) }}</span>
         </td>
       </ng-container>
 

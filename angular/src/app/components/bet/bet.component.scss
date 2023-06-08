@@ -161,3 +161,14 @@
 .review-of-panel.normal-mode {
   height: calc(100svh - 104px);
 }
+
+.display-setting {
+  display: flex;
+  flex-direction: row;
+  height: 2em;
+  margin-inline: 1em;
+
+  .label {
+    margin-left: 1em;
+  }
+}

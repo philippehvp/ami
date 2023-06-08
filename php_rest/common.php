@@ -1,8 +1,6 @@
 <?php
 	session_start();
 
-	const VALIDITY_DURATION = 15;
-	
 	function getContestStartDate($db, $contest) {
 		$query =
 			"   SELECT        cpi_contest.startDate" .
@@ -141,6 +139,12 @@
 
   function returnIsNotUpdatable() {
     echo json_encode(array("isNotUpdatable" => 1));
+  }
+
+  function extractNameFromFullName($fullName) {
+    preg_match_all("/(\b[A-Z][A-Z'-]+|\b[A-Z'-]\b)/", $fullName, $explode);
+    
+    return rtrim(implode(" ", $explode[0]), " -");
   }
 	
 	// Connexion à la base de données
