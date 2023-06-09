@@ -53,4 +53,25 @@ export class BetContestComponent {
 
     return '';
   }
+
+  public isCategoryComplete(category: ICategory | null, bets: IBet[]): boolean {
+    if (category) {
+      const b: IBet | undefined = bets.find((bet) => {
+        return bet.categoryId === category.id;
+      });
+
+      return b && b.isComplete ? true : false;
+    }
+
+    return false;
+  }
+
+  public isCurrentCategory(
+    category: ICategory | null,
+    currentCategory: ICategory | null
+  ): boolean {
+    return category && currentCategory
+      ? category.id === currentCategory.id
+      : false;
+  }
 }

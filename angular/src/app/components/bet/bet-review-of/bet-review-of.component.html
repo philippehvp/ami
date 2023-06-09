@@ -18,13 +18,21 @@
       <span class="bet-label">Pronostic</span>
       <span
         ><span class="material-icons-outlined">emoji_events</span
-        >{{ betsReviewOf.winnerPlayerName1 }} -
-        {{ betsReviewOf.winnerPlayerName2 }}</span
+        >{{
+          getPlayersName(
+            betsReviewOf.winnerPlayerName1,
+            betsReviewOf.winnerPlayerName2
+          )
+        }}</span
       >
       <span
         ><span class="material-icons">workspace_premium</span
-        >{{ betsReviewOf.runnerUpPlayerName1 }} -
-        {{ betsReviewOf.runnerUpPlayerName2 }}</span
+        >{{
+          getPlayersName(
+            betsReviewOf.runnerUpPlayerName1,
+            betsReviewOf.runnerUpPlayerName2
+          )
+        }}</span
       >
     </span>
 
@@ -32,13 +40,21 @@
       <span class="bet-label">Résultat final</span>
       <span
         ><span class="material-icons-outlined">emoji_events</span
-        >{{ betsReviewOf.realWinnerPlayerName1 }} -
-        {{ betsReviewOf.realWinnerPlayerName2 }}</span
+        >{{
+          getPlayersName(
+            betsReviewOf.realWinnerPlayerName1,
+            betsReviewOf.realWinnerPlayerName2
+          )
+        }}</span
       >
       <span
         ><span class="material-icons">workspace_premium</span
-        >{{ betsReviewOf.realRunnerUpPlayerName1 }} -
-        {{ betsReviewOf.realRunnerUpPlayerName2 }}</span
+        >{{
+          getPlayersName(
+            betsReviewOf.realRunnerUpPlayerName1,
+            betsReviewOf.realRunnerUpPlayerName2
+          )
+        }}</span
       >
     </span>
   </span>

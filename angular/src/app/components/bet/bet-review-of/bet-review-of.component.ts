@@ -59,4 +59,12 @@ export class BetReviewOfComponent implements OnInit, OnDestroy {
         : betsOfReview.points.toString() + ' point'
       : '-';
   }
+
+  public getPlayersName(playerName1: string, playerName2: string): string {
+    if (playerName1 !== '-' && playerName2 !== '-') {
+      return playerName1 + ' - ' + playerName2;
+    }
+
+    return '-';
+  }
 }

@@ -77,11 +77,10 @@
       <div *ngIf="tutorialStep === 1" class="tutorial-wrap">
         <div class="overlay"></div>
         <div class="tutorial1">
-          <h5>Catégories et séries (1/4)</h5>
+          <h5>Tableaux et séries (1/4)</h5>
           <p>
-            Les tableaux et leurs séries sont ici. Appuie sur le nom d'une série
-            pour l'afficher. Tes pronostics sont entièrement remplis lorsque
-            toutes les séries sont vertes.
+            Voici les tableaux et leurs séries. Appuie sur une série pour
+            l'afficher.
           </p>
           <button
             mat-raised-button
@@ -98,9 +97,9 @@
         <div class="tutorial2">
           <h5>Pronostic des vainqueurs et finalistes (2/4)</h5>
           <p>
-            Les joueurs de la série en cours sont ici. Clique sur la première
-            colonne pour choisir le vainqueur et sur la deuxième pour le
-            finaliste.
+            Les joueurs de la série en cours apparaissent dans ce tableau.
+            Clique sur la première colonne pour choisir le vainqueur et sur la
+            deuxième pour le finaliste.
           </p>
 
           <button
@@ -168,7 +167,7 @@
           (click)="togglePlayerNameOnly(data.better, $event)"
         >
           <mat-slide-toggle [checked]="isPlayerNameOnly"> </mat-slide-toggle>
-          <span class="label">Nom seul</span>
+          <span class="label">Nom des joueurs</span>
         </span>
       </mat-menu>
       <span class="label">Affichage</span>

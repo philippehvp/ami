@@ -5,7 +5,7 @@
     contests: contests$ | async
   } as data"
 >
-  <span class="contest-panel">
+  <!-- <span class="contest-panel">
     <span *ngFor="let contest of data.contests" class="contest-card">
       <span class="label">{{ contest.longName }}</span>
       <span class="category">
@@ -20,5 +20,36 @@
         </span>
       </span>
     </span>
+  </span> -->
+
+  <span class="contest-panel">
+    <ng-container *ngFor="let contest of data.contests">
+      <ng-container *ngFor="let category of contest.categories">
+        <span
+          class="category"
+          (click)="changeCategory(category.id)"
+          [class]="{
+            selected: isCurrentCategory(
+              category || null,
+              data.category || null
+            ),
+            complete: isCategoryComplete(category || null, data.bets || []),
+            uncomplete: !isCategoryComplete(category || null, data.bets || [])
+          }"
+        >
+          <span class="contest-label">{{ contest.shortName }}</span>
+          <span class="category-label">{{ category.shortName }}</span>
+          <span
+            [class]="{
+              unselected: !isCurrentCategory(
+                category || null,
+                data.category || null
+              ),
+              complete: isCategoryComplete(category || null, data.bets || [])
+            }"
+          ></span>
+        </span>
+      </ng-container>
+    </ng-container>
   </span>
 </ng-container>

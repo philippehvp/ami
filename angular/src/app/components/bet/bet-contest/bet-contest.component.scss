@@ -1,23 +1,55 @@
 .contest-panel {
   display: flex;
   flex-direction: row;
-  margin-bottom: 0.5em;
 }
 
-.contest-card {
-  display: flex;
-  flex-direction: column;
-  margin-right: 0.5em;
-  padding: 0 0.5em 0.5em 0.5em;
-}
+// .contest-card {
+//   display: flex;
+//   flex-direction: column;
+//   margin-right: 0.5em;
+//   padding: 0 0.5em 0.5em 0.5em;
+// }
 
-.contest:last-child {
-  margin-right: 0;
-}
+// .contest:last-child {
+//   margin-right: 0;
+// }
 
 .category {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 0.75em;
+  border-color: transparent;
+  border-width: 2px;
+  border-style: solid;
+  padding: 0.1em;
+
+  .contest-label {
+    font-size: 0.75em;
+  }
+}
+
+.category:last-child {
+  margin-right: 0;
+}
+
+.category.selected {
+  color: white;
+  border-radius: 0.5em;
+}
+
+.category.selected.complete {
+  background-color: #8abb8c;
+}
+
+.category.selected.uncomplete {
+  background-color: #adadad;
+}
+
+.unselected.complete {
+  width: 0.5em;
+  height: 0.25em;
+  background-color: #8abb8c;
 }
 
 .label {
@@ -29,45 +61,45 @@
   min-width: 1%;
 }
 
-.complete,
-.uncomplete {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 1.6em;
-  width: 1.6em;
-  color: rgb(33, 33, 33);
-  margin-right: 0.2em;
-  border-radius: 0.5em;
-  border-width: 0.125em;
-  border-style: solid;
-}
+// .complete,
+// .uncomplete {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 1.6em;
+//   width: 1.6em;
+//   color: rgb(33, 33, 33);
+//   margin-right: 0.2em;
+//   border-radius: 0.5em;
+//   border-width: 0.125em;
+//   border-style: solid;
+// }
 
-.complete:last-child,
-.uncomplete:last-child {
-  margin-right: 0;
-}
+// .complete:last-child,
+// .uncomplete:last-child {
+//   margin-right: 0;
+// }
 
-.complete {
-  background-color: #b0d6b1;
-  border-color: #b0d6b1;
-}
+// .complete {
+//   background-color: #b0d6b1;
+//   border-color: #b0d6b1;
+// }
 
-.uncomplete {
-  background-color: #adadad;
-  border-color: #adadad;
-}
+// .uncomplete {
+//   background-color: #adadad;
+//   border-color: #adadad;
+// }
 
-.complete-selected {
-  background-color: #89bb8c;
-  border-color: #b0d6b1;
-  color: white;
-}
+// .complete-selected {
+//   background-color: #89bb8c;
+//   border-color: #b0d6b1;
+//   color: white;
+// }
 
-.uncomplete-selected {
-  background-color: #878787;
-  color: white;
-}
+// .uncomplete-selected {
+//   background-color: #878787;
+//   color: white;
+// }
 
 .header {
   background-color: #aac972;
