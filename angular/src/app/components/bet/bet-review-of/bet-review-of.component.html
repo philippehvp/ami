@@ -15,7 +15,9 @@
     </span>
 
     <span class="review-of-detail">
-      <span class="bet-label">Pronostic</span>
+      <span class="bet-label" *ngIf="betsReviewOf.isCategoryDone"
+        >Pronostic</span
+      >
       <span
         ><span class="material-icons-outlined">emoji_events</span
         >{{

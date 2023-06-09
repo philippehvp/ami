@@ -4,15 +4,21 @@
 }
 
 .bet-panel.compact-mode {
+  height: calc(100vh - 54px);
   height: calc(100svh - 54px);
 }
 
 .bet-panel.normal-mode {
+  height: calc(100vh - 104px);
   height: calc(100svh - 104px);
 }
 
 .bet-panel .title {
   margin-left: 0.5em;
+}
+
+.contests {
+  margin-bottom: 0.5em;
 }
 
 .tutorial-wrap {
@@ -128,24 +134,6 @@
   z-index: 750;
 }
 
-.setting-panel {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 3em;
-}
-
-.setting {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .label {
-    font-size: 0.75em;
-  }
-}
-
 .hidden {
   display: none;
 }
@@ -155,20 +143,11 @@
 }
 
 .review-of-panel.compact-mode {
+  height: calc(100vh - 54px);
   height: calc(100svh - 54px);
 }
 
 .review-of-panel.normal-mode {
+  height: calc(100vh - 104px);
   height: calc(100svh - 104px);
-}
-
-.display-setting {
-  display: flex;
-  flex-direction: row;
-  height: 2em;
-  margin-inline: 1em;
-
-  .label {
-    margin-left: 1em;
-  }
 }

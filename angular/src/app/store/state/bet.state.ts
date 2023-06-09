@@ -184,6 +184,8 @@ export class BetState {
     if (action.better) {
       state.patchState({ isOffline: false, better: action.better });
 
+      this.playerService.emptyPlayers();
+
       // Lecture des concours auxquels est inscrit le participant, des pronostics et du pronostic de durée
       state.dispatch([new BetActions.GetContests(action.better.accessKey)]);
     } else {

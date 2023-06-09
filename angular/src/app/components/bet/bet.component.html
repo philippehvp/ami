@@ -68,6 +68,7 @@
     <div class="card row growing">
       <!-- Séries -->
       <div
+        class="contests"
         [class]="{
           highlight: tutorialStep === 1 ? true : false
         }"
@@ -136,67 +137,10 @@
 
   <!-- Paramétrage -->
   <div
-    class="row no-growing setting-panel slow-animation"
+    class="row no-growing slow-animation"
     [class]="{ hidden: isCompactMode }"
   >
-    <span class="setting">
-      <span
-        [matMenuTriggerFor]="displaySettings"
-        class="material-icons-outlined"
-        [class]="likeClass"
-      >
-        tune
-      </span>
-      <mat-menu #displaySettings="matMenu">
-        <span
-          class="display-setting"
-          (click)="toggleClubName(data.better, $event)"
-        >
-          <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
-          <span class="label">Nom des clubs</span>
-        </span>
-        <span
-          class="display-setting"
-          (click)="togglePlayerRanking(data.better, $event)"
-        >
-          <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
-          <span class="label">Classement des joueurs</span>
-        </span>
-        <span
-          class="display-setting"
-          (click)="togglePlayerNameOnly(data.better, $event)"
-        >
-          <mat-slide-toggle [checked]="isPlayerNameOnly"> </mat-slide-toggle>
-          <span class="label">Nom des joueurs</span>
-        </span>
-      </mat-menu>
-      <span class="label">Affichage</span>
-    </span>
-
-    <span
-      class="setting"
-      [class]="{ active: isAutoNavigation }"
-      (click)="toggleAutoNavigation(data.better || null)"
-    >
-      <span class="material-icons-outlined icon"> gps_fixed </span>
-      <span class="label">Nav. auto.</span>
-    </span>
-    <span
-      class="setting"
-      [class]="{ active: isPlayerReverse }"
-      (click)="togglePlayerReverse(data.better || null)"
-    >
-      <span class="material-icons-outlined icon"> swipe_left </span>
-      <span class="label">Gauche</span>
-    </span>
-    <span
-      class="setting"
-      [class]="{ active: isDarkMode }"
-      (click)="toggleDarkMode(data.better || null)"
-    >
-      <span class="material-icons-outlined icon"> nightlight </span>
-      <span class="label">Sombre</span>
-    </span>
+    <setting></setting>
   </div>
 
   <!-- Bouton d'appréciation -->

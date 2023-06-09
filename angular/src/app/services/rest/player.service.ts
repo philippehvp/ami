@@ -19,6 +19,10 @@ export class PlayerService {
 
   private _allPlayers: IStoredPlayer[] = [];
 
+  public emptyPlayers() {
+    this._allPlayers = [];
+  }
+
   public getPlayers(
     accessKey: string,
     categoryId: number

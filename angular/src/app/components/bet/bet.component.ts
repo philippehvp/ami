@@ -26,7 +26,6 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
 import { UtilsService } from 'src/app/services/utils.service';
-import { BetterService } from 'src/app/services/rest/better.service';
 
 @Component({
   selector: 'bet',
@@ -40,7 +39,6 @@ export class BetComponent implements OnInit, OnDestroy {
   private snackBar = inject(MatSnackBar);
   private utilsService = inject(UtilsService);
   private renderer = inject(Renderer2);
-  private betterService = inject(BetterService);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -85,22 +83,6 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public set isEvaluationDone(isEvaluationDone: boolean) {
     this.persistenceService.isEvaluationDone = isEvaluationDone;
-  }
-
-  public get isClubName(): boolean {
-    return this.persistenceService.isClubName;
-  }
-
-  public get isAutoNavigation(): boolean {
-    return this.persistenceService.isAutoNavigation;
-  }
-
-  public get isPlayerReverse(): boolean {
-    return this.persistenceService.isPlayerReverse;
-  }
-
-  public get isDarkMode(): boolean {
-    return this.persistenceService.isDarkMode;
   }
 
   public get isCompactMode(): boolean {
@@ -305,91 +287,5 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public evaluationIcon(evaluation: number, index: number): string {
     return evaluation >= index ? 'star' : 'star_border';
-  }
-
-  public get clubName(): boolean {
-    return this.persistenceService.isClubName;
-  }
-
-  public set clubName(isClubName: boolean) {
-    this.persistenceService.isClubName = isClubName;
-  }
-
-  public toggleClubName(better: IBetter | null, $event: any) {
-    this.persistenceService.isClubName = !this.persistenceService.isClubName;
-
-    if (better) {
-      this.updateSetting(better);
-    }
-
-    $event.stopPropagation();
-  }
-
-  public get isPlayerNameOnly(): boolean {
-    return this.persistenceService.isPlayerNameOnly;
-  }
-
-  public set isPlayerNameOnly(isPlayerNameOnly: boolean) {
-    this.persistenceService.isPlayerNameOnly = isPlayerNameOnly;
-  }
-
-  public togglePlayerNameOnly(better: IBetter | null, $event: any) {
-    this.persistenceService.isPlayerNameOnly =
-      !this.persistenceService.isPlayerNameOnly;
-
-    if (better) {
-      this.updateSetting(better);
-    }
-
-    $event.stopPropagation();
-  }
-
-  public get isPlayerRanking(): boolean {
-    return this.persistenceService.isPlayerRanking;
-  }
-
-  public set isPlayerRanking(isPlayerRanking: boolean) {
-    this.persistenceService.isPlayerRanking = isPlayerRanking;
-  }
-  public togglePlayerRanking(better: IBetter | null, $event: any) {
-    this.persistenceService.isPlayerRanking =
-      !this.persistenceService.isPlayerRanking;
-
-    if (better) {
-      this.updateSetting(better);
-    }
-
-    $event.stopPropagation();
-  }
-
-  public toggleAutoNavigation(better: IBetter | null) {
-    this.persistenceService.isAutoNavigation =
-      !this.persistenceService.isAutoNavigation;
-    if (better) {
-      this.updateSetting(better);
-    }
-  }
-
-  public togglePlayerReverse(better: IBetter | null) {
-    this.persistenceService.isPlayerReverse =
-      !this.persistenceService.isPlayerReverse;
-    if (better) {
-      this.updateSetting(better);
-    }
-  }
-
-  public toggleDarkMode(better: IBetter | null) {
-    this.persistenceService.isDarkMode = !this.persistenceService.isDarkMode;
-    this.utilsService.setMode(
-      this.renderer,
-      this.persistenceService.isDarkMode
-    );
-    if (better) {
-      this.updateSetting(better);
-    }
-  }
-
-  private updateSetting(better: IBetter) {
-    this.betterService.updateSetting(better).subscribe();
   }
 }
