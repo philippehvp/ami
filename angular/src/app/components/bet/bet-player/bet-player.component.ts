@@ -11,6 +11,7 @@ import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 import { BehaviorSubject, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { CPIAnimations } from 'src/app/animations/animations';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'bet-player',
@@ -21,6 +22,7 @@ import { CPIAnimations } from 'src/app/animations/animations';
 export class BetPlayerComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
+  private utilsService = inject(UtilsService);
 
   @Select(BetState.better)
   better$!: Observable<IBetter>;
@@ -195,52 +197,20 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     this.store.dispatch([new BetActions.SetRunnerUp(playerId)]);
   }
 
-  public firstPlayerName(player: IPlayer): string {
-    return player.playerName1;
-  }
-
-  public secondPlayerName(player: IPlayer): string {
-    return player.playerName2;
-  }
-
   public firstPlayerLabel(player: IPlayer): string {
-    let ret: string = this.persistenceService.isPlayerRanking
-      ? player.playerRanking1 + ' - '
-      : '';
-
-    ret += this.persistenceService.isPlayerNameOnly
-      ? player.playerNameOnly1
-      : player.playerName1;
-
-    return ret;
+    return this.utilsService.firstPlayerLabel(player);
   }
 
   public secondPlayerLabel(player: IPlayer): string {
-    let ret: string = this.persistenceService.isPlayerRanking
-      ? player.playerRanking2 + ' - '
-      : '';
-
-    ret += this.persistenceService.isPlayerNameOnly
-      ? player.playerNameOnly2
-      : player.playerName2;
-
-    return ret;
-  }
-
-  public firstPlayerRanking(player: IPlayer): string {
-    return player.playerRanking1;
-  }
-
-  public secondPlayerRanking(player: IPlayer): string {
-    return player.playerRanking2;
+    return this.utilsService.secondPlayerLabel(player);
   }
 
   public firstPlayerClub(player: IPlayer): string {
-    return player.playerClub1;
+    return this.utilsService.firstPlayerClub(player);
   }
 
   public secondPlayerClub(player: IPlayer): string {
-    return player.playerClub2;
+    return this.utilsService.secondPlayerClub(player);
   }
 
   public calculate(bet: IBet | undefined) {

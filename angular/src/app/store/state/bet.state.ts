@@ -14,7 +14,6 @@ import { IDuration } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { ConnectionActions } from '../action/connection.action';
 import { BetterService } from 'src/app/services/rest/better.service';
-import { IBetReview } from 'src/app/models/bet-review';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { IBetterPoint } from 'src/app/models/better-point';
 import { IBetReviewOf } from 'src/app/models/bet-review-of';

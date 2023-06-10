@@ -4,60 +4,101 @@
     {{ reviewOfBetterName }}
   </span>
   <span class="review-of-row" *ngFor="let betsReviewOf of data.betsReviewOf">
-    <span class="contest">
+    <span class="review-of-contest">
       <span class="contest-label">
         {{ betsReviewOf.contestLongName }} -
         {{ betsReviewOf.categoryLongName }}
       </span>
-      <span *ngIf="betsReviewOf.isCategoryDone" class="points">{{
+      <span *ngIf="betsReviewOf.isCategoryDone" class="contest-points">{{
         getPointsLabel(betsReviewOf)
       }}</span>
     </span>
 
     <span class="review-of-detail">
-      <span class="bet-label" *ngIf="betsReviewOf.isCategoryDone"
-        >Pronostic</span
-      >
-      <span
-        ><span class="material-icons-outlined">emoji_events</span
-        >{{
-          getPlayersName(
-            betsReviewOf.winnerPlayerName1,
-            betsReviewOf.winnerPlayerName2
-          )
-        }}</span
-      >
-      <span
-        ><span class="material-icons">workspace_premium</span
-        >{{
-          getPlayersName(
-            betsReviewOf.runnerUpPlayerName1,
-            betsReviewOf.runnerUpPlayerName2
-          )
-        }}</span
-      >
-    </span>
+      <!-- Pronostic -->
+      <span>
+        <span *ngIf="betsReviewOf.isCategoryDone" class="bet-label"
+          >Pronostic</span
+        >
+        <span class="detail-bet">
+          <!-- Vainqueur -->
+          <span class="material-icons-outlined">emoji_events</span>
+          <span>
+            <span [class.bold]="isClubName"
+              >{{ firstPlayerLabel(betsReviewOf.winnerPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              firstPlayerClub(betsReviewOf.winnerPlayer)
+            }}</span>
+            <span [class.bold]="isClubName"
+              >{{ secondPlayerLabel(betsReviewOf.winnerPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              secondPlayerClub(betsReviewOf.winnerPlayer)
+            }}</span>
+          </span>
+        </span>
+        <span class="detail-bet">
+          <!-- Finaliste -->
+          <span class="material-icons">workspace_premium</span>
+          <span>
+            <span [class.bold]="isClubName"
+              >{{ firstPlayerLabel(betsReviewOf.runnerUpPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              firstPlayerClub(betsReviewOf.runnerUpPlayer)
+            }}</span>
+            <span [class.bold]="isClubName"
+              >{{ secondPlayerLabel(betsReviewOf.runnerUpPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              secondPlayerClub(betsReviewOf.runnerUpPlayer)
+            }}</span>
+          </span>
+        </span>
+      </span>
 
-    <span class="review-of-detail real" *ngIf="betsReviewOf.isCategoryDone">
-      <span class="bet-label">Résultat final</span>
-      <span
-        ><span class="material-icons-outlined">emoji_events</span
-        >{{
-          getPlayersName(
-            betsReviewOf.realWinnerPlayerName1,
-            betsReviewOf.realWinnerPlayerName2
-          )
-        }}</span
-      >
-      <span
-        ><span class="material-icons">workspace_premium</span
-        >{{
-          getPlayersName(
-            betsReviewOf.realRunnerUpPlayerName1,
-            betsReviewOf.realRunnerUpPlayerName2
-          )
-        }}</span
-      >
+      <!-- Résultat final -->
+      <span *ngIf="betsReviewOf.isCategoryDone">
+        <span class="bet-label">Résultat final</span>
+
+        <span class="detail-bet">
+          <!-- Vainqueur -->
+          <span class="material-icons-outlined">emoji_events</span>
+          <span>
+            <span [class.bold]="isClubName"
+              >{{ firstPlayerLabel(betsReviewOf.realWinnerPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              firstPlayerClub(betsReviewOf.realWinnerPlayer)
+            }}</span>
+            <span [class.bold]="isClubName"
+              >{{ secondPlayerLabel(betsReviewOf.realWinnerPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              secondPlayerClub(betsReviewOf.realWinnerPlayer)
+            }}</span>
+          </span>
+        </span>
+        <span class="detail-bet">
+          <!-- Finaliste -->
+          <span class="material-icons">workspace_premium</span>
+          <span>
+            <span [class.bold]="isClubName"
+              >{{ firstPlayerLabel(betsReviewOf.realRunnerUpPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              firstPlayerClub(betsReviewOf.realRunnerUpPlayer)
+            }}</span>
+            <span [class.bold]="isClubName"
+              >{{ secondPlayerLabel(betsReviewOf.realRunnerUpPlayer) }}
+            </span>
+            <span *ngIf="isClubName">{{
+              secondPlayerClub(betsReviewOf.realRunnerUpPlayer)
+            }}</span>
+          </span>
+        </span>
+      </span>
     </span>
   </span>
 </ng-container>

@@ -1,10 +1,13 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BetState } from 'src/app/store/state/bet.state';
 import { IBetReviewOf } from 'src/app/models/bet-review-of';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
+import { IPlayer } from 'src/app/models/better-bet';
+import { UtilsService } from 'src/app/services/utils.service';
+import { IPlayerForReviewOf } from 'src/app/models/player';
 
 export interface ICategoryReview {
   categoryId: number;
@@ -25,25 +28,20 @@ export interface IContestReview {
   templateUrl: './bet-review-of.component.html',
   styleUrls: ['./bet-review-of.component.scss'],
 })
-export class BetReviewOfComponent implements OnInit, OnDestroy {
+export class BetReviewOfComponent {
   private persistenceService = inject(PersistenceService);
   private store = inject(Store);
+  private utilsService = inject(UtilsService);
 
   @Select(BetState.betsReviewOf)
   betsReviewOf$!: Observable<IBetReviewOf[]>;
 
-  private destroy$!: Subject<boolean>;
+  public get isClubName() {
+    return this.persistenceService.isClubName;
+  }
 
   public get reviewOfBetterName(): string {
     return this.persistenceService.reviewOfBetterName;
-  }
-
-  public ngOnInit() {
-    this.destroy$ = new Subject<boolean>();
-  }
-
-  public ngOnDestroy() {
-    this.destroy$.next(true);
   }
 
   public hideReviewOf() {
@@ -60,11 +58,19 @@ export class BetReviewOfComponent implements OnInit, OnDestroy {
       : '-';
   }
 
-  public getPlayersName(playerName1: string, playerName2: string): string {
-    if (playerName1 !== '-' && playerName2 !== '-') {
-      return playerName1 + ' - ' + playerName2;
-    }
+  public firstPlayerLabel(player: IPlayer): string {
+    return this.utilsService.firstPlayerLabel(<IPlayerForReviewOf>player);
+  }
 
-    return '-';
+  public secondPlayerLabel(player: IPlayer): string {
+    return this.utilsService.secondPlayerLabel(<IPlayerForReviewOf>player);
+  }
+
+  public firstPlayerClub(player: IPlayer): string {
+    return this.utilsService.firstPlayerClub(<IPlayerForReviewOf>player);
+  }
+
+  public secondPlayerClub(player: IPlayer): string {
+    return this.utilsService.secondPlayerClub(<IPlayerForReviewOf>player);
   }
 }

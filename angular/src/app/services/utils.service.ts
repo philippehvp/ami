@@ -1,6 +1,8 @@
 import { Platform } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
 import { Injectable, Renderer2, inject } from '@angular/core';
+import { IPlayer, IPlayerForReviewOf } from '../models/player';
+import { PersistenceService } from './persistence.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +10,7 @@ import { Injectable, Renderer2, inject } from '@angular/core';
 export class UtilsService {
   private platform = inject(Platform);
   private document = inject(DOCUMENT);
+  private persistenceService = inject(PersistenceService);
 
   private _isMobile: boolean | null = null;
 
@@ -27,5 +30,45 @@ export class UtilsService {
       'class',
       isDarkMode ? 'dark-mode' : 'light-mode'
     );
+  }
+
+  public firstPlayerLabel(player: IPlayer | IPlayerForReviewOf): string {
+    if (player && player.playerName1) {
+      let ret: string = this.persistenceService.isPlayerRanking
+        ? player.playerRanking1 + ' - '
+        : '';
+
+      ret += this.persistenceService.isPlayerNameOnly
+        ? player.playerNameOnly1
+        : player.playerName1;
+
+      return ret;
+    }
+
+    return '-';
+  }
+
+  public secondPlayerLabel(player: IPlayer | IPlayerForReviewOf): string {
+    if (player && player.playerName2) {
+      let ret: string = this.persistenceService.isPlayerRanking
+        ? player.playerRanking2 + ' - '
+        : '';
+
+      ret += this.persistenceService.isPlayerNameOnly
+        ? player.playerNameOnly2
+        : player.playerName2;
+
+      return ret;
+    }
+
+    return '-';
+  }
+
+  public firstPlayerClub(player: IPlayer | IPlayerForReviewOf): string {
+    return player && player.playerClub1 ? player.playerClub1 : '';
+  }
+
+  public secondPlayerClub(player: IPlayer | IPlayerForReviewOf): string {
+    return player && player.playerClub2 ? player.playerClub2 : '';
   }
 }

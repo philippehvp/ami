@@ -1,7 +1,8 @@
 .ranking-panel,
 .review-of-panel {
   display: flex;
-  height: calc((var(--vh, 1vh) * 100) - 54px);
+  height: calc(100vh - 104px);
+  height: calc(100svh - 104px);
 }
 
 .ranking {

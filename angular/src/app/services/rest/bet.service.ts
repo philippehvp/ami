@@ -9,7 +9,6 @@ import { IBet } from 'src/app/models/bet';
 import { IDuration, IDurationRaw } from 'src/app/models/duration';
 import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
 import { IBetterBet } from 'src/app/models/better-bet';
-import { IBetReview, IBetReviewRaw } from 'src/app/models/bet-review';
 import { IBetterPoint } from 'src/app/models/better-point';
 import {
   ICanCreateBetter,
@@ -161,11 +160,6 @@ export class BetService {
     return this.httpClient.post<IBetterBet | IOffline>(url, { accessKey });
   }
 
-  public getBetsReviewRaw(accessKey: string): Observable<IBetReviewRaw[]> {
-    const url = CommonService.getURL('bet/review');
-    return this.httpClient.post<IBetReviewRaw[]>(url, { accessKey });
-  }
-
   public getBetsReviewOf(
     accessKey: string,
     randomKey: string
@@ -173,19 +167,56 @@ export class BetService {
     return this.getBetsReviewOfRaw(accessKey, randomKey).pipe(
       map((betsReviewOfRaw) => {
         return betsReviewOfRaw.map((betReviewOfRaw) => {
-          return {
+          return <IBetReviewOf>{
             contestId: betReviewOfRaw.contest_id,
             categoryId: betReviewOfRaw.category_id,
             contestLongName: betReviewOfRaw.contest_longName,
             categoryLongName: betReviewOfRaw.category_longName,
-            winnerPlayerName1: betReviewOfRaw.winner_playerName1,
-            winnerPlayerName2: betReviewOfRaw.winner_playerName2,
-            runnerUpPlayerName1: betReviewOfRaw.runnerUp_playerName1,
-            runnerUpPlayerName2: betReviewOfRaw.runnerUp_playerName2,
-            realWinnerPlayerName1: betReviewOfRaw.realWinner_playerName1,
-            realWinnerPlayerName2: betReviewOfRaw.realWinner_playerName2,
-            realRunnerUpPlayerName1: betReviewOfRaw.realRunnerUp_playerName1,
-            realRunnerUpPlayerName2: betReviewOfRaw.realRunnerUp_playerName2,
+
+            winnerPlayer: {
+              playerName1: betReviewOfRaw.winner_playerName1,
+              playerNameOnly1: betReviewOfRaw.winner_playerNameOnly1,
+              playerRanking1: betReviewOfRaw.winner_playerRanking1,
+              playerClub1: betReviewOfRaw.winner_playerClub1,
+              playerName2: betReviewOfRaw.winner_playerName2,
+              playerNameOnly2: betReviewOfRaw.winner_playerNameOnly2,
+              playerRanking2: betReviewOfRaw.winner_playerRanking2,
+              playerClub2: betReviewOfRaw.winner_playerClub2,
+            },
+
+            runnerUpPlayer: {
+              playerName1: betReviewOfRaw.runnerUp_playerName1,
+              playerNameOnly1: betReviewOfRaw.runnerUp_playerNameOnly1,
+              playerRanking1: betReviewOfRaw.runnerUp_playerRanking1,
+              playerClub1: betReviewOfRaw.runnerUp_playerClub1,
+              playerName2: betReviewOfRaw.runnerUp_playerName2,
+              playerNameOnly2: betReviewOfRaw.runnerUp_playerNameOnly2,
+              playerRanking2: betReviewOfRaw.runnerUp_playerRanking2,
+              playerClub2: betReviewOfRaw.runnerUp_playerClub2,
+            },
+
+            realWinnerPlayer: {
+              playerName1: betReviewOfRaw.realWinner_playerName1,
+              playerNameOnly1: betReviewOfRaw.realWinner_playerNameOnly1,
+              playerRanking1: betReviewOfRaw.realWinner_playerRanking1,
+              playerClub1: betReviewOfRaw.realWinner_playerClub1,
+              playerName2: betReviewOfRaw.realWinner_playerName1,
+              playerNameOnly2: betReviewOfRaw.realWinner_playerNameOnly1,
+              playerRanking2: betReviewOfRaw.realWinner_playerRanking1,
+              playerClub2: betReviewOfRaw.realWinner_playerClub1,
+            },
+
+            realRunnerUpPlayer: {
+              playerName1: betReviewOfRaw.realRunnerUp_playerName1,
+              playerNameOnly1: betReviewOfRaw.realRunnerUp_playerNameOnly1,
+              playerRanking1: betReviewOfRaw.realRunnerUp_playerRanking1,
+              playerClub1: betReviewOfRaw.realRunnerUp_playerClub1,
+              playerName2: betReviewOfRaw.realRunnerUp_playerName2,
+              playerNameOnly2: betReviewOfRaw.realRunnerUp_playerNameOnly2,
+              playerRanking2: betReviewOfRaw.realRunnerUp_playerRanking2,
+              playerClub2: betReviewOfRaw.realRunnerUp_playerClub2,
+            },
+
             points: betReviewOfRaw.points,
             isCategoryDone: betReviewOfRaw.category_done === 1,
           };
