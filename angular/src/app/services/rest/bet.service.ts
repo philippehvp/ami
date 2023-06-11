@@ -200,10 +200,10 @@ export class BetService {
               playerNameOnly1: betReviewOfRaw.realWinner_playerNameOnly1,
               playerRanking1: betReviewOfRaw.realWinner_playerRanking1,
               playerClub1: betReviewOfRaw.realWinner_playerClub1,
-              playerName2: betReviewOfRaw.realWinner_playerName1,
-              playerNameOnly2: betReviewOfRaw.realWinner_playerNameOnly1,
-              playerRanking2: betReviewOfRaw.realWinner_playerRanking1,
-              playerClub2: betReviewOfRaw.realWinner_playerClub1,
+              playerName2: betReviewOfRaw.realWinner_playerName2,
+              playerNameOnly2: betReviewOfRaw.realWinner_playerNameOnly2,
+              playerRanking2: betReviewOfRaw.realWinner_playerRanking2,
+              playerClub2: betReviewOfRaw.realWinner_playerClub2,
             },
 
             realRunnerUpPlayer: {

@@ -66,13 +66,13 @@
 .logo-row {
   display: flex;
   flex-direction: row;
-  margin-bottom: 2em;
+  margin-bottom: 3em;
 }
 
 .logo {
   display: flex;
   width: 120px;
-  height: 60px;
+  height: 90px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -87,10 +87,10 @@
 
 .icon-small {
   width: 100%;
-  max-width: 32px;
+  max-width: 64px;
 }
 
 .icon-large {
   width: 100%;
-  max-width: 64px;
+  max-width: 80px;
 }

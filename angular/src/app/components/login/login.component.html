@@ -4,7 +4,11 @@
 
     <form [formGroup]="formGroup" (keydown.enter)="login()">
       <p>
-        <mat-form-field hideRequiredMarker="true">
+        <mat-form-field
+          hideRequiredMarker="true"
+          appearance="outline"
+          floatLabel="always"
+        >
           <mat-label>Nom</mat-label>
           <mat-icon matPrefix>person</mat-icon>
           <input
@@ -18,7 +22,11 @@
       </p>
 
       <p>
-        <mat-form-field hideRequiredMarker="true">
+        <mat-form-field
+          hideRequiredMarker="true"
+          appearance="outline"
+          floatLabel="always"
+        >
           <mat-label>Code à 4 chiffres</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
           <input

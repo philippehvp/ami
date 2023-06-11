@@ -228,23 +228,26 @@ export class AppComponent implements AfterViewInit {
       {
         icon: 'logo-balotti',
         label: 'Balotti',
-        isLightAndDark: false,
+        isLightAndDark: true,
         class: 'icon-small',
-      },
-      {
-        icon: 'logo-badventure',
-        label: 'Badventure',
-        isLightAndDark: false,
-        class: 'icon-large',
       },
     ],
     [
+      {
+        icon: 'logo-badventure',
+        label: 'Badventure',
+        isLightAndDark: true,
+        class: 'icon-large',
+      },
+
       {
         icon: 'logo-liguesud',
         label: 'Ligue Sud',
         isLightAndDark: false,
         class: 'icon-large',
       },
+    ],
+    [
       {
         icon: 'logo-ffbad',
         label: 'FFBAD',

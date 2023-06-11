@@ -3,7 +3,11 @@
     <h2>Créer un compte Winabad</h2>
 
     <form [formGroup]="formGroup">
-      <mat-form-field hideRequiredMarker="true">
+      <mat-form-field
+        hideRequiredMarker="true"
+        appearance="outline"
+        floatLabel="always"
+      >
         <mat-label>Nom</mat-label>
         <input
           matInput
@@ -16,7 +20,11 @@
       </mat-form-field>
       <br />
 
-      <mat-form-field hideRequiredMarker="true">
+      <mat-form-field
+        hideRequiredMarker="true"
+        appearance="outline"
+        floatLabel="always"
+      >
         <mat-label>Prénom</mat-label>
         <input
           matInput
@@ -28,7 +36,11 @@
       </mat-form-field>
       <br />
 
-      <mat-form-field hideRequiredMarker="true">
+      <mat-form-field
+        hideRequiredMarker="true"
+        appearance="outline"
+        floatLabel="always"
+      >
         <mat-label>Code à 4 chiffres</mat-label>
         <input
           matInput
@@ -55,7 +67,11 @@
       </mat-form-field>
       <br />
 
-      <mat-form-field hideRequiredMarker="true">
+      <mat-form-field
+        hideRequiredMarker="true"
+        appearance="outline"
+        floatLabel="always"
+      >
         <mat-label>Mail / N° de téléphone</mat-label>
         <input
           matInput
@@ -68,10 +84,9 @@
       </mat-form-field>
       <br />
 
-      <mat-form-field>
-        <mat-label>Ton club</mat-label>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Club (facultatif)</mat-label>
         <input matInput type="text" formControlName="club" />
-        <mat-hint align="start">Facultatif</mat-hint>
       </mat-form-field>
     </form>
 
