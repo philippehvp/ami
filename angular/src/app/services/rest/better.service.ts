@@ -58,7 +58,8 @@ export class BetterService {
     name: string,
     password: string,
     firstName: string,
-    contact: string
+    contact: string,
+    club: string
   ): Observable<IError | IBetter> {
     const url = CommonService.getURL('better/createBetter');
     return this.httpClient
@@ -67,6 +68,7 @@ export class BetterService {
         password,
         firstName,
         contact,
+        club,
       })
       .pipe(
         map((better: IBetterRaw | IError) => {

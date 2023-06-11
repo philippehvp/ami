@@ -42,9 +42,12 @@
   background-color: #adadad;
 }
 
-.indicator.unselected.complete {
+.indicator {
   width: 0.5em;
   height: 0.5em;
+}
+
+.indicator.unselected.complete {
   background-color: #8abb8c;
   border-radius: 50%;
 }

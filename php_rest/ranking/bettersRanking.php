@@ -29,10 +29,22 @@
       } else {
         $query .= " ORDER BY    cpi_better.name, cpi_better.firstName, cpi_better.id";
       }
+      $req = $db->query($query);
+      $rankings = $req->fetchAll(PDO::FETCH_ASSOC);
 
+      // Nombre de séries terminées
+      $query =
+        " SELECT      fn_completed_categories() AS completed";
       $req = $db->query($query);
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
-      echo json_encode($res, JSON_NUMERIC_CHECK);
+      $completedCategories = $res[0]["completed"];
+
+      $betterRanking = array(
+        "completedCategories" => $completedCategories,
+        "rankings" => $rankings
+      );
+
+      echo json_encode($betterRanking, JSON_NUMERIC_CHECK);
     } else {
       echo returnIsOffline();
     }

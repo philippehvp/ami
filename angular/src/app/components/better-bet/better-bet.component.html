@@ -6,6 +6,7 @@
       <thead>
         <tr>
           <th>NOM PRENOM</th>
+          <th>CLUB</th>
           <th>V/F</th>
           <th
             *ngFor="let column of displayedColumns; let i = index"
@@ -26,6 +27,10 @@
           <tr>
             <td rowspan="2">
               {{ betterBet.name.toUpperCase() }}
+            </td>
+
+            <td rowspan="2">
+              {{ betterBet.club.toUpperCase() }}
             </td>
 
             <td>V</td>

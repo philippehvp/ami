@@ -65,7 +65,9 @@ export class CreateBetterComponent implements OnInit {
       firstName: ['', Validators.required],
       password: ['', Validators.required],
       contact: ['', Validators.required],
+      club: [''],
       hasMajority: [false, Validators.required],
+      hasGDPRAccepted: [false, Validators.required],
     });
   }
 
@@ -74,13 +76,15 @@ export class CreateBetterComponent implements OnInit {
     const firstName: string = this.formGroup?.get(['firstName'])?.value || '';
     const password: string = this.formGroup?.get(['password'])?.value || '';
     const contact: string = this.formGroup?.get(['contact'])?.value || '';
+    const club: string = this.formGroup?.get(['club'])?.value || '';
 
     if (
       name.trim() === '' ||
       password.trim() === '' ||
       firstName.trim() === '' ||
       contact.trim() === '' ||
-      this.hasMajority === false
+      this.hasMajority === false ||
+      this.hasGDPRAccepted === false
     ) {
       const config: MatDialogConfig<IInformationDialogConfig> = {
         data: {
@@ -95,7 +99,7 @@ export class CreateBetterComponent implements OnInit {
     } else {
       // Création du pronostiqueur
       this.betterService
-        .createBetter(name, password, firstName, contact)
+        .createBetter(name, password, firstName, contact, club)
         .subscribe((ret: IBetter | IError) => {
           if ('errorMessage' in ret) {
             const config: MatDialogConfig<IInformationDialogConfig> = {

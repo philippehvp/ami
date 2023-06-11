@@ -4,12 +4,13 @@ export interface IHeader {
 }
 
 export interface IPlayer {
-  playerName1: string;
-  playerName2: string;
+  playerNameOnly1: string;
+  playerNameOnly2: string;
 }
 
 export interface IPlayerBet {
   name: string;
+  club: string;
   winners: IPlayer[];
   runnersUp: IPlayer[];
   duration: number;

@@ -19,7 +19,7 @@
       $header = $req->fetchAll(PDO::FETCH_ASSOC);
 
       $query =
-        " SELECT          CONCAT(cpi_better.name, ' ', cpi_better.firstName) AS name" .
+        " SELECT          CONCAT(cpi_better.name, ' ', cpi_better.firstName) AS name, IFNULL(cpi_better.club, '') AS club" .
         " FROM            cpi_better" .
         " WHERE           cpi_better.isAdmin = 0" .
         " ORDER BY        cpi_better.name, cpi_better.firstName, cpi_better.id";
@@ -27,8 +27,8 @@
       $betters = $req->fetchAll(PDO::FETCH_ASSOC);
 
       $query =
-        " SELECT          IFNULL(winner.playerName1, '-') AS winner_playerName1, IFNULL(winner.playerName2, '-') AS winner_playerName2," .
-        "                 IFNULL(runnerUp.playerName1, '-') AS runnerUp_playerName1, IFNULL(runnerUp.playerName2, '-') AS runnerUp_playerName2" .
+        " SELECT          IFNULL(winner.playerNameOnly1, '-') AS winner_playerNameOnly1, IFNULL(winner.playerNameOnly2, '-') AS winner_playerNameOnly2," .
+        "                 IFNULL(runnerUp.playerNameOnly1, '-') AS runnerUp_playerNameOnly1, IFNULL(runnerUp.playerNameOnly2, '-') AS runnerUp_playerNameOnly2" .
         " FROM            cpi_better" .
         " JOIN            cpi_betting" .
         "                 ON    cpi_better.id = cpi_betting.better_id" .
@@ -82,16 +82,16 @@
           array_push(
             $winners,
             array(
-              "playerName1" => $betsRaw[$betsIndex]["winner_playerName1"],
-              "playerName2" => $betsRaw[$betsIndex]["winner_playerName2"]
+              "playerNameOnly1" => $betsRaw[$betsIndex]["winner_playerNameOnly1"],
+              "playerNameOnly2" => $betsRaw[$betsIndex]["winner_playerNameOnly2"]
             )
           );
 
           array_push(
             $runnersUp,
             array(
-              "playerName1" => $betsRaw[$betsIndex]["runnerUp_playerName1"],
-              "playerName2" => $betsRaw[$betsIndex]["runnerUp_playerName2"]        
+              "playerNameOnly1" => $betsRaw[$betsIndex]["runnerUp_playerNameOnly1"],
+              "playerNameOnly2" => $betsRaw[$betsIndex]["runnerUp_playerNameOnly2"]        
             )
           );
 
@@ -102,6 +102,7 @@
           $bets,
           array(
             "name" => $better["name"],
+            "club" => $better["club"],
             "winners" => $winners,
             "runnersUp" => $runnersUp,
             "duration" => $duration[$betterIndex]["duration"]

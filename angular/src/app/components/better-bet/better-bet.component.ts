@@ -66,15 +66,12 @@ export class BetterBetComponent implements OnInit, OnDestroy {
   public getPlayerName(players: IPlayer[], j: number): string {
     if (j % 2 === 0) {
       const playersName =
-        players[j / 2].playerName1 + ' ' + players[j / 2].playerName2;
-      const playersNameOnly = playersName.match(
-        /(\b[A-Z][A-Z'-]+|\b[A-Z'-]\b)/g
-      );
-      const ret = playersNameOnly?.join(' ') || '';
-      if (ret === '') {
+        players[j / 2].playerNameOnly1 + ' ' + players[j / 2].playerNameOnly2;
+
+      if (!playersName || playersName === '') {
         return '-';
       } else {
-        return ret;
+        return playersName;
       }
     }
     return '';

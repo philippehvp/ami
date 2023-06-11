@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
-import { IBetterRanking } from 'src/app/models/better-ranking';
+import { IBetterRanking, IRanking } from 'src/app/models/better-ranking';
 import { BetState } from 'src/app/store/state/bet.state';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { UtilsService } from 'src/app/services/utils.service';
 import { ActivatedRoute } from '@angular/router';
+import { IBet } from 'src/app/models/bet';
 
 @Component({
   selector: 'better-ranking',
@@ -25,7 +26,10 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
   better$!: Observable<IBetter>;
 
   @Select(BetState.bettersRanking)
-  bettersRanking$!: Observable<IBetterRanking[]>;
+  bettersRanking$!: Observable<IBetterRanking>;
+
+  @Select(BetState.bets)
+  bets$!: Observable<IBet[]>;
 
   private destroy$!: Subject<boolean>;
 
@@ -38,10 +42,18 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   public title!: string;
 
-  public displayedColumns: string[] = ['ranking', 'name', 'points'];
+  public displayedColumns: string[] = ['ranking', 'name', 'points', 'duration'];
 
   public get isReviewOfVisible(): boolean {
     return this.persistenceService.isReviewOfVisible;
+  }
+
+  public getDataSource(bettersRanking: IBetterRanking | null): IRanking[] {
+    if (bettersRanking && bettersRanking.rankings) {
+      return bettersRanking.rankings;
+    }
+
+    return [];
   }
 
   public ngOnInit() {
@@ -100,22 +112,14 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     }
   }
 
-  public showBetsReviewOf(
-    betterRanking: IBetterRanking,
-    better: IBetter | null
-  ) {
-    this.store.dispatch([
-      new BetActions.GetBetsReviewOf(betterRanking.randomKey),
-    ]);
+  public showBetsReviewOf(ranking: IRanking, better: IBetter | null) {
+    this.store.dispatch([new BetActions.GetBetsReviewOf(ranking.randomKey)]);
 
     if (better) {
       this.persistenceService.reviewOfBetterName =
-        betterRanking.randomKey === better.randomKey
+        ranking.randomKey === better.randomKey
           ? 'Mes pronostics'
-          : 'Pronostics de ' +
-            betterRanking.name +
-            ' ' +
-            betterRanking.firstName;
+          : 'Pronostics de ' + ranking.name + ' ' + ranking.firstName;
     } else {
       this.persistenceService.reviewOfBetterName = '?';
     }
@@ -123,13 +127,13 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
   }
 
   public getRankingBetterName(
-    betterRanking: IBetterRanking,
+    ranking: IRanking,
     better: IBetter | null
   ): string {
-    if (betterRanking && better) {
-      return betterRanking.randomKey === better.randomKey
+    if (ranking && better) {
+      return ranking.randomKey === better.randomKey
         ? 'Moi'
-        : betterRanking.name + ' ' + betterRanking.firstName;
+        : ranking.name + ' ' + ranking.firstName;
     }
 
     return '?';
