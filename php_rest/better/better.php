@@ -9,8 +9,12 @@
   if ($name && $password) {
     $query =
       " SELECT DISTINCT     cpi_better.accessKey, cpi_better.randomKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin,".
-      "                     cpi_better.isTutorialDone, cpi_better.evaluation" .
+      "                     cpi_better.avatar_id AS avatar_id, cpi_universe.folder AS universe_folder, cpi_avatar.file AS avatar_file, cpi_better.isTutorialDone, cpi_better.evaluation" .
       " FROM                cpi_better" .
+      " LEFT JOIN           cpi_avatar" .
+      "                     ON    cpi_better.avatar_id = cpi_avatar.id" .
+      " LEFT JOIN           cpi_universe" .
+      "                     ON    cpi_avatar.universe_id = cpi_universe.id" .
       " WHERE               UPPER(cpi_better.name) = ?" .
       "                     AND   cpi_better.password = ?";
   
@@ -59,6 +63,9 @@
         "randomKey" => $better["randomKey"],
         "name" => $better["name"],
         "firstName" => $better["firstName"],
+        "avatar_id" => $better["avatar_id"],
+        "universe_folder" => $better["universe_folder"],
+        "avatar_file" => $better["avatar_file"],
         "isAdmin" => $better["isAdmin"],
         "isTutorialDone" => $better["isTutorialDone"],
         "evaluation" => $better["evaluation"],

@@ -33,6 +33,8 @@ export class BetterService {
                 accessKey: betterRaw.accessKey,
                 randomKey: betterRaw.randomKey,
                 name: betterRaw.name,
+                universeFolder: betterRaw.universe_folder,
+                avatarFile: betterRaw.avatar_file,
                 firstName: betterRaw.firstName,
                 isAdmin: betterRaw.isAdmin === 1 ? true : false,
                 isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
@@ -59,7 +61,10 @@ export class BetterService {
     password: string,
     firstName: string,
     contact: string,
-    club: string
+    club: string,
+    avatarId: number,
+    folder: string,
+    avatarFile: string
   ): Observable<IError | IBetter> {
     const url = CommonService.getURL('better/createBetter');
     return this.httpClient
@@ -69,6 +74,9 @@ export class BetterService {
         firstName,
         contact,
         club,
+        avatarId,
+        folder,
+        avatarFile,
       })
       .pipe(
         map((better: IBetterRaw | IError) => {

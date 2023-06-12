@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
 import { IAvatar, IUniverse } from '../models/avatar';
+import { IBetter } from '../models/better';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,30 @@ export class CommonService {
           universe.folder +
           '/' +
           avatar.file +
+          '.png'
+        );
+      }
+    }
+
+    return '';
+  }
+
+  public static getAvatarSourceFromBetter(better: IBetter | null): string {
+    if (better && better.universeFolder && better.avatarFile) {
+      if (CommonService.isProduction) {
+        return (
+          'assets/img/avatar/' +
+          better.universeFolder +
+          '/' +
+          better.avatarFile +
+          '.png'
+        );
+      } else {
+        return (
+          '../assets/img/avatar/' +
+          better.universeFolder +
+          '/' +
+          better.avatarFile +
           '.png'
         );
       }

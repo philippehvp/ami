@@ -31,6 +31,8 @@ export class BetService {
             randomKey: betterRaw.randomKey,
             firstName: betterRaw.firstName,
             name: betterRaw.name,
+            universeFolder: betterRaw.universe_folder,
+            avatarFile: betterRaw.avatar_file,
             isAdmin: betterRaw.isAdmin === 1,
             isTutorialDone: betterRaw.isTutorialDone === 1,
             evaluation: betterRaw.evaluation,

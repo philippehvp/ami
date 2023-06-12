@@ -26,6 +26,8 @@ export class PersistenceService {
     this._gobackPage = '';
     this._isReviewOfVisible = false;
     this._reviewOfBetterName = '';
+    this._universe = undefined;
+    this._avatar = undefined;
   }
 
   private _isClubName: boolean = false;

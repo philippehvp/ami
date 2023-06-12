@@ -8,6 +8,9 @@
   $password = json_decode($data["password"]) ? json_decode($data["password"]) : $data["password"];
   $contact = json_decode($data["contact"]) ? json_decode($data["contact"]) : $data["contact"];
   $club = json_decode($data["club"]) ? json_decode($data["club"]) : $data["club"];
+  $avatarId = json_decode($data["avatarId"]) ? json_decode($data["avatarId"]) : $data["avatarId"];
+  $folder = json_decode($data["folder"]) ? json_decode($data["folder"]) : $data["folder"];
+  $avatarFile = json_decode($data["avatarFile"]) ? json_decode($data["avatarFile"]) : $data["avatarFile"];
 
   if (trim($name) == "" || trim($firstName) == "" || trim($password) == "" || trim($contact) == "") {
     return http_response_code(400);
@@ -35,11 +38,11 @@
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
-          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, randomKey, endAccessKeyValidityDate, contact, club, isTutorialDone, evaluation)" .
-          " SELECT              ?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, ?, ?, ?" .
+          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, randomKey, endAccessKeyValidityDate, contact, club, avatar_id, universe_folder, avatar_file, isTutorialDone, evaluation)" .
+          " SELECT              ?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, ?, ?, ?, ?, ?, ?" .
           " WHERE               fn_can_create_better() = 1";
         $req = $db->prepare($query);
-        $req->execute(array(strtoupper($name), $firstName, $password, 0, $accessKey, $randomKey, $contact, $club, 0, -1));
+        $req->execute(array(strtoupper($name), $firstName, $password, 0, $accessKey, $randomKey, $contact, $club, $avatarId, $folder, $avatarFile, 0, -1));
     
         // Identifiant du dernier enregistrement ajouté
         $betterId = $db->lastInsertId();
@@ -75,6 +78,9 @@
           "isTutorialDone" => 0,
           "evaluation" => -1,
           "endBetDate" => $endBetDate,
+          "avatar_id" => $avatarId,
+          "universe_folder" => $folder,
+          "avatar_file" => $avatarFile,
           "setting" => array(
             "clubName" => 0,
             "autoNavigation" => 0,

@@ -19,6 +19,8 @@ export interface IBetter {
   randomKey: string;
   firstName: string;
   name: string;
+  universeFolder: string;
+  avatarFile: string;
   isAdmin: boolean;
   isTutorialDone: boolean;
   evaluation: number;
@@ -30,6 +32,8 @@ export interface IBetterRaw {
   randomKey: string;
   firstName: string;
   name: string;
+  universe_folder: string;
+  avatar_file: string;
   isAdmin: number;
   isTutorialDone: number;
   evaluation: number;

@@ -105,8 +105,26 @@ export class CreateBetterComponent implements OnInit {
       this.dialog.open(InformationComponent, config);
     } else {
       // Création du pronostiqueur
+      const avatarId: number = this.persistenceService.avatar
+        ? this.persistenceService.avatar.id
+        : -1;
+      const folder: string = this.persistenceService.universe
+        ? this.persistenceService.universe.folder
+        : '';
+      const avatarFile: string = this.persistenceService.avatar
+        ? this.persistenceService.avatar.file
+        : '';
       this.betterService
-        .createBetter(name, password, firstName, contact, club)
+        .createBetter(
+          name,
+          password,
+          firstName,
+          contact,
+          club,
+          avatarId,
+          folder,
+          avatarFile
+        )
         .subscribe((ret: IBetter | IError) => {
           if ('errorMessage' in ret) {
             const config: MatDialogConfig<IInformationDialogConfig> = {

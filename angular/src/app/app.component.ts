@@ -294,4 +294,16 @@ export class AppComponent implements AfterViewInit {
   public setPlayerName() {
     this.store.dispatch([new BetActions.SetPlayersName()]);
   }
+
+  public hasAvatar(better: IBetter | null): boolean {
+    if (better) {
+      return !!better.avatarFile;
+    }
+
+    return false;
+  }
+
+  public getAvatarSource(better: IBetter | null): string {
+    return CommonService.getAvatarSourceFromBetter(better);
+  }
 }
