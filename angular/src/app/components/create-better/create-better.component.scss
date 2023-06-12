@@ -56,3 +56,14 @@
 .mat-mdc-form-field {
   min-width: 18.125em;
 }
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 64px;
+    height: 64px;
+  }
+}

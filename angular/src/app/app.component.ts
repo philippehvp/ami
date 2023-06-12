@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { BetActions } from './store/action/bet.action';
-import { CommonService } from './services/rest/common.service';
+import { CommonService } from './services/common.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
   IInformationDialogConfig,

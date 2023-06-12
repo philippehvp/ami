@@ -21,7 +21,7 @@ import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
-import { CommonService } from 'src/app/services/rest/common.service';
+import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';

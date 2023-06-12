@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { CommonService } from './common.service';
+import { CommonService } from '../common.service';
 import { IPlayer } from 'src/app/models/player';
 import { map, of } from 'rxjs';
 import { IEmpty, IOffline } from 'src/app/models/utils';

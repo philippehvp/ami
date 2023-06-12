@@ -17,51 +17,42 @@
           (click)="toggleClubName(data.better, $event)"
         >
           <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
-          <span class="label">Nom des clubs</span>
+          <span class="label">Afficher le nom des clubs</span>
         </span>
         <span
           class="display-setting"
           (click)="togglePlayerRanking(data.better, $event)"
         >
           <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
-          <span class="label">Classement des joueurs</span>
+          <span class="label">Afficher le classement</span>
         </span>
         <span
           class="display-setting"
-          (click)="togglePlayerNameOnly(data.better, $event)"
+          (click)="toggleFirstnameVisible(data.better, $event)"
         >
-          <mat-slide-toggle [checked]="isPlayerNameOnly"> </mat-slide-toggle>
-          <span class="label">Nom des joueurs</span>
+          <mat-slide-toggle [checked]="isFirstnameVisible"> </mat-slide-toggle>
+          <span class="label">Afficher les prénoms</span>
         </span>
       </mat-menu>
       <span class="label">Affichage</span>
     </span>
 
-    <span
-      class="setting"
-      [class]="{ active: isAutoNavigation }"
-      (click)="toggleAutoNavigation(data.better || null)"
-    >
+    <span class="setting" (click)="toggleAutoNavigation(data.better || null)">
       <span class="material-icons-outlined icon"> gps_fixed </span>
       <span class="label">Nav. auto.</span>
+      <span class="indicator" [class]="{ active: isAutoNavigation }"></span>
     </span>
 
-    <span
-      class="setting"
-      [class]="{ active: isPlayerReverse }"
-      (click)="togglePlayerReverse(data.better || null)"
-    >
+    <span class="setting" (click)="togglePlayerReverse(data.better || null)">
       <span class="material-icons-outlined icon"> swipe_left </span>
       <span class="label">Gauche</span>
+      <span class="indicator" [class]="{ active: isPlayerReverse }"></span>
     </span>
 
-    <span
-      class="setting"
-      [class]="{ active: isDarkMode }"
-      (click)="toggleDarkMode(data.better || null)"
-    >
+    <span class="setting" (click)="toggleDarkMode(data.better || null)">
       <span class="material-icons-outlined icon"> nightlight </span>
       <span class="label">Sombre</span>
+      <span class="indicator" [class]="{ active: isDarkMode }"></span>
     </span>
   </div>
 </ng-container>

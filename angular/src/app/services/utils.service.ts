@@ -38,9 +38,9 @@ export class UtilsService {
         ? player.playerRanking1 + ' - '
         : '';
 
-      ret += this.persistenceService.isPlayerNameOnly
-        ? player.playerNameOnly1
-        : player.playerName1;
+      ret += this.persistenceService.isFirstnameVisible
+        ? player.playerName1
+        : player.playerNameOnly1;
 
       return ret;
     }
@@ -54,9 +54,9 @@ export class UtilsService {
         ? player.playerRanking2 + ' - '
         : '';
 
-      ret += this.persistenceService.isPlayerNameOnly
-        ? player.playerNameOnly2
-        : player.playerName2;
+      ret += this.persistenceService.isFirstnameVisible
+        ? player.playerName2
+        : player.playerNameOnly2;
 
       return ret;
     }

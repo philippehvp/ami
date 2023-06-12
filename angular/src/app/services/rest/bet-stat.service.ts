@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { IOffline } from '../../models/utils';
-import { CommonService } from './common.service';
+import { CommonService } from '../common.service';
 import { IBetStat } from 'src/app/models/bet-stat';
 
 @Injectable({

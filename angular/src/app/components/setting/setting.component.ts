@@ -21,12 +21,8 @@ export class SettingComponent {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
-  public get clubName(): boolean {
+  public get isClubName(): boolean {
     return this.persistenceService.isClubName;
-  }
-
-  public set clubName(isClubName: boolean) {
-    this.persistenceService.isClubName = isClubName;
   }
 
   public toggleClubName(better: IBetter | null, $event: any) {
@@ -39,17 +35,17 @@ export class SettingComponent {
     $event.stopPropagation();
   }
 
-  public get isPlayerNameOnly(): boolean {
-    return this.persistenceService.isPlayerNameOnly;
+  public get isFirstnameVisible(): boolean {
+    return this.persistenceService.isFirstnameVisible;
   }
 
-  public set isPlayerNameOnly(isPlayerNameOnly: boolean) {
-    this.persistenceService.isPlayerNameOnly = isPlayerNameOnly;
+  public set isFirstnameVisible(isFirstnameVisible: boolean) {
+    this.persistenceService.isFirstnameVisible = isFirstnameVisible;
   }
 
-  public togglePlayerNameOnly(better: IBetter | null, $event: any) {
-    this.persistenceService.isPlayerNameOnly =
-      !this.persistenceService.isPlayerNameOnly;
+  public toggleFirstnameVisible(better: IBetter | null, $event: any) {
+    this.persistenceService.isFirstnameVisible =
+      !this.persistenceService.isFirstnameVisible;
 
     if (better) {
       this.updateSetting(better);
@@ -77,6 +73,10 @@ export class SettingComponent {
     $event.stopPropagation();
   }
 
+  public get isAutoNavigation(): boolean {
+    return this.persistenceService.isAutoNavigation;
+  }
+
   public toggleAutoNavigation(better: IBetter | null) {
     this.persistenceService.isAutoNavigation =
       !this.persistenceService.isAutoNavigation;
@@ -85,12 +85,20 @@ export class SettingComponent {
     }
   }
 
+  public get isPlayerReverse(): boolean {
+    return this.persistenceService.isPlayerReverse;
+  }
+
   public togglePlayerReverse(better: IBetter | null) {
     this.persistenceService.isPlayerReverse =
       !this.persistenceService.isPlayerReverse;
     if (better) {
       this.updateSetting(better);
     }
+  }
+
+  public get isDarkMode(): boolean {
+    return this.persistenceService.isDarkMode;
   }
 
   public toggleDarkMode(better: IBetter | null) {
@@ -102,22 +110,6 @@ export class SettingComponent {
     if (better) {
       this.updateSetting(better);
     }
-  }
-
-  public get isClubName(): boolean {
-    return this.persistenceService.isClubName;
-  }
-
-  public get isAutoNavigation(): boolean {
-    return this.persistenceService.isAutoNavigation;
-  }
-
-  public get isPlayerReverse(): boolean {
-    return this.persistenceService.isPlayerReverse;
-  }
-
-  public get isDarkMode(): boolean {
-    return this.persistenceService.isDarkMode;
   }
 
   private updateSetting(better: IBetter) {

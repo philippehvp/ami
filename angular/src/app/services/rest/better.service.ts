@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, Observable, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IBetter, IBetterRaw } from 'src/app/models/better';
-import { CommonService } from './common.service';
+import { CommonService } from '../common.service';
 import { IEmpty, IError, IOffline } from 'src/app/models/utils';
 import { PersistenceService } from '../persistence.service';
 
@@ -25,8 +25,8 @@ export class BetterService {
           this.persistenceService.isDarkMode = betterRaw.setting.darkMode === 1;
           this.persistenceService.isPlayerRanking =
             betterRaw.setting.playerRanking === 1;
-          this.persistenceService.isPlayerNameOnly =
-            betterRaw.setting.playerNameOnly === 1;
+          this.persistenceService.isFirstnameVisible =
+            betterRaw.setting.firstnameVisible === 1;
 
           return betterRaw
             ? {
@@ -122,7 +122,7 @@ export class BetterService {
       playerReverse: this.persistenceService.isPlayerReverse ? 1 : 0,
       darkMode: this.persistenceService.isDarkMode ? 1 : 0,
       playerRanking: this.persistenceService.isPlayerRanking ? 1 : 0,
-      playerNameOnly: this.persistenceService.isPlayerNameOnly ? 1 : 0,
+      firstnameVisible: this.persistenceService.isFirstnameVisible ? 1 : 0,
     });
   }
 }

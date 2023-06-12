@@ -11,7 +11,7 @@ export interface ISettingRaw {
   playerReverse: number;
   darkMode: number;
   playerRanking: number;
-  playerNameOnly: number;
+  firstnameVisible: number;
 }
 
 export interface IBetter {

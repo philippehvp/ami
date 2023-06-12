@@ -18,6 +18,9 @@ import {
 } from 'src/app/models/information-dialog-type';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { GdprComponent } from '../gdpr/gdpr.component';
+import { AvatarComponent } from '../avatar/avatar.component';
+import { IAvatar } from 'src/app/models/avatar';
+import { CommonService } from 'src/app/services/common.service';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -42,6 +45,10 @@ export class CreateBetterComponent implements OnInit {
   public passwordVisibility: boolean = false;
   public hasMajority: boolean = false;
   public hasGDPRAccepted: boolean = false;
+
+  public get avatar(): IAvatar | undefined {
+    return this.persistenceService.avatar;
+  }
 
   public get createBetterDisabled(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
@@ -141,5 +148,25 @@ export class CreateBetterComponent implements OnInit {
       disableClose: true,
     };
     this.dialog.open(GdprComponent, config);
+  }
+
+  public chooseAvatar() {
+    this.dialog
+      .open(AvatarComponent)
+      .afterClosed()
+      .subscribe((avatar: number) => {
+        if (avatar !== -1) {
+        }
+      });
+  }
+
+  public getAvatarSource(avatar: IAvatar): string {
+    if (this.persistenceService.universe && avatar) {
+      return CommonService.getAvatarSource(
+        this.persistenceService.universe,
+        avatar
+      );
+    }
+    return '';
   }
 }

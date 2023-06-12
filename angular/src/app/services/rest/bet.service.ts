@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBetter, IBetterRaw, ISetting } from 'src/app/models/better';
-import { CommonService } from './common.service';
+import { CommonService } from '../common.service';
 import { IContest } from 'src/app/models/contest';
 import { map } from 'rxjs/internal/operators/map';
 import { IBet } from 'src/app/models/bet';

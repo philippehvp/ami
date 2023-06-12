@@ -51,8 +51,8 @@
 
         // Création du paramétrage de l'interface
         $query =
-          " INSERT INTO         cpi_setting(better_id, clubName, autoNavigation, playerReverse, darkMode)" .
-          " SELECT              ?, 0, 0, 0, 0" .
+          " INSERT INTO         cpi_setting(better_id, clubName, autoNavigation, playerReverse, darkMode, firstnameVisible)" .
+          " SELECT              ?, 0, 0, 0, 0, 1" .
           " WHERE               fn_can_create_better() = 1";
         $req = $db->prepare($query);
         $req->execute(array($betterId));

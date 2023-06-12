@@ -17,7 +17,7 @@ import {
 import { Subject, map } from 'rxjs';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetService } from 'src/app/services/rest/bet.service';
-import { CommonService } from 'src/app/services/rest/common.service';
+import { CommonService } from 'src/app/services/common.service';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;

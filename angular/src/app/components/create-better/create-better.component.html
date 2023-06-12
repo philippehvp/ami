@@ -88,6 +88,13 @@
         <mat-label>Club (facultatif)</mat-label>
         <input matInput type="text" formControlName="club" />
       </mat-form-field>
+
+      <br />
+      <span *ngIf="!avatar" (click)="chooseAvatar()">Choisir un avatar</span>
+      <span *ngIf="avatar" (click)="chooseAvatar()" class="avatar">
+        <img [src]="getAvatarSource(avatar)" />
+        <span>{{ avatar.name }}</span>
+      </span>
     </form>
 
     <span class="accept-panel">

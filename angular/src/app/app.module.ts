@@ -31,6 +31,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -62,6 +63,7 @@ import { RuleComponent } from './components/rule/rule.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
 import { BetReviewOfComponent } from './components/bet/bet-review-of/bet-review-of.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,7 @@ import { SettingComponent } from './components/setting/setting.component';
     GdprComponent,
     BetReviewOfComponent,
     SettingComponent,
+    AvatarComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,6 +113,7 @@ import { SettingComponent } from './components/setting/setting.component';
     MatMenuModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     MatSidenavModule,
     MatSliderModule,
     MatSlideToggleModule,

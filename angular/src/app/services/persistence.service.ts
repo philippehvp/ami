@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { IAvatar, IUniverse } from '../models/avatar';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class PersistenceService {
   public init() {
     this._isClubName = false;
     this._isPlayerRanking = true;
-    this._isPlayerNameOnly = false;
+    this._isFirstnameVisible = true;
     this._isAutoNavigation = false;
     this._isDarkMode = false;
     this._categoryId = -1;
@@ -43,12 +44,12 @@ export class PersistenceService {
     this._isPlayerRanking = isPlayerRanking;
   }
 
-  private _isPlayerNameOnly: boolean = false;
-  public get isPlayerNameOnly(): boolean {
-    return this._isPlayerNameOnly;
+  private _isFirstnameVisible: boolean = true;
+  public get isFirstnameVisible(): boolean {
+    return this._isFirstnameVisible;
   }
-  public set isPlayerNameOnly(isPlayerNameOnly: boolean) {
-    this._isPlayerNameOnly = isPlayerNameOnly;
+  public set isFirstnameVisible(isFirstnameVisible: boolean) {
+    this._isFirstnameVisible = isFirstnameVisible;
   }
 
   private _isAutoNavigation: boolean = false;
@@ -161,6 +162,22 @@ export class PersistenceService {
   }
   public set reviewOfBetterName(reviewOfBetterName: string) {
     this._reviewOfBetterName = reviewOfBetterName;
+  }
+
+  private _universe: IUniverse | undefined = undefined;
+  public get universe(): IUniverse | undefined {
+    return this._universe;
+  }
+  public set universe(universe: IUniverse | undefined) {
+    this._universe = universe;
+  }
+
+  private _avatar: IAvatar | undefined = undefined;
+  public get avatar(): IAvatar | undefined {
+    return this._avatar;
+  }
+  public set avatar(avatar: IAvatar | undefined) {
+    this._avatar = avatar;
   }
 
   public navigate(link: string) {
