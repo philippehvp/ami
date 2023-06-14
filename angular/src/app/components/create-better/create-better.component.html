@@ -94,6 +94,7 @@
       <span *ngIf="avatar" (click)="chooseAvatar()" class="avatar">
         <img [src]="getAvatarSource(avatar)" />
         <span>{{ avatar.name }}</span>
+        <button mat-raised-button (click)="unsetAvatar()">Supprimer</button>
       </span>
     </form>
 

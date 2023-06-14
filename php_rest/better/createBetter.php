@@ -38,11 +38,11 @@
 
         // Ajout du pronostiqueur dans la table des participants
         $query =
-          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, randomKey, endAccessKeyValidityDate, contact, club, avatar_id, universe_folder, avatar_file, isTutorialDone, evaluation)" .
-          " SELECT              ?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, ?, ?, ?, ?, ?, ?" .
+          " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, randomKey, endAccessKeyValidityDate, contact, club, avatar_id, isTutorialDone, evaluation)" .
+          " SELECT              ?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, ?, ?, ?, ?" .
           " WHERE               fn_can_create_better() = 1";
         $req = $db->prepare($query);
-        $req->execute(array(strtoupper($name), $firstName, $password, 0, $accessKey, $randomKey, $contact, $club, $avatarId, $folder, $avatarFile, 0, -1));
+        $req->execute(array(strtoupper($name), $firstName, $password, 0, $accessKey, $randomKey, $contact, $club, $avatarId, 0, -1));
     
         // Identifiant du dernier enregistrement ajouté
         $betterId = $db->lastInsertId();
@@ -75,12 +75,13 @@
           "name" => $name,
           "firstName" => $firstName,
           "isAdmin" => 0,
-          "isTutorialDone" => 0,
-          "evaluation" => -1,
-          "endBetDate" => $endBetDate,
+          "club" => $club,
           "avatar_id" => $avatarId,
           "universe_folder" => $folder,
           "avatar_file" => $avatarFile,
+          "isTutorialDone" => 0,
+          "evaluation" => -1,
+          "endBetDate" => $endBetDate,
           "setting" => array(
             "clubName" => 0,
             "autoNavigation" => 0,

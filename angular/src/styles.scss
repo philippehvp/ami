@@ -32,13 +32,13 @@ hr {
   overflow-y: auto;
 }
 
-.light-mode {
+.isb-mode {
   $active: rgba(0, 0, 0, 0.87);
 
   .mat-drawer-container {
     background-position: bottom right;
     background-repeat: no-repeat;
-    background-image: url("~/assets/img/background.png"),
+    background-image: url("~/assets/img/background/isb.png"),
       linear-gradient(
         150deg,
         #fcc916,
@@ -80,6 +80,10 @@ hr {
   .indicator.active {
     background-color: $active;
   }
+
+  .thumb {
+    background-color: #3f2f7d;
+  }
 }
 
 .dark-mode {
@@ -114,6 +118,69 @@ hr {
 
   .mat-toolbar {
     background-color: $background;
+  }
+
+  .thumb {
+    background-color: #3f2f7d;
+  }
+}
+
+.iron-man-mode {
+  $color: white;
+  $setting: white;
+  $active: rgba(0, 0, 0, 0.87);
+
+  .mat-drawer-container {
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-image: url("~/assets/img/background/iron-man-opacity.png"),
+      linear-gradient(180deg, #a2181c, #9e724d);
+    background-size: contain;
+    color: $color;
+  }
+
+  .mat-toolbar {
+    background-color: transparent;
+    color: $color;
+  }
+
+  .mat-mdc-table {
+    background: none;
+  }
+
+  .mat-mdc-table .mat-mdc-header-cell,
+  .mdc-data-table__cell {
+    color: $color;
+  }
+
+  .card {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .login-card,
+  .create-better-card {
+    background-color: white;
+    border-radius: 0.5em;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+  }
+
+  .logo-color {
+    fill: $color;
+  }
+
+  .indicator.active {
+    background-color: $color;
+  }
+
+  .thumb {
+    background-color: #a2181c;
   }
 }
 

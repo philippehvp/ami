@@ -87,7 +87,7 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
           if (better && route) {
             this.utilsService.setMode(
               this.renderer,
-              this.persistenceService.isDarkMode
+              this.persistenceService.theme
             );
 
             this.byRanking = route && route['byRanking'] === 1;

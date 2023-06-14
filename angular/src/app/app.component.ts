@@ -121,8 +121,12 @@ export class AppComponent implements AfterViewInit {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      const isDarkMode = false;
-      this.utilsService.setMode(this.renderer, isDarkMode);
+      this.utilsService.setMode(this.renderer, {
+        id: 1,
+        name: 'ISB',
+        mode: 'isb-mode',
+        isLight: true,
+      });
 
       if (!CommonService.isProduction) {
         window.localStorage.removeItem('better');
@@ -265,7 +269,7 @@ export class AppComponent implements AfterViewInit {
 
   public getLogoFile(logo: ILogo): string {
     const prefix = 'assets/img/logos/';
-    if (!this.persistenceService.isDarkMode || !logo.isLightAndDark) {
+    if (this.persistenceService.theme.isLight || !logo.isLightAndDark) {
       return prefix + logo.icon + '.png';
     } else {
       return prefix + logo.icon + '_dark.png';
@@ -296,14 +300,20 @@ export class AppComponent implements AfterViewInit {
   }
 
   public hasAvatar(better: IBetter | null): boolean {
-    if (better) {
-      return !!better.avatarFile;
-    }
-
-    return false;
+    return better ? !!better.betterAvatar : false;
   }
 
   public getAvatarSource(better: IBetter | null): string {
-    return CommonService.getAvatarSourceFromBetter(better);
+    if (better) {
+      if (better.betterAvatar) {
+        return CommonService.getAvatarSource(
+          '../',
+          better.betterAvatar.universe,
+          better.betterAvatar.avatar
+        );
+      }
+    }
+
+    return '';
   }
 }

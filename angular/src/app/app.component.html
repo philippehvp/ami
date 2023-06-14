@@ -76,7 +76,7 @@
 
         <ng-template #normal>
           <span class="avatar" *ngIf="hasAvatar(data.better || null)">
-            <img [src]="getAvatarSource(data.better)" alt="" />
+            <img [src]="getAvatarSource(data.better || null)" alt="" />
           </span>
 
           <span

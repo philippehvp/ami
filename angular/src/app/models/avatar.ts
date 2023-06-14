@@ -6,7 +6,7 @@ export interface IUniverse {
 
 export interface IAvatar {
   id: number;
-  universeyId: number;
+  universeId: number;
   file: string;
   name: string;
 }
@@ -26,4 +26,9 @@ export interface IUniverseAvatar {
 export interface IUniverseAvatarRaw {
   universes: IUniverse[];
   avatars: IAvatarRaw[];
+}
+
+export interface IBetterAvatar {
+  universe: IUniverse;
+  avatar: IAvatar;
 }

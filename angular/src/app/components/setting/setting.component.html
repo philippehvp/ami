@@ -12,22 +12,19 @@
         tune
       </span>
       <mat-menu #displaySettings="matMenu">
-        <span
-          class="display-setting"
-          (click)="toggleClubName(data.better, $event)"
-        >
+        <span class="menu-item" (click)="toggleClubName(data.better, $event)">
           <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
           <span class="label">Afficher le nom des clubs</span>
         </span>
         <span
-          class="display-setting"
+          class="menu-item"
           (click)="togglePlayerRanking(data.better, $event)"
         >
           <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
           <span class="label">Afficher le classement</span>
         </span>
         <span
-          class="display-setting"
+          class="menu-item"
           (click)="toggleFirstnameVisible(data.better, $event)"
         >
           <mat-slide-toggle [checked]="isFirstnameVisible"> </mat-slide-toggle>
@@ -49,10 +46,25 @@
       <span class="indicator" [class]="{ active: isPlayerReverse }"></span>
     </span>
 
-    <span class="setting" (click)="toggleDarkMode(data.better || null)">
-      <span class="material-icons-outlined icon"> nightlight </span>
-      <span class="label">Sombre</span>
-      <span class="indicator" [class]="{ active: isDarkMode }"></span>
+    <span class="setting">
+      <span
+        [matMenuTriggerFor]="themesMenu"
+        class="material-icons-outlined icon"
+      >
+        palette
+      </span>
+      <mat-menu #themesMenu="matMenu">
+        <span
+          class="menu-item"
+          (click)="changeTheme(data.better, theme.id)"
+          *ngFor="let theme of themes"
+        >
+          <span [class]="{ active: isCurrentTheme(theme) }">{{
+            theme.name
+          }}</span>
+        </span>
+      </mat-menu>
+      <span class="label">Thèmes</span>
     </span>
   </div>
 </ng-container>

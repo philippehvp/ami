@@ -65,7 +65,7 @@ export class AvatarComponent implements OnInit, OnDestroy {
 
   public changeUniverse($event: any) {
     this.filteredAvatars = this.universeAvatar.avatars.filter((avatar) => {
-      return avatar.universeyId === $event.value;
+      return avatar.universeId === $event.value;
     });
     this.persistenceService.universe = this.universeAvatar.universes.find(
       (universe) => {
@@ -76,13 +76,14 @@ export class AvatarComponent implements OnInit, OnDestroy {
 
   public restoreAvatars(universeId: number) {
     this.filteredAvatars = this.universeAvatar.avatars.filter((avatar) => {
-      return avatar.universeyId === universeId;
+      return avatar.universeId === universeId;
     });
   }
 
   public getAvatarSource(avatar: IAvatar): string {
     if (this.persistenceService.universe) {
       return CommonService.getAvatarSource(
+        '../../',
         this.persistenceService.universe,
         avatar
       );

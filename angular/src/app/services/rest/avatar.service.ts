@@ -23,7 +23,7 @@ export class AvatarService {
         universeAvatarRaw.avatars.map((avatarRaw) => {
           universeAvatar.avatars.push({
             id: avatarRaw.id,
-            universeyId: avatarRaw.universe_id,
+            universeId: avatarRaw.universe_id,
             file: avatarRaw.file,
             name: avatarRaw.name,
           });

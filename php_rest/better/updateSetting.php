@@ -6,7 +6,7 @@
   $clubName = json_decode($data["clubName"]) ? json_decode($data["clubName"]) : $data["clubName"];
   $autoNavigation = json_decode($data["autoNavigation"]) ? json_decode($data["autoNavigation"]) : $data["autoNavigation"];
   $playerReverse = json_decode($data["playerReverse"]) ? json_decode($data["playerReverse"]) : $data["playerReverse"];
-  $darkMode = json_decode($data["darkMode"]) ? json_decode($data["darkMode"]) : $data["darkMode"];
+  $theme = json_decode($data["theme"]) ? json_decode($data["theme"]) : $data["theme"];
   $playerRanking = json_decode($data["playerRanking"]) ? json_decode($data["playerRanking"]) : $data["playerRanking"];
   $firstnameVisible = json_decode($data["firstnameVisible"]) ? json_decode($data["firstnameVisible"]) : $data["firstnameVisible"];
 
@@ -17,11 +17,11 @@
         " JOIN              cpi_better" .
         "                   ON    cpi_setting.better_id = cpi_better.id" .
         " SET               cpi_setting.clubName = ?, cpi_setting.autoNavigation = ?, cpi_setting.playerReverse = ?," .
-        "                   cpi_setting.darkMode = ?, cpi_setting.playerRanking = ?, cpi_setting.firstnameVisible = ?" .
+        "                   cpi_setting.theme_id = ?, cpi_setting.playerRanking = ?, cpi_setting.firstnameVisible = ?" .
         " WHERE             cpi_better.accessKey = ?";
   
       $req = $db->prepare($query);
-      $req->execute(array($clubName, $autoNavigation, $playerReverse, $darkMode, $playerRanking, $firstnameVisible, $accessKey));
+      $req->execute(array($clubName, $autoNavigation, $playerReverse, $theme, $playerRanking, $firstnameVisible, $accessKey));
   
       $ret = array("setting" =>
         array(
@@ -29,7 +29,7 @@
           "autoNavigation" => $autoNavigation,
           "playerReverse" => $playerReverse,
           "firstnameVisible" => $firstnameVisible,
-          "darkMode" => $darkMode)
+          "theme" => $theme)
       );
       echo json_encode($ret, JSON_NUMERIC_CHECK);
     } else {

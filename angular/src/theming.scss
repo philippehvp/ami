@@ -2,7 +2,7 @@
 
 @include mat-core();
 
-$md-cpi: (
+$md-palette1: (
   50: #e8e6ef,
   100: #c5c1d8,
   200: #9f97be,
@@ -35,20 +35,68 @@ $md-cpi: (
   ),
 );
 
-$light-primary: mat-palette($md-cpi, 500);
-$light-accent: mat-palette($md-cpi, A200, A100, A400);
-$light-warn: mat-palette($md-cpi);
-$light-mode: mat-light-theme($light-primary, $light-accent, $light-warn);
+// 500 : #a2181c
 
-$dark-primary: mat-palette($md-cpi, 400);
-$dark-accent: mat-palette($md-cpi, A400);
-$dark-warn: mat-palette($md-cpi, A200);
+$md-palette2: (
+  50: #f4e3e4,
+  100: #e3babb,
+  200: #d18c8e,
+  300: #be5d60,
+  400: #b03b3e,
+  500: #f4e3e4,
+  600: #9a1519,
+  700: #901114,
+  800: #860e11,
+  900: #750809,
+  A100: #ffa5a6,
+  A200: #ff7273,
+  A400: #ff3f41,
+  A700: #ff2528,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$isb-primary: mat-palette($md-palette1, 500);
+$isb-accent: mat-palette($md-palette1, A200, A100, A400);
+$isb-warn: mat-palette($md-palette1);
+$isb-mode: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
+
+$dark-primary: mat-palette($md-palette1, 400);
+$dark-accent: mat-palette($md-palette1, A400);
+$dark-warn: mat-palette($md-palette1, A200);
 $dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
-.light-mode {
-  @include angular-material-theme($light-mode);
+$iron-man-primary: mat-palette($md-palette2, 500);
+$iron-man-accent: mat-palette($md-palette2, A200, A100, A400);
+$iron-man-warn: mat-palette($md-palette2);
+$iron-man-mode: mat-light-theme(
+  $iron-man-primary,
+  $iron-man-accent,
+  $iron-man-warn
+);
+
+.isb-mode {
+  @include angular-material-theme($isb-mode);
 }
 
 .dark-mode {
   @include angular-material-theme($dark-mode);
+}
+
+.iron-man-mode {
+  @include angular-material-theme($iron-man-mode);
 }

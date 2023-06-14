@@ -137,7 +137,7 @@ export class BetComponent implements OnInit, OnDestroy {
             if (better.isTutorialDone) {
               this.utilsService.setMode(
                 this.renderer,
-                this.persistenceService.isDarkMode
+                this.persistenceService.theme
               );
 
               if (!CommonService.isProduction) {

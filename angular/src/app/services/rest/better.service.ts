@@ -5,6 +5,7 @@ import { IBetter, IBetterRaw } from 'src/app/models/better';
 import { CommonService } from '../common.service';
 import { IEmpty, IError, IOffline } from 'src/app/models/utils';
 import { PersistenceService } from '../persistence.service';
+import { IAvatar, IUniverse } from 'src/app/models/avatar';
 
 @Injectable({
   providedIn: 'root',
@@ -22,19 +23,46 @@ export class BetterService {
             betterRaw.setting.autoNavigation === 1;
           this.persistenceService.isPlayerReverse =
             betterRaw.setting.playerReverse === 1;
-          this.persistenceService.isDarkMode = betterRaw.setting.darkMode === 1;
+          this.persistenceService.setTheme(betterRaw.setting.theme);
           this.persistenceService.isPlayerRanking =
             betterRaw.setting.playerRanking === 1;
           this.persistenceService.isFirstnameVisible =
             betterRaw.setting.firstnameVisible === 1;
+
+          if (betterRaw.avatar_id) {
+            this.persistenceService.universe = <IUniverse>{
+              id: betterRaw.universe_id,
+              folder: betterRaw.universe_folder,
+              name: betterRaw.universe_name,
+            };
+
+            this.persistenceService.avatar = <IAvatar>{
+              id: betterRaw.avatar_id,
+              name: betterRaw.avatar_name,
+              universeId: betterRaw.universe_id,
+              file: betterRaw.avatar_file,
+            };
+          }
 
           return betterRaw
             ? {
                 accessKey: betterRaw.accessKey,
                 randomKey: betterRaw.randomKey,
                 name: betterRaw.name,
-                universeFolder: betterRaw.universe_folder,
-                avatarFile: betterRaw.avatar_file,
+                club: betterRaw.club,
+                betterAvatar: {
+                  universe: {
+                    id: betterRaw.universe_id,
+                    folder: betterRaw.universe_folder,
+                    name: betterRaw.universe_name,
+                  },
+                  avatar: {
+                    id: betterRaw.avatar_id,
+                    universeId: betterRaw.universe_id,
+                    name: betterRaw.avatar_name,
+                    file: betterRaw.avatar_file,
+                  },
+                },
                 firstName: betterRaw.firstName,
                 isAdmin: betterRaw.isAdmin === 1 ? true : false,
                 isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
@@ -79,17 +107,31 @@ export class BetterService {
         avatarFile,
       })
       .pipe(
-        map((better: IBetterRaw | IError) => {
-          if ('errorMessage' in better) {
-            return better;
+        map((betterRaw: IBetterRaw | IError) => {
+          if ('errorMessage' in betterRaw) {
+            return betterRaw;
           } else {
             return <IBetter>{
-              accessKey: better.accessKey,
-              name: better.name,
-              firstName: better.firstName,
-              isAdmin: better.isAdmin === 1 ? true : false,
-              isTutorialDone: better.isTutorialDone == 1 ? true : false,
-              evaluation: better.evaluation,
+              accessKey: betterRaw.accessKey,
+              name: betterRaw.name,
+              firstName: betterRaw.firstName,
+              club: club,
+              betterAvatar: {
+                universe: {
+                  id: betterRaw.universe_id,
+                  folder: betterRaw.universe_folder,
+                  name: betterRaw.universe_name,
+                },
+                avatar: {
+                  id: betterRaw.avatar_id,
+                  universeId: betterRaw.universe_id,
+                  name: betterRaw.avatar_name,
+                  file: betterRaw.avatar_file,
+                },
+              },
+              isAdmin: betterRaw.isAdmin === 1 ? true : false,
+              isTutorialDone: betterRaw.isTutorialDone == 1 ? true : false,
+              evaluation: betterRaw.evaluation,
             };
           }
         })
@@ -128,7 +170,7 @@ export class BetterService {
       clubName: this.persistenceService.isClubName ? 1 : 0,
       autoNavigation: this.persistenceService.isAutoNavigation ? 1 : 0,
       playerReverse: this.persistenceService.isPlayerReverse ? 1 : 0,
-      darkMode: this.persistenceService.isDarkMode ? 1 : 0,
+      theme: this.persistenceService.theme.id,
       playerRanking: this.persistenceService.isPlayerRanking ? 1 : 0,
       firstnameVisible: this.persistenceService.isFirstnameVisible ? 1 : 0,
     });

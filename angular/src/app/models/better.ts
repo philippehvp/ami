@@ -1,15 +1,17 @@
+import { IBetterAvatar } from './avatar';
+
 export interface ISetting {
   isClubName: boolean;
   isAutoNavigation: boolean;
   isPlayerReverse: boolean;
-  isDarkMode: boolean;
+  theme: number;
 }
 
 export interface ISettingRaw {
   clubName: number;
   autoNavigation: number;
   playerReverse: number;
-  darkMode: number;
+  theme: number;
   playerRanking: number;
   firstnameVisible: number;
 }
@@ -19,8 +21,8 @@ export interface IBetter {
   randomKey: string;
   firstName: string;
   name: string;
-  universeFolder: string;
-  avatarFile: string;
+  club: string;
+  betterAvatar: IBetterAvatar;
   isAdmin: boolean;
   isTutorialDone: boolean;
   evaluation: number;
@@ -32,8 +34,13 @@ export interface IBetterRaw {
   randomKey: string;
   firstName: string;
   name: string;
-  universe_folder: string;
+  club: string;
+  avatar_id: number;
   avatar_file: string;
+  avatar_name: string;
+  universe_id: number;
+  universe_folder: string;
+  universe_name: string;
   isAdmin: number;
   isTutorialDone: number;
   evaluation: number;

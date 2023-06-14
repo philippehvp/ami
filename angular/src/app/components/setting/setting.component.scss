@@ -18,15 +18,15 @@
   }
 }
 
-.display-setting {
+.menu-item {
   display: flex;
   flex-direction: row;
   align-items: center;
   height: 3em;
   margin-inline: 1em;
 
-  .label {
-    margin-left: 1em;
+  .active {
+    text-decoration: underline;
   }
 }
 

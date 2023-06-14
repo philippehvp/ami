@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { IAvatar, IUniverse } from '../models/avatar';
+import { ITheme } from '../models/theme';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +10,22 @@ import { IAvatar, IUniverse } from '../models/avatar';
 export class PersistenceService {
   private router = inject(Router);
 
+  public setTheme(id: number) {
+    const theme: ITheme | undefined = this._themes.find((t) => {
+      return t.id === id;
+    });
+
+    if (theme) {
+      this._theme = theme;
+    }
+  }
+
   public init() {
     this._isClubName = false;
     this._isPlayerRanking = true;
     this._isFirstnameVisible = true;
     this._isAutoNavigation = false;
-    this._isDarkMode = false;
+    this._theme = this._themes[0];
     this._categoryId = -1;
     this._tutorialStep = 0;
     this._isToolbarVisible = false;
@@ -62,12 +72,37 @@ export class PersistenceService {
     this._isAutoNavigation = isAutoNavigation;
   }
 
-  private _isDarkMode: boolean = false;
-  public get isDarkMode(): boolean {
-    return this._isDarkMode;
+  private _themes: ITheme[] = [
+    {
+      id: 1,
+      name: 'ISB Tournoi 2023',
+      mode: 'isb-mode',
+      isLight: true,
+    },
+    {
+      id: 2,
+      name: 'Sombre',
+      mode: 'dark-mode',
+      isLight: false,
+    },
+    {
+      id: 3,
+      name: 'Iron Man',
+      mode: 'iron-man-mode',
+      isLight: true,
+    },
+  ];
+
+  public get themes(): ITheme[] {
+    return this._themes;
   }
-  public set isDarkMode(isDarkMode: boolean) {
-    this._isDarkMode = isDarkMode;
+
+  private _theme: ITheme = this._themes[2];
+  public get theme(): ITheme {
+    return this._theme;
+  }
+  public set theme(theme: ITheme) {
+    this._theme = theme;
   }
 
   private _categoryId!: number;

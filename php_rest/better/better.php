@@ -9,7 +9,9 @@
   if ($name && $password) {
     $query =
       " SELECT DISTINCT     cpi_better.accessKey, cpi_better.randomKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin,".
-      "                     cpi_better.avatar_id AS avatar_id, cpi_universe.folder AS universe_folder, cpi_avatar.file AS avatar_file, cpi_better.isTutorialDone, cpi_better.evaluation" .
+      "                     cpi_avatar.id AS avatar_id, cpi_avatar.file AS avatar_file, cpi_avatar.name AS avatar_name," .
+      "                     cpi_universe.id AS universe_id, cpi_universe.name AS universe_name, cpi_universe.folder AS universe_folder," .
+      "                     cpi_better.isTutorialDone, cpi_better.evaluation" .
       " FROM                cpi_better" .
       " LEFT JOIN           cpi_avatar" .
       "                     ON    cpi_better.avatar_id = cpi_avatar.id" .
@@ -46,7 +48,7 @@
       // Lecture du paramétrage de l'interface
       $query =
         " SELECT          cpi_setting.clubName, cpi_setting.autoNavigation, cpi_setting.playerReverse," .
-        "                 cpi_setting.darkMode, cpi_setting.playerRanking, cpi_setting.firstnameVisible" .
+        "                 cpi_setting.theme_id, cpi_setting.playerRanking, cpi_setting.firstnameVisible" .
         " FROM            cpi_setting" .
         " WHERE           cpi_setting.better_id = ?";
       $req = $db->prepare($query);
@@ -63,10 +65,13 @@
         "randomKey" => $better["randomKey"],
         "name" => $better["name"],
         "firstName" => $better["firstName"],
-        "avatar_id" => $better["avatar_id"],
-        "universe_folder" => $better["universe_folder"],
-        "avatar_file" => $better["avatar_file"],
         "isAdmin" => $better["isAdmin"],
+        "avatar_id" => $better["avatar_id"],
+        "avatar_file" => $better["avatar_file"],
+        "avatar_name" => $better["avatar_name"],
+        "universe_id" => $better["universe_id"],
+        "universe_folder" => $better["universe_folder"],
+        "universe_name" => $better["universe_name"],
         "isTutorialDone" => $better["isTutorialDone"],
         "evaluation" => $better["evaluation"],
         "endBetDate" => $endBetDate[0]["endBetDate"],
@@ -74,7 +79,7 @@
           "clubName" => $setting[0]["clubName"] ? $setting[0]["clubName"] : 0,
           "autoNavigation" => $setting[0]["autoNavigation"] ? $setting[0]["autoNavigation"] : 0, 
           "playerReverse" => $setting[0]["playerReverse"] ? $setting[0]["playerReverse"] : 0,
-          "darkMode" => $setting[0]["darkMode"] ? $setting[0]["darkMode"] : 0,
+          "theme" => $setting[0]["theme_id"] ? $setting[0]["theme_id"] : 0,
           "playerRanking" => $setting[0]["playerRanking"] ? $setting[0]["playerRanking"] : 0,
           "firstnameVisible" => $setting[0]["firstnameVisible"] ? $setting[0]["firstnameVisible"] : 0
         )

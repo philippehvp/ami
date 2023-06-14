@@ -27,7 +27,11 @@ export class CommonService {
     return AppConfig.PHP_SUFFIX;
   }
 
-  public static getAvatarSource(universe: IUniverse, avatar: IAvatar): string {
+  public static getAvatarSource(
+    folderPrefix: string,
+    universe: IUniverse,
+    avatar: IAvatar
+  ): string {
     if (universe) {
       if (CommonService.isProduction) {
         return (
@@ -35,34 +39,11 @@ export class CommonService {
         );
       } else {
         return (
-          '../../assets/img/avatar/' +
+          folderPrefix +
+          'assets/img/avatar/' +
           universe.folder +
           '/' +
           avatar.file +
-          '.png'
-        );
-      }
-    }
-
-    return '';
-  }
-
-  public static getAvatarSourceFromBetter(better: IBetter | null): string {
-    if (better && better.universeFolder && better.avatarFile) {
-      if (CommonService.isProduction) {
-        return (
-          'assets/img/avatar/' +
-          better.universeFolder +
-          '/' +
-          better.avatarFile +
-          '.png'
-        );
-      } else {
-        return (
-          '../assets/img/avatar/' +
-          better.universeFolder +
-          '/' +
-          better.avatarFile +
           '.png'
         );
       }

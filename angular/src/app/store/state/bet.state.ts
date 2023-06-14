@@ -20,6 +20,7 @@ import { IBetReviewOf } from 'src/app/models/bet-review-of';
 import { EMPTY } from 'rxjs';
 import { IBetterRanking } from 'src/app/models/better-ranking';
 import { BetterRankingService } from 'src/app/services/rest/better-ranking.service';
+import { IAvatar, IUniverse } from 'src/app/models/avatar';
 
 export class BetStateModel {
   isOffline!: boolean;

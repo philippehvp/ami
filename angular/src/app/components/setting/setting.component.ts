@@ -2,6 +2,7 @@ import { Component, Renderer2, inject } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
+import { ITheme } from 'src/app/models/theme';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -23,6 +24,10 @@ export class SettingComponent {
 
   public get isClubName(): boolean {
     return this.persistenceService.isClubName;
+  }
+
+  public get themes(): ITheme[] {
+    return this.persistenceService.themes;
   }
 
   public toggleClubName(better: IBetter | null, $event: any) {
@@ -97,19 +102,16 @@ export class SettingComponent {
     }
   }
 
-  public get isDarkMode(): boolean {
-    return this.persistenceService.isDarkMode;
-  }
-
-  public toggleDarkMode(better: IBetter | null) {
-    this.persistenceService.isDarkMode = !this.persistenceService.isDarkMode;
-    this.utilsService.setMode(
-      this.renderer,
-      this.persistenceService.isDarkMode
-    );
+  public changeTheme(better: IBetter | null, id: number) {
+    this.persistenceService.setTheme(id);
+    this.utilsService.setMode(this.renderer, this.persistenceService.theme);
     if (better) {
       this.updateSetting(better);
     }
+  }
+
+  public isCurrentTheme(theme: ITheme): boolean {
+    return theme.id === this.persistenceService.theme.id;
   }
 
   private updateSetting(better: IBetter) {

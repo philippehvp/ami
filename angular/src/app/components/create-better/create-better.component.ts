@@ -19,7 +19,7 @@ import {
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { GdprComponent } from '../gdpr/gdpr.component';
 import { AvatarComponent } from '../avatar/avatar.component';
-import { IAvatar } from 'src/app/models/avatar';
+import { IAvatar, IBetterAvatar } from 'src/app/models/avatar';
 import { CommonService } from 'src/app/services/common.service';
 
 export interface ICreateBetterFormGroup {
@@ -125,19 +125,20 @@ export class CreateBetterComponent implements OnInit {
           folder,
           avatarFile
         )
-        .subscribe((ret: IBetter | IError) => {
-          if ('errorMessage' in ret) {
+        .subscribe((better: IBetter | IError) => {
+          if ('errorMessage' in better) {
             const config: MatDialogConfig<IInformationDialogConfig> = {
               data: {
                 title: 'Erreur de création du compte',
-                message: ret.errorMessage,
+                message: better.errorMessage,
                 dialogType: InformationDialogType.Information,
                 labels: ['Fermer'],
               },
             };
             this.dialog.open(InformationComponent, config);
           } else {
-            this.store.dispatch([new BetActions.SetBetter(ret)]);
+            this.store.dispatch([new BetActions.SetBetter(better)]);
+
             this.persistenceService.navigate('welcome');
           }
         });
@@ -181,10 +182,16 @@ export class CreateBetterComponent implements OnInit {
   public getAvatarSource(avatar: IAvatar): string {
     if (this.persistenceService.universe && avatar) {
       return CommonService.getAvatarSource(
+        '../../',
         this.persistenceService.universe,
         avatar
       );
     }
     return '';
+  }
+
+  public unsetAvatar() {
+    this.persistenceService.universe = undefined;
+    this.persistenceService.avatar = undefined;
   }
 }

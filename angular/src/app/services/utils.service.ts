@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Injectable, Renderer2, inject } from '@angular/core';
 import { IPlayer, IPlayerForReviewOf } from '../models/player';
 import { PersistenceService } from './persistence.service';
+import { ITheme } from '../models/theme';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,8 @@ export class UtilsService {
     }
   }
 
-  public setMode(renderer: Renderer2, isDarkMode: boolean) {
-    renderer.setAttribute(
-      this.document.body,
-      'class',
-      isDarkMode ? 'dark-mode' : 'light-mode'
-    );
+  public setMode(renderer: Renderer2, theme: ITheme) {
+    renderer.setAttribute(this.document.body, 'class', theme.mode);
   }
 
   public firstPlayerLabel(player: IPlayer | IPlayerForReviewOf): string {
