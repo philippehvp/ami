@@ -18,9 +18,6 @@ import {
 } from 'src/app/models/information-dialog-type';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { GdprComponent } from '../gdpr/gdpr.component';
-import { AvatarComponent } from '../avatar/avatar.component';
-import { IAvatar, IBetterAvatar } from 'src/app/models/avatar';
-import { CommonService } from 'src/app/services/common.service';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -45,10 +42,6 @@ export class CreateBetterComponent implements OnInit {
   public passwordVisibility: boolean = false;
   public hasMajority: boolean = false;
   public hasGDPRAccepted: boolean = false;
-
-  public get avatar(): IAvatar | undefined {
-    return this.persistenceService.avatar;
-  }
 
   public get createBetterDisabled(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
@@ -105,26 +98,8 @@ export class CreateBetterComponent implements OnInit {
       this.dialog.open(InformationComponent, config);
     } else {
       // Création du pronostiqueur
-      const avatarId: number = this.persistenceService.avatar
-        ? this.persistenceService.avatar.id
-        : -1;
-      const folder: string = this.persistenceService.universe
-        ? this.persistenceService.universe.folder
-        : '';
-      const avatarFile: string = this.persistenceService.avatar
-        ? this.persistenceService.avatar.file
-        : '';
       this.betterService
-        .createBetter(
-          name,
-          password,
-          firstName,
-          contact,
-          club,
-          avatarId,
-          folder,
-          avatarFile
-        )
+        .createBetter(name, password, firstName, contact, club)
         .subscribe((better: IBetter | IError) => {
           if ('errorMessage' in better) {
             const config: MatDialogConfig<IInformationDialogConfig> = {
@@ -167,31 +142,5 @@ export class CreateBetterComponent implements OnInit {
       disableClose: true,
     };
     this.dialog.open(GdprComponent, config);
-  }
-
-  public chooseAvatar() {
-    this.dialog
-      .open(AvatarComponent)
-      .afterClosed()
-      .subscribe((avatar: number) => {
-        if (avatar !== -1) {
-        }
-      });
-  }
-
-  public getAvatarSource(avatar: IAvatar): string {
-    if (this.persistenceService.universe && avatar) {
-      return CommonService.getAvatarSource(
-        '../../',
-        this.persistenceService.universe,
-        avatar
-      );
-    }
-    return '';
-  }
-
-  public unsetAvatar() {
-    this.persistenceService.universe = undefined;
-    this.persistenceService.avatar = undefined;
   }
 }

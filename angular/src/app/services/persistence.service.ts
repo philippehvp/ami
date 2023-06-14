@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { IAvatar, IUniverse } from '../models/avatar';
 import { ITheme } from '../models/theme';
 
 @Injectable({
@@ -36,8 +35,6 @@ export class PersistenceService {
     this._gobackPage = '';
     this._isReviewOfVisible = false;
     this._reviewOfBetterName = '';
-    this._universe = undefined;
-    this._avatar = undefined;
   }
 
   private _isClubName: boolean = false;
@@ -81,15 +78,15 @@ export class PersistenceService {
     },
     {
       id: 2,
-      name: 'Sombre',
-      mode: 'dark-mode',
-      isLight: false,
-    },
-    {
-      id: 3,
       name: 'Iron Man',
       mode: 'iron-man-mode',
       isLight: true,
+    },
+    {
+      id: 3,
+      name: 'Star Wars',
+      mode: 'star-wars-mode',
+      isLight: false,
     },
   ];
 
@@ -97,7 +94,7 @@ export class PersistenceService {
     return this._themes;
   }
 
-  private _theme: ITheme = this._themes[2];
+  private _theme: ITheme = this._themes[0];
   public get theme(): ITheme {
     return this._theme;
   }
@@ -199,22 +196,6 @@ export class PersistenceService {
   }
   public set reviewOfBetterName(reviewOfBetterName: string) {
     this._reviewOfBetterName = reviewOfBetterName;
-  }
-
-  private _universe: IUniverse | undefined = undefined;
-  public get universe(): IUniverse | undefined {
-    return this._universe;
-  }
-  public set universe(universe: IUniverse | undefined) {
-    this._universe = universe;
-  }
-
-  private _avatar: IAvatar | undefined = undefined;
-  public get avatar(): IAvatar | undefined {
-    return this._avatar;
-  }
-  public set avatar(avatar: IAvatar | undefined) {
-    this._avatar = avatar;
   }
 
   public navigate(link: string) {

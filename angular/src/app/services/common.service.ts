@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
-import { IAvatar, IUniverse } from '../models/avatar';
-import { IBetter } from '../models/better';
 
 @Injectable({
   providedIn: 'root',
@@ -25,30 +23,5 @@ export class CommonService {
 
   private static restSuffix(): string {
     return AppConfig.PHP_SUFFIX;
-  }
-
-  public static getAvatarSource(
-    folderPrefix: string,
-    universe: IUniverse,
-    avatar: IAvatar
-  ): string {
-    if (universe) {
-      if (CommonService.isProduction) {
-        return (
-          'assets/img/avatar/' + universe.folder + '/' + avatar.file + '.png'
-        );
-      } else {
-        return (
-          folderPrefix +
-          'assets/img/avatar/' +
-          universe.folder +
-          '/' +
-          avatar.file +
-          '.png'
-        );
-      }
-    }
-
-    return '';
   }
 }

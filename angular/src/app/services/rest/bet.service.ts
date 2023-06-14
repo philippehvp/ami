@@ -32,21 +32,6 @@ export class BetService {
             firstName: betterRaw.firstName,
             name: betterRaw.name,
             club: betterRaw.club,
-            betterAvatar: {
-              universe: {
-                id: betterRaw.universe_id,
-                name: betterRaw.universe_name,
-                folder: betterRaw.universe_folder,
-              },
-              avatar: {
-                id: betterRaw.avatar_id,
-                universeId: betterRaw.universe_id,
-                name: betterRaw.avatar_name,
-                file: betterRaw.avatar_file,
-              },
-            },
-            universeFolder: betterRaw.universe_folder,
-            avatarFile: betterRaw.avatar_file,
             isAdmin: betterRaw.isAdmin === 1,
             isTutorialDone: betterRaw.isTutorialDone === 1,
             evaluation: betterRaw.evaluation,

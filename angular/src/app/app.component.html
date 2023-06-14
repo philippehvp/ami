@@ -75,10 +75,6 @@
         </span>
 
         <ng-template #normal>
-          <span class="avatar" *ngIf="hasAvatar(data.better || null)">
-            <img [src]="getAvatarSource(data.better || null)" alt="" />
-          </span>
-
           <span
             class="link"
             *ngIf="isBettingPhase(data.better?.endBetDate || null)"

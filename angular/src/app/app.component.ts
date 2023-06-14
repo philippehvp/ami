@@ -298,22 +298,4 @@ export class AppComponent implements AfterViewInit {
   public setPlayerName() {
     this.store.dispatch([new BetActions.SetPlayersName()]);
   }
-
-  public hasAvatar(better: IBetter | null): boolean {
-    return better ? !!better.betterAvatar : false;
-  }
-
-  public getAvatarSource(better: IBetter | null): string {
-    if (better) {
-      if (better.betterAvatar) {
-        return CommonService.getAvatarSource(
-          '../',
-          better.betterAvatar.universe,
-          better.betterAvatar.avatar
-        );
-      }
-    }
-
-    return '';
-  }
 }

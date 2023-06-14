@@ -5,7 +5,6 @@ import { IBetter, IBetterRaw } from 'src/app/models/better';
 import { CommonService } from '../common.service';
 import { IEmpty, IError, IOffline } from 'src/app/models/utils';
 import { PersistenceService } from '../persistence.service';
-import { IAvatar, IUniverse } from 'src/app/models/avatar';
 
 @Injectable({
   providedIn: 'root',
@@ -29,40 +28,12 @@ export class BetterService {
           this.persistenceService.isFirstnameVisible =
             betterRaw.setting.firstnameVisible === 1;
 
-          if (betterRaw.avatar_id) {
-            this.persistenceService.universe = <IUniverse>{
-              id: betterRaw.universe_id,
-              folder: betterRaw.universe_folder,
-              name: betterRaw.universe_name,
-            };
-
-            this.persistenceService.avatar = <IAvatar>{
-              id: betterRaw.avatar_id,
-              name: betterRaw.avatar_name,
-              universeId: betterRaw.universe_id,
-              file: betterRaw.avatar_file,
-            };
-          }
-
           return betterRaw
             ? {
                 accessKey: betterRaw.accessKey,
                 randomKey: betterRaw.randomKey,
                 name: betterRaw.name,
                 club: betterRaw.club,
-                betterAvatar: {
-                  universe: {
-                    id: betterRaw.universe_id,
-                    folder: betterRaw.universe_folder,
-                    name: betterRaw.universe_name,
-                  },
-                  avatar: {
-                    id: betterRaw.avatar_id,
-                    universeId: betterRaw.universe_id,
-                    name: betterRaw.avatar_name,
-                    file: betterRaw.avatar_file,
-                  },
-                },
                 firstName: betterRaw.firstName,
                 isAdmin: betterRaw.isAdmin === 1 ? true : false,
                 isTutorialDone: betterRaw.isTutorialDone === 1 ? true : false,
@@ -89,10 +60,7 @@ export class BetterService {
     password: string,
     firstName: string,
     contact: string,
-    club: string,
-    avatarId: number,
-    folder: string,
-    avatarFile: string
+    club: string
   ): Observable<IError | IBetter> {
     const url = CommonService.getURL('better/createBetter');
     return this.httpClient
@@ -102,9 +70,6 @@ export class BetterService {
         firstName,
         contact,
         club,
-        avatarId,
-        folder,
-        avatarFile,
       })
       .pipe(
         map((betterRaw: IBetterRaw | IError) => {
@@ -116,19 +81,6 @@ export class BetterService {
               name: betterRaw.name,
               firstName: betterRaw.firstName,
               club: club,
-              betterAvatar: {
-                universe: {
-                  id: betterRaw.universe_id,
-                  folder: betterRaw.universe_folder,
-                  name: betterRaw.universe_name,
-                },
-                avatar: {
-                  id: betterRaw.avatar_id,
-                  universeId: betterRaw.universe_id,
-                  name: betterRaw.avatar_name,
-                  file: betterRaw.avatar_file,
-                },
-              },
               isAdmin: betterRaw.isAdmin === 1 ? true : false,
               isTutorialDone: betterRaw.isTutorialDone == 1 ? true : false,
               evaluation: betterRaw.evaluation,

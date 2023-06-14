@@ -2,7 +2,7 @@
 
 @include mat-core();
 
-$md-palette1: (
+$md-palette-isb: (
   50: #e8e6ef,
   100: #c5c1d8,
   200: #9f97be,
@@ -35,15 +35,13 @@ $md-palette1: (
   ),
 );
 
-// 500 : #a2181c
-
-$md-palette2: (
+$md-palette-iron-man: (
   50: #f4e3e4,
   100: #e3babb,
   200: #d18c8e,
   300: #be5d60,
   400: #b03b3e,
-  500: #f4e3e4,
+  500: #a2181c,
   600: #9a1519,
   700: #901114,
   800: #860e11,
@@ -70,33 +68,70 @@ $md-palette2: (
   ),
 );
 
-$isb-primary: mat-palette($md-palette1, 500);
-$isb-accent: mat-palette($md-palette1, A200, A100, A400);
-$isb-warn: mat-palette($md-palette1);
+$md-palette-star-wars: (
+  50: #e4e4e4,
+  100: #bdbdbd,
+  200: #919191,
+  300: #646464,
+  400: #434343,
+  500: #222222,
+  600: #1e1e1e,
+  700: #191919,
+  800: #141414,
+  900: #0c0c0c,
+  A100: #e76c6c,
+  A200: #e04040,
+  A400: #ec0000,
+  A700: #d30000,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$isb-primary: mat-palette($md-palette-isb, 500);
+$isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
+$isb-warn: mat-palette($md-palette-isb);
 $isb-mode: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
 
-$dark-primary: mat-palette($md-palette1, 400);
-$dark-accent: mat-palette($md-palette1, A400);
-$dark-warn: mat-palette($md-palette1, A200);
-$dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
-
-$iron-man-primary: mat-palette($md-palette2, 500);
-$iron-man-accent: mat-palette($md-palette2, A200, A100, A400);
-$iron-man-warn: mat-palette($md-palette2);
+$iron-man-primary: mat-palette($md-palette-iron-man, 100);
+$iron-man-accent: mat-palette($md-palette-iron-man, A200, A100, A400);
+$iron-man-warn: mat-palette($md-palette-iron-man);
 $iron-man-mode: mat-light-theme(
   $iron-man-primary,
   $iron-man-accent,
   $iron-man-warn
 );
 
+$star-wars-primary: mat-palette($md-palette-star-wars, 100);
+$star-wars-accent: mat-palette($md-palette-star-wars, A400);
+$star-wars-warn: mat-palette($md-palette-star-wars, A200);
+$star-wars-mode: mat-dark-theme(
+  $star-wars-primary,
+  $star-wars-accent,
+  $star-wars-warn
+);
+
 .isb-mode {
   @include angular-material-theme($isb-mode);
 }
 
-.dark-mode {
-  @include angular-material-theme($dark-mode);
-}
-
 .iron-man-mode {
   @include angular-material-theme($iron-man-mode);
+}
+
+.star-wars-mode {
+  @include angular-material-theme($star-wars-mode);
 }

@@ -1,5 +1,3 @@
-import { IBetterAvatar } from './avatar';
-
 export interface ISetting {
   isClubName: boolean;
   isAutoNavigation: boolean;
@@ -22,7 +20,6 @@ export interface IBetter {
   firstName: string;
   name: string;
   club: string;
-  betterAvatar: IBetterAvatar;
   isAdmin: boolean;
   isTutorialDone: boolean;
   evaluation: number;
@@ -35,12 +32,6 @@ export interface IBetterRaw {
   firstName: string;
   name: string;
   club: string;
-  avatar_id: number;
-  avatar_file: string;
-  avatar_name: string;
-  universe_id: number;
-  universe_folder: string;
-  universe_name: string;
   isAdmin: number;
   isTutorialDone: number;
   evaluation: number;
