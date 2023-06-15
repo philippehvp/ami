@@ -121,12 +121,10 @@ export class AppComponent implements AfterViewInit {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      this.utilsService.setMode(this.renderer, {
-        id: 1,
-        name: 'ISB',
-        mode: 'isb-mode',
-        isLight: true,
-      });
+      this.utilsService.setMode(
+        this.renderer,
+        this.persistenceService.themes[0]
+      );
 
       if (!CommonService.isProduction) {
         window.localStorage.removeItem('better');

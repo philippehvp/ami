@@ -3,4 +3,6 @@ export interface ITheme {
   name: string;
   mode: string;
   isLight: boolean;
+  tag?: string;
+  classes?: string[];
 }

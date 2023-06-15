@@ -9,16 +9,6 @@ import { ITheme } from '../models/theme';
 export class PersistenceService {
   private router = inject(Router);
 
-  public setTheme(id: number) {
-    const theme: ITheme | undefined = this._themes.find((t) => {
-      return t.id === id;
-    });
-
-    if (theme) {
-      this._theme = theme;
-    }
-  }
-
   public init() {
     this._isClubName = false;
     this._isPlayerRanking = true;
@@ -69,6 +59,22 @@ export class PersistenceService {
     this._isAutoNavigation = isAutoNavigation;
   }
 
+  private _currentTag: string = '';
+  public get currentTag(): string {
+    return this._currentTag;
+  }
+  public set currentTag(currentTag: string) {
+    this._currentTag = currentTag;
+  }
+
+  private _currentClass: string = '';
+  public get currentClass(): string {
+    return this._currentClass;
+  }
+  public set currentClass(currentClass: string) {
+    this._currentClass = currentClass;
+  }
+
   private _themes: ITheme[] = [
     {
       id: 1,
@@ -81,12 +87,16 @@ export class PersistenceService {
       name: 'Iron Man',
       mode: 'iron-man-mode',
       isLight: true,
+      tag: 'mat-drawer-container',
+      classes: ['v1', 'v2', 'v3'],
     },
     {
       id: 3,
       name: 'Star Wars',
       mode: 'star-wars-mode',
       isLight: false,
+      tag: 'mat-drawer-container',
+      classes: ['v1', 'v2'],
     },
   ];
 
@@ -98,8 +108,17 @@ export class PersistenceService {
   public get theme(): ITheme {
     return this._theme;
   }
-  public set theme(theme: ITheme) {
-    this._theme = theme;
+
+  public setTheme(id: number): ITheme {
+    const theme: ITheme | undefined = this._themes.find((t) => {
+      return t.id === id;
+    });
+
+    if (theme) {
+      this._theme = theme;
+    }
+
+    return this._theme;
   }
 
   private _categoryId!: number;

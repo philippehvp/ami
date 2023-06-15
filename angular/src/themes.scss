@@ -52,57 +52,33 @@
   }
 }
 
-.dark-mode {
-  $color: #bcc0c3;
-  $background: #212529;
-
-  .mat-drawer-container {
-    background-color: $background;
-    color: $color;
-  }
-
-  .mat-mdc-table {
-    background: none;
-  }
-
-  .mat-mdc-table .mat-mdc-header-cell,
-  .mdc-data-table__cell {
-    color: $color;
-  }
-
-  .card {
-    background-color: #2a2e32;
-  }
-
-  .logo-color {
-    fill: $color;
-  }
-
-  .indicator.active {
-    background-color: $color;
-  }
-
-  .mat-toolbar {
-    background-color: $background;
-  }
-
-  .thumb {
-    background-color: #3f2f7d;
-  }
-}
-
 .iron-man-mode {
   $color: white;
   $setting: white;
   $active: rgba(0, 0, 0, 0.87);
 
   .mat-drawer-container {
-    background-position: bottom right;
     background-repeat: no-repeat;
-    background-image: url("~/assets/img/background/iron-man.png"),
-      linear-gradient(-135deg, #a1362d, #9e724d);
-    background-size: contain;
+    background-size: cover;
     color: $color;
+  }
+
+  .mat-drawer-container.v1 {
+    background-position: bottom right;
+    background-image: url("~/assets/img/background/iron-man-1.png"),
+      linear-gradient(-135deg, #a1362d, #9e724d);
+  }
+
+  .mat-drawer-container.v2 {
+    background-position: bottom center;
+    background-image: url("~/assets/img/background/iron-man-2.png"),
+      linear-gradient(-135deg, #a1362d, #9e724d);
+  }
+
+  .mat-drawer-container.v3 {
+    background-position: bottom center;
+    background-image: url("~/assets/img/background/iron-man-3.jpg"),
+      linear-gradient(-135deg, #a1362d, #9e724d);
   }
 
   .mat-toolbar {
@@ -120,7 +96,7 @@
   }
 
   .card {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.4);
   }
 
   .login-card,
@@ -155,9 +131,18 @@
   $background: #222;
 
   .mat-drawer-container {
-    background-position: center right;
+    background-position: bottom center;
     background-repeat: no-repeat;
+    background-size: cover;
     background-image: linear-gradient(-135deg, #222, #24323b, #4d5256);
+  }
+
+  .mat-drawer-container.v1 {
+    background-image: url("~/assets/img/background/star-wars-1.png");
+  }
+
+  .mat-drawer-container.v2 {
+    background-image: url("~/assets/img/background/star-wars-2.jpg");
   }
 
   .mat-mdc-table {
@@ -191,12 +176,8 @@
     color: $background;
   }
 
-  .duration {
-    background-repeat: repeat;
-    background-image: url("~/assets/img/background/sky.png");
-  }
-
-  .players {
-    background-image: url("~/assets/img/background/star-wars.png");
+  .betting {
+    background-position: top center;
+    background-size: cover;
   }
 }

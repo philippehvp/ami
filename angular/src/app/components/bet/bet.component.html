@@ -36,7 +36,7 @@
 
     <!-- Durée du match -->
     <div
-      class="row no-growing card duration slow-animation"
+      class="row no-growing card slow-animation"
       [class]="{ hidden: isCompactMode }"
     >
       <bet-duration
@@ -65,7 +65,7 @@
     </div>
 
     <!-- Séries et joueurs -->
-    <div class="card row growing">
+    <div class="card row growing betting">
       <!-- Séries -->
       <div
         class="contests"
@@ -115,7 +115,7 @@
 
       <!-- Joueurs -->
       <bet-player
-        class="row growing players"
+        class="row growing"
         [class]="{
           highlight: tutorialStep === 2 ? true : false
         }"

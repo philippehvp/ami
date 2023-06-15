@@ -3,6 +3,7 @@ import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { ITheme } from 'src/app/models/theme';
+import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -103,8 +104,9 @@ export class SettingComponent {
   }
 
   public changeTheme(better: IBetter | null, id: number) {
-    this.persistenceService.setTheme(id);
+    const theme = this.persistenceService.setTheme(id);
     this.utilsService.setMode(this.renderer, this.persistenceService.theme);
+
     if (better) {
       this.updateSetting(better);
     }
