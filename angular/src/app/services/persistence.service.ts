@@ -96,7 +96,7 @@ export class PersistenceService {
       mode: 'star-wars-mode',
       isLight: false,
       tag: 'mat-drawer-container',
-      classes: ['v1', 'v2'],
+      classes: ['v1'],
     },
   ];
 

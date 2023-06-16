@@ -8,36 +8,47 @@
 
   if ($name && $password) {
     $query =
-      " SELECT DISTINCT     cpi_better.accessKey, cpi_better.randomKey, cpi_better.id, cpi_better.name, cpi_better.firstName, cpi_better.isAdmin,".
-      "                     cpi_better.isTutorialDone, cpi_better.evaluation" .
+      " SELECT DISTINCT     cpi_better.accessKey, cpi_better.randomKey, cpi_better.id, cpi_better.name, cpi_better.firstName," .
+      "                     CASE" .
+      "                       WHEN  NOW() <= cpi_better.endAccessKeyValidityDate" .
+      "                       THEN  1" .
+      "                       ELSE  0" .
+      "                     END AS accessKeyValid," .
+      "                     cpi_better.isAdmin, cpi_better.isTutorialDone, cpi_better.evaluation" .
       " FROM                cpi_better" .
       " WHERE               UPPER(cpi_better.name) = ?" .
       "                     AND   cpi_better.password = ?";
-  
     $req = $db->prepare($query);
     $req->execute(array(strtoupper($name), $password));
     $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
-    // Si le pronostiqueur a été trouvé, alors on lui génère une nouvelle clé et on met à jour la date de fin de validité
+    // Si le pronostiqueur a été trouvé
     if ($res && sizeof($res)) {
       $better = $res[0];
       $betterId = $better["id"];
-      $now = new DateTime();
-      $accessKey = generateAccessKey($better["name"] . $better["firstName"] . $now->getTimestamp());
 
-      // Création des lignes dans les tables de pronostics
+      if ($better["accessKeyValid"] == 1) {
+        // On étend la date de fin de validité de la clé encore valide
+        $accessKey = $better["accessKey"];
+        extendEndAccessValidityDate($db, $accessKey);
+      } else {
+        // On crée une nouvelle clé
+        $now = new DateTime();
+        $accessKey = generateAccessKey($better["name"] . $better["firstName"] . $now->getTimestamp());
+
+        $query =
+          " UPDATE          cpi_better" .
+          " SET             cpi_better.accessKey = ?," .
+          "                 cpi_better.endAccessKeyValidityDate = fn_connection_validity()" .
+          " WHERE           cpi_better.id = ?";
+        $req = $db->prepare($query);
+        $req->execute(array($accessKey, $betterId));
+      }
+
+      // Création des lignes éventuellement manquantes dans les tables de pronostics
       $query =
         " CALL sp_create_missing_bets(" . $betterId . ")";
       $db->exec($query);
-
-      $query =
-        " UPDATE          cpi_better" .
-        " SET             cpi_better.accessKey = ?," .
-        "                 cpi_better.endAccessKeyValidityDate = fn_connection_validity()" .
-        " WHERE           cpi_better.id = ?";
-  
-      $req = $db->prepare($query);
-      $req->execute(array($accessKey, $betterId));
 
       // Lecture du paramétrage de l'interface
       $query =

@@ -228,18 +228,18 @@ export class AppComponent implements AfterViewInit {
         class: 'icon-large',
       },
       {
-        icon: 'logo-balotti',
-        label: 'Balotti',
-        isLightAndDark: true,
-        class: 'icon-small',
+        icon: 'logo-ffbad',
+        label: 'FFBAD',
+        isLightAndDark: false,
+        class: 'icon-large',
       },
     ],
     [
       {
-        icon: 'logo-badventure',
-        label: 'Badventure',
+        icon: 'logo-balotti',
+        label: 'Balotti',
         isLightAndDark: true,
-        class: 'icon-large',
+        class: 'icon-small',
       },
 
       {
@@ -251,11 +251,12 @@ export class AppComponent implements AfterViewInit {
     ],
     [
       {
-        icon: 'logo-ffbad',
-        label: 'FFBAD',
-        isLightAndDark: false,
+        icon: 'logo-badventure',
+        label: 'Badventure',
+        isLightAndDark: true,
         class: 'icon-large',
       },
+
       {
         icon: 'logo-ville-istres',
         label: "Ville d'Istres",
