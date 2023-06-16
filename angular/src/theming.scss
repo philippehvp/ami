@@ -35,7 +35,7 @@ $md-palette-isb: (
   ),
 );
 
-$md-palette-iron-man: (
+$md-palette-burgundy: (
   50: #f4e3e4,
   100: #e3babb,
   200: #d18c8e,
@@ -68,7 +68,7 @@ $md-palette-iron-man: (
   ),
 );
 
-$md-palette-star-wars: (
+$md-palette-dark-grey: (
   50: #e4e4e4,
   100: #bdbdbd,
   200: #919191,
@@ -106,32 +106,32 @@ $isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
 $isb-warn: mat-palette($md-palette-isb);
 $isb-mode: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
 
-$iron-man-primary: mat-palette($md-palette-iron-man, 100);
-$iron-man-accent: mat-palette($md-palette-iron-man, A200, A100, A400);
-$iron-man-warn: mat-palette($md-palette-iron-man);
-$iron-man-mode: mat-light-theme(
-  $iron-man-primary,
-  $iron-man-accent,
-  $iron-man-warn
+$burgundy-primary: mat-palette($md-palette-burgundy, 100);
+$burgundy-accent: mat-palette($md-palette-burgundy, A200, A100, A400);
+$burgundy-warn: mat-palette($md-palette-burgundy);
+$burgundy-mode: mat-light-theme(
+  $burgundy-primary,
+  $burgundy-accent,
+  $burgundy-warn
 );
 
-$star-wars-primary: mat-palette($md-palette-star-wars, 100);
-$star-wars-accent: mat-palette($md-palette-star-wars, A400);
-$star-wars-warn: mat-palette($md-palette-star-wars, A200);
-$star-wars-mode: mat-dark-theme(
-  $star-wars-primary,
-  $star-wars-accent,
-  $star-wars-warn
+$dark-grey-primary: mat-palette($md-palette-dark-grey, 100);
+$dark-grey-accent: mat-palette($md-palette-dark-grey, A400);
+$dark-grey-warn: mat-palette($md-palette-dark-grey, A200);
+$dark-grey-mode: mat-dark-theme(
+  $dark-grey-primary,
+  $dark-grey-accent,
+  $dark-grey-warn
 );
 
 .isb-mode {
   @include angular-material-theme($isb-mode);
 }
 
-.iron-man-mode {
-  @include angular-material-theme($iron-man-mode);
+.burgundy-mode {
+  @include angular-material-theme($burgundy-mode);
 }
 
-.star-wars-mode {
-  @include angular-material-theme($star-wars-mode);
+.dark-grey-mode {
+  @include angular-material-theme($dark-grey-mode);
 }

@@ -84,19 +84,15 @@ export class PersistenceService {
     },
     {
       id: 2,
-      name: 'Iron Man',
-      mode: 'iron-man-mode',
+      name: 'Bordeau',
+      mode: 'burgundy-mode',
       isLight: true,
-      tag: 'mat-drawer-container',
-      classes: ['v1', 'v2', 'v3'],
     },
     {
       id: 3,
-      name: 'Star Wars',
-      mode: 'star-wars-mode',
+      name: 'Gris foncé',
+      mode: 'dark-grey-mode',
       isLight: false,
-      tag: 'mat-drawer-container',
-      classes: ['v1'],
     },
   ];
 
