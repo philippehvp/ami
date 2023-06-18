@@ -68,6 +68,39 @@ $md-palette-burgundy: (
   ),
 );
 
+$md-palette-blue: (
+  50: #e9ecfa,
+  100: #c9cef2,
+  200: #a5aeea,
+  300: #818ee2,
+  400: #6675db,
+  500: #4b5dd5,
+  600: #4455d0,
+  700: #3b4bca,
+  800: #3341c4,
+  900: #2330ba,
+  A100: #f6f6ff,
+  A200: #c3c7ff,
+  A400: #9098ff,
+  A700: #7680ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
 $md-palette-dark-grey: (
   50: #e4e4e4,
   100: #bdbdbd,
@@ -115,6 +148,11 @@ $burgundy-mode: mat-light-theme(
   $burgundy-warn
 );
 
+$blue-primary: mat-palette($md-palette-blue, 300);
+$blue-accent: mat-palette($md-palette-blue, A400);
+$blue-warn: mat-palette($md-palette-blue, A200);
+$blue-mode: mat-light-theme($blue-primary, $blue-accent, $blue-warn);
+
 $dark-grey-primary: mat-palette($md-palette-dark-grey, 100);
 $dark-grey-accent: mat-palette($md-palette-dark-grey, A400);
 $dark-grey-warn: mat-palette($md-palette-dark-grey, A200);
@@ -130,6 +168,10 @@ $dark-grey-mode: mat-dark-theme(
 
 .burgundy-mode {
   @include angular-material-theme($burgundy-mode);
+}
+
+.blue-mode {
+  @include angular-material-theme($blue-mode);
 }
 
 .dark-grey-mode {

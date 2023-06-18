@@ -90,6 +90,12 @@ export class PersistenceService {
     },
     {
       id: 3,
+      name: 'Bleu',
+      mode: 'blue-mode',
+      isLight: true,
+    },
+    {
+      id: 4,
       name: 'Gris foncé',
       mode: 'dark-grey-mode',
       isLight: false,
