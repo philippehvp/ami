@@ -70,6 +70,9 @@ export class AppComponent implements AfterViewInit {
       if (better) {
         const betterRestored: IBetter = JSON.parse(better);
         this.store.dispatch([new BetActions.SetBetter(betterRestored)]);
+
+        this.persistenceService.isEvaluationDone =
+          betterRestored.evaluation > 0;
         if (betterRestored.endBetDate) {
           // Les données restaurées par cookies remontent des champs en chaîne de caractères
           if (new Date(betterRestored.endBetDate) < new Date()) {

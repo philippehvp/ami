@@ -1,8 +1,16 @@
 .ranking-panel,
 .review-of-panel {
   display: flex;
-  height: calc(100vh - 104px);
-  height: calc(100svh - 104px);
+}
+
+.ranking-panel.compact-mode,
+.review-of-panel.compact-mode {
+  height: var(--expand-height-compact);
+}
+
+.ranking-panel.normal-mode,
+.review-of-panel.normal-mode {
+  height: var(--expand-height-normal);
 }
 
 .ranking {

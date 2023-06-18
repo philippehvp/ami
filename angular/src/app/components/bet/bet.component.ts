@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -32,7 +33,7 @@ import { UtilsService } from 'src/app/services/utils.service';
   templateUrl: './bet.component.html',
   styleUrls: ['./bet.component.scss'],
 })
-export class BetComponent implements OnInit, OnDestroy {
+export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
@@ -234,6 +235,28 @@ export class BetComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.destroy$.next(true);
+  }
+
+  public ngAfterViewInit() {
+    const toolbarHeight =
+      document.querySelector('.toolbar-panel')?.clientHeight || 0;
+    const settingHeight =
+      document.querySelector('.setting-panel')?.clientHeight || 0;
+
+    const expandHeightNormal = `${
+      window.innerHeight - (toolbarHeight + settingHeight)
+    }`;
+    const expandHeightCompact = `${window.innerHeight - toolbarHeight}`;
+
+    document.documentElement.style.setProperty(
+      '--expand-height-normal',
+      `${expandHeightNormal}px`
+    );
+
+    document.documentElement.style.setProperty(
+      '--expand-height-compact',
+      `${expandHeightCompact}px`
+    );
   }
 
   public displayBetterPoints(

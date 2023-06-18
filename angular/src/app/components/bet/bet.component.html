@@ -35,46 +35,42 @@
     </div>
 
     <!-- Durée du match -->
-    <div
+    <bet-duration
+      *ngIf="(contest$ | async) && (category$ | async)"
       class="row no-growing card slow-animation"
-      [class]="{ hidden: isCompactMode }"
-    >
-      <bet-duration
-        *ngIf="(contest$ | async) && (category$ | async)"
-        [class]="{
-          highlight: tutorialStep === 3 ? true : false
-        }"
-      ></bet-duration>
-      <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
-        <div class="overlay"></div>
-        <div class="tutorial3">
-          <h5>Durée du match le plus long (3/4)</h5>
-          <p>
-            Le pronostic sur la durée du match le plus long se fait en déplaçant
-            la jauge (de 30 à 120 minutes).
-          </p>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="gotoNextTutorial(data.better)"
-          >
-            Suivant
-          </button>
-        </div>
+      [class]="{
+        hidden: isCompactMode,
+        highlight: tutorialStep === 3 ? true : false
+      }"
+    ></bet-duration>
+
+    <div *ngIf="tutorialStep === 3" class="tutorial-wrap">
+      <div class="overlay"></div>
+      <div class="tutorial3">
+        <h5>Durée du match le plus long (3/4)</h5>
+        <p>
+          Le pronostic sur la durée du match le plus long se fait en déplaçant
+          la jauge (de 30 à 120 minutes).
+        </p>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="gotoNextTutorial(data.better)"
+        >
+          Suivant
+        </button>
       </div>
     </div>
 
     <!-- Séries et joueurs -->
     <div class="card row growing betting">
       <!-- Séries -->
-      <div
+      <bet-contest
         class="contests"
         [class]="{
           highlight: tutorialStep === 1 ? true : false
         }"
-      >
-        <bet-contest></bet-contest>
-      </div>
+      ></bet-contest>
       <div *ngIf="tutorialStep === 1" class="tutorial-wrap">
         <div class="overlay"></div>
         <div class="tutorial1">
@@ -136,11 +132,11 @@
   </div>
 
   <!-- Paramétrage -->
-  <div
-    class="row no-growing slow-animation"
-    [class]="{ hidden: isCompactMode }"
-  >
-    <setting></setting>
+  <div class="setting-panel">
+    <setting
+      [class]="{ hidden: isCompactMode }"
+      class="slow-animation"
+    ></setting>
   </div>
 
   <!-- Bouton d'appréciation -->

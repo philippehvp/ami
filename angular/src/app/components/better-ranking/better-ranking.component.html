@@ -5,7 +5,11 @@
     bettersRanking: bettersRanking$ | async
   } as data"
 >
-  <div class="ranking-panel slow-animation" *ngIf="!isReviewOfVisible">
+  <div
+    class="ranking-panel slow-animation"
+    *ngIf="!isReviewOfVisible"
+    [class]="expandPanelClass"
+  >
     <div class="card row growing">
       <span class="header">
         <span class="title">{{ title }}</span>
@@ -94,14 +98,18 @@
     </div>
   </div>
 
-  <div class="review-of-panel slow-animation" *ngIf="isReviewOfVisible">
+  <div
+    class="review-of-panel slow-animation"
+    *ngIf="isReviewOfVisible"
+    [class]="expandPanelClass"
+  >
     <div class="card row growing">
       <bet-review-of></bet-review-of>
     </div>
   </div>
 
   <!-- Paramétrage -->
-  <div class="row no-growing slow-animation">
+  <div class="row no-growing setting-panel slow-animation">
     <setting></setting>
   </div>
 </ng-container>

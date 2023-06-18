@@ -9,7 +9,10 @@
   <mat-sidenav-container>
     <mat-sidenav-content class="content">
       <!-- Toolbar -->
-      <div class="row no-growing" *ngIf="data.better && isToolbarVisible">
+      <div
+        class="row no-growing toolbar-panel"
+        *ngIf="data.better && isToolbarVisible"
+      >
         <mat-toolbar>
           <toolbar></toolbar>
         </mat-toolbar>

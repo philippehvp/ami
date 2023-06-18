@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  inject,
+} from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
@@ -15,7 +22,9 @@ import { IBet } from 'src/app/models/bet';
   templateUrl: './better-ranking.component.html',
   styleUrls: ['./better-ranking.component.scss'],
 })
-export class BetterRankingComponent implements OnInit, OnDestroy {
+export class BetterRankingComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
   private renderer = inject(Renderer2);
@@ -46,6 +55,12 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
 
   public get isReviewOfVisible(): boolean {
     return this.persistenceService.isReviewOfVisible;
+  }
+
+  public get expandPanelClass(): string {
+    return this.persistenceService.isCompactMode
+      ? 'compact-mode'
+      : 'normal-mode';
   }
 
   public getDataSource(bettersRanking: IBetterRanking | null): IRanking[] {
@@ -110,6 +125,28 @@ export class BetterRankingComponent implements OnInit, OnDestroy {
     if (this.interval) {
       clearInterval(this.interval);
     }
+  }
+
+  public ngAfterViewInit() {
+    const toolbarHeight =
+      document.querySelector('.toolbar-panel')?.clientHeight || 0;
+    const settingHeight =
+      document.querySelector('.setting-panel')?.clientHeight || 0;
+
+    const expandHeightNormal = `${
+      window.innerHeight - (toolbarHeight + settingHeight)
+    }`;
+    const expandHeightCompact = `${window.innerHeight - toolbarHeight}`;
+
+    document.documentElement.style.setProperty(
+      '--expand-height-normal',
+      `${expandHeightNormal}px`
+    );
+
+    document.documentElement.style.setProperty(
+      '--expand-height-compact',
+      `${expandHeightCompact}px`
+    );
   }
 
   public showBetsReviewOf(ranking: IRanking, better: IBetter | null) {
