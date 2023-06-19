@@ -881,10 +881,10 @@ export class BetState {
       .subscribe();
   }
 
-  @Action(BetActions.SetPlayersName)
-  setPlayersName(state: StateContext<BetStateModel>) {
+  @Action(BetActions.SetPlayersNames)
+  setPlayersNames(state: StateContext<BetStateModel>) {
     return this.playerService
-      .setPlayerName(state.getState().better.accessKey)
+      .setPlayersNames(state.getState().better.accessKey)
       .pipe(
         tap((ret: IOffline | IEmpty) => {
           if (ret && 'isOffline' in ret) {

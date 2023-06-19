@@ -27,10 +27,6 @@
   margin-inline: 1em;
 }
 
-.menu-item.active {
-  text-decoration: underline;
-}
-
 .indicator {
   width: 0.5em;
   height: 0.5em;
@@ -58,14 +54,14 @@
   }
 }
 
-.title {
+.title-panel {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin-left: 1em;
 
-  .label {
+  .title {
     font-weight: bold;
   }
 

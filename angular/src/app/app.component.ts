@@ -24,6 +24,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { BetterService } from './services/rest/better.service';
 import { UtilsService } from './services/utils.service';
 import { GdprComponent } from './components/gdpr/gdpr.component';
+import { ITheme } from './models/theme';
 
 export interface ILogo {
   icon: string;
@@ -297,7 +298,7 @@ export class AppComponent implements AfterViewInit {
     return true;
   }
 
-  public setPlayerName() {
-    this.store.dispatch([new BetActions.SetPlayersName()]);
+  public setPlayersNames() {
+    this.store.dispatch([new BetActions.SetPlayersNames()]);
   }
 }

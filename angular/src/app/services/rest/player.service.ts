@@ -5,6 +5,8 @@ import { CommonService } from '../common.service';
 import { IPlayer } from 'src/app/models/player';
 import { map, of } from 'rxjs';
 import { IEmpty, IOffline } from 'src/app/models/utils';
+import { ConnectionActions } from 'src/app/store/action/connection.action';
+import { Store } from '@ngxs/store';
 
 export interface IStoredPlayer {
   categoryId: number;
@@ -16,6 +18,7 @@ export interface IStoredPlayer {
 })
 export class PlayerService {
   private httpClient = inject(HttpClient);
+  private store = inject(Store);
 
   private _allPlayers: IStoredPlayer[] = [];
 
@@ -45,6 +48,9 @@ export class PlayerService {
         })
         .pipe(
           map((players) => {
+            if (players && 'isOffline' in players) {
+              this.store.dispatch([new ConnectionActions.IsOffline()]);
+            }
             this._allPlayers.push({ categoryId: categoryId, players: players });
             return players;
           })
@@ -52,8 +58,8 @@ export class PlayerService {
     }
   }
 
-  public setPlayerName(accessKey: string): Observable<IOffline | IEmpty> {
-    const url = CommonService.getURL('player/setPlayersName');
+  public setPlayersNames(accessKey: string): Observable<IOffline | IEmpty> {
+    const url = CommonService.getURL('player/setPlayersNames');
 
     return this.httpClient
       .post<IOffline | IEmpty>(url, {

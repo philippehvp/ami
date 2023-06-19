@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InformationComponent } from '../information/information.component';
 import {
@@ -18,6 +18,7 @@ import { Subject, map } from 'rxjs';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetService } from 'src/app/services/rest/bet.service';
 import { CommonService } from 'src/app/services/common.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -36,6 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
   private betService = inject(BetService);
+  private utilsService = inject(UtilsService);
+  private renderer = inject(Renderer2);
 
   public formGroup!: FormGroup;
 
@@ -52,6 +55,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
+
+    this.utilsService.setMode(this.renderer, this.persistenceService.themes[0]);
 
     this.formGroup = this.formBuilder.group({
       name: ['', Validators.required],

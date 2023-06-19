@@ -1,10 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { IBetter, IBetterRaw } from 'src/app/models/better';
+import { Observable, map, tap } from 'rxjs';
+import { IBetter, IBetterRaw, ISetting } from 'src/app/models/better';
 import { CommonService } from '../common.service';
 import { IEmpty, IError, IOffline } from 'src/app/models/utils';
 import { PersistenceService } from '../persistence.service';
+import { ConnectionActions } from 'src/app/store/action/connection.action';
+import { Store } from '@ngxs/store';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,7 @@ import { PersistenceService } from '../persistence.service';
 export class BetterService {
   private httpClient = inject(HttpClient);
   private persistenceService = inject(PersistenceService);
+  private store = inject(Store);
 
   public login(name: string, password: string): Observable<IBetter | null> {
     return this.loginRaw(name, password).pipe(
@@ -102,22 +105,40 @@ export class BetterService {
     evaluation: number
   ): Observable<IEmpty | IOffline> {
     const url = CommonService.getURL('better/updateEvaluation');
-    return this.httpClient.post<IEmpty>(url, {
-      accessKey,
-      evaluation,
-    });
+    return this.httpClient
+      .post<IEmpty | IOffline>(url, {
+        accessKey,
+        evaluation,
+      })
+      .pipe(
+        tap((evaluation) => {
+          if (evaluation && 'isOffline' in evaluation) {
+            this.store.dispatch([new ConnectionActions.IsOffline()]);
+          }
+        })
+      );
   }
 
   public deleteAccount(accessKey: string): Observable<IEmpty | IOffline> {
     const url = CommonService.getURL('better/deleteBetter');
-    return this.httpClient.post<IEmpty>(url, {
-      accessKey,
-    });
+    return this.httpClient
+      .post<IEmpty | IOffline>(url, {
+        accessKey,
+      })
+      .pipe(
+        tap((account) => {
+          if (account && 'isOffline' in account) {
+            this.store.dispatch([new ConnectionActions.IsOffline()]);
+          }
+        })
+      );
   }
 
-  public updateSetting(better: IBetter): Observable<IEmpty | IOffline> {
+  public updateSetting(
+    better: IBetter
+  ): Observable<IEmpty | IOffline | ISetting> {
     const url = CommonService.getURL('better/updateSetting');
-    return this.httpClient.post<IEmpty>(url, {
+    return this.httpClient.post<IEmpty | IOffline>(url, {
       accessKey: better.accessKey,
       clubName: this.persistenceService.isClubName ? 1 : 0,
       autoNavigation: this.persistenceService.isAutoNavigation ? 1 : 0,

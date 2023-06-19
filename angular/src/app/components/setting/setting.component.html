@@ -13,8 +13,8 @@
         tune
       </span>
       <mat-menu #settingsMenu="matMenu">
-        <span class="title">
-          <span class="label">Affichage</span>
+        <span class="title-panel">
+          <span class="title">Affichage</span>
           <span class="close" (click)="settingsTrigger.closeMenu()"
             >Fermer</span
           >
@@ -63,28 +63,23 @@
       </span>
       <mat-menu #themesMenu="matMenu">
         <span class="themes-panel">
-          <span class="title">
-            <span class="label">Thèmes</span>
+          <span class="title-panel">
+            <span class="title">Thèmes</span>
             <span class="close" (click)="themesTrigger.closeMenu()"
               >Fermer</span
             >
           </span>
-          <span
-            class="menu-item"
-            [class]="{ active: isCurrentTheme(themes[0]) }"
-            (click)="changeTheme($event, data.better, themes[0].id)"
-          >
-            ISB Tournoi 2023
-          </span>
+          <span class="menu-item">{{ theme.name }}</span>
+
           <span class="menu-item">
             <span class="color-item">
               <span
                 class="color"
-                [style.backgroundColor]="theme.color"
-                [style.borderColor]="getBorderClass(theme)"
+                [style.background]="theme.color"
+                [style.borderColor]="getBorderColor(theme)"
                 [class]="{ 'color-active': isCurrentTheme(theme) }"
                 (click)="changeTheme($event, data.better, theme.id)"
-                *ngFor="let theme of colorThemes"
+                *ngFor="let theme of themes"
               >
               </span>
             </span>
