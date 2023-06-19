@@ -25,10 +25,10 @@
   align-items: center;
   height: 3em;
   margin-inline: 1em;
+}
 
-  .active {
-    text-decoration: underline;
-  }
+.menu-item.active {
+  text-decoration: underline;
 }
 
 .indicator {
@@ -38,4 +38,39 @@
 
 .indicator.active {
   border-radius: 50%;
+}
+
+.themes-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.color-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .color {
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 3px;
+    border: 3px solid transparent;
+  }
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1em;
+
+  .label {
+    font-weight: bold;
+  }
+
+  .close {
+    margin-right: 1em;
+    font-size: 0.75em;
+  }
 }

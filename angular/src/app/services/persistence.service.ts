@@ -87,18 +87,24 @@ export class PersistenceService {
       name: 'Bordeau',
       mode: 'burgundy-mode',
       isLight: true,
+      color: '#96503e',
+      border: 'black',
     },
     {
       id: 3,
       name: 'Bleu',
       mode: 'blue-mode',
       isLight: true,
+      color: '#758fd9',
+      border: 'black',
     },
     {
       id: 4,
       name: 'Gris foncé',
       mode: 'dark-grey-mode',
       isLight: false,
+      color: '#4d5154',
+      border: 'white',
     },
   ];
 

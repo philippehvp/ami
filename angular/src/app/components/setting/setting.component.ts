@@ -1,9 +1,9 @@
-import { Component, Renderer2, inject } from '@angular/core';
+import { Component, Renderer2, ViewChild, inject } from '@angular/core';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { ITheme } from 'src/app/models/theme';
-import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -23,12 +23,19 @@ export class SettingComponent {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
+  @ViewChild('settingsTrigger') settingsTrigger!: MatMenuTrigger;
+  @ViewChild('themesTrigger') themesTrigger!: MatMenuTrigger;
+
   public get isClubName(): boolean {
     return this.persistenceService.isClubName;
   }
 
   public get themes(): ITheme[] {
     return this.persistenceService.themes;
+  }
+
+  public get colorThemes(): ITheme[] {
+    return this.persistenceService.themes.slice(1);
   }
 
   public toggleClubName(better: IBetter | null, $event: any) {
@@ -103,17 +110,25 @@ export class SettingComponent {
     }
   }
 
-  public changeTheme(better: IBetter | null, id: number) {
+  public changeTheme($event: any, better: IBetter | null, id: number) {
     const theme = this.persistenceService.setTheme(id);
     this.utilsService.setMode(this.renderer, this.persistenceService.theme);
 
     if (better) {
       this.updateSetting(better);
     }
+
+    $event.stopPropagation();
   }
 
   public isCurrentTheme(theme: ITheme): boolean {
     return theme.id === this.persistenceService.theme.id;
+  }
+
+  public getBorderClass(theme: ITheme): string {
+    return theme.id === this.persistenceService.theme.id
+      ? theme.border || 'transparent'
+      : 'transparent';
   }
 
   private updateSetting(better: IBetter) {

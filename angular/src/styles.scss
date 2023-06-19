@@ -55,7 +55,7 @@ hr {
   animation: fadeIn 1s;
 }
 
-.logo-panel {
+.login-logo-panel {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -67,17 +67,17 @@ hr {
     background-repeat: no-repeat;
     width: 100%;
   }
-}
 
-.isb {
-  background-image: url("~/assets/img/logos/logo-isb-text.png");
-}
-.phocea {
-  background-image: url("~/assets/img/logos/logo-phocea-light.png");
+  .isb {
+    background-image: url("~/assets/img/logos/logo-isb-text.png");
+  }
+  .phocea {
+    background-image: url("~/assets/img/logos/logo-phocea-light.png");
+  }
 }
 
 @media (max-width: 768px) {
-  .logo-panel {
+  .login-logo-panel {
     span {
       height: 60px;
     }
@@ -94,7 +94,7 @@ hr {
 }
 
 @media (min-width: 769px) {
-  .logo-panel {
+  .login-logo-panel {
     span {
       height: 80px;
     }

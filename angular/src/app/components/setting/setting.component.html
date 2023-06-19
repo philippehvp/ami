@@ -6,12 +6,19 @@
   <div class="setting-area">
     <span class="setting">
       <span
-        [matMenuTriggerFor]="displaySettings"
+        #settingsTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="settingsMenu"
         class="material-icons-outlined"
       >
         tune
       </span>
-      <mat-menu #displaySettings="matMenu">
+      <mat-menu #settingsMenu="matMenu">
+        <span class="title">
+          <span class="label">Affichage</span>
+          <span class="close" (click)="settingsTrigger.closeMenu()"
+            >Fermer</span
+          >
+        </span>
         <span class="menu-item" (click)="toggleClubName(data.better, $event)">
           <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
           <span class="label">Afficher le nom des clubs</span>
@@ -48,20 +55,40 @@
 
     <span class="setting">
       <span
+        #themesTrigger="matMenuTrigger"
         [matMenuTriggerFor]="themesMenu"
         class="material-icons-outlined icon"
       >
         palette
       </span>
       <mat-menu #themesMenu="matMenu">
-        <span
-          class="menu-item"
-          (click)="changeTheme(data.better, theme.id)"
-          *ngFor="let theme of themes"
-        >
-          <span [class]="{ active: isCurrentTheme(theme) }">{{
-            theme.name
-          }}</span>
+        <span class="themes-panel">
+          <span class="title">
+            <span class="label">Thèmes</span>
+            <span class="close" (click)="themesTrigger.closeMenu()"
+              >Fermer</span
+            >
+          </span>
+          <span
+            class="menu-item"
+            [class]="{ active: isCurrentTheme(themes[0]) }"
+            (click)="changeTheme($event, data.better, themes[0].id)"
+          >
+            ISB Tournoi 2023
+          </span>
+          <span class="menu-item">
+            <span class="color-item">
+              <span
+                class="color"
+                [style.backgroundColor]="theme.color"
+                [style.borderColor]="getBorderClass(theme)"
+                [class]="{ 'color-active': isCurrentTheme(theme) }"
+                (click)="changeTheme($event, data.better, theme.id)"
+                *ngFor="let theme of colorThemes"
+              >
+              </span>
+            </span>
+          </span>
         </span>
       </mat-menu>
       <span class="label">Thèmes</span>
