@@ -26,8 +26,8 @@ export class SettingComponent {
   @Select(BetState.better)
   better$!: Observable<IBetter>;
 
-  @ViewChild('settingsTrigger') settingsTrigger!: MatMenuTrigger;
-  @ViewChild('themesTrigger') themesTrigger!: MatMenuTrigger;
+  @ViewChild('settingsMenuTrigger') settingsMenuTrigger!: MatMenuTrigger;
+  @ViewChild('themesMenuTrigger') themesMenuTrigger!: MatMenuTrigger;
 
   public get isClubName(): boolean {
     return this.persistenceService.isClubName;
@@ -43,7 +43,9 @@ export class SettingComponent {
 
   public toggleClubName(better: IBetter | null, $event: any) {
     if (better) {
-      this.updateSetting(better)
+      const settings: ISetting = this.getCurrentSettings();
+      settings.isClubName = !this.persistenceService.isClubName;
+      this.updateSetting(better, settings)
         .pipe(
           tap((setting) => {
             if (setting) {
@@ -68,7 +70,9 @@ export class SettingComponent {
 
   public toggleFirstnameVisible(better: IBetter | null, $event: any) {
     if (better) {
-      this.updateSetting(better)
+      const settings: ISetting = this.getCurrentSettings();
+      settings.isFirstnameVisible = !this.persistenceService.isFirstnameVisible;
+      this.updateSetting(better, settings)
         .pipe(
           tap((setting) => {
             if (setting) {
@@ -93,7 +97,9 @@ export class SettingComponent {
 
   public togglePlayerRanking(better: IBetter | null, $event: any) {
     if (better) {
-      this.updateSetting(better)
+      const settings: ISetting = this.getCurrentSettings();
+      settings.isPlayerRanking = !this.persistenceService.isPlayerRanking;
+      this.updateSetting(better, settings)
         .pipe(
           tap((setting) => {
             if (setting) {
@@ -114,7 +120,9 @@ export class SettingComponent {
 
   public toggleAutoNavigation(better: IBetter | null) {
     if (better) {
-      this.updateSetting(better)
+      const settings: ISetting = this.getCurrentSettings();
+      settings.isAutoNavigation = !this.persistenceService.isAutoNavigation;
+      this.updateSetting(better, settings)
         .pipe(
           tap((setting) => {
             if (setting) {
@@ -133,7 +141,9 @@ export class SettingComponent {
 
   public togglePlayerReverse(better: IBetter | null) {
     if (better) {
-      this.updateSetting(better)
+      const settings: ISetting = this.getCurrentSettings();
+      settings.isPlayerReverse = !this.persistenceService.isPlayerReverse;
+      this.updateSetting(better, settings)
         .pipe(
           tap((setting) => {
             if (setting) {
@@ -148,7 +158,9 @@ export class SettingComponent {
 
   public changeTheme($event: any, better: IBetter | null, id: number) {
     if (better) {
-      this.updateSetting(better)
+      const settings: ISetting = this.getCurrentSettings();
+      settings.theme = id;
+      this.updateSetting(better, settings)
         .pipe(
           tap((setting) => {
             if (setting) {
@@ -176,10 +188,22 @@ export class SettingComponent {
       : 'transparent';
   }
 
+  private getCurrentSettings(): ISetting {
+    return <ISetting>{
+      isAutoNavigation: this.persistenceService.isAutoNavigation,
+      isClubName: this.persistenceService.isClubName,
+      isFirstnameVisible: this.persistenceService.isFirstnameVisible,
+      isPlayerRanking: this.persistenceService.isPlayerRanking,
+      isPlayerReverse: this.persistenceService.isPlayerReverse,
+      theme: this.persistenceService.theme.id,
+    };
+  }
+
   private updateSetting(
-    better: IBetter
+    better: IBetter,
+    settings: ISetting
   ): Observable<IEmpty | IOffline | ISetting | null> {
-    return this.betterService.updateSetting(better).pipe(
+    return this.betterService.updateSetting(better, settings).pipe(
       map((settings) => {
         if (settings && 'isOffline' in settings) {
           this.store.dispatch([new ConnectionActions.IsOffline()]);

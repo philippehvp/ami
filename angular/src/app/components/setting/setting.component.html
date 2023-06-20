@@ -4,18 +4,16 @@
   } as data"
 >
   <div class="setting-area">
-    <span class="setting">
-      <span
-        #settingsTrigger="matMenuTrigger"
-        [matMenuTriggerFor]="settingsMenu"
-        class="material-icons-outlined"
-      >
-        tune
-      </span>
+    <span
+      class="setting"
+      #settingsMenuTrigger="matMenuTrigger"
+      [matMenuTriggerFor]="settingsMenu"
+    >
+      <span class="material-icons-outlined"> tune </span>
       <mat-menu #settingsMenu="matMenu">
         <span class="title-panel">
           <span class="title">Affichage</span>
-          <span class="close" (click)="settingsTrigger.closeMenu()"
+          <span class="close" (click)="settingsMenuTrigger.closeMenu()"
             >Fermer</span
           >
         </span>
@@ -53,19 +51,17 @@
       <span class="indicator" [class]="{ active: isPlayerReverse }"></span>
     </span>
 
-    <span class="setting">
-      <span
-        #themesTrigger="matMenuTrigger"
-        [matMenuTriggerFor]="themesMenu"
-        class="material-icons-outlined icon"
-      >
-        palette
-      </span>
+    <span
+      class="setting"
+      #themesMenuTrigger="matMenuTrigger"
+      [matMenuTriggerFor]="themesMenu"
+    >
+      <span class="material-icons-outlined icon"> palette </span>
       <mat-menu #themesMenu="matMenu">
         <span class="themes-panel">
           <span class="title-panel">
             <span class="title">Thèmes</span>
-            <span class="close" (click)="themesTrigger.closeMenu()"
+            <span class="close" (click)="themesMenuTrigger.closeMenu()"
               >Fermer</span
             >
           </span>

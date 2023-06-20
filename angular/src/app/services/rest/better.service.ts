@@ -135,17 +135,18 @@ export class BetterService {
   }
 
   public updateSetting(
-    better: IBetter
+    better: IBetter,
+    settings: ISetting
   ): Observable<IEmpty | IOffline | ISetting> {
     const url = CommonService.getURL('better/updateSetting');
     return this.httpClient.post<IEmpty | IOffline>(url, {
       accessKey: better.accessKey,
-      clubName: this.persistenceService.isClubName ? 1 : 0,
-      autoNavigation: this.persistenceService.isAutoNavigation ? 1 : 0,
-      playerReverse: this.persistenceService.isPlayerReverse ? 1 : 0,
-      theme: this.persistenceService.theme.id,
-      playerRanking: this.persistenceService.isPlayerRanking ? 1 : 0,
-      firstnameVisible: this.persistenceService.isFirstnameVisible ? 1 : 0,
+      clubName: settings.isClubName ? 1 : 0,
+      autoNavigation: settings.isAutoNavigation ? 1 : 0,
+      playerReverse: settings.isPlayerReverse ? 1 : 0,
+      theme: settings.theme,
+      playerRanking: settings.isPlayerRanking ? 1 : 0,
+      firstnameVisible: settings.isFirstnameVisible ? 1 : 0,
     });
   }
 }

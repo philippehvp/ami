@@ -2,6 +2,8 @@ export interface ISetting {
   isClubName: boolean;
   isAutoNavigation: boolean;
   isPlayerReverse: boolean;
+  isPlayerRanking: boolean;
+  isFirstnameVisible: boolean;
   theme: number;
 }
 
