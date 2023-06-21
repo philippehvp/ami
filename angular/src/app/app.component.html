@@ -39,7 +39,7 @@
 
       <span class="logo-panel">
         <span class="logo-row" *ngFor="let logoRow of logos">
-          <span *ngFor="let logo of logoRow">
+          <span *ngFor="let logo of logoRow" (click)="openLink(logo)">
             <span class="logo">
               <img
                 [src]="getLogoFile(logo)"

@@ -230,12 +230,14 @@ export class AppComponent implements AfterViewInit {
         label: 'Phocea Light',
         isLightAndDark: true,
         class: 'icon-large',
+        link: 'https://www.phocealight.fr/',
       },
       {
         icon: 'logo-ffbad',
         label: 'FFBAD',
         isLightAndDark: false,
         class: 'icon-large',
+        link: 'https://www.ffbad.org/',
       },
     ],
     [
@@ -244,6 +246,7 @@ export class AppComponent implements AfterViewInit {
         label: 'Balotti',
         isLightAndDark: true,
         class: 'icon-small',
+        link: 'https://balotti.eu/',
       },
 
       {
@@ -251,6 +254,7 @@ export class AppComponent implements AfterViewInit {
         label: 'Ligue Sud',
         isLightAndDark: false,
         class: 'icon-large',
+        link: 'http://www.liguepacabad.org/',
       },
     ],
     [
@@ -259,6 +263,7 @@ export class AppComponent implements AfterViewInit {
         label: 'Badventure',
         isLightAndDark: true,
         class: 'icon-large',
+        link: 'https://www.badventure.fr/',
       },
 
       {
@@ -266,6 +271,7 @@ export class AppComponent implements AfterViewInit {
         label: "Ville d'Istres",
         isLightAndDark: false,
         class: 'icon-large',
+        link: 'https://www.istres.fr/',
       },
     ],
   ];
