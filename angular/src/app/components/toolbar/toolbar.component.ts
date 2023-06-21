@@ -36,7 +36,7 @@ export class ToolbarComponent {
     }
   }
 
-  public toggleSponsor() {
+  public toggleAbout() {
     if (this.persistenceService.aboutnav) {
       this.persistenceService.aboutnav.open();
     }

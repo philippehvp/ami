@@ -24,13 +24,13 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { BetterService } from './services/rest/better.service';
 import { UtilsService } from './services/utils.service';
 import { GdprComponent } from './components/gdpr/gdpr.component';
-import { ITheme } from './models/theme';
 
 export interface ILogo {
   icon: string;
   label: string;
   isLightAndDark: boolean;
   class: string;
+  link?: string;
 }
 
 @Component({
@@ -270,6 +270,30 @@ export class AppComponent implements AfterViewInit {
     ],
   ];
 
+  public socials: ILogo[] = [
+    {
+      icon: 'logo-isb',
+      label: 'ISB',
+      isLightAndDark: true,
+      class: 'icon-large',
+      link: 'https://www.istressportsbadminton.com',
+    },
+    {
+      icon: 'logo-facebook',
+      label: 'Facebook',
+      isLightAndDark: true,
+      class: 'icon-large',
+      link: 'https://www.facebook.com/IstresSportsBadminton',
+    },
+    {
+      icon: 'logo-instagram',
+      label: 'Instagram',
+      isLightAndDark: true,
+      class: 'icon-large',
+      link: 'https://www.instagram.com/istressportsbadminton/',
+    },
+  ];
+
   public getLogoFile(logo: ILogo): string {
     const prefix = 'assets/img/logos/';
     if (this.persistenceService.theme.isLight || !logo.isLightAndDark) {
@@ -300,5 +324,9 @@ export class AppComponent implements AfterViewInit {
 
   public setPlayersNames() {
     this.store.dispatch([new BetActions.SetPlayersNames()]);
+  }
+
+  public openLink(logo: ILogo) {
+    window.open(logo.link, '_blank');
   }
 }
