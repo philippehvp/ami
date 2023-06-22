@@ -1,5 +1,6 @@
 <ng-container *ngIf="{ bet: bet$ | async, better: better$ | async } as data">
   <mat-table
+    class="normal"
     [dataSource]="playersDisplayed"
     [@fadeAnimation]="animationState"
     (@fadeAnimation.done)="animationDone($event)"
@@ -91,6 +92,7 @@
 
   <ng-template #playerReverse>
     <mat-table
+      class="player-reverse"
       [dataSource]="playersDisplayed"
       [@fadeAnimation]="animationState"
       (@fadeAnimation.done)="animationDone($event)"

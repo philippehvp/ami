@@ -224,7 +224,9 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.store.dispatch([new BetActions.UnsetAllBetsDone()]);
                 if (action) {
                   this.persistenceService.isAutoNavigation = true;
-                  this.store.dispatch([new BetActions.GotoNextCategory()]);
+                  this.store.dispatch([
+                    new BetActions.GotoNextCategoryIfCurrentIsComplete(),
+                  ]);
                 }
               });
           }

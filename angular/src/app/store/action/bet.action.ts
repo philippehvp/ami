@@ -26,8 +26,8 @@ export namespace BetActions {
     constructor(public categoryId: number) {}
   }
 
-  export class GotoNextCategory {
-    static readonly type = '[Bet] Goto Next Category';
+  export class GotoNextCategoryIfCurrentIsComplete {
+    static readonly type = '[Bet] Goto Next Category If Current Is Complete';
     constructor() {}
   }
 

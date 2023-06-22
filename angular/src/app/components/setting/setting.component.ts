@@ -8,6 +8,7 @@ import { IEmpty, IOffline } from 'src/app/models/utils';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { BetActions } from 'src/app/store/action/bet.action';
 import { ConnectionActions } from 'src/app/store/action/connection.action';
 import { BetState } from 'src/app/store/state/bet.state';
 
@@ -128,6 +129,12 @@ export class SettingComponent {
             if (setting) {
               this.persistenceService.isAutoNavigation =
                 !this.persistenceService.isAutoNavigation;
+
+              if (this.persistenceService.isAutoNavigation) {
+                this.store.dispatch([
+                  new BetActions.GotoNextCategoryIfCurrentIsComplete(),
+                ]);
+              }
             }
           })
         )

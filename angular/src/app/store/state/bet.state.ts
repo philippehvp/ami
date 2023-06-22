@@ -810,23 +810,21 @@ export class BetState {
     state.patchState({ isLoadingData: action.isLoadingData });
   }
 
-  @Action(BetActions.GotoNextCategory)
-  gotoNextCategory(state: StateContext<BetStateModel>) {
-    const currentState = state.getState();
-
+  @Action(BetActions.GotoNextCategoryIfCurrentIsComplete)
+  gotoNextCategoryIfCurrentIsComplete(state: StateContext<BetStateModel>) {
     const currentCategoryIndex = state.getState().bets?.findIndex((bet) => {
-      return bet.categoryId === currentState.bet.categoryId;
+      return bet.categoryId === state.getState().bet.categoryId;
     });
 
-    if (currentCategoryIndex !== -1) {
-      const nextBetCategoryId = this.getNextBet(
+    if (currentCategoryIndex !== -1 && state.getState().bet.isComplete) {
+      const nextBetCategoryId = this.searchNextBetToFill(
         state,
         currentCategoryIndex || 0
       );
 
-      const nextCategoryId = (state.getState().bets || [])[nextBetCategoryId]
-        .categoryId;
-      state.dispatch([new BetActions.SetCategory(nextCategoryId)]);
+      if (nextBetCategoryId !== -1) {
+        state.dispatch([new BetActions.SetCategory(nextBetCategoryId)]);
+      }
     }
   }
 
