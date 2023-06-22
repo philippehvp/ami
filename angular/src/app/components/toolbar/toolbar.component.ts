@@ -70,6 +70,6 @@ export class ToolbarComponent {
   public get compactModeIcon(): string {
     return this.persistenceService.isCompactMode
       ? 'close_fullscreen'
-      : 'launch';
+      : 'open_in_full';
   }
 }

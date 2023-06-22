@@ -177,14 +177,14 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   public winnerIconLabel(bet: IBet | undefined, playerId: number): string {
     if (this.isWinnerChecked(bet, playerId)) {
-      return 'expand_circle_down';
+      return 'radio_button_checked';
     }
     return 'radio_button_unchecked';
   }
 
   public runnerUpIconLabel(bet: IBet | undefined, playerId: number): string {
     if (this.isRunnerUpChecked(bet, playerId)) {
-      return 'expand_circle_down';
+      return 'radio_button_checked';
     }
     return 'radio_button_unchecked';
   }
