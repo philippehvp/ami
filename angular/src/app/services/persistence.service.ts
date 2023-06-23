@@ -235,4 +235,43 @@ export class PersistenceService {
 
     this.router.navigate([link]);
   }
+
+  private _credits: string[] = [
+    'Philippe HVP',
+    'Clémence Z',
+    'Maxime H',
+    'Alexandre P',
+    'Alexandre D',
+    'Perrine A',
+    'Quentin LB',
+    'Elisabeth S',
+    'Amélie M',
+    'Baptiste Z',
+    'Lucie F',
+    'Stéphane N',
+    'Fabien J',
+    'Franck F',
+    'Quentin G',
+    'Steven V',
+    'Romain S',
+    'Valentin B',
+    'Alexandre LD',
+    'Anaïs M',
+  ];
+  public get credits(): string[] {
+    return this._credits;
+  }
+
+  public shuffleCredits() {
+    // Pour afficher les remerciements dans un ordre aléatoire à chaque ouverture du panneau About
+    // On va attribuer un ordre à chaque ligne du tableau
+    // Puis classer le tableau selon cet ordre
+
+    for (let i = this._credits.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = this._credits[i];
+      this._credits[i] = this._credits[j];
+      this._credits[j] = temp;
+    }
+  }
 }

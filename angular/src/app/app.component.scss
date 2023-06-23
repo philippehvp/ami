@@ -18,6 +18,7 @@
     flex-direction: row;
     margin-inline: 2em;
     margin-top: 2em;
+    align-items: center;
   }
 
   .label {
@@ -25,7 +26,6 @@
   }
 
   .icon {
-    vertical-align: middle;
     margin-right: 0.5em;
   }
 
@@ -57,27 +57,6 @@
   }
 }
 
-.logo-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.logo-row {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 0.75em;
-}
-
-.logo {
-  display: flex;
-  width: 120px;
-  height: 90px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .icon {
   display: flex;
   width: 100%;
@@ -87,12 +66,33 @@
 
 .icon-small {
   width: 100%;
-  max-width: 64px;
+  max-width: 4em;
 }
 
 .icon-large {
   width: 100%;
   max-width: 80px;
+}
+
+.logo-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1em;
+
+  .logo-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .logo {
+    display: flex;
+    width: 120px;
+    height: 90px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .toolbar-panel {
@@ -103,28 +103,57 @@
 
 .social-panel {
   display: flex;
-  flex-direction: row;
-  position: absolute;
+  flex-direction: column;
   justify-content: center;
-  bottom: 0.5em;
   width: 100%;
+  margin-top: 1em;
 
-  .logos {
+  .title {
     display: flex;
-    justify-content: space-evenly;
-    width: 90%;
+    justify-content: center;
   }
 
-  .social {
+  .logo-row {
     display: flex;
-    width: 120px;
-    flex-direction: column;
-    align-items: center;
+    justify-content: space-evenly;
 
-    .logo {
-      width: 24px;
-      height: 24px;
-      margin-bottom: 4px;
+    .social {
+      display: flex;
+      width: 120px;
+      flex-direction: column;
+      align-items: center;
+
+      .logo {
+        width: 1.5em;
+        height: 1.5em;
+        margin-bottom: 0.25em;
+      }
+    }
+  }
+}
+
+.credits-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-block: 1em;
+
+  .title {
+    display: flex;
+    justify-content: center;
+  }
+
+  .names {
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .name {
+      width: 50%;
+      text-align: center;
+      text-transform: uppercase;
     }
   }
 }

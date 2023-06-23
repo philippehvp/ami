@@ -31,9 +31,9 @@
       <span class="about">
         <h3>Winabad</h3>
         <p>
-          Istres Sports Badminton présente le jeu Winabad et remercie ses
-          partenaires Phocea&nbsp;Light, Balotti et Badventure pour leur
-          soutien.
+          Le club Istres Sports Badminton est heureux de présenter le jeu
+          Winabad et tient à remercier ses partenaires Phocea&nbsp;Light,
+          Balotti et Badventure pour leur soutien.
         </p>
       </span>
 
@@ -53,7 +53,10 @@
       </span>
 
       <span class="social-panel">
-        <span class="logos">
+        <span class="title">
+          <h3>Retrouve le club ISB sur</h3>
+        </span>
+        <span class="logo-row">
           <span
             class="social"
             *ngFor="let social of socials"
@@ -68,6 +71,15 @@
               />
             </span>
             <span class="label">{{ social.label }}</span>
+          </span>
+        </span>
+      </span>
+
+      <span class="credits-panel">
+        <span class="title"><h3>Contributeurs</h3></span>
+        <span class="names">
+          <span class="name" *ngFor="let credit of credits">
+            {{ credit }}
           </span>
         </span>
       </span>

@@ -38,6 +38,7 @@ export class ToolbarComponent {
 
   public toggleAbout() {
     if (this.persistenceService.aboutnav) {
+      this.persistenceService.shuffleCredits();
       this.persistenceService.aboutnav.open();
     }
   }

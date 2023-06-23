@@ -62,6 +62,10 @@ export class AppComponent implements AfterViewInit {
     return this.persistenceService.isToolbarVisible;
   }
 
+  public get credits(): string[] {
+    return this.persistenceService.credits;
+  }
+
   constructor() {
     if (CommonService.isProduction) {
       this.persistenceService.navigate('login');
@@ -279,7 +283,7 @@ export class AppComponent implements AfterViewInit {
   public socials: ILogo[] = [
     {
       icon: 'logo-isb',
-      label: 'ISB',
+      label: 'Internet',
       isLightAndDark: true,
       class: 'icon-large',
       link: 'https://www.istressportsbadminton.com',
