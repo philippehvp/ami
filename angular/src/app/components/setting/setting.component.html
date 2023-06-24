@@ -40,15 +40,17 @@
     </span>
 
     <span class="setting" (click)="toggleAutoNavigation(data.better || null)">
-      <span class="material-icons-outlined icon"> gps_fixed </span>
-      <span class="label">Nav. auto.</span>
-      <span class="indicator" [class]="{ active: isAutoNavigation }"></span>
+      <span class="material-icons-outlined icon">
+        {{ autoNavigationIcon }}
+      </span>
+      <span class="label">{{ autoNavigationLabel }}</span>
     </span>
 
     <span class="setting" (click)="togglePlayerReverse(data.better || null)">
-      <span class="material-icons-outlined icon"> swipe_left </span>
-      <span class="label">Gauche</span>
-      <span class="indicator" [class]="{ active: isPlayerReverse }"></span>
+      <span class="material-icons-outlined icon">
+        {{ playerReverseIcon }}
+      </span>
+      <span class="label">{{ playerReverseLabel }}</span>
     </span>
 
     <span

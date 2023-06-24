@@ -142,6 +142,18 @@ export class SettingComponent {
     }
   }
 
+  public get autoNavigationLabel(): string {
+    return this.persistenceService.isAutoNavigation
+      ? 'Nav. auto.'
+      : 'Nav. man.';
+  }
+
+  public get autoNavigationIcon(): string {
+    return this.persistenceService.isAutoNavigation
+      ? 'gps_fixed'
+      : 'gps_not_fixed';
+  }
+
   public get isPlayerReverse(): boolean {
     return this.persistenceService.isPlayerReverse;
   }
@@ -161,6 +173,14 @@ export class SettingComponent {
         )
         .subscribe();
     }
+  }
+
+  public get playerReverseLabel(): string {
+    return this.persistenceService.isPlayerReverse ? 'Gauche' : 'Droite';
+  }
+
+  public get playerReverseIcon(): string {
+    return this.persistenceService.isPlayerReverse ? 'list' : 'toc';
   }
 
   public changeTheme($event: any, better: IBetter | null, id: number) {

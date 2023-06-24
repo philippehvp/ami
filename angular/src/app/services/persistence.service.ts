@@ -260,7 +260,6 @@ export class PersistenceService {
     'Grégory V',
     'Qiong-Hui X',
     'Julie R',
-    'Kyllian P',
     'Valentin M',
   ];
   public get credits(): string[] {
@@ -277,12 +276,6 @@ export class PersistenceService {
       const temp = this._credits[i];
       this._credits[i] = this._credits[j];
       this._credits[j] = temp;
-    }
-
-    // Si le nombre de personnes est impair, il faut en ajouter une de plus puisque les noms sont affichés
-    // sur deux colonnes
-    if (this.credits.length % 2 === 1) {
-      this.credits.push('');
     }
   }
 }

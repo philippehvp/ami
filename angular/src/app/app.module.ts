@@ -62,6 +62,8 @@ import { RuleComponent } from './components/rule/rule.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
 import { BetReviewOfComponent } from './components/bet/bet-review-of/bet-review-of.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { AboutComponent } from './components/about/about.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,8 @@ import { SettingComponent } from './components/setting/setting.component';
     GdprComponent,
     BetReviewOfComponent,
     SettingComponent,
+    AboutComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,

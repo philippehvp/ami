@@ -1,8 +1,6 @@
 <ng-container
   class="toolbar"
   *ngIf="{
-    bets: bets$ | async,
-    completedBets: completedBets$ | async,
     better: better$ | async
   } as data"
 >
@@ -24,162 +22,13 @@
       #aboutnav
       mode="over"
       position="start"
-      class="nav-panel"
       (click)="toggleAboutNav()"
     >
-      <span class="material-icons-outlined close"> close </span>
-      <span class="about">
-        <h3>Winabad</h3>
-        <p>
-          Le club Istres Sports Badminton est heureux de présenter le jeu
-          Winabad et tient à remercier ses partenaires Phocea&nbsp;Light,
-          Balotti et Badventure pour leur soutien.
-        </p>
-      </span>
-
-      <span class="logo-panel">
-        <span class="logo-row" *ngFor="let logoRow of logos">
-          <span *ngFor="let logo of logoRow" (click)="openLink(logo)">
-            <span class="logo">
-              <img
-                [src]="getLogoFile(logo)"
-                alt=""
-                class="icon"
-                [class]="logo.class"
-              />
-            </span>
-          </span>
-        </span>
-      </span>
-
-      <span class="social-panel">
-        <span class="title">
-          <h3>Le club ISB est sur</h3>
-        </span>
-        <span class="logo-row">
-          <span
-            class="social"
-            *ngFor="let social of socials"
-            (click)="openLink(social)"
-          >
-            <span class="logo">
-              <img
-                [src]="getLogoFile(social)"
-                alt=""
-                class="icon"
-                [class]="social.class"
-              />
-            </span>
-            <span class="label">{{ social.label }}</span>
-          </span>
-        </span>
-      </span>
-
-      <span class="credits-panel">
-        <span class="title"><h3>Contributeurs</h3></span>
-        <span class="names">
-          <span class="name" *ngFor="let credit of credits">
-            {{ credit }}
-          </span>
-        </span>
-      </span>
+      <about></about>
     </mat-sidenav>
 
-    <mat-sidenav #sidenav mode="over" position="end">
-      <mat-nav-list (click)="toggleSideMenu()" class="nav">
-        <span class="material-icons-outlined close"> close </span>
-
-        <span *ngIf="data.better?.isAdmin; else normal">
-          <span class="link" (click)="navigate('bet')"
-            ><span class="label">Remplir résultats</span></span
-          >
-          <hr />
-          <span class="link" (click)="displayBettersBet()"
-            >Résumé pronostics</span
-          >
-          <span class="link" (click)="displayBetStat()">Statistiques</span>
-
-          <hr />
-          <span class="link" (click)="displayBettersOrderedByName()"
-            >Nombre de points</span
-          >
-          <span class="link" (click)="displayBettersRanking()">
-            <span class="label">Classement</span>
-          </span>
-          <hr />
-
-          <span class="link" (click)="setPlayersNames()">
-            <span class="label">Remplir noms joueurs</span>
-          </span>
-          <hr />
-        </span>
-
-        <ng-template #normal>
-          <span
-            class="link"
-            *ngIf="isBettingPhase(data.better?.endBetDate || null)"
-            (click)="navigate('bet')"
-            ><span class="material-icons-outlined icon"> cottage </span
-            ><span class="label">Pronostics</span></span
-          >
-
-          <span
-            class="link"
-            *ngIf="!isBettingPhase(data.better?.endBetDate || null)"
-            (click)="displayBettersRanking()"
-          >
-            <span class="material-icons-outlined icon"> emoji_events </span>
-            <span class="label">Classement</span>
-          </span>
-
-          <span class="link" (click)="navigate('rule')"
-            ><span class="material-icons-outlined icon"> rule </span
-            ><span class="label">Barème</span></span
-          >
-          <span
-            class="link"
-            *ngIf="isBettingPhase(data.better?.endBetDate || null)"
-            (click)="displayTutorial()"
-          >
-            <span class="material-icons-outlined icon"> help_outline </span>
-            <span class="label">Tutoriel</span>
-          </span>
-
-          <span class="link" (click)="openGDPR()">
-            <span class="material-icons-outlined icon"> balance </span>
-            <span class="label">Charte Winabad</span>
-          </span>
-        </ng-template>
-
-        <span
-          class="link logout"
-          (click)="
-            logout(
-              data.bets?.length || 0,
-              data.completedBets || 0,
-              data.better?.isAdmin || false
-            )
-          "
-          ><span class="material-icons-outlined icon"> power_settings_new </span
-          ><span class="label">Déconnexion</span></span
-        >
-
-        <ng-container *ngIf="!data.better?.isAdmin">
-          <hr />
-          <span
-            class="link"
-            *ngIf="isBettingPhase(data.better?.endBetDate || null)"
-            (click)="eraseBets(data?.better || null)"
-          >
-            <span class="material-icons-outlined icon"> restart_alt </span>
-            <span class="label">RAZ des pronostics</span>
-          </span>
-          <span class="link" (click)="deleteAccount(data?.better || null)">
-            <span class="material-icons-outlined icon"> delete </span>
-            <span class="label">Effacement du compte</span>
-          </span>
-        </ng-container>
-      </mat-nav-list>
+    <mat-sidenav #sidenav mode="over" position="end" (click)="toggleSideMenu()">
+      <sidenav></sidenav>
     </mat-sidenav>
   </mat-sidenav-container>
 </ng-container>

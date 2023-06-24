@@ -1,6 +1,4 @@
 .isb-mode {
-  $active: rgba(0, 0, 0, 0.87);
-
   .mat-drawer-container {
     background-position: bottom right;
     background-repeat: no-repeat;
@@ -43,10 +41,6 @@
     background-color: transparent;
   }
 
-  .indicator.active {
-    background-color: $active;
-  }
-
   .thumb {
     background-color: #3f2f7d;
   }
@@ -55,7 +49,6 @@
 .burgundy-mode {
   $color: white;
   $setting: white;
-  $active: rgba(0, 0, 0, 0.87);
 
   .mat-drawer-container {
     background-position: bottom right;
@@ -100,10 +93,6 @@
     fill: $color;
   }
 
-  .indicator.active {
-    background-color: $color;
-  }
-
   .thumb {
     background-color: #a2181c;
   }
@@ -112,7 +101,6 @@
 .blue-mode {
   $color: white;
   $setting: white;
-  $active: rgba(0, 0, 0, 0.87);
 
   .mat-drawer-container {
     background-position: bottom right;
@@ -157,10 +145,6 @@
     fill: $color;
   }
 
-  .indicator.active {
-    background-color: $color;
-  }
-
   .thumb {
     background-color: #a2181c;
   }
@@ -191,10 +175,6 @@
 
   .logo-color {
     fill: $color;
-  }
-
-  .indicator.active {
-    background-color: $color;
   }
 
   .mat-toolbar {
