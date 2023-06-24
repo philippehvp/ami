@@ -23,7 +23,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -103,7 +102,6 @@ import { SettingComponent } from './components/setting/setting.component';
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
-    DragDropModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,

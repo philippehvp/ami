@@ -238,25 +238,30 @@ export class PersistenceService {
 
   private _credits: string[] = [
     'Philippe HVP',
+    'Stéphane N',
     'Clémence Z',
-    'Maxime H',
+    'Baptiste Z',
+    'Anaïs M',
+    'Lucie F',
     'Alexandre P',
+    'Maxime H',
     'Alexandre D',
     'Perrine A',
     'Quentin LB',
     'Elisabeth S',
-    'Amélie M',
-    'Baptiste Z',
-    'Lucie F',
-    'Stéphane N',
     'Fabien J',
     'Franck F',
     'Quentin G',
     'Steven V',
     'Romain S',
     'Valentin B',
+    'Amélie M',
     'Alexandre LD',
-    'Anaïs M',
+    'Grégory V',
+    'Qiong-Hui X',
+    'Julie R',
+    'Kyllian P',
+    'Valentin M',
   ];
   public get credits(): string[] {
     return this._credits;
@@ -272,6 +277,12 @@ export class PersistenceService {
       const temp = this._credits[i];
       this._credits[i] = this._credits[j];
       this._credits[j] = temp;
+    }
+
+    // Si le nombre de personnes est impair, il faut en ajouter une de plus puisque les noms sont affichés
+    // sur deux colonnes
+    if (this.credits.length % 2 === 1) {
+      this.credits.push('');
     }
   }
 }

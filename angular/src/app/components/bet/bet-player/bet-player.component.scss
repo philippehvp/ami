@@ -30,16 +30,7 @@ th {
   display: none;
 }
 
-.normal {
-  .mdc-data-table__cell,
-  .mdc-data-table__header-cell {
-    padding: 0 0.5em;
-  }
-}
-
-.player-reverse {
-  .mdc-data-table__cell,
-  .mdc-data-table__header-cell {
-    padding: 0 0.25em;
-  }
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 0 0.25em;
 }
