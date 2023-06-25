@@ -236,9 +236,8 @@ export class PersistenceService {
     this.router.navigate([link]);
   }
 
-  private _credits: string[] = [
+  private _originalCredits: string[] = [
     'Philippe HVP',
-    'Stéphane N',
     'Clémence Z',
     'Baptiste Z',
     'Anaïs M',
@@ -262,20 +261,30 @@ export class PersistenceService {
     'Julie R',
     'Valentin M',
   ];
+
+  private _credits: string[] = [];
+
   public get credits(): string[] {
     return this._credits;
   }
 
   public shuffleCredits() {
-    // Pour afficher les remerciements dans un ordre aléatoire à chaque ouverture du panneau About
-    // On va attribuer un ordre à chaque ligne du tableau
-    // Puis classer le tableau selon cet ordre
+    // On mélange les ligne du tableau pour afficher les remerciements dans un ordre aléatoire à chaque ouverture
+    // du panneau A propos de
+    // Ceci dit, on mettra toujours Stéphane N en début de liste
 
-    for (let i = this._credits.length - 1; i > 0; i--) {
+    // A chaque mélange, on repart de la version sans Stéphane N
+    this._credits = [...this._originalCredits];
+
+    // On mélange la liste
+    for (let i: number = this._credits.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       const temp = this._credits[i];
       this._credits[i] = this._credits[j];
       this._credits[j] = temp;
     }
+
+    // On ajoute Stéphane N au début
+    this._credits = ['Stéphane N', ...this._credits];
   }
 }

@@ -96,16 +96,27 @@
   }
 
   .names {
-    font-size: 0.9em;
     display: flex;
+    width: 90%;
+    font-size: 0.9em;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 
     .name {
-      width: 50%;
-      text-align: center;
-      text-transform: uppercase;
+      padding-block: 0.5em;
+    }
+
+    .name:after {
+      content: "";
+      display: inline-block;
+      margin-right: 0.75em;
+    }
+
+    .name:last-child:after {
+      content: "";
+      display: inline-block;
+      margin-inline: 0;
     }
   }
 }
