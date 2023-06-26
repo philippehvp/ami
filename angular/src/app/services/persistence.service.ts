@@ -239,27 +239,10 @@ export class PersistenceService {
   private _originalCredits: string[] = [
     'Philippe HVP',
     'Clémence Z',
-    'Baptiste Z',
-    'Anaïs M',
-    'Lucie F',
     'Alexandre P',
     'Maxime H',
     'Alexandre D',
     'Perrine A',
-    'Quentin LB',
-    'Elisabeth S',
-    'Fabien J',
-    'Franck F',
-    'Quentin G',
-    'Steven V',
-    'Romain S',
-    'Valentin B',
-    'Amélie M',
-    'Alexandre LD',
-    'Grégory V',
-    'Qiong-Hui X',
-    'Julie R',
-    'Valentin M',
   ];
 
   private _credits: string[] = [];
