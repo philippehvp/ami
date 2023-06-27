@@ -184,7 +184,7 @@ export class SettingComponent {
   }
 
   public changeTheme($event: any, better: IBetter | null, id: number) {
-    if (better) {
+    if (better && id !== this.persistenceService.theme.id) {
       const settings: ISetting = this.getCurrentSettings();
       settings.theme = id;
       this.updateSetting(better, settings)

@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public canCreateBetter!: boolean;
 
-  public get disabled(): boolean {
+  public get disabledLoginButton(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
     const password: string = this.formGroup?.get(['password'])?.value || '';
     return name === '' || password === '' || password.length < 4;

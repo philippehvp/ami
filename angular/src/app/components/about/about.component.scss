@@ -4,9 +4,14 @@
   text-align: center;
 }
 
+hr {
+  margin-block: 2em;
+}
+
 .about-nav {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1em;
 }
 
 .title {
@@ -68,7 +73,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 2em;
 
   .logo-row {
     display: flex;
@@ -93,7 +97,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2em;
 
   .names {
     display: flex;
