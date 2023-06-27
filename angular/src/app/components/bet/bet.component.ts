@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -64,6 +65,19 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Select(BetState.duration)
   duration$!: Observable<IDuration>;
+
+  private resizeTimeout!: ReturnType<typeof setTimeout>;
+
+  @HostListener('window:resize')
+  onResize() {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+
+    this.resizeTimeout = setTimeout(() => {
+      this.resize();
+    }, 500);
+  }
 
   private destroy$!: Subject<boolean>;
   public tutorialLastStep: number = 4;
@@ -240,6 +254,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit() {
+    this.resize();
+  }
+
+  private resize() {
     const toolbarHeight =
       document.querySelector('.toolbar-panel')?.clientHeight || 0;
     const settingHeight =
