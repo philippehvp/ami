@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { NgxsModule } from '@ngxs/store';
@@ -64,6 +64,7 @@ import { BetReviewOfComponent } from './components/bet/bet-review-of/bet-review-
 import { SettingComponent } from './components/setting/setting.component';
 import { AboutComponent } from './components/about/about.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,12 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
