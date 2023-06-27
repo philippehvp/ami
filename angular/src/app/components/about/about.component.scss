@@ -4,14 +4,9 @@
   text-align: center;
 }
 
-hr {
-  margin-block: 2em;
-}
-
 .about-nav {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
 }
 
 .title {
@@ -73,6 +68,7 @@ hr {
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 3em;
 
   .logo-row {
     display: flex;
@@ -97,6 +93,7 @@ hr {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 3em;
 
   .names {
     display: flex;
@@ -105,6 +102,7 @@ hr {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    margin-bottom: 2em;
 
     .name {
       padding-block: 0.5em;
