@@ -1,7 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
-import { IBetter, IBetterRaw, ISetting } from 'src/app/models/better';
+import {
+  IBetter,
+  IBetterRaw,
+  ISetting,
+  ISettingRaw,
+} from 'src/app/models/better';
 import { CommonService } from '../common.service';
 import { IEmpty, IError, IOffline } from 'src/app/models/utils';
 import { PersistenceService } from '../persistence.service';
@@ -20,16 +25,15 @@ export class BetterService {
     return this.loginRaw(name, password).pipe(
       map((betterRaw: IBetterRaw) => {
         if (betterRaw) {
-          this.persistenceService.isClubName = betterRaw.setting.clubName === 1;
-          this.persistenceService.isAutoNavigation =
-            betterRaw.setting.autoNavigation === 1;
-          this.persistenceService.isPlayerReverse =
-            betterRaw.setting.playerReverse === 1;
-          this.persistenceService.setTheme(betterRaw.setting.theme);
-          this.persistenceService.isPlayerRanking =
-            betterRaw.setting.playerRanking === 1;
-          this.persistenceService.isFirstnameVisible =
-            betterRaw.setting.firstnameVisible === 1;
+          const settingRaw: ISettingRaw = {
+            clubName: betterRaw.setting.clubName,
+            autoNavigation: betterRaw.setting.autoNavigation,
+            playerReverse: betterRaw.setting.playerReverse,
+            theme: betterRaw.setting.theme,
+            playerRanking: betterRaw.setting.playerRanking,
+            firstnameVisible: betterRaw.setting.firstnameVisible,
+          };
+          this.persistenceService.restoreSettings(settingRaw);
 
           return betterRaw
             ? {

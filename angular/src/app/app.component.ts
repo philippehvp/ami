@@ -47,6 +47,7 @@ export class AppComponent implements AfterViewInit {
 
         this.persistenceService.isEvaluationDone =
           betterRestored.evaluation > 0;
+
         if (betterRestored.endBetDate) {
           // Les données restaurées par cookies remontent des champs en chaîne de caractères
           if (new Date(betterRestored.endBetDate) < new Date()) {

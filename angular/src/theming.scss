@@ -134,6 +134,39 @@ $md-palette-dark-grey: (
   ),
 );
 
+$md-palette-white: (
+  50: #fdf1e3,
+  100: #fbddb9,
+  200: #f9c78b,
+  300: #f6b05c,
+  400: #f49f39,
+  500: #f28e16,
+  600: #f08613,
+  700: #ee7b10,
+  800: #ec710c,
+  900: #e85f06,
+  A100: #ffffff,
+  A200: #ffe9dd,
+  A400: #ffc7aa,
+  A700: #ffb691,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
 $isb-primary: mat-palette($md-palette-isb, 500);
 $isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
 $isb-warn: mat-palette($md-palette-isb);
@@ -162,6 +195,11 @@ $dark-grey-mode: mat-dark-theme(
   $dark-grey-warn
 );
 
+$white-primary: mat-palette($md-palette-white, 500);
+$white-accent: mat-palette($md-palette-white, A200, A100, A400);
+$white-warn: mat-palette($md-palette-white);
+$white-mode: mat-light-theme($white-primary, $white-accent, $white-warn);
+
 .isb-mode {
   @include angular-material-theme($isb-mode);
 }
@@ -176,4 +214,8 @@ $dark-grey-mode: mat-dark-theme(
 
 .dark-grey-mode {
   @include angular-material-theme($dark-grey-mode);
+}
+
+.white-mode {
+  @include angular-material-theme($white-mode);
 }

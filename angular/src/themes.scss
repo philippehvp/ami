@@ -103,8 +103,6 @@
   $setting: white;
 
   .mat-drawer-container {
-    background-position: bottom right;
-    background-repeat: no-repeat;
     color: $color;
     background-image: linear-gradient(-135deg, #272896, #7295e2);
   }
@@ -155,8 +153,7 @@
   $background: #222;
 
   .mat-drawer-container {
-    background-position: bottom right;
-    background-repeat: no-repeat;
+    color: $color;
     background-image: linear-gradient(-135deg, #222, #24323b, #4d5256);
   }
 
@@ -194,5 +191,38 @@
   .betting {
     background-position: top center;
     background-size: cover;
+  }
+}
+
+.white-mode {
+  .mat-drawer-container {
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-color: "#fff";
+  }
+
+  .mat-toolbar {
+    background-color: transparent;
+    color: black;
+  }
+
+  .mat-mdc-table {
+    background: none;
+  }
+
+  .card {
+    background-color: transparent;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+  }
+
+  .thumb {
+    background-color: #f28e16;
   }
 }

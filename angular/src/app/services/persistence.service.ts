@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { ITheme } from '../models/theme';
+import { ISettingRaw } from '../models/better';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,15 @@ export class PersistenceService {
     this._gobackPage = '';
     this._isReviewOfVisible = false;
     this._reviewOfBetterName = '';
+  }
+
+  public restoreSettings(settingRaw: ISettingRaw) {
+    this.isClubName = settingRaw.clubName === 1;
+    this.isAutoNavigation = settingRaw.autoNavigation === 1;
+    this.isPlayerReverse = settingRaw.playerReverse === 1;
+    this.setTheme(settingRaw.theme);
+    this.isPlayerRanking = settingRaw.playerRanking === 1;
+    this.isFirstnameVisible = settingRaw.firstnameVisible === 1;
   }
 
   private _isClubName: boolean = false;
@@ -108,6 +118,14 @@ export class PersistenceService {
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',
+    },
+    {
+      id: 5,
+      name: 'Blanc',
+      mode: 'white-mode',
+      isLight: true,
+      color: '#d0d0d0',
+      border: 'black',
     },
   ];
 
@@ -243,6 +261,7 @@ export class PersistenceService {
     'Maxime H',
     'Alexandre D',
     'Perrine A',
+    'Lucie F',
   ];
 
   private _credits: string[] = [];

@@ -19,7 +19,7 @@ export class AboutComponent {
       {
         icon: 'logo-phocea-light',
         label: 'Phocea Light',
-        isLightAndDark: true,
+        isLightAndDark: false,
         class: 'icon-large',
         link: 'https://www.phocealight.fr/',
       },
@@ -35,7 +35,7 @@ export class AboutComponent {
       {
         icon: 'logo-balotti',
         label: 'Balotti',
-        isLightAndDark: true,
+        isLightAndDark: false,
         class: 'icon-small',
         link: 'https://balotti.eu/',
       },
@@ -52,7 +52,7 @@ export class AboutComponent {
       {
         icon: 'logo-badventure',
         label: 'Badventure',
-        isLightAndDark: true,
+        isLightAndDark: false,
         class: 'icon-large',
         link: 'https://www.badventure.fr/',
       },
@@ -71,21 +71,21 @@ export class AboutComponent {
     {
       icon: 'logo-isb',
       label: 'Internet',
-      isLightAndDark: true,
+      isLightAndDark: false,
       class: 'icon-large',
       link: 'https://www.istressportsbadminton.com',
     },
     {
       icon: 'logo-facebook',
       label: 'Facebook',
-      isLightAndDark: true,
+      isLightAndDark: false,
       class: 'icon-large',
       link: 'https://www.facebook.com/IstresSportsBadminton',
     },
     {
       icon: 'logo-instagram',
       label: 'Instagram',
-      isLightAndDark: true,
+      isLightAndDark: false,
       class: 'icon-large',
       link: 'https://www.instagram.com/istressportsbadminton/',
     },
