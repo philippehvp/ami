@@ -3,8 +3,18 @@
   flex-direction: column;
 }
 
-.duration-label {
-  margin-left: 0.25em;
+.duration-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .label {
+    margin-left: 0.25em;
+  }
+}
+
+.duration-title.compact-mode {
+  margin-bottom: 0.25em;
 }
 
 .duration {

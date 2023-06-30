@@ -157,6 +157,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
               if (!CommonService.isProduction) {
                 window.localStorage.setItem('better', JSON.stringify(better));
+                window.localStorage.setItem(
+                  'settings',
+                  JSON.stringify(this.persistenceService.getSettings())
+                );
               }
             } else {
               this.persistenceService.tutorialStep = 1;
@@ -184,6 +188,12 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 disableClose: true,
               };
 
+              // Si la zone de pronostic de la durée du match est en mode compact, alors il faut désactiver ce mode
+              if (this.persistenceService.isDurationCompactMode) {
+                this.persistenceService.isDurationCompactMode =
+                  !this.persistenceService.isDurationCompactMode;
+              }
+
               this.dialog
                 .open(InformationComponent, config)
                 .afterClosed()
@@ -196,7 +206,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 data: {
                   title: 'Pronostics entièrement saisis',
                   message:
-                    'Tous les pronostics ont été saisis et seront pris en compte. Tu peux te déconnecter.',
+                    'Tous les pronostics ont été saisis et seront pris en compte. Tu peux te déconnecter à présent si tu le veux.',
                   dialogType: InformationDialogType.Information,
                   labels: ['Fermer'],
                 },
@@ -300,6 +310,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private storeBetterInLocalStorage(better: IBetter) {
     if (!CommonService.isProduction) {
       window.localStorage.setItem('better', JSON.stringify(better));
+      window.localStorage.setItem(
+        'settings',
+        JSON.stringify(this.persistenceService.getSettings())
+      );
     }
   }
 

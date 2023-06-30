@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IDuration } from 'src/app/models/duration';
+import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 
@@ -12,9 +13,25 @@ import { BetState } from 'src/app/store/state/bet.state';
 })
 export class BetDurationComponent {
   private store = inject(Store);
+  private persistenceService = inject(PersistenceService);
 
   @Select(BetState.duration)
   duration$!: Observable<IDuration>;
+
+  public get isDurationCompactMode(): boolean {
+    return this.persistenceService.isDurationCompactMode;
+  }
+
+  public get durationCompactModeIcon(): string {
+    return this.persistenceService.isDurationCompactMode
+      ? 'expand_more'
+      : 'expand_less';
+  }
+
+  public toggleDurationCompactMode() {
+    this.persistenceService.isDurationCompactMode =
+      !this.persistenceService.isDurationCompactMode;
+  }
 
   public changeDuration(duration: number) {
     this.store.dispatch([new BetActions.SetDuration(duration)]);

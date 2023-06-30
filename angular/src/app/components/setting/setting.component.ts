@@ -5,6 +5,7 @@ import { EMPTY, Observable, map, tap } from 'rxjs';
 import { IBetter, ISetting } from 'src/app/models/better';
 import { ITheme } from 'src/app/models/theme';
 import { IEmpty, IOffline } from 'src/app/models/utils';
+import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -52,6 +53,13 @@ export class SettingComponent {
             if (setting) {
               this.persistenceService.isClubName =
                 !this.persistenceService.isClubName;
+
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'settings',
+                  JSON.stringify(this.persistenceService.getSettings())
+                );
+              }
             }
           })
         )
@@ -79,6 +87,13 @@ export class SettingComponent {
             if (setting) {
               this.persistenceService.isFirstnameVisible =
                 !this.persistenceService.isFirstnameVisible;
+
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'settings',
+                  JSON.stringify(this.persistenceService.getSettings())
+                );
+              }
             }
           })
         )
@@ -106,6 +121,13 @@ export class SettingComponent {
             if (setting) {
               this.persistenceService.isPlayerRanking =
                 !this.persistenceService.isPlayerRanking;
+
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'settings',
+                  JSON.stringify(this.persistenceService.getSettings())
+                );
+              }
             }
           })
         )
@@ -129,6 +151,13 @@ export class SettingComponent {
             if (setting) {
               this.persistenceService.isAutoNavigation =
                 !this.persistenceService.isAutoNavigation;
+
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'settings',
+                  JSON.stringify(this.persistenceService.getSettings())
+                );
+              }
 
               if (this.persistenceService.isAutoNavigation) {
                 this.store.dispatch([
@@ -168,6 +197,13 @@ export class SettingComponent {
             if (setting) {
               this.persistenceService.isPlayerReverse =
                 !this.persistenceService.isPlayerReverse;
+
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'settings',
+                  JSON.stringify(this.persistenceService.getSettings())
+                );
+              }
             }
           })
         )
@@ -196,6 +232,13 @@ export class SettingComponent {
                 this.renderer,
                 this.persistenceService.theme
               );
+
+              if (!CommonService.isProduction) {
+                window.localStorage.setItem(
+                  'settings',
+                  JSON.stringify(this.persistenceService.getSettings())
+                );
+              }
             }
           })
         )

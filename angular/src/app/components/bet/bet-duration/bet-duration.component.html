@@ -1,10 +1,21 @@
 <div class="duration-panel">
-  <span class="duration-label"
-    >Match le plus long : {{ (duration$ | async)?.duration }} minutes</span
+  <span
+    class="duration-title"
+    [class]="{ 'compact-mode': isDurationCompactMode }"
   >
+    <span class="label"
+      >Match le plus long : {{ (duration$ | async)?.duration }} minutes</span
+    >
+    <span (click)="toggleDurationCompactMode()">
+      <span class="material-icons-outlined">
+        {{ durationCompactModeIcon }}
+      </span>
+    </span>
+  </span>
 
   <div class="duration">
     <mat-slider
+      *ngIf="!isDurationCompactMode"
       max="120"
       min="30"
       step="1"

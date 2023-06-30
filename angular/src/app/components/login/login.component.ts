@@ -103,6 +103,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           if (link === 'better-ranking') {
             if (!CommonService.isProduction) {
               window.localStorage.setItem('better', JSON.stringify(better));
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
             }
           }
 

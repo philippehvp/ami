@@ -127,6 +127,7 @@ export class SidenavComponent {
 
       if (!CommonService.isProduction) {
         window.localStorage.removeItem('better');
+        window.localStorage.removeItem('settings');
       }
       this.persistenceService.navigate('login');
     });

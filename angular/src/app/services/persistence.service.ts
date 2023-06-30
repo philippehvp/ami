@@ -12,14 +12,17 @@ export class PersistenceService {
 
   public init() {
     this._isClubName = false;
+    this._isAutoNavigation = false;
+    this._isPlayerReverse = false;
+    this._theme = this._themes[0];
     this._isPlayerRanking = true;
     this._isFirstnameVisible = true;
-    this._isAutoNavigation = false;
-    this._theme = this._themes[0];
+
+    this._isDurationCompactMode = false;
+
     this._categoryId = -1;
     this._tutorialStep = 0;
     this._isToolbarVisible = false;
-    this._isPlayerReverse = false;
     this._isCompactMode = false;
     this._isToolbarLimitedMode = false;
     this._isEvaluationDone = false;
@@ -35,6 +38,17 @@ export class PersistenceService {
     this.setTheme(settingRaw.theme);
     this.isPlayerRanking = settingRaw.playerRanking === 1;
     this.isFirstnameVisible = settingRaw.firstnameVisible === 1;
+  }
+
+  public getSettings(): ISettingRaw {
+    return {
+      clubName: this._isClubName ? 1 : 0,
+      autoNavigation: this._isAutoNavigation ? 1 : 0,
+      playerReverse: this._isPlayerReverse ? 1 : 0,
+      theme: this._theme.id,
+      playerRanking: this._isPlayerRanking ? 1 : 0,
+      firstnameVisible: this._isFirstnameVisible ? 1 : 0,
+    };
   }
 
   private _isClubName: boolean = false;
@@ -113,7 +127,7 @@ export class PersistenceService {
     },
     {
       id: 4,
-      name: 'Gris foncé',
+      name: 'Gris sombre',
       mode: 'dark-grey-mode',
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
@@ -206,12 +220,17 @@ export class PersistenceService {
     this._isCompactMode = isCompactMode;
   }
 
+  private _isDurationCompactMode: boolean = false;
+  public get isDurationCompactMode(): boolean {
+    return this._isDurationCompactMode;
+  }
+  public set isDurationCompactMode(isDurationCompactMode: boolean) {
+    this._isDurationCompactMode = isDurationCompactMode;
+  }
+
   private _isToolbarLimitedMode: boolean = false;
   public get isToolbarLimitedMode(): boolean {
     return this._isToolbarLimitedMode;
-  }
-  public set isToolbarLimitedMode(isToolbarLimitedMode: boolean) {
-    this._isToolbarLimitedMode = isToolbarLimitedMode;
   }
 
   private _isEvaluationDone: boolean = false;
@@ -262,6 +281,7 @@ export class PersistenceService {
     'Alexandre D',
     'Perrine A',
     'Lucie F',
+    'Quentin LB',
   ];
 
   private _credits: string[] = [];

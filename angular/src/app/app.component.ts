@@ -4,7 +4,7 @@ import { BetActions } from './store/action/bet.action';
 import { CommonService } from './services/common.service';
 import { BetState } from './store/state/bet.state';
 import { Observable } from 'rxjs';
-import { IBetter } from './models/better';
+import { IBetter, ISettingRaw } from './models/better';
 import { PersistenceService } from './services/persistence.service';
 import { MatSidenav } from '@angular/material/sidenav';
 
@@ -40,10 +40,16 @@ export class AppComponent implements AfterViewInit {
       this.persistenceService.navigate('login');
     } else {
       const better: string = window.localStorage.getItem('better') || '';
+      const settings: string = window.localStorage.getItem('settings') || '';
 
       if (better) {
         const betterRestored: IBetter = JSON.parse(better);
         this.store.dispatch([new BetActions.SetBetter(betterRestored)]);
+
+        if (settings) {
+          const settingsRaw: ISettingRaw = JSON.parse(settings);
+          this.persistenceService.restoreSettings(settingsRaw);
+        }
 
         this.persistenceService.isEvaluationDone =
           betterRestored.evaluation > 0;
