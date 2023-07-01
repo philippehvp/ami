@@ -25,7 +25,7 @@ export class UtilsService {
     }
   }
 
-  public setMode(renderer: Renderer2, theme: ITheme) {
+  public setTheme(renderer: Renderer2, theme: ITheme) {
     renderer.setAttribute(this.document.body, 'class', theme.mode);
 
     // Changement de l'image de fond, différente selon les thèmes

@@ -228,7 +228,7 @@ export class SettingComponent {
           tap((setting) => {
             if (setting) {
               const theme = this.persistenceService.setTheme(id);
-              this.utilsService.setMode(
+              this.utilsService.setTheme(
                 this.renderer,
                 this.persistenceService.theme
               );

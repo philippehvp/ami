@@ -150,7 +150,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
           if (better) {
             if (better.isTutorialDone) {
-              this.utilsService.setMode(
+              this.utilsService.setTheme(
                 this.renderer,
                 this.persistenceService.theme
               );

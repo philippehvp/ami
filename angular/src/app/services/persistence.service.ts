@@ -103,7 +103,7 @@ export class PersistenceService {
     {
       id: 1,
       name: 'Tournoi 2023',
-      mode: 'isb-mode',
+      mode: 'isb-theme',
       isLight: true,
       color:
         'linear-gradient(150deg, #fcc916, #f28e16, #c5e6f7, #6caee0, #b0d6b1, #8abb8c)',
@@ -112,7 +112,7 @@ export class PersistenceService {
     {
       id: 2,
       name: 'Bordeau',
-      mode: 'burgundy-mode',
+      mode: 'burgundy-theme',
       isLight: true,
       color: 'linear-gradient(-135deg, #a1362d, #9e724d)',
       border: 'black',
@@ -120,7 +120,7 @@ export class PersistenceService {
     {
       id: 3,
       name: 'Bleu',
-      mode: 'blue-mode',
+      mode: 'blue-theme',
       isLight: true,
       color: 'linear-gradient(-135deg, #272896, #7295e2)',
       border: 'black',
@@ -128,7 +128,7 @@ export class PersistenceService {
     {
       id: 4,
       name: 'Gris sombre',
-      mode: 'dark-grey-mode',
+      mode: 'dark-grey-theme',
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',
@@ -136,7 +136,7 @@ export class PersistenceService {
     {
       id: 5,
       name: 'Blanc',
-      mode: 'white-mode',
+      mode: 'white-theme',
       isLight: true,
       color: '#d0d0d0',
       border: 'black',

@@ -120,7 +120,7 @@ export class SidenavComponent {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      this.utilsService.setMode(
+      this.utilsService.setTheme(
         this.renderer,
         this.persistenceService.themes[0]
       );

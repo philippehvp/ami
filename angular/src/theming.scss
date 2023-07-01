@@ -170,12 +170,12 @@ $md-palette-white: (
 $isb-primary: mat-palette($md-palette-isb, 500);
 $isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
 $isb-warn: mat-palette($md-palette-isb);
-$isb-mode: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
+$isb-theme: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
 
 $burgundy-primary: mat-palette($md-palette-burgundy, 100);
 $burgundy-accent: mat-palette($md-palette-burgundy, A200, A100, A400);
 $burgundy-warn: mat-palette($md-palette-burgundy);
-$burgundy-mode: mat-light-theme(
+$burgundy-theme: mat-light-theme(
   $burgundy-primary,
   $burgundy-accent,
   $burgundy-warn
@@ -184,12 +184,12 @@ $burgundy-mode: mat-light-theme(
 $blue-primary: mat-palette($md-palette-blue, 300);
 $blue-accent: mat-palette($md-palette-blue, A400);
 $blue-warn: mat-palette($md-palette-blue, A200);
-$blue-mode: mat-light-theme($blue-primary, $blue-accent, $blue-warn);
+$blue-theme: mat-light-theme($blue-primary, $blue-accent, $blue-warn);
 
 $dark-grey-primary: mat-palette($md-palette-dark-grey, 100);
 $dark-grey-accent: mat-palette($md-palette-dark-grey, A400);
 $dark-grey-warn: mat-palette($md-palette-dark-grey, A200);
-$dark-grey-mode: mat-dark-theme(
+$dark-grey-theme: mat-dark-theme(
   $dark-grey-primary,
   $dark-grey-accent,
   $dark-grey-warn
@@ -198,24 +198,24 @@ $dark-grey-mode: mat-dark-theme(
 $white-primary: mat-palette($md-palette-white, 500);
 $white-accent: mat-palette($md-palette-white, A200, A100, A400);
 $white-warn: mat-palette($md-palette-white);
-$white-mode: mat-light-theme($white-primary, $white-accent, $white-warn);
+$white-theme: mat-light-theme($white-primary, $white-accent, $white-warn);
 
-.isb-mode {
-  @include angular-material-theme($isb-mode);
+.isb-theme {
+  @include angular-material-theme($isb-theme);
 }
 
-.burgundy-mode {
-  @include angular-material-theme($burgundy-mode);
+.burgundy-theme {
+  @include angular-material-theme($burgundy-theme);
 }
 
-.blue-mode {
-  @include angular-material-theme($blue-mode);
+.blue-theme {
+  @include angular-material-theme($blue-theme);
 }
 
-.dark-grey-mode {
-  @include angular-material-theme($dark-grey-mode);
+.dark-grey-theme {
+  @include angular-material-theme($dark-grey-theme);
 }
 
-.white-mode {
-  @include angular-material-theme($white-mode);
+.white-theme {
+  @include angular-material-theme($white-theme);
 }

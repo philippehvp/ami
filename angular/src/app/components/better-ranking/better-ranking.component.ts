@@ -100,7 +100,7 @@ export class BetterRankingComponent
         takeUntil(this.destroy$),
         map(([better, route]) => {
           if (better && route) {
-            this.utilsService.setMode(
+            this.utilsService.setTheme(
               this.renderer,
               this.persistenceService.theme
             );

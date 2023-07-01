@@ -56,7 +56,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
-    this.utilsService.setMode(this.renderer, this.persistenceService.themes[0]);
+    this.utilsService.setTheme(
+      this.renderer,
+      this.persistenceService.themes[0]
+    );
 
     this.formGroup = this.formBuilder.group({
       name: ['', Validators.required],
