@@ -119,7 +119,7 @@ export class PersistenceService {
     },
     {
       id: 3,
-      name: 'Bleu',
+      name: 'Aqua bulles',
       mode: 'blue-theme',
       isLight: true,
       color: 'linear-gradient(-135deg, #272896, #7295e2)',
@@ -127,7 +127,7 @@ export class PersistenceService {
     },
     {
       id: 4,
-      name: 'Gris sombre',
+      name: 'Ciel étoilé',
       mode: 'dark-grey-theme',
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',

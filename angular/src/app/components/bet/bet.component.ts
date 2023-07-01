@@ -28,6 +28,8 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
 import { UtilsService } from 'src/app/services/utils.service';
+import { IAnimatedElement, ThemeService } from 'src/app/services/theme.service';
+import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'bet',
@@ -41,6 +43,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private snackBar = inject(MatSnackBar);
   private utilsService = inject(UtilsService);
   private renderer = inject(Renderer2);
+  private themeService = inject(ThemeService);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -79,6 +82,8 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 500);
   }
 
+  public animatedElements!: IAnimatedElement[];
+
   private destroy$!: Subject<boolean>;
   public tutorialLastStep: number = 4;
 
@@ -104,6 +109,13 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.persistenceService.isCompactMode;
   }
 
+  public get isWaterAnimation(): boolean {
+    return (
+      this.persistenceService.theme.id === 2 ||
+      this.persistenceService.theme.id === 3
+    );
+  }
+
   public get betPanelClass(): string {
     return this.persistenceService.isCompactMode
       ? 'compact-mode'
@@ -122,6 +134,8 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
+
+    this.animatedElements = this.themeService.animatedElements;
 
     this.persistenceService.gobackPage = 'bet';
 
@@ -344,5 +358,9 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public evaluationIcon(evaluation: number, index: number): string {
     return evaluation >= index ? 'star' : 'star_border';
+  }
+
+  public getClass(animatedElement: IAnimatedElement): string {
+    return animatedElement.colorClass + ' ' + animatedElement.sizeClass;
   }
 }
