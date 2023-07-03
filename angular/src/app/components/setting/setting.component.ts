@@ -219,6 +219,18 @@ export class SettingComponent {
     return this.persistenceService.isPlayerReverse ? 'list' : 'toc';
   }
 
+  public get isThemeAnimated(): boolean {
+    return this.persistenceService.isThemeAnimated;
+  }
+
+  public toggleAnimateTheme(theme: ITheme, $event: any) {
+    if (theme.isAnimated) {
+      this.persistenceService.isThemeAnimated =
+        !this.persistenceService.isThemeAnimated;
+    }
+    $event.stopPropagation();
+  }
+
   public changeTheme($event: any, better: IBetter | null, id: number) {
     if (better && id !== this.persistenceService.theme.id) {
       const settings: ISetting = this.getCurrentSettings();
@@ -250,6 +262,10 @@ export class SettingComponent {
 
   public isCurrentTheme(theme: ITheme): boolean {
     return theme.id === this.persistenceService.theme.id;
+  }
+
+  public isThemeAnimable(theme: ITheme): boolean {
+    return theme.isAnimated;
   }
 
   public getBorderColor(theme: ITheme): string {

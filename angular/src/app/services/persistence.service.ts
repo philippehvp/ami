@@ -108,6 +108,7 @@ export class PersistenceService {
       color:
         'linear-gradient(150deg, #fcc916, #f28e16, #c5e6f7, #6caee0, #b0d6b1, #8abb8c)',
       border: 'black',
+      isAnimated: false,
     },
     {
       id: 2,
@@ -116,6 +117,7 @@ export class PersistenceService {
       isLight: true,
       color: '#d0d0d0',
       border: 'black',
+      isAnimated: true,
     },
 
     {
@@ -125,6 +127,7 @@ export class PersistenceService {
       isLight: true,
       color: 'linear-gradient(-135deg, #859082, #f4e0bb, #788784)',
       border: 'black',
+      isAnimated: true,
     },
     {
       id: 4,
@@ -133,6 +136,7 @@ export class PersistenceService {
       isLight: true,
       color: 'linear-gradient(-135deg, #272896, #7295e2)',
       border: 'black',
+      isAnimated: true,
     },
     {
       id: 5,
@@ -141,6 +145,7 @@ export class PersistenceService {
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',
+      isAnimated: true,
     },
   ];
 
@@ -163,6 +168,14 @@ export class PersistenceService {
     }
 
     return this._theme;
+  }
+
+  private _isThemeAnimated: boolean = true;
+  public get isThemeAnimated(): boolean {
+    return this._isThemeAnimated;
+  }
+  public set isThemeAnimated(isThemeAnimated: boolean) {
+    this._isThemeAnimated = isThemeAnimated;
   }
 
   private _categoryId!: number;

@@ -82,6 +82,14 @@
               </span>
             </span>
           </span>
+          <span class="menu-item" (click)="toggleAnimateTheme(theme, $event)">
+            <mat-slide-toggle
+              [checked]="isThemeAnimated"
+              [disabled]="!isThemeAnimable(theme)"
+            >
+            </mat-slide-toggle>
+            <span class="label">Animer le thème</span>
+          </span>
         </span>
       </mat-menu>
       <span class="label">Thèmes</span>

@@ -109,6 +109,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.persistenceService.isCompactMode;
   }
 
+  public get isThemeAnimated(): boolean {
+    return this.persistenceService.isThemeAnimated;
+  }
+
   public get isCircleBreathAnimation(): boolean {
     return this.persistenceService.theme.id === 2;
   }

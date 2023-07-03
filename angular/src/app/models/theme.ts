@@ -3,6 +3,7 @@ export interface ITheme {
   name: string;
   mode: string;
   isLight: boolean;
+  isAnimated: boolean;
   color?: string;
   border?: string;
   tag?: string;

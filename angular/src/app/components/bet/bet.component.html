@@ -3,47 +3,49 @@
     better: better$ | async,
   } as data"
 >
-  <div class="circle-breathe-panel" *ngIf="isCircleBreathAnimation">
-    <span class="circle xxlarge shade1"></span>
-    <span class="circle xlarge shade2"></span>
-    <span class="circle large shade3"></span>
-    <span class="circle medium shade4"></span>
-    <span class="circle small shade5"></span>
-  </div>
+  <ng-container *ngIf="isThemeAnimated">
+    <div class="circle-breathe-panel" *ngIf="isCircleBreathAnimation">
+      <span class="circle xxlarge shade1"></span>
+      <span class="circle xlarge shade2"></span>
+      <span class="circle large shade3"></span>
+      <span class="circle medium shade4"></span>
+      <span class="circle small shade5"></span>
+    </div>
 
-  <div class="wave-panel" *ngIf="isWaveAnimation">
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-  </div>
+    <div class="wave-panel" *ngIf="isWaveAnimation">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
 
-  <div class="top-wave-panel" *ngIf="isWaveAnimation">
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-  </div>
+    <div class="top-wave-panel" *ngIf="isWaveAnimation">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
 
-  <div class="bubble-panel" *ngIf="isWaterAnimation">
-    <span class="bubbles">
-      <span
-        *ngFor="let bubble of bubbles"
-        style="--i: {{ bubble.id }}"
-        [class]="getClass(bubble)"
-      ></span>
-    </span>
-  </div>
+    <div class="bubble-panel" *ngIf="isWaterAnimation">
+      <span class="bubbles">
+        <span
+          *ngFor="let bubble of bubbles"
+          style="--i: {{ bubble.id }}"
+          [class]="getClass(bubble)"
+        ></span>
+      </span>
+    </div>
 
-  <div class="sky-panel" *ngIf="isSkyAnimation">
-    <div class="container">
-      <div class="sky">
-        <div class="stars"></div>
-        <div class="stars2"></div>
-        <div class="stars3"></div>
-        <div class="comet1"></div>
-        <div class="comet2"></div>
+    <div class="sky-panel" *ngIf="isSkyAnimation">
+      <div class="container">
+        <div class="sky">
+          <div class="stars"></div>
+          <div class="stars2"></div>
+          <div class="stars3"></div>
+          <div class="comet1"></div>
+          <div class="comet2"></div>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 
   <!-- Pronostic -->
   <div
