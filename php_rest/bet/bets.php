@@ -34,7 +34,7 @@
       echo returnIsOffline();
     }
   } else {
-    echo json_encode([]);
+    echo returnIsOffline();
   }
 
 ?>

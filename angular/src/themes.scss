@@ -299,10 +299,10 @@
 
       @keyframes animate {
         0% {
-          transform: translateY(100vh) scale(0.5);
+          transform: translateY(100vh) translateX(-50px) scale(0.5);
         }
         100% {
-          transform: translateY(-10vh) scale(1);
+          transform: translateY(-10vh) translateX(50px) scale(1);
         }
       }
     }
@@ -506,6 +506,10 @@
     background-color: "#fff";
   }
 
+  .mat-drawer-content {
+    overflow: hidden;
+  }
+
   .mat-toolbar {
     background-color: transparent;
     color: black;
@@ -529,5 +533,117 @@
 
   .thumb {
     background-color: black;
+  }
+
+  .circle-breathe-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    animation: moveAnimation 25s infinite;
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.15);
+      animation: ripple 20s infinite;
+      box-shadow: 0px 0px 1px 0px #508fb9;
+    }
+
+    .small {
+      width: 200px;
+      height: 200px;
+      left: -100px;
+      bottom: -100px;
+    }
+
+    .medium {
+      width: 400px;
+      height: 400px;
+      left: -200px;
+      bottom: -200px;
+    }
+
+    .large {
+      width: 600px;
+      height: 600px;
+      left: -300px;
+      bottom: -300px;
+    }
+
+    .xlarge {
+      width: 800px;
+      height: 800px;
+      left: -400px;
+      bottom: -400px;
+    }
+
+    .xxlarge {
+      width: 1000px;
+      height: 1000px;
+      left: -500px;
+      bottom: -500px;
+    }
+
+    .shade1 {
+      opacity: 0.2;
+    }
+    .shade2 {
+      opacity: 0.5;
+    }
+
+    .shade3 {
+      opacity: 0.7;
+    }
+
+    .shade4 {
+      opacity: 0.8;
+    }
+
+    .shade5 {
+      opacity: 0.9;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0.8);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(0.8);
+      }
+    }
+
+    @keyframes moveAnimation {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+
+      50% {
+        transform: translateY(-150px) translateX(120px);
+      }
+
+      100% {
+        transform: translateY(0) translateX(0);
+      }
+    }
+
+    @keyframes horizontalAnimation {
+      0% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(120px);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
   }
 }

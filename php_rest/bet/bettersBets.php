@@ -119,8 +119,7 @@
     } else {
       echo returnIsOffline();
     }
-
   } else {
-    return http_response_code(204);
+    echo returnIsOffline();
   }
 ?>

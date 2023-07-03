@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-unavailable',
+  selector: 'unavailable',
   templateUrl: './unavailable.component.html',
-  styleUrls: ['./unavailable.component.scss']
+  styleUrls: ['./unavailable.component.scss'],
 })
-export class UnavailableComponent {
-
-}
+export class UnavailableComponent {}

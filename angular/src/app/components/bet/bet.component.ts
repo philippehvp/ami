@@ -109,16 +109,20 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.persistenceService.isCompactMode;
   }
 
-  public get isWaveAnimation(): boolean {
+  public get isCircleBreathAnimation(): boolean {
     return this.persistenceService.theme.id === 2;
   }
 
-  public get isWaterAnimation(): boolean {
+  public get isWaveAnimation(): boolean {
     return this.persistenceService.theme.id === 3;
   }
 
-  public get isSkyAnimation(): boolean {
+  public get isWaterAnimation(): boolean {
     return this.persistenceService.theme.id === 4;
+  }
+
+  public get isSkyAnimation(): boolean {
+    return this.persistenceService.theme.id === 5;
   }
 
   public get betPanelClass(): string {
