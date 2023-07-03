@@ -35,36 +35,36 @@ $md-palette-isb: (
   ),
 );
 
-$md-palette-burgundy: (
-  50: #f4e3e4,
-  100: #e3babb,
-  200: #d18c8e,
-  300: #be5d60,
-  400: #b03b3e,
-  500: #a2181c,
-  600: #9a1519,
-  700: #901114,
-  800: #860e11,
-  900: #750809,
-  A100: #ffa5a6,
-  A200: #ff7273,
-  A400: #ff3f41,
-  A700: #ff2528,
+$md-palette-yellow: (
+  50: #f0f2f0,
+  100: #dadeda,
+  200: #c2c8c1,
+  300: #aab1a8,
+  400: #97a195,
+  500: #859082,
+  600: #7d887a,
+  700: #727d6f,
+  800: #687365,
+  900: #556152,
+  A100: #d6fccc,
+  A200: #aefa9c,
+  A400: #83ff63,
+  A700: #6eff4a,
   contrast: (
     50: #000000,
     100: #000000,
     200: #000000,
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
     700: #ffffff,
     800: #ffffff,
     900: #ffffff,
     A100: #000000,
     A200: #000000,
-    A400: #ffffff,
-    A700: #ffffff,
+    A400: #000000,
+    A700: #000000,
   ),
 );
 
@@ -172,14 +172,10 @@ $isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
 $isb-warn: mat-palette($md-palette-isb);
 $isb-theme: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
 
-$burgundy-primary: mat-palette($md-palette-burgundy, 100);
-$burgundy-accent: mat-palette($md-palette-burgundy, A200, A100, A400);
-$burgundy-warn: mat-palette($md-palette-burgundy);
-$burgundy-theme: mat-light-theme(
-  $burgundy-primary,
-  $burgundy-accent,
-  $burgundy-warn
-);
+$yellow-primary: mat-palette($md-palette-yellow, 100);
+$yellow-accent: mat-palette($md-palette-yellow, A200, A100, A400);
+$yellow-warn: mat-palette($md-palette-yellow);
+$yellow-theme: mat-light-theme($yellow-primary, $yellow-accent, $yellow-warn);
 
 $blue-primary: mat-palette($md-palette-blue, 300);
 $blue-accent: mat-palette($md-palette-blue, A400);
@@ -204,8 +200,8 @@ $white-theme: mat-light-theme($white-primary, $white-accent, $white-warn);
   @include angular-material-theme($isb-theme);
 }
 
-.burgundy-theme {
-  @include angular-material-theme($burgundy-theme);
+.yellow-theme {
+  @include angular-material-theme($yellow-theme);
 }
 
 .blue-theme {

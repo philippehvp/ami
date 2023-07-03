@@ -37,7 +37,7 @@ export class AppComponent implements AfterViewInit {
 
   constructor() {
     if (CommonService.isProduction) {
-      this.persistenceService.navigate('login');
+      this.persistenceService.navigate('unavailable');
     } else {
       const better: string = window.localStorage.getItem('better') || '';
       const settings: string = window.localStorage.getItem('settings') || '';
@@ -63,7 +63,7 @@ export class AppComponent implements AfterViewInit {
           }
         }
       } else {
-        this.persistenceService.navigate('login');
+        this.persistenceService.navigate('unavailable');
       }
     }
   }

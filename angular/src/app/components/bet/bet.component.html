@@ -3,23 +3,36 @@
     better: better$ | async,
   } as data"
 >
-  <div class="water-panel" *ngIf="isWaterAnimation">
-    <span class="elements">
+  <div class="wave-panel" *ngIf="isWaveAnimation">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+
+  <div class="top-wave-panel" *ngIf="isWaveAnimation">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+
+  <div class="bubble-panel" *ngIf="isWaterAnimation">
+    <span class="bubbles">
       <span
-        *ngFor="let animatedElement of animatedElements"
-        style="--i: {{ animatedElement.id }}"
-        [class]="getClass(animatedElement)"
+        *ngFor="let bubble of bubbles"
+        style="--i: {{ bubble.id }}"
+        [class]="getClass(bubble)"
       ></span>
     </span>
   </div>
 
-  <div class="sky-panel">
+  <div class="sky-panel" *ngIf="isSkyAnimation">
     <div class="container">
       <div class="sky">
         <div class="stars"></div>
         <div class="stars2"></div>
         <div class="stars3"></div>
-        <div class="comet"></div>
+        <div class="comet1"></div>
+        <div class="comet2"></div>
       </div>
     </div>
   </div>

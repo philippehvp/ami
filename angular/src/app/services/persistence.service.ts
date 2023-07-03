@@ -102,7 +102,7 @@ export class PersistenceService {
   private _themes: ITheme[] = [
     {
       id: 1,
-      name: 'Tournoi 2023',
+      name: 'ISB 2023',
       mode: 'isb-theme',
       isLight: true,
       color:
@@ -111,10 +111,10 @@ export class PersistenceService {
     },
     {
       id: 2,
-      name: 'Bordeau',
-      mode: 'burgundy-theme',
+      name: 'Ondulations',
+      mode: 'yellow-theme',
       isLight: true,
-      color: 'linear-gradient(-135deg, #a1362d, #9e724d)',
+      color: 'linear-gradient(-135deg, #859082, #f4e0bb, #788784)',
       border: 'black',
     },
     {
@@ -135,7 +135,7 @@ export class PersistenceService {
     },
     {
       id: 5,
-      name: 'Blanc',
+      name: 'Monochrome',
       mode: 'white-theme',
       isLight: true,
       color: '#d0d0d0',

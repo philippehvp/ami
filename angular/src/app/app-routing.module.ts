@@ -10,6 +10,7 @@ import { BetterRankingComponent } from './components/better-ranking/better-ranki
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { RuleComponent } from './components/rule/rule.component';
 import { BetStatComponent } from './components/bet-stat/bet-stat.component';
+import { UnavailableComponent } from './components/unavailable/unavailable.component';
 
 const routes: Routes = [
   {
@@ -58,7 +59,10 @@ const routes: Routes = [
     path: 'bet-stat',
     component: BetStatComponent,
   },
-
+  {
+    path: 'unavailable',
+    component: UnavailableComponent,
+  },
   {
     path: '**',
     component: BetComponent,

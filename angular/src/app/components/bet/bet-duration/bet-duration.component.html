@@ -2,11 +2,12 @@
   <span
     class="duration-title"
     [class]="{ 'compact-mode': isDurationCompactMode }"
+    (click)="toggleDurationCompactMode()"
   >
     <span class="label"
       >Match le plus long : {{ (duration$ | async)?.duration }} minutes</span
     >
-    <span (click)="toggleDurationCompactMode()">
+    <span>
       <span class="material-icons-outlined">
         {{ durationCompactModeIcon }}
       </span>

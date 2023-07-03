@@ -1,0 +1,13 @@
+.unavailable-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  padding-inline: 1em;
+  text-align: center;
+}

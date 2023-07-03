@@ -28,7 +28,7 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
 import { UtilsService } from 'src/app/services/utils.service';
-import { IAnimatedElement, ThemeService } from 'src/app/services/theme.service';
+import { IBubble, BubbleService } from 'src/app/services/bubble.service';
 import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 @Component({
@@ -43,7 +43,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private snackBar = inject(MatSnackBar);
   private utilsService = inject(UtilsService);
   private renderer = inject(Renderer2);
-  private themeService = inject(ThemeService);
+  private themeService = inject(BubbleService);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -82,7 +82,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 500);
   }
 
-  public animatedElements!: IAnimatedElement[];
+  public bubbles!: IBubble[];
 
   private destroy$!: Subject<boolean>;
   public tutorialLastStep: number = 4;
@@ -109,11 +109,16 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.persistenceService.isCompactMode;
   }
 
+  public get isWaveAnimation(): boolean {
+    return this.persistenceService.theme.id === 2;
+  }
+
   public get isWaterAnimation(): boolean {
-    return (
-      this.persistenceService.theme.id === 2 ||
-      this.persistenceService.theme.id === 3
-    );
+    return this.persistenceService.theme.id === 3;
+  }
+
+  public get isSkyAnimation(): boolean {
+    return this.persistenceService.theme.id === 4;
   }
 
   public get betPanelClass(): string {
@@ -135,7 +140,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
-    this.animatedElements = this.themeService.animatedElements;
+    this.bubbles = this.themeService.bubbles;
 
     this.persistenceService.gobackPage = 'bet';
 
@@ -360,7 +365,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return evaluation >= index ? 'star' : 'star_border';
   }
 
-  public getClass(animatedElement: IAnimatedElement): string {
+  public getClass(animatedElement: IBubble): string {
     return animatedElement.colorClass + ' ' + animatedElement.sizeClass;
   }
 }

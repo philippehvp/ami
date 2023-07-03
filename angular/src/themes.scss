@@ -46,7 +46,7 @@
   }
 }
 
-.burgundy-theme {
+.yellow-theme {
   $color: white;
   $setting: white;
 
@@ -54,7 +54,11 @@
     background-position: bottom right;
     background-repeat: no-repeat;
     color: $color;
-    background-image: linear-gradient(-135deg, #a1362d, #9e724d);
+    background-image: linear-gradient(-135deg, #859082, #f4e0bb, #788784);
+  }
+
+  .mat-drawer-content {
+    overflow: hidden;
   }
 
   .mat-toolbar {
@@ -77,7 +81,7 @@
 
   .login-card,
   .create-better-card {
-    background-color: white;
+    background-color: #859082;
     border-radius: 0.5em;
   }
 
@@ -94,7 +98,87 @@
   }
 
   .thumb {
-    background-color: #a2181c;
+    background-color: #859082;
+  }
+
+  .wave-panel {
+    z-index: -1;
+    height: 5%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    // background-color: #a21a1d;
+
+    .wave {
+      background: url("assets/img/background/wave.svg") repeat-x;
+      opacity: 0.5;
+      position: absolute;
+      bottom: -10px;
+      width: 6400px;
+      height: 198px;
+      animation: wave 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite,
+        swell 8s ease -1.25s infinite;
+      transform: translate3d(0, 0, 0);
+    }
+
+    @keyframes wave {
+      0% {
+        margin-left: 0;
+      }
+      100% {
+        margin-left: -1600px;
+      }
+    }
+    @keyframes swell {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+  }
+
+  .top-wave-panel {
+    z-index: -1;
+    height: 5%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    // background-color: #a21a1d;
+
+    .wave {
+      background: url("assets/img/background/top-wave.svg") repeat-x;
+      opacity: 0.5;
+      position: absolute;
+      top: -10px;
+      width: 6400px;
+      height: 198px;
+      animation: wave 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite,
+        swell 8s ease -1.25s infinite;
+      transform: translate3d(0, 0, 0);
+    }
+
+    @keyframes wave {
+      0% {
+        margin-left: -1600px;
+      }
+      100% {
+        margin-left: 0;
+      }
+    }
+    @keyframes swell {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, 0, 0);
+      }
+    }
   }
 }
 
@@ -144,14 +228,11 @@
   }
 
   .thumb {
-    background-color: #a2181c;
+    background-color: #272896;
   }
-}
 
-.burgundy-theme,
-.blue-theme {
-  .water-panel {
-    opacity: 0.3;
+  .bubble-panel {
+    opacity: 0.5;
     display: flex;
     position: absolute;
     width: 100%;
@@ -161,7 +242,7 @@
     overflow: hidden;
     z-index: -1;
 
-    .elements {
+    .bubbles {
       position: relative;
       display: flex;
       width: 100%;
@@ -237,6 +318,10 @@
     background-image: linear-gradient(-135deg, #222, #24323b, #4d5256);
   }
 
+  .mat-drawer-content {
+    overflow: hidden;
+  }
+
   .mat-mdc-table {
     background: none;
   }
@@ -292,7 +377,8 @@
     $numStarOneStars: 1700;
     $numStarTwoStars: 700;
     $numStarThreeStars: 200;
-    $numComet: 10;
+    $numComet1: 10;
+    $numComet2: 11;
 
     @function create-stars($n) {
       $stars: "#{random($starFieldWidth)}px #{random($starFieldHeight)}px #fff";
@@ -323,7 +409,7 @@
       }
     }
 
-    @mixin shooting-star-template($numStars, $speed) {
+    @mixin shooting-star-template-right-left($numStars, $speed) {
       z-index: 1;
       width: (random(5) + 1) + px;
       height: (random(10) + 1) + 80px;
@@ -337,7 +423,24 @@
         rgba(255, 255, 255, 0),
         rgba(255, 255, 255, 1)
       );
-      animation: animateShootingStar $speed linear infinite;
+      animation: animateShootingStarRightLeft $speed linear infinite;
+    }
+
+    @mixin shooting-star-template-left-right($numStars, $speed) {
+      z-index: 1;
+      width: (random(5) + 1) + px;
+      height: (random(10) + 1) + 80px;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      position: absolute;
+      bottom: random(50) + px;
+      left: random(150) + px;
+      background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1)
+      );
+      animation: animateShootingStarLeftRight $speed linear infinite;
     }
 
     .stars {
@@ -349,8 +452,11 @@
     .stars3 {
       @include star-template($numStarThreeStars, 3px, $starThreeScrollDuration);
     }
-    .comet {
-      @include shooting-star-template($numComet, 20s);
+    .comet1 {
+      @include shooting-star-template-right-left($numComet1, 15s);
+    }
+    .comet2 {
+      @include shooting-star-template-left-right($numComet2, 10s);
     }
 
     @keyframes animateStar {
@@ -363,7 +469,7 @@
       }
     }
 
-    @keyframes animateShootingStar {
+    @keyframes animateShootingStarRightLeft {
       from {
         transform: translateY(0px) translateX(0px) rotate(-45deg);
         opacity: 1;
@@ -373,7 +479,21 @@
         transform: translateY(-#{$starFieldHeight}px)
           translateX(-#{$starFieldWidth}px) rotate(-45deg);
         opacity: 1;
-        height: 800px;
+        height: 600px;
+      }
+    }
+
+    @keyframes animateShootingStarLeftRight {
+      from {
+        transform: translateY(0px) translateX(0px) rotate(45deg);
+        opacity: 1;
+        height: 5px;
+      }
+      to {
+        transform: translateY(-#{$starFieldHeight}px)
+          translateX(#{$starFieldWidth}px) rotate(45deg);
+        opacity: 1;
+        height: 600px;
       }
     }
   }
@@ -408,6 +528,6 @@
   }
 
   .thumb {
-    background-color: #f28e16;
+    background-color: black;
   }
 }

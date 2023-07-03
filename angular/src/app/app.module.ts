@@ -65,6 +65,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { AboutComponent } from './components/about/about.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { UnavailableComponent } from './components/unavailable/unavailable.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     SettingComponent,
     AboutComponent,
     SidenavComponent,
+    UnavailableComponent,
   ],
   imports: [
     BrowserModule,
