@@ -129,6 +129,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.persistenceService.theme.id === 5;
   }
 
+  public get animationPlayState(): string {
+    return this.persistenceService.isThemeAnimated ? 'running' : 'paused';
+  }
+
   public get betPanelClass(): string {
     return this.persistenceService.isCompactMode
       ? 'compact-mode'

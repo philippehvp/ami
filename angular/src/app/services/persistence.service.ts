@@ -125,7 +125,8 @@ export class PersistenceService {
       name: 'Ondulations',
       mode: 'yellow-theme',
       isLight: true,
-      color: 'linear-gradient(-135deg, #859082, #f4e0bb, #788784)',
+      color:
+        'linear-gradient(to bottom, #9831a1 20%, #f4e0bb 10%, #f4e0bb 80%, #ac3631 80%)',
       border: 'black',
       isAnimated: true,
     },
