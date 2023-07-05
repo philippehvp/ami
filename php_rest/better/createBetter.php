@@ -69,6 +69,7 @@
 
         $ret = array(
           "accessKey" => $accessKey,
+          "randomKey" => $randomKey,
           "name" => $name,
           "firstName" => $firstName,
           "isAdmin" => 0,

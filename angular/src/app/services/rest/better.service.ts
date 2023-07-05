@@ -85,6 +85,7 @@ export class BetterService {
           } else {
             return <IBetter>{
               accessKey: betterRaw.accessKey,
+              randomKey: betterRaw.randomKey,
               name: betterRaw.name,
               firstName: betterRaw.firstName,
               club: club,
