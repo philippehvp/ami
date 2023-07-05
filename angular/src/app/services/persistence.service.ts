@@ -298,6 +298,7 @@ export class PersistenceService {
     'Lucie F',
     'Quentin LB',
     'Anaïs M',
+    'Nicolas C',
   ];
 
   private _credits: string[] = [];

@@ -52,6 +52,12 @@ export class ThemeService {
     ['#354a4b', '#547b7e', '#6587a2', '#6f88c2', '#7c8dd9', '#939fcc'],
     ['#785d7c', '#daa8e3', '#c3abc0', '#869778', '#608d4e', '#98ae88'],
     ['#fcc916', '#f28e16', '#c5e6f7', '#6caee0', '#b0d6b1', '#8abb8c'],
+    ['#71637b', '#ceb1e1', '#dbcdf8', '#cfdaf8', '#c3e4f5', '#b8e2e6'],
+    ['#71757d', '#cad3e3', '#ede2cb', '#f7da8c', '#f7d360', '#edd184'],
+    ['#294d5c', '#37808f', '#7c98ac', '#bea5c2', '#eaaed3', '#d1acd0'],
+    ['#2c624e', '#41b089', '#6fa0b5', '#8371d8', '#8f50f2', '#b38eed'],
+    ['#7c6e2d', '#dbc145', '#d0cd72', '#9cc39d', '#6cbcb8', '#9abca7'],
+    ['#715036', '#cc8e5c', '#e6a574', '#ecb188', '#efbf9e', '#e4cfb8'],
   ];
 
   private circleThemeInterval: any = 0;
@@ -74,7 +80,7 @@ export class ThemeService {
 
   private changeCircleColors() {
     // Nombre aléatoire
-    const index: number = Math.floor(Math.random() * 6);
+    const index: number = Math.floor(Math.random() * this._circleColors.length);
 
     // Changement des couleurs de transition
     document.documentElement.style.setProperty(
