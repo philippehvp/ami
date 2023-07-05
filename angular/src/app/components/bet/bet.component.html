@@ -3,78 +3,88 @@
     better: better$ | async,
   } as data"
 >
-  <div class="circle-breathe-panel" *ngIf="isCircleBreathAnimation">
-    <div class="x-moving" [style.animationPlayState]="animationPlayState">
-      <div class="y-moving" [style.animationPlayState]="animationPlayState">
-        <span
-          class="circle xxlarge shade1"
-          [style.animationPlayState]="animationPlayState"
-        ></span>
-        <span
-          class="circle xlarge shade2"
-          [style.animationPlayState]="animationPlayState"
-        ></span>
-        <span
-          class="circle large shade3"
-          [style.animationPlayState]="animationPlayState"
-        ></span>
-        <span
-          class="circle medium shade4"
-          [style.animationPlayState]="animationPlayState"
-        ></span>
-        <span
-          class="circle small shade5"
-          [style.animationPlayState]="animationPlayState"
-        ></span>
-      </div>
-    </div>
-  </div>
-
-  <div class="wave-panel" *ngIf="isWaveAnimation">
-    <div class="wave" [style.animationPlayState]="animationPlayState"></div>
-  </div>
-
-  <div class="top-wave-panel" *ngIf="isWaveAnimation">
-    <div class="wave" [style.animationPlayState]="animationPlayState"></div>
-  </div>
-
-  <div class="bubble-panel" *ngIf="isWaterAnimation">
-    <span class="bubbles">
-      <span
-        *ngFor="let bubble of bubbles"
-        style="--i: {{ bubble.id }}"
-        [class]="getClass(bubble)"
+  <ng-container *ngIf="isThemeAnimationShown">
+    <div class="circle-panel" *ngIf="isCircleAnimation">
+      <div
+        class="x-moving"
         [style.animationPlayState]="animationPlayState"
-      ></span>
-    </span>
-  </div>
-
-  <div class="sky-panel" *ngIf="isSkyAnimation">
-    <div class="container">
-      <div class="sky">
+        [style.left]="circleLeft"
+      >
         <div
-          class="stars"
+          class="y-moving"
           [style.animationPlayState]="animationPlayState"
-        ></div>
-        <div
-          class="stars2"
-          [style.animationPlayState]="animationPlayState"
-        ></div>
-        <div
-          class="stars3"
-          [style.animationPlayState]="animationPlayState"
-        ></div>
-        <div
-          class="comet1"
-          [style.animationPlayState]="animationPlayState"
-        ></div>
-        <div
-          class="comet2"
-          [style.animationPlayState]="animationPlayState"
-        ></div>
+          [style.top]="circleTop"
+        >
+          <span
+            class="circle xxlarge shade1"
+            [style.animationPlayState]="animationPlayState"
+          ></span>
+          <span
+            class="circle xlarge shade2"
+            [style.animationPlayState]="animationPlayState"
+          ></span>
+          <span
+            class="circle large shade3"
+            [style.animationPlayState]="animationPlayState"
+          ></span>
+          <span
+            class="circle medium shade4"
+            [style.animationPlayState]="animationPlayState"
+          ></span>
+          <span
+            class="circle small shade5"
+            [style.animationPlayState]="animationPlayState"
+          ></span>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="wave-panel" *ngIf="isWaveAnimation">
+      <div class="wave" [style.animationPlayState]="animationPlayState"></div>
+    </div>
+
+    <div class="top-wave-panel" *ngIf="isWaveAnimation">
+      <div class="wave" [style.animationPlayState]="animationPlayState"></div>
+    </div>
+
+    <div class="bubble-panel" *ngIf="isWaterAnimation">
+      <span class="bubbles">
+        <span
+          *ngFor="let bubble of bubbles"
+          style="--i: {{ bubble.id }}"
+          [class]="getBubbleClass(bubble)"
+          [style.animationPlayState]="animationPlayState"
+        ></span>
+      </span>
+    </div>
+
+    <div class="sky-panel" *ngIf="isSkyAnimation">
+      <div class="container">
+        <div class="sky">
+          <div
+            class="stars"
+            [style.animationPlayState]="animationPlayState"
+          ></div>
+          <div
+            class="stars2"
+            [style.animationPlayState]="animationPlayState"
+          ></div>
+          <div
+            class="stars3"
+            [style.animationPlayState]="animationPlayState"
+          ></div>
+          <div
+            class="comet1"
+            [style.animationPlayState]="animationPlayState"
+          ></div>
+          <div
+            class="comet2"
+            [style.animationPlayState]="animationPlayState"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
   <!-- Pronostic -->
   <div

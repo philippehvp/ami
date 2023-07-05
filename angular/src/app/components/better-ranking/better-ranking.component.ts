@@ -13,9 +13,9 @@ import { IBetterRanking, IRanking } from 'src/app/models/better-ranking';
 import { BetState } from 'src/app/store/state/bet.state';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
-import { UtilsService } from 'src/app/services/utils.service';
 import { ActivatedRoute } from '@angular/router';
 import { IBet } from 'src/app/models/bet';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'better-ranking',
@@ -28,7 +28,7 @@ export class BetterRankingComponent
   private store = inject(Store);
   private persistenceService = inject(PersistenceService);
   private renderer = inject(Renderer2);
-  private utilsService = inject(UtilsService);
+  private themeService = inject(ThemeService);
   private route = inject(ActivatedRoute);
 
   @Select(BetState.better)
@@ -100,7 +100,7 @@ export class BetterRankingComponent
         takeUntil(this.destroy$),
         map(([better, route]) => {
           if (better && route) {
-            this.utilsService.setTheme(
+            this.themeService.setTheme(
               this.renderer,
               this.persistenceService.theme
             );

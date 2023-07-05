@@ -28,8 +28,7 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
 import { UtilsService } from 'src/app/services/utils.service';
-import { IBubble, BubbleService } from 'src/app/services/bubble.service';
-import { AnonymousSubject } from 'rxjs/internal/Subject';
+import { IBubble, ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'bet',
@@ -41,9 +40,8 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   private dialog = inject(MatDialog);
   private persistenceService = inject(PersistenceService);
   private snackBar = inject(MatSnackBar);
-  private utilsService = inject(UtilsService);
+  private themeService = inject(ThemeService);
   private renderer = inject(Renderer2);
-  private themeService = inject(BubbleService);
 
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
@@ -89,6 +87,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
 
+  private _circleTop!: string;
+  private _circleLeft!: string;
+  private _circleAnimation!: string;
+
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
   }
@@ -113,7 +115,11 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.persistenceService.isThemeAnimated;
   }
 
-  public get isCircleBreathAnimation(): boolean {
+  public get isThemeAnimationShown(): boolean {
+    return this.persistenceService.isThemeAnimationShown;
+  }
+
+  public get isCircleAnimation(): boolean {
     return this.persistenceService.theme.id === 2;
   }
 
@@ -156,6 +162,12 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.persistenceService.gobackPage = 'bet';
 
+    // Spécifiquement pour le thème circle
+    this._circleTop = Math.floor(Math.random() * 150).toString() + 'px';
+    this._circleLeft = Math.floor(Math.random() * 150).toString() + 'px';
+    this._circleAnimation =
+      'ripple 20s linear infinite, colors 30s linear infinite';
+
     combineLatest([this.isOffline$, this.better$])
       .pipe(
         takeUntil(this.destroy$),
@@ -181,7 +193,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
           if (better) {
             if (better.isTutorialDone) {
-              this.utilsService.setTheme(
+              this.themeService.setTheme(
                 this.renderer,
                 this.persistenceService.theme
               );
@@ -377,7 +389,19 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return evaluation >= index ? 'star' : 'star_border';
   }
 
-  public getClass(animatedElement: IBubble): string {
-    return animatedElement.colorClass + ' ' + animatedElement.sizeClass;
+  public getBubbleClass(bubble: IBubble): string {
+    return bubble.colorClass + ' ' + bubble.sizeClass;
+  }
+
+  public get circleTop(): string {
+    return this._circleTop;
+  }
+
+  public get circleLeft(): string {
+    return this._circleLeft;
+  }
+
+  public get circleAnimation(): string {
+    return this._circleAnimation;
   }
 }

@@ -6,6 +6,5 @@ export interface ITheme {
   isAnimated: boolean;
   color?: string;
   border?: string;
-  tag?: string;
   classes?: string[];
 }

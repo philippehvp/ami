@@ -35,7 +35,7 @@ $md-palette-isb: (
   ),
 );
 
-$md-palette-yellow: (
+$md-palette-wave: (
   50: #f0f2f0,
   100: #dadeda,
   200: #c2c8c1,
@@ -68,7 +68,7 @@ $md-palette-yellow: (
   ),
 );
 
-$md-palette-blue: (
+$md-palette-bubble: (
   50: #e9ecfa,
   100: #c9cef2,
   200: #a5aeea,
@@ -101,7 +101,7 @@ $md-palette-blue: (
   ),
 );
 
-$md-palette-dark-grey: (
+$md-palette-sky: (
   50: #e4e4e4,
   100: #bdbdbd,
   200: #919191,
@@ -134,7 +134,7 @@ $md-palette-dark-grey: (
   ),
 );
 
-$md-palette-white: (
+$md-palette-circle: (
   50: #e0e0e0,
   100: #b3b3b3,
   200: #808080,
@@ -172,46 +172,42 @@ $isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
 $isb-warn: mat-palette($md-palette-isb);
 $isb-theme: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
 
-$yellow-primary: mat-palette($md-palette-yellow, 100);
-$yellow-accent: mat-palette($md-palette-yellow, A200, A100, A400);
-$yellow-warn: mat-palette($md-palette-yellow);
-$yellow-theme: mat-light-theme($yellow-primary, $yellow-accent, $yellow-warn);
+$circle-primary: mat-palette($md-palette-circle, 500);
+$circle-accent: mat-palette($md-palette-circle, A200, A100, A400);
+$circle-warn: mat-palette($md-palette-circle);
+$circle-theme: mat-light-theme($circle-primary, $circle-accent, $circle-warn);
 
-$blue-primary: mat-palette($md-palette-blue, 300);
-$blue-accent: mat-palette($md-palette-blue, A400);
-$blue-warn: mat-palette($md-palette-blue, A200);
-$blue-theme: mat-light-theme($blue-primary, $blue-accent, $blue-warn);
+$wave-primary: mat-palette($md-palette-wave, 100);
+$wave-accent: mat-palette($md-palette-wave, A200, A100, A400);
+$wave-warn: mat-palette($md-palette-wave);
+$wave-theme: mat-light-theme($wave-primary, $wave-accent, $wave-warn);
 
-$dark-grey-primary: mat-palette($md-palette-dark-grey, 100);
-$dark-grey-accent: mat-palette($md-palette-dark-grey, A400);
-$dark-grey-warn: mat-palette($md-palette-dark-grey, A200);
-$dark-grey-theme: mat-dark-theme(
-  $dark-grey-primary,
-  $dark-grey-accent,
-  $dark-grey-warn
-);
+$bubble-primary: mat-palette($md-palette-bubble, 300);
+$bubble-accent: mat-palette($md-palette-bubble, A400);
+$bubble-warn: mat-palette($md-palette-bubble, A200);
+$bubble-theme: mat-light-theme($bubble-primary, $bubble-accent, $bubble-warn);
 
-$white-primary: mat-palette($md-palette-white, 500);
-$white-accent: mat-palette($md-palette-white, A200, A100, A400);
-$white-warn: mat-palette($md-palette-white);
-$white-theme: mat-light-theme($white-primary, $white-accent, $white-warn);
+$sky-primary: mat-palette($md-palette-sky, 100);
+$sky-accent: mat-palette($md-palette-sky, A400);
+$sky-warn: mat-palette($md-palette-sky, A200);
+$sky-theme: mat-dark-theme($sky-primary, $sky-accent, $sky-warn);
 
 .isb-theme {
   @include angular-material-theme($isb-theme);
 }
 
-.yellow-theme {
-  @include angular-material-theme($yellow-theme);
+.circle-theme {
+  @include angular-material-theme($circle-theme);
 }
 
-.blue-theme {
-  @include angular-material-theme($blue-theme);
+.wave-theme {
+  @include angular-material-theme($wave-theme);
 }
 
-.dark-grey-theme {
-  @include angular-material-theme($dark-grey-theme);
+.bubble-theme {
+  @include angular-material-theme($bubble-theme);
 }
 
-.white-theme {
-  @include angular-material-theme($white-theme);
+.sky-theme {
+  @include angular-material-theme($sky-theme);
 }

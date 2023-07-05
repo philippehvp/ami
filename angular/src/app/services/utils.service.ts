@@ -1,16 +1,14 @@
 import { Platform } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
-import { Injectable, Renderer2, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IPlayer, IPlayerForReviewOf } from '../models/player';
 import { PersistenceService } from './persistence.service';
-import { ITheme } from '../models/theme';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
   private platform = inject(Platform);
-  private document = inject(DOCUMENT);
   private persistenceService = inject(PersistenceService);
 
   private _isMobile: boolean | null = null;
@@ -22,39 +20,6 @@ export class UtilsService {
       this._isMobile =
         this.platform.ANDROID || this.platform.IOS || window.innerWidth <= 768;
       return this._isMobile;
-    }
-  }
-
-  public setTheme(renderer: Renderer2, theme: ITheme) {
-    renderer.setAttribute(this.document.body, 'class', theme.mode);
-
-    // Changement de l'image de fond, différente selon les thèmes
-    // L'image de fond concerne un seul élément de la page
-    if (theme.tag) {
-      // Suppression de la classe appliquée au thème précédent si nécessaire
-      if (this.persistenceService.currentTag) {
-        const oldElt = document.getElementsByClassName(
-          this.persistenceService.currentTag
-        )[0];
-        if (oldElt && this.persistenceService.currentClass) {
-          renderer.removeClass(oldElt, this.persistenceService.currentClass);
-        }
-      }
-
-      // Sauvegarde de ces nouvelles informations
-      this.persistenceService.currentTag = theme.tag;
-      const index = Math.floor(Math.random() * (theme.classes || []).length);
-      const newClass =
-        theme.classes && theme.classes.length > index
-          ? theme.classes[index]
-          : '';
-      this.persistenceService.currentClass = newClass;
-
-      // Mise en place de la nouvelle classe pour le nouveau thème
-      if (newClass) {
-        const newElt = document.getElementsByClassName(theme.tag)[0];
-        renderer.addClass(newElt, newClass);
-      }
     }
   }
 

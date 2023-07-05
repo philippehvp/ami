@@ -83,14 +83,6 @@ export class PersistenceService {
     this._isAutoNavigation = isAutoNavigation;
   }
 
-  private _currentTag: string = '';
-  public get currentTag(): string {
-    return this._currentTag;
-  }
-  public set currentTag(currentTag: string) {
-    this._currentTag = currentTag;
-  }
-
   private _currentClass: string = '';
   public get currentClass(): string {
     return this._currentClass;
@@ -112,8 +104,8 @@ export class PersistenceService {
     },
     {
       id: 2,
-      name: 'Disques monochromes',
-      mode: 'white-theme',
+      name: 'Disques chromatiques',
+      mode: 'circle-theme',
       isLight: true,
       color: '#d0d0d0',
       border: 'black',
@@ -123,7 +115,7 @@ export class PersistenceService {
     {
       id: 3,
       name: 'Ondulations',
-      mode: 'yellow-theme',
+      mode: 'wave-theme',
       isLight: true,
       color:
         'linear-gradient(to bottom, #9831a1 20%, #f4e0bb 10%, #f4e0bb 80%, #ac3631 80%)',
@@ -133,7 +125,7 @@ export class PersistenceService {
     {
       id: 4,
       name: 'Bulles aquatiques',
-      mode: 'blue-theme',
+      mode: 'bubble-theme',
       isLight: true,
       color: 'linear-gradient(-135deg, #272896, #7295e2)',
       border: 'black',
@@ -142,7 +134,7 @@ export class PersistenceService {
     {
       id: 5,
       name: 'Ciel étoilé',
-      mode: 'dark-grey-theme',
+      mode: 'sky-theme',
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',
@@ -177,6 +169,14 @@ export class PersistenceService {
   }
   public set isThemeAnimated(isThemeAnimated: boolean) {
     this._isThemeAnimated = isThemeAnimated;
+  }
+
+  private _isThemeAnimationShown: boolean = true;
+  public get isThemeAnimationShown(): boolean {
+    return this._isThemeAnimationShown;
+  }
+  public set isThemeAnimationShown(isThemeAnimationShown: boolean) {
+    this._isThemeAnimationShown = isThemeAnimationShown;
   }
 
   private _categoryId!: number;
@@ -297,6 +297,7 @@ export class PersistenceService {
     'Perrine A',
     'Lucie F',
     'Quentin LB',
+    'Anaïs M',
   ];
 
   private _credits: string[] = [];

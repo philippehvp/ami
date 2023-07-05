@@ -1,14 +1,14 @@
 import { Component, Renderer2, ViewChild, inject } from '@angular/core';
-import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Select, Store } from '@ngxs/store';
-import { EMPTY, Observable, map, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { IBetter, ISetting } from 'src/app/models/better';
 import { ITheme } from 'src/app/models/theme';
 import { IEmpty, IOffline } from 'src/app/models/utils';
 import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetterService } from 'src/app/services/rest/better.service';
-import { UtilsService } from 'src/app/services/utils.service';
+import { ThemeService } from 'src/app/services/theme.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { ConnectionActions } from 'src/app/store/action/connection.action';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -22,7 +22,7 @@ export class SettingComponent {
   private persistenceService = inject(PersistenceService);
   private betterService = inject(BetterService);
   private renderer = inject(Renderer2);
-  private utilsService = inject(UtilsService);
+  private themeService = inject(ThemeService);
   private store = inject(Store);
 
   @Select(BetState.better)
@@ -223,10 +223,22 @@ export class SettingComponent {
     return this.persistenceService.isThemeAnimated;
   }
 
+  public get isThemeAnimationShown(): boolean {
+    return this.persistenceService.isThemeAnimationShown;
+  }
+
   public toggleAnimateTheme(theme: ITheme, $event: any) {
     if (theme.isAnimated) {
       this.persistenceService.isThemeAnimated =
         !this.persistenceService.isThemeAnimated;
+    }
+    $event.stopPropagation();
+  }
+
+  public toggleShowThemeAnimation(theme: ITheme, $event: any) {
+    if (theme.isAnimated) {
+      this.persistenceService.isThemeAnimationShown =
+        !this.persistenceService.isThemeAnimationShown;
     }
     $event.stopPropagation();
   }
@@ -240,7 +252,7 @@ export class SettingComponent {
           tap((setting) => {
             if (setting) {
               const theme = this.persistenceService.setTheme(id);
-              this.utilsService.setTheme(
+              this.themeService.setTheme(
                 this.renderer,
                 this.persistenceService.theme
               );

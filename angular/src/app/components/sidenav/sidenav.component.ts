@@ -9,7 +9,6 @@ import { BetState } from 'src/app/store/state/bet.state';
 import { GdprComponent } from '../gdpr/gdpr.component';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { ConnectionActions } from 'src/app/store/action/connection.action';
-import { UtilsService } from 'src/app/services/utils.service';
 import {
   IInformationDialogConfig,
   InformationDialogType,
@@ -17,6 +16,7 @@ import {
 import { InformationComponent } from '../information/information.component';
 import { CommonService } from 'src/app/services/common.service';
 import { BetterService } from 'src/app/services/rest/better.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'sidenav',
@@ -27,7 +27,7 @@ export class SidenavComponent {
   private persistenceService = inject(PersistenceService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
-  private utilsService = inject(UtilsService);
+  private themeService = inject(ThemeService);
   private renderer = inject(Renderer2);
   private betterService = inject(BetterService);
 
@@ -120,7 +120,7 @@ export class SidenavComponent {
 
   private disconnect() {
     this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      this.utilsService.setTheme(
+      this.themeService.setTheme(
         this.renderer,
         this.persistenceService.themes[0]
       );
