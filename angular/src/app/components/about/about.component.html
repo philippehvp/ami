@@ -1,5 +1,5 @@
 <span class="about-panel">
-  <span class="material-icons-outlined close">close</span>
+  <span class="material-icons-outlined close link">close</span>
 
   <span class="intro-panel">
     <span class="title">Winabad</span>
@@ -14,7 +14,7 @@
   <span class="logo-panel">
     <span class="logo-row" *ngFor="let logoRow of logos">
       <span *ngFor="let logo of logoRow" (click)="openLink(logo)">
-        <span class="logo">
+        <span class="logo link">
           <img
             [src]="getLogoFile(logo)"
             alt=""
@@ -30,7 +30,7 @@
     <span class="title">Infos et news du club sur</span>
     <span class="logo-row">
       <span
-        class="social"
+        class="social link"
         *ngFor="let social of socials"
         (click)="openLink(social)"
       >

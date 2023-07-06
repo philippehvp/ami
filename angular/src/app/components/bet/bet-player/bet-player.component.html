@@ -12,7 +12,7 @@
           <span class="player-header">
             {{ headerContestLabelDisplayed }} -
             {{ headerCategoryLabelDisplayed }}
-            <span *ngIf="data.better?.isAdmin" class="calculate">
+            <span *ngIf="data.better?.isAdmin" class="calculate link">
               <mat-icon (click)="calculate(data.bet || undefined)"
                 >calculate</mat-icon
               >
@@ -38,7 +38,7 @@
       <td class="action" mat-cell *matCellDef="let player">
         <mat-icon
           *ngIf="(contest$ | async)?.isUpdatable"
-          class="material-icons"
+          class="material-icons link"
           color="primary"
           (click)="changeWinner(player.id)"
           >{{ winnerIconLabel(data.bet || undefined, player.id) }}</mat-icon
@@ -66,7 +66,7 @@
           *ngIf="(contest$ | async)?.isUpdatable"
           (click)="changeRunnerUp(player.id)"
           color="primary"
-          class="material-icons"
+          class="material-icons link"
           >{{ runnerUpIconLabel(data.bet || undefined, player.id) }}</mat-icon
         >
 
@@ -106,7 +106,7 @@
         <td class="action" mat-cell *matCellDef="let player">
           <mat-icon
             *ngIf="(contest$ | async)?.isUpdatable"
-            class="material-icons"
+            class="material-icons link"
             color="primary"
             (click)="changeWinner(player.id)"
             >{{ winnerIconLabel(data.bet || undefined, player.id) }}</mat-icon
@@ -134,7 +134,7 @@
             *ngIf="(contest$ | async)?.isUpdatable"
             (click)="changeRunnerUp(player.id)"
             color="primary"
-            class="material-icons"
+            class="material-icons link"
             >{{ runnerUpIconLabel(data.bet || undefined, player.id) }}</mat-icon
           >
 
@@ -155,7 +155,7 @@
             <span class="player-header">
               {{ headerContestLabelDisplayed }} -
               {{ headerCategoryLabelDisplayed }}
-              <span *ngIf="data.better?.isAdmin" class="calculate">
+              <span *ngIf="data.better?.isAdmin" class="calculate link">
                 <mat-icon (click)="calculate(data.bet || undefined)"
                   >calculate</mat-icon
                 >

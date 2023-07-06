@@ -66,6 +66,10 @@ import { AboutComponent } from './components/about/about.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { UnavailableComponent } from './components/unavailable/unavailable.component';
+import { CircleComponent } from './components/animated-background/circle/circle.component';
+import { WaveComponent } from './components/animated-background/wave/wave.component';
+import { BubbleComponent } from './components/animated-background/bubble/bubble.component';
+import { SkyComponent } from './components/animated-background/sky/sky.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +95,10 @@ import { UnavailableComponent } from './components/unavailable/unavailable.compo
     AboutComponent,
     SidenavComponent,
     UnavailableComponent,
+    CircleComponent,
+    WaveComponent,
+    BubbleComponent,
+    SkyComponent,
   ],
   imports: [
     BrowserModule,

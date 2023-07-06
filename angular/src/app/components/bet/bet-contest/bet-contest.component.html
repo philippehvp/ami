@@ -9,7 +9,7 @@
     <ng-container *ngFor="let contest of data.contests">
       <ng-container *ngFor="let category of contest.categories">
         <span
-          class="category"
+          class="category link"
           (click)="changeCategory(category.id)"
           [class]="{
             selected: isCurrentCategory(

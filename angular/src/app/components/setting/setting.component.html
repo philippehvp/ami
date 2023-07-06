@@ -5,7 +5,7 @@
 >
   <div class="setting-area">
     <span
-      class="setting"
+      class="setting link"
       #settingsMenuTrigger="matMenuTrigger"
       [matMenuTriggerFor]="settingsMenu"
     >
@@ -13,23 +13,26 @@
       <mat-menu #settingsMenu="matMenu">
         <span class="title-panel">
           <span class="title">Affichage</span>
-          <span class="close" (click)="settingsMenuTrigger.closeMenu()"
+          <span class="close link" (click)="settingsMenuTrigger.closeMenu()"
             >Fermer</span
           >
         </span>
-        <span class="menu-item" (click)="toggleClubName(data.better, $event)">
+        <span
+          class="menu-item link"
+          (click)="toggleClubName(data.better, $event)"
+        >
           <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
           <span class="label">Afficher le nom des clubs</span>
         </span>
         <span
-          class="menu-item"
+          class="menu-item link"
           (click)="togglePlayerRanking(data.better, $event)"
         >
           <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
           <span class="label">Afficher le classement</span>
         </span>
         <span
-          class="menu-item"
+          class="menu-item link"
           (click)="toggleFirstnameVisible(data.better, $event)"
         >
           <mat-slide-toggle [checked]="isFirstnameVisible"> </mat-slide-toggle>
@@ -39,22 +42,28 @@
       <span class="label">Affichage</span>
     </span>
 
-    <span class="setting" (click)="toggleAutoNavigation(data.better || null)">
+    <span
+      class="setting link"
+      (click)="toggleAutoNavigation(data.better || null)"
+    >
       <span class="material-icons-outlined icon">
         {{ autoNavigationIcon }}
       </span>
       <span class="label">{{ autoNavigationLabel }}</span>
     </span>
 
-    <span class="setting" (click)="togglePlayerReverse(data.better || null)">
-      <span class="material-icons-outlined icon">
+    <span
+      class="setting link"
+      (click)="togglePlayerReverse(data.better || null)"
+    >
+      <span class="material-icons icon">
         {{ playerReverseIcon }}
       </span>
       <span class="label">{{ playerReverseLabel }}</span>
     </span>
 
     <span
-      class="setting"
+      class="setting link"
       #themesMenuTrigger="matMenuTrigger"
       [matMenuTriggerFor]="themesMenu"
     >
@@ -63,13 +72,13 @@
         <span class="themes-panel">
           <span class="title-panel">
             <span class="title">Thèmes</span>
-            <span class="close" (click)="themesMenuTrigger.closeMenu()"
+            <span class="close link" (click)="themesMenuTrigger.closeMenu()"
               >Fermer</span
             >
           </span>
           <span class="menu-item">{{ theme.name }}</span>
 
-          <span class="menu-item">
+          <span class="menu-item link">
             <span class="color-item">
               <span
                 class="color"
@@ -82,7 +91,10 @@
               </span>
             </span>
           </span>
-          <span class="menu-item" (click)="toggleAnimateTheme(theme, $event)">
+          <span
+            class="menu-item link"
+            (click)="toggleAnimateTheme(theme, $event)"
+          >
             <mat-slide-toggle
               [checked]="isThemeAnimated"
               [disabled]="!isThemeAnimable(theme)"
@@ -92,7 +104,7 @@
           </span>
 
           <span
-            class="menu-item"
+            class="menu-item link"
             (click)="toggleShowThemeAnimation(theme, $event)"
           >
             <mat-slide-toggle

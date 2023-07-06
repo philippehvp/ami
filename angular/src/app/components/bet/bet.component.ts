@@ -27,8 +27,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDuration } from 'src/app/models/duration';
-import { UtilsService } from 'src/app/services/utils.service';
-import { IBubble, ThemeService } from 'src/app/services/theme.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'bet',
@@ -80,16 +79,10 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 500);
   }
 
-  public bubbles!: IBubble[];
-
   private destroy$!: Subject<boolean>;
   public tutorialLastStep: number = 4;
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
-
-  private _circleTop!: string;
-  private _circleLeft!: string;
-  private _circleAnimation!: string;
 
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
@@ -127,16 +120,12 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.persistenceService.theme.id === 3;
   }
 
-  public get isWaterAnimation(): boolean {
+  public get isBubbleAnimation(): boolean {
     return this.persistenceService.theme.id === 4;
   }
 
   public get isSkyAnimation(): boolean {
     return this.persistenceService.theme.id === 5;
-  }
-
-  public get animationPlayState(): string {
-    return this.persistenceService.isThemeAnimated ? 'running' : 'paused';
   }
 
   public get betPanelClass(): string {
@@ -158,15 +147,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
-    this.bubbles = this.themeService.bubbles;
-
     this.persistenceService.gobackPage = 'bet';
-
-    // Spécifiquement pour le thème circle
-    this._circleTop = Math.floor(Math.random() * 150).toString() + 'px';
-    this._circleLeft = Math.floor(Math.random() * 150).toString() + 'px';
-    this._circleAnimation =
-      'ripple 20s linear infinite, colors 30s linear infinite';
 
     combineLatest([this.isOffline$, this.better$])
       .pipe(
@@ -387,21 +368,5 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public evaluationIcon(evaluation: number, index: number): string {
     return evaluation >= index ? 'star' : 'star_border';
-  }
-
-  public getBubbleClass(bubble: IBubble): string {
-    return bubble.colorClass + ' ' + bubble.sizeClass;
-  }
-
-  public get circleTop(): string {
-    return this._circleTop;
-  }
-
-  public get circleLeft(): string {
-    return this._circleLeft;
-  }
-
-  public get circleAnimation(): string {
-    return this._circleAnimation;
   }
 }

@@ -7,7 +7,7 @@
   } as data"
 >
   <div class="toolbar">
-    <span class="title-area" (click)="toggleAbout()">
+    <span class="title-area link" (click)="toggleAbout()">
       <span>
         <svg
           id="logo"
@@ -62,7 +62,7 @@
     </span>
 
     <ng-container *ngIf="!isToolbarLimitedMode">
-      <span (click)="showBetsReviewOf(data.better)"
+      <span (click)="showBetsReviewOf(data.better)" class="link"
         >{{ data?.completedBets || 0 }} / {{ (data?.bets || []).length }}
         <mat-progress-bar
           mode="determinate"
@@ -74,10 +74,12 @@
       </span>
     </ng-container>
 
-    <span class="material-icons-outlined" (click)="toggleCompactMode()">{{
+    <span class="material-icons-outlined link" (click)="toggleCompactMode()">{{
       compactModeIcon
     }}</span>
 
-    <span class="material-icons-outlined" (click)="toggleSideNav()">menu</span>
+    <span class="material-icons-outlined link" (click)="toggleSideNav()"
+      >menu</span
+    >
   </div>
 </ng-container>
