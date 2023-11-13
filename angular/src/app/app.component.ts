@@ -68,7 +68,7 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  public ngAfterViewInit(): void {
+  public ngAfterViewInit() {
     this.persistenceService.sidenav = this.sidenav;
     this.persistenceService.aboutnav = this.aboutnav;
   }

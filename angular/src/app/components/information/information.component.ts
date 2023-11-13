@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   IInformationDialogConfig,
@@ -11,12 +11,8 @@ import {
   styleUrls: ['./information.component.scss'],
 })
 export class InformationComponent {
+  public data: IInformationDialogConfig = inject(MAT_DIALOG_DATA);
   private matDialogRef = inject(MatDialogRef<InformationComponent>);
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public data: IInformationDialogConfig
-  ) {}
 
   public get isInformationType(): boolean {
     return this.data.dialogType === InformationDialogType.Information;

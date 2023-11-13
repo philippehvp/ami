@@ -152,8 +152,8 @@
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json; charset=UTF-8");
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD");
-    	header("Access-Control-Allow-Headers: Origin, Content-Type, X-Requested-With, Accept, Access-Control-Allow-Headers, Authorization");
-    	header("Access-Control-Max-Age: 86400");
+    header("Access-Control-Allow-Headers: Origin, Content-Type, X-Requested-With, Accept, Access-Control-Allow-Headers, Authorization");
+    header("Access-Control-Max-Age: 86400");
 
 		// Access-Control headers are received during OPTIONS requests
 		if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {

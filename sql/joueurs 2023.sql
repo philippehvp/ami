@@ -348,6 +348,8 @@ INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playe
 
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('JOUANNE Arnaud', 'RABBE Caroline', 'Martigues Badminton Club', 'Martigues Badminton Club', 'D9', 'D9', 37);
 
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('NONY Stephane', 'ALBIN Virginie', 'Istres Sports Badminton', 'Stade Laurentin Badminton', 'P10', 'D9', 37);
+
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('CARUSO Corentin', 'GINESTIER Alexa', 'Martigues Badminton Club', 'Martigues Badminton Club', 'P10', 'D9', 37);
 
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('ALEGRIA Matthias', 'PROTCHE Lavande', 'Martigues Badminton Club', 'Martigues Badminton Club', 'P10', 'D9', 37);
@@ -362,9 +364,8 @@ INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playe
 
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('RODRIGUES-VILA Victor', 'BRENOT Corinne', 'Istres Sports Badminton', 'Istres Sports Badminton', 'P11', 'D9', 37);
 
-INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('BOUSSEAU Guillaume', 'BOUSSEAU Sabrina', 'Volant des 7 Rivières', 'Volant des 7 Rivières', 'P10', 'P10', 37);
-
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('GUILLOU Noah', 'NOVAT Raphaëlle', 'Badminton Club Aubagnais', 'Badminton Club Aubagnais', 'P11', 'P11', 37);
+
 
 
 
