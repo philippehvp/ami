@@ -1,8 +1,4 @@
-<ng-container
-  *ngIf="{
-    better: better$ | async,
-  } as data"
->
+<ng-container *ngIf="better$ | async as better">
   <div class="setting-area">
     <span
       class="setting link"
@@ -17,23 +13,20 @@
             >Fermer</span
           >
         </span>
-        <span
-          class="menu-item link"
-          (click)="toggleClubName(data.better, $event)"
-        >
+        <span class="menu-item link" (click)="toggleClubName(better, $event)">
           <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
           <span class="label">Afficher le nom des clubs</span>
         </span>
         <span
           class="menu-item link"
-          (click)="togglePlayerRanking(data.better, $event)"
+          (click)="togglePlayerRanking(better, $event)"
         >
           <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
           <span class="label">Afficher le classement</span>
         </span>
         <span
           class="menu-item link"
-          (click)="toggleFirstnameVisible(data.better, $event)"
+          (click)="toggleFirstnameVisible(better, $event)"
         >
           <mat-slide-toggle [checked]="isFirstnameVisible"> </mat-slide-toggle>
           <span class="label">Afficher les prénoms</span>
@@ -42,20 +35,14 @@
       <span class="label">Affichage</span>
     </span>
 
-    <span
-      class="setting link"
-      (click)="toggleAutoNavigation(data.better || null)"
-    >
+    <span class="setting link" (click)="toggleAutoNavigation(better || null)">
       <span class="material-icons-outlined icon">
         {{ autoNavigationIcon }}
       </span>
       <span class="label">{{ autoNavigationLabel }}</span>
     </span>
 
-    <span
-      class="setting link"
-      (click)="togglePlayerReverse(data.better || null)"
-    >
+    <span class="setting link" (click)="togglePlayerReverse(better || null)">
       <span class="material-icons icon">
         {{ playerReverseIcon }}
       </span>
@@ -85,7 +72,7 @@
                 [style.background]="theme.color"
                 [style.borderColor]="getBorderColor(theme)"
                 [class]="{ 'color-active': isCurrentTheme(theme) }"
-                (click)="changeTheme($event, data.better, theme.id)"
+                (click)="changeTheme($event, better, theme.id)"
                 *ngFor="let theme of themes"
               >
               </span>

@@ -1,15 +1,10 @@
-<ng-container
-  class="toolbar"
-  *ngIf="{
-    better: better$ | async
-  } as data"
->
+<ng-container class="toolbar" *ngIf="better$ | async as better">
   <mat-sidenav-container>
     <mat-sidenav-content class="content">
       <!-- Toolbar -->
       <div
         class="row no-growing toolbar-panel"
-        *ngIf="data.better && isToolbarVisible"
+        *ngIf="better && isToolbarVisible"
       >
         <mat-toolbar>
           <toolbar></toolbar>

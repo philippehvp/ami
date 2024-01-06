@@ -1,7 +1,7 @@
-import { Component, Renderer2, inject } from '@angular/core';
+import { Component, OnInit, Renderer2, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
 import { IBet } from 'src/app/models/bet';
 import { IBetter } from 'src/app/models/better';
 import { PersistenceService } from 'src/app/services/persistence.service';
@@ -18,12 +18,18 @@ import { CommonService } from 'src/app/services/common.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { ThemeService } from 'src/app/services/theme.service';
 
+type TData = {
+  better: IBetter;
+  bets: IBet[];
+  completedBets: number;
+};
+
 @Component({
   selector: 'sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit {
   private persistenceService = inject(PersistenceService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
@@ -39,6 +45,22 @@ export class SidenavComponent {
 
   @Select(BetState.bets)
   bets$!: Observable<IBet[]>;
+
+  public data$!: Observable<TData>;
+
+  public ngOnInit() {
+    this.data$ = combineLatest([
+      this.better$,
+      this.bets$,
+      this.completedBets$,
+    ]).pipe(
+      map(([better, bets, completedBets]) => ({
+        better,
+        bets,
+        completedBets,
+      }))
+    );
+  }
 
   public navigate(link: string) {
     this.persistenceService.navigate(link);

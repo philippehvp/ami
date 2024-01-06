@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
+import { combineLatest, map } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
 import { ICategory } from 'src/app/models/category';
@@ -7,12 +8,18 @@ import { IContest } from 'src/app/models/contest';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 
+type TData = {
+  bets: IBet[];
+  contests: IContest[];
+  category: ICategory;
+};
+
 @Component({
   selector: 'bet-contest',
   templateUrl: './bet-contest.component.html',
   styleUrls: ['./bet-contest.component.scss'],
 })
-export class BetContestComponent {
+export class BetContestComponent implements OnInit {
   private store = inject(Store);
 
   @Select(BetState.contests)
@@ -25,6 +32,18 @@ export class BetContestComponent {
   category$!: Observable<ICategory>;
 
   public betIndex: number = 0;
+
+  public data$!: Observable<TData>;
+
+  public ngOnInit() {
+    this.data$ = combineLatest([
+      this.bets$,
+      this.contests$,
+      this.category$,
+    ]).pipe(
+      map(([bets, contests, category]) => <TData>{ bets, contests, category })
+    );
+  }
 
   public changeCategory(categoryId: number) {
     this.store.dispatch([new BetActions.SetCategory(categoryId)]);

@@ -1,10 +1,4 @@
-<ng-container
-  *ngIf="{
-    better: better$ | async,
-    bets: bets$ | async,
-    bettersRanking: bettersRanking$ | async
-  } as data"
->
+<ng-container *ngIf="data$ | async as data">
   <div
     class="ranking-panel slow-animation"
     *ngIf="!isReviewOfVisible"
@@ -28,7 +22,7 @@
 
       <span
         >Nombre de séries terminées :
-        {{ data.bettersRanking?.completedCategories }} /
+        {{ data?.bettersRanking?.completedCategories }} /
         {{ (data.bets || []).length }}</span
       >
 

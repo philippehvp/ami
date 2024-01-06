@@ -1,4 +1,4 @@
-<ng-container *ngIf="{ betterBet: betterBet$ | async } as data">
+<ng-container *ngIf="betterBet$ | async as betterBet">
   <div class="bet-panel">
     <titlebar title="Résumé des pronostics"></titlebar>
 
@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <ng-container
-          *ngFor="let betterBet of data?.betterBet?.bets || []; let i = index"
+          *ngFor="let betterBet of betterBet?.bets || []; let i = index"
         >
           <!-- Winners -->
           <tr>

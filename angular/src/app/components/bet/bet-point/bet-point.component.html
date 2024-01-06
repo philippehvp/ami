@@ -3,7 +3,7 @@
 <table
   mat-table
   [dataSource]="(betterPoints$ | async) || []"
-  *ngIf="{ better: better$ | async } as data"
+  *ngIf="better$ | async as better"
 >
   <ng-container matColumnDef="better">
     <th mat-header-cell *matHeaderCellDef>Pronostiqueurs</th>

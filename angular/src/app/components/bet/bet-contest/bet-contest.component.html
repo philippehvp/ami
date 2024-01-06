@@ -1,10 +1,4 @@
-<ng-container
-  *ngIf="{
-    bets: bets$ | async,
-    category: category$ | async,
-    contests: contests$ | async
-  } as data"
->
+<ng-container *ngIf="data$ | async as data">
   <span class="contest-panel">
     <ng-container *ngFor="let contest of data.contests">
       <ng-container *ngFor="let category of contest.categories">

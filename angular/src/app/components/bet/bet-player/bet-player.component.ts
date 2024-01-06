@@ -13,6 +13,11 @@ import { BehaviorSubject, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { CPIAnimations } from 'src/app/animations/animations';
 import { UtilsService } from 'src/app/services/utils.service';
 
+type TData = {
+  bet: IBet;
+  better: IBetter;
+};
+
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
@@ -58,6 +63,8 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = ['name', 'winner', 'runnerUp'];
   public displayedColumnsReverse: string[] = ['winner', 'runnerUp', 'name'];
+
+  public data$!: Observable<TData>;
 
   public get isClubName() {
     return this.persistenceService.isClubName;
@@ -153,6 +160,13 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.data$ = combineLatest([this.bet$, this.better$]).pipe(
+      map(([bet, better]) => ({
+        bet,
+        better,
+      }))
+    );
   }
 
   public ngOnDestroy() {

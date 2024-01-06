@@ -1,9 +1,9 @@
-<ng-container *ngIf="{ betsReviewOf: betsReviewOf$ | async } as data">
+<ng-container *ngIf="betsReviewOf$ | async as betsReviewOf">
   <span class="back" (click)="hideReviewOf()"
     ><span class="material-icons-outlined"> navigate_before </span>
     {{ reviewOfBetterName }}
   </span>
-  <span class="review-of-row" *ngFor="let betsReviewOf of data.betsReviewOf">
+  <span class="review-of-row" *ngFor="let betsReviewOf of betsReviewOf">
     <span class="review-of-contest">
       <span class="contest-label">
         {{ betsReviewOf.contestLongName }} -

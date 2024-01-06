@@ -1,8 +1,4 @@
-<ng-container
-  *ngIf="{
-    better: better$ | async,
-  } as data"
->
+<ng-container *ngIf="better$ | async as better">
   <ng-container *ngIf="isThemeAnimationShown">
     <circle class="circle-panel" *ngIf="isCircleAnimation"></circle>
 
@@ -35,7 +31,7 @@
         <p>
           <strong>Bons pronostics à toi !</strong>
         </p>
-        <button mat-raised-button (click)="gotoNextTutorial(data.better)">
+        <button mat-raised-button (click)="gotoNextTutorial(better)">
           Fermer
         </button>
       </div>
@@ -57,7 +53,7 @@
         <h5>Pronostic de la durée du match (3/4)</h5>
         <p>Le pronostic de la durée du match le plus long se fait ici.</p>
         <p>Déplace la jauge de gauche à droite, entre 30 et 120 minutes.</p>
-        <button mat-raised-button (click)="gotoNextTutorial(data.better)">
+        <button mat-raised-button (click)="gotoNextTutorial(better)">
           Suivant
         </button>
       </div>
@@ -78,7 +74,7 @@
           <h5>Séries du jour (1/4)</h5>
           <p>Les séries du jour sont listées dans cet en-tête.</p>
           <p>Appuie sur le nom d'une série pour l'activer.</p>
-          <button mat-raised-button (click)="gotoNextTutorial(data.better)">
+          <button mat-raised-button (click)="gotoNextTutorial(better)">
             Suivant
           </button>
         </div>
@@ -94,7 +90,7 @@
             seconde pour le finaliste.
           </p>
 
-          <button mat-raised-button (click)="gotoNextTutorial(data.better)">
+          <button mat-raised-button (click)="gotoNextTutorial(better)">
             Suivant
           </button>
         </div>
@@ -142,8 +138,8 @@
     <mat-menu #menu="matMenu">
       <span class="evaluation">
         <ng-container *ngFor="let evaluation of evaluations; let index">
-          <span class="star-icon" (click)="like(data.better, evaluation)">
-            {{ evaluationIcon(data?.better?.evaluation || -1, index) }}
+          <span class="star-icon" (click)="like(better, evaluation)">
+            {{ evaluationIcon(better?.evaluation || -1, index) }}
           </span>
         </ng-container>
       </span>

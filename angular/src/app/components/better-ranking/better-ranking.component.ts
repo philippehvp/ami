@@ -17,6 +17,12 @@ import { ActivatedRoute } from '@angular/router';
 import { IBet } from 'src/app/models/bet';
 import { ThemeService } from 'src/app/services/theme.service';
 
+type TData = {
+  better: IBetter;
+  bets: IBet[];
+  bettersRanking: IBetterRanking;
+};
+
 @Component({
   selector: 'better-ranking',
   templateUrl: './better-ranking.component.html',
@@ -52,6 +58,8 @@ export class BetterRankingComponent
   public title!: string;
 
   public displayedColumns: string[] = ['ranking', 'name', 'points', 'duration'];
+
+  public data$!: Observable<TData>;
 
   public get isReviewOfVisible(): boolean {
     return this.persistenceService.isReviewOfVisible;
@@ -118,6 +126,18 @@ export class BetterRankingComponent
         })
       )
       .subscribe();
+
+    this.data$ = combineLatest([
+      this.better$,
+      this.bets$,
+      this.bettersRanking$,
+    ]).pipe(
+      map(([better, bets, bettersRanking]) => ({
+        better,
+        bets,
+        bettersRanking,
+      }))
+    );
   }
 
   public ngOnDestroy() {

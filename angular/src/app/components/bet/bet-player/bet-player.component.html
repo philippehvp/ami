@@ -1,4 +1,4 @@
-<ng-container *ngIf="{ bet: bet$ | async, better: better$ | async } as data">
+<ng-container *ngIf="data$ | async as data">
   <mat-table
     class="normal"
     [dataSource]="playersDisplayed"

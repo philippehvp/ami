@@ -1,11 +1,4 @@
-<ng-container
-  class="toolbar"
-  *ngIf="{
-    better: better$ | async,
-    completedBets: completedBets$ | async,
-    bets: bets$ | async
-  } as data"
->
+<ng-container class="toolbar" *ngIf="data$ | async as data">
   <div class="toolbar">
     <span class="title-area link" (click)="toggleAbout()">
       <span>
