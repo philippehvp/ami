@@ -7,7 +7,14 @@ import {
   inject,
 } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  takeUntil,
+} from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterRanking, IRanking } from 'src/app/models/better-ranking';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -106,6 +113,7 @@ export class BetterRankingComponent
     combineLatest([this.better$, this.route.data])
       .pipe(
         takeUntil(this.destroy$),
+        filter(([better, routeData]) => !!better && !!routeData),
         map(([better, route]) => {
           if (better && route) {
             this.themeService.setTheme(

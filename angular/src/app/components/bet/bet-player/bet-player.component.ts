@@ -9,7 +9,14 @@ import { IPlayer } from 'src/app/models/player';
 import { PersistenceService as PersistenceService } from 'src/app/services/persistence.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
-import { BehaviorSubject, Subject, combineLatest, map, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  takeUntil,
+} from 'rxjs';
 import { CPIAnimations } from 'src/app/animations/animations';
 import { UtilsService } from 'src/app/services/utils.service';
 
@@ -142,6 +149,9 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
     combineLatest([this.contest$, this.category$, this.players$])
       .pipe(
         takeUntil(this.destroy$),
+        filter(
+          ([contest, category, players]) => !!contest && !!category && !!players
+        ),
         map(([contest, category, players]) => {
           if (contest && category) {
             this.headerContestLabelReceived = contest.longName;

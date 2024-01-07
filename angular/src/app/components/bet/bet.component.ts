@@ -12,7 +12,7 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subject, combineLatest, map, takeUntil } from 'rxjs';
+import { Subject, combineLatest, filter, map, takeUntil } from 'rxjs';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
 import { BetState } from 'src/app/store/state/bet.state';
@@ -152,6 +152,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     combineLatest([this.isOffline$, this.better$])
       .pipe(
         takeUntil(this.destroy$),
+        filter(([isOffline, better]) => !!isOffline && !!better),
         map(([isOffline, better]) => {
           if (isOffline) {
             const config: MatDialogConfig<IInformationDialogConfig> = {
@@ -197,6 +198,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     combineLatest([this.allBetsDone$, this.duration$])
       .pipe(
         takeUntil(this.destroy$),
+        filter(([allBetsDone, duration]) => !!allBetsDone && !!duration),
         map(([allBetsDone, duration]) => {
           if (allBetsDone) {
             if (!duration.isDurationModified) {
