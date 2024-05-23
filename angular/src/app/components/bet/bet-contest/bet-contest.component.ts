@@ -1,10 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, of, switchMap, takeUntil } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
+import { CommonService } from 'src/app/services/common.service';
 import { BetActions } from 'src/app/store/action/bet.action';
 import { BetState } from 'src/app/store/state/bet.state';
 
@@ -21,6 +23,8 @@ type TData = {
 })
 export class BetContestComponent implements OnInit {
   private store = inject(Store);
+  private commonService = inject(CommonService);
+  private destroyRef: DestroyRef = inject(DestroyRef);
 
   @Select(BetState.contests)
   contests$!: Observable<IContest[]>;

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
