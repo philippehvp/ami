@@ -15,8 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule } from '@angular/common/http';
 
-import { MarkdownModule } from 'ngx-markdown';
-
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
@@ -109,7 +107,6 @@ import { SkyComponent } from './components/animated-background/sky/sky.component
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MarkdownModule,
 
     MatBadgeModule,
     MatBottomSheetModule,
@@ -136,7 +133,7 @@ import { SkyComponent } from './components/animated-background/sky/sky.component
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   providers: [],

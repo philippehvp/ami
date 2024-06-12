@@ -94,7 +94,7 @@ export class PersistenceService {
   private _themes: ITheme[] = [
     {
       id: 1,
-      name: 'Tournoi ISB 2023',
+      name: 'Tournoi ISB 2024',
       mode: 'isb-theme',
       isLight: true,
       color:
@@ -102,43 +102,44 @@ export class PersistenceService {
       border: 'black',
       isAnimated: false,
     },
-    {
-      id: 2,
-      name: 'Disques chromatiques',
-      mode: 'circle-theme',
-      isLight: true,
-      color: '#d0d0d0',
-      border: 'black',
-      isAnimated: true,
-    },
+    // {
+    //   id: 2,
+    //   name: 'Disques chromatiques',
+    //   mode: 'circle-theme',
+    //   isLight: true,
+    //   color: '#d0d0d0',
+    //   border: 'black',
+    //   isAnimated: false,
+    // },
+
+    // {
+    //   id: 3,
+    //   name: 'Ondulations',
+    //   mode: 'wave-theme',
+    //   isLight: true,
+    //   color:
+    //     'linear-gradient(to bottom, #9831a1 20%, #f4e0bb 10%, #f4e0bb 80%, #ac3631 80%)',
+    //   border: 'black',
+    //   isAnimated: false,
+    // },
 
     {
-      id: 3,
-      name: 'Ondulations',
-      mode: 'wave-theme',
-      isLight: true,
-      color:
-        'linear-gradient(to bottom, #9831a1 20%, #f4e0bb 10%, #f4e0bb 80%, #ac3631 80%)',
-      border: 'black',
-      isAnimated: true,
-    },
-    {
       id: 4,
-      name: 'Bulles aquatiques',
+      name: 'Bleu',
       mode: 'bubble-theme',
       isLight: true,
       color: 'linear-gradient(-135deg, #272896, #7295e2)',
       border: 'black',
-      isAnimated: true,
+      isAnimated: false,
     },
     {
       id: 5,
-      name: 'Ciel étoilé',
+      name: 'Noir',
       mode: 'sky-theme',
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',
-      isAnimated: true,
+      isAnimated: false,
     },
   ];
 
@@ -163,7 +164,7 @@ export class PersistenceService {
     return this._theme;
   }
 
-  private _isThemeAnimated: boolean = true;
+  private _isThemeAnimated: boolean = false;
   public get isThemeAnimated(): boolean {
     return this._isThemeAnimated;
   }
@@ -171,7 +172,7 @@ export class PersistenceService {
     this._isThemeAnimated = isThemeAnimated;
   }
 
-  private _isThemeAnimationShown: boolean = true;
+  private _isThemeAnimationShown: boolean = false;
   public get isThemeAnimationShown(): boolean {
     return this._isThemeAnimationShown;
   }
@@ -288,18 +289,7 @@ export class PersistenceService {
     this.router.navigate([link]);
   }
 
-  private _originalCredits: string[] = [
-    'Philippe HVP',
-    'Clémence Z',
-    'Alexandre P',
-    'Maxime H',
-    'Alexandre D',
-    'Perrine A',
-    'Lucie F',
-    'Quentin LB',
-    'Anaïs M',
-    'Nicolas C',
-  ];
+  private _originalCredits: string[] = ['Philippe HVP', 'Clémence Z'];
 
   private _credits: string[] = [];
 
@@ -316,12 +306,12 @@ export class PersistenceService {
     this._credits = [...this._originalCredits];
 
     // On mélange la liste
-    for (let i: number = this._credits.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = this._credits[i];
-      this._credits[i] = this._credits[j];
-      this._credits[j] = temp;
-    }
+    // for (let i: number = this._credits.length - 1; i > 0; i--) {
+    //   const j = Math.floor(Math.random() * (i + 1));
+    //   const temp = this._credits[i];
+    //   this._credits[i] = this._credits[j];
+    //   this._credits[j] = temp;
+    // }
 
     // On ajoute Stéphane N au début
     this._credits = ['Stéphane N', ...this._credits];

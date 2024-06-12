@@ -121,7 +121,7 @@ export class SidenavComponent implements OnInit {
         data: {
           title: 'Pronostics incomplets',
           message:
-            "Tu n'as pas saisi tous les pronostics. Sûr de vouloir quitter Winabad ?",
+            "Tu n'as pas saisi tous les pronostics. Sûr de vouloir quitter WINABAD ?",
           dialogType: InformationDialogType.YesNo,
           labels: ['Annuler', 'Quitter'],
         },
@@ -183,7 +183,7 @@ export class SidenavComponent implements OnInit {
         data: {
           title: 'Suppression du compte',
           message:
-            'Es-tu sûr de vouloir supprimer ton compte et donc ta participation à Winabad ?',
+            'Es-tu sûr de vouloir supprimer ton compte et donc ta participation à WINABAD ?',
           dialogType: InformationDialogType.YesNo,
           labels: ['Annuler', 'Supprimer'],
         },

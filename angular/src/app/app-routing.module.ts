@@ -65,7 +65,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: BetComponent,
+    component: LoginComponent,
   },
 ];
 

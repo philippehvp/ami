@@ -77,7 +77,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.destroy$.next(true);
+    if (this.destroy$) {
+      this.destroy$.next(true);
+    }
   }
 
   public login() {

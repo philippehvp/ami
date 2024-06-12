@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "winabad:build:production"
+              "buildTarget": "winabad:build:production"
             },
             "development": {
-              "browserTarget": "winabad:build:development"
+              "buildTarget": "winabad:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "winabad:build"
+            "buildTarget": "winabad:build"
           }
         },
         "test": {
