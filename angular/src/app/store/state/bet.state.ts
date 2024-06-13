@@ -46,16 +46,16 @@ export class BetStateModel {
   name: 'bet',
   defaults: {
     isOffline: false,
-    better: <IBetter>{},
+    better: {} as IBetter,
     betters: [],
-    contest: <IContest>{},
+    contest: {} as IContest,
     contests: [],
-    category: <ICategory>{},
+    category: {} as ICategory,
     players: [],
-    bet: <IBet>{},
+    bet: {} as IBet,
     bets: [],
     betsReviewOf: [],
-    duration: <IDuration>{},
+    duration: {} as IDuration,
     completedBets: 0,
     isLoadingData: false,
     allBetsDone: false,
@@ -178,6 +178,7 @@ export class BetState {
         })
       );
   }
+
   @Action(BetActions.SetBetter)
   setBetter(state: StateContext<BetStateModel>, action: BetActions.SetBetter) {
     if (action.better) {
@@ -780,23 +781,24 @@ export class BetState {
   @Action(ConnectionActions.Logout)
   logout(state: StateContext<BetStateModel>) {
     state.patchState({
-      better: undefined,
-      betters: undefined,
-      contest: undefined,
-      contests: undefined,
-      category: undefined,
-      players: undefined,
-      bet: undefined,
-      bets: undefined,
-      duration: undefined,
-      completedBets: undefined,
-      allBetsDone: false,
-      betsReviewOf: undefined,
-      isLoadingData: false,
       isOffline: false,
+      better: {} as IBetter,
+      betters: [],
+      contest: {} as IContest,
+      contests: [],
+      category: {} as ICategory,
+      players: [],
+      bet: {} as IBet,
+      bets: [],
+      betsReviewOf: [],
+      duration: {} as IDuration,
+      completedBets: 0,
+      isLoadingData: false,
+      allBetsDone: false,
       proposeAutoNavigation: false,
       categoryToDisplay: -1,
-      betterPoints: undefined,
+      betterPoints: [],
+      bettersRanking: [],
     });
 
     this.persistenceService.init();

@@ -141,18 +141,19 @@ export class SidenavComponent implements OnInit {
   }
 
   private disconnect() {
-    this.store.dispatch([new ConnectionActions.Logout()]).subscribe(() => {
-      this.themeService.setTheme(
-        this.renderer,
-        this.persistenceService.themes[0]
-      );
+    this.store.dispatch([new ConnectionActions.Logout()]);
 
-      if (!CommonService.isProduction) {
-        window.localStorage.removeItem('better');
-        window.localStorage.removeItem('settings');
-      }
-      this.persistenceService.navigate('login');
-    });
+    this.themeService.setTheme(
+      this.renderer,
+      this.persistenceService.themes[0]
+    );
+
+    if (!CommonService.isProduction) {
+      window.localStorage.removeItem('better');
+      window.localStorage.removeItem('settings');
+    }
+
+    this.persistenceService.navigate('login');
   }
 
   public eraseBets(better: IBetter | null) {
