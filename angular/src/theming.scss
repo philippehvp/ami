@@ -167,6 +167,39 @@ $md-palette-circle: (
   ),
 );
 
+$md-palette-desert: (
+  50: #f6eae8,
+  100: #e9cac6,
+  200: #daa7a0,
+  300: #cb837a,
+  400: #c0695e,
+  500: #b54e41,
+  600: #ae473b,
+  700: #a53d32,
+  800: #9d352a,
+  900: #8d251c,
+  A100: #ffcac7,
+  A200: #ff9b94,
+  A400: #ff6b61,
+  A700: #ff5347,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
 $isb-primary: mat-palette($md-palette-isb, 500);
 $isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
 $isb-warn: mat-palette($md-palette-isb);
@@ -192,6 +225,11 @@ $sky-accent: mat-palette($md-palette-sky, A400);
 $sky-warn: mat-palette($md-palette-sky, A200);
 $sky-theme: mat-dark-theme($sky-primary, $sky-accent, $sky-warn);
 
+$desert-primary: mat-palette($md-palette-desert, 50);
+$desert-accent: mat-palette($md-palette-desert, A200, A100, A400);
+$desert-warn: mat-palette($md-palette-desert);
+$desert-theme: mat-light-theme($desert-primary, $desert-accent, $desert-warn);
+
 .isb-theme {
   @include angular-material-theme($isb-theme);
 }
@@ -210,4 +248,8 @@ $sky-theme: mat-dark-theme($sky-primary, $sky-accent, $sky-warn);
 
 .sky-theme {
   @include angular-material-theme($sky-theme);
+}
+
+.desert-theme {
+  @include angular-material-theme($desert-theme);
 }

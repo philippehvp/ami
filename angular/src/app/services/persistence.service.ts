@@ -94,13 +94,14 @@ export class PersistenceService {
   private _themes: ITheme[] = [
     {
       id: 1,
-      name: 'Tournoi ISB 2024',
+      name: 'Tournoi ISB',
       mode: 'isb-theme',
       isLight: true,
       color:
         'linear-gradient(150deg, #fcc916, #f28e16, #c5e6f7, #6caee0, #b0d6b1, #8abb8c)',
       border: 'black',
       isAnimated: false,
+      logoColor: 'black',
     },
     // {
     //   id: 2,
@@ -131,6 +132,7 @@ export class PersistenceService {
       color: 'linear-gradient(-135deg, #272896, #7295e2)',
       border: 'black',
       isAnimated: false,
+      logoColor: 'white',
     },
     {
       id: 5,
@@ -140,6 +142,17 @@ export class PersistenceService {
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',
       isAnimated: false,
+      logoColor: 'grey',
+    },
+    {
+      id: 6,
+      name: 'Désert',
+      mode: 'desert-theme',
+      isLight: false,
+      color: 'linear-gradient(0deg, #59246a, #b54e41, #fab581)',
+      border: 'black',
+      isAnimated: false,
+      logoColor: 'white',
     },
   ];
 

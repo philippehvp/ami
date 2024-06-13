@@ -26,3 +26,39 @@
   font-family: "Material Icons";
   font-size: 1.5em;
 }
+
+.white {
+  #W,
+  #I,
+  #N,
+  #volant,
+  #B,
+  #A,
+  #D {
+    fill: white;
+  }
+}
+
+.black {
+  #W,
+  #I,
+  #N,
+  #volant,
+  #B,
+  #A,
+  #D {
+    fill: black;
+  }
+}
+
+.grey {
+  #W,
+  #I,
+  #N,
+  #volant,
+  #B,
+  #A,
+  #D {
+    fill: #bcc0c3;
+  }
+}

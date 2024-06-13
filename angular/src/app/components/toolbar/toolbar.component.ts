@@ -86,6 +86,10 @@ export class ToolbarComponent implements OnInit {
     return this.persistenceService.isToolbarLimitedMode;
   }
 
+  public get logoClass(): string {
+    return this.persistenceService.theme.logoColor;
+  }
+
   public toggleCompactMode() {
     this.persistenceService.isCompactMode =
       !this.persistenceService.isCompactMode;

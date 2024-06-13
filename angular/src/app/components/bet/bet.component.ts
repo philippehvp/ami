@@ -152,7 +152,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     combineLatest([this.isOffline$, this.better$])
       .pipe(
         takeUntil(this.destroy$),
-        filter(([isOffline, better]) => !!isOffline && !!better),
+        filter(([isOffline, better]) => isOffline !== undefined && !!better),
         map(([isOffline, better]) => {
           if (isOffline) {
             const config: MatDialogConfig<IInformationDialogConfig> = {

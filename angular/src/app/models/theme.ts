@@ -7,4 +7,5 @@ export interface ITheme {
   color?: string;
   border?: string;
   classes?: string[];
+  logoColor: string;
 }
