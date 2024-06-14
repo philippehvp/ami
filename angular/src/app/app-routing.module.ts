@@ -20,7 +20,14 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    data: { isRelog: false },
   },
+  {
+    path: 'relog',
+    component: LoginComponent,
+    data: { isRelog: true },
+  },
+
   {
     path: 'create-better',
     component: CreateBetterComponent,
@@ -66,6 +73,7 @@ const routes: Routes = [
   {
     path: '**',
     component: LoginComponent,
+    data: { isRelog: false },
   },
 ];
 

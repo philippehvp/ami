@@ -149,7 +149,7 @@ export class PersistenceService {
       name: 'Désert',
       mode: 'desert-theme',
       isLight: false,
-      color: 'linear-gradient(0deg, #59246a, #b54e41, #fab581)',
+      color: 'linear-gradient(0deg, #fab581, #b54e41, #59246a)',
       border: 'black',
       isAnimated: false,
       logoColor: 'white',

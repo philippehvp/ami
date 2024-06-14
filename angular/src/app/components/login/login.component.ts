@@ -14,11 +14,12 @@ import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
-import { Subject, map } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetService } from 'src/app/services/rest/bet.service';
 import { CommonService } from 'src/app/services/common.service';
 import { ThemeService } from 'src/app/services/theme.service';
+import { ActivatedRoute } from '@angular/router';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -39,13 +40,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   private betService = inject(BetService);
   private themeService = inject(ThemeService);
   private renderer = inject(Renderer2);
+  private route = inject(ActivatedRoute);
 
   public formGroup!: FormGroup;
 
   public passwordVisibility: boolean = false;
-  private destroy$!: Subject<boolean>;
-
   public canCreateBetter!: boolean;
+
+  private destroy$!: Subject<boolean>;
+  private _isRelog!: boolean;
 
   public get disabledLoginButton(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
@@ -53,8 +56,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     return name === '' || password === '' || password.length < 4;
   }
 
+  public get isRelog(): boolean {
+    if (this._isRelog) return this._isRelog;
+
+    return false;
+  }
+
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
+
+    this.route.data
+      .pipe(
+        takeUntil(this.destroy$),
+        map((route) => {
+          this._isRelog = route && route['isRelog'] === true;
+        })
+      )
+      .subscribe();
 
     this.themeService.setTheme(
       this.renderer,
@@ -69,6 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.betService
       .canCreateBetter()
       .pipe(
+        takeUntil(this.destroy$),
         map((canCreateBetter) => {
           this.canCreateBetter = canCreateBetter.canCreateBetter;
         })

@@ -153,7 +153,7 @@ export class SidenavComponent implements OnInit {
       window.localStorage.removeItem('settings');
     }
 
-    this.persistenceService.navigate('login');
+    this.persistenceService.navigate('relog');
   }
 
   public eraseBets(better: IBetter | null) {
