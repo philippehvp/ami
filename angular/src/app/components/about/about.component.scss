@@ -9,6 +9,8 @@
 .about-panel {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  background-color: white;
 }
 
 .title {
@@ -50,29 +52,29 @@
   max-width: 80px;
 }
 
-.logo-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-block: 2em;
+// .logo-panel {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding-block: 2em;
 
-  .logo-row {
-    display: flex;
-    flex-direction: row;
-  }
+//   .logo-row {
+//     display: flex;
+//     flex-direction: row;
+//   }
 
-  .logo {
-    display: flex;
-    width: 120px;
-    height: 90px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-}
+//   .logo {
+//     display: flex;
+//     width: 120px;
+//     height: 90px;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+//   }
+// }
 
 .intro-panel,
-.logo-panel,
+//.logo-panel,
 .credits-panel {
   background-color: white;
   color: black;
@@ -83,7 +85,6 @@
   flex-direction: column;
   width: 100%;
   padding-block: 2em;
-  background-color: #e3effb;
   color: black;
 
   .logo-row {

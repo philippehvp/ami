@@ -61,7 +61,6 @@ export class ToolbarComponent implements OnInit {
 
   public toggleAbout() {
     if (this.persistenceService.aboutnav) {
-      this.persistenceService.shuffleCredits();
       this.persistenceService.aboutnav.open();
     }
   }

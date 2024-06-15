@@ -10,62 +10,58 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 export class AboutComponent {
   private persistenceService = inject(PersistenceService);
 
-  public get credits(): string[] {
-    return this.persistenceService.credits;
-  }
+  // public logos: ILogo[][] = [
+  //   [
+  //     {
+  //       icon: 'logo-phocea-light',
+  //       label: 'Phocea Light',
+  //       isLightAndDark: false,
+  //       class: 'icon-large',
+  //       link: 'https://www.phocealight.fr/',
+  //     },
+  //     {
+  //       icon: 'logo-ffbad',
+  //       label: 'FFBAD',
+  //       isLightAndDark: false,
+  //       class: 'icon-large',
+  //       link: 'https://www.ffbad.org/',
+  //     },
+  //   ],
+  //   [
+  //     {
+  //       icon: 'logo-balotti',
+  //       label: 'Balotti',
+  //       isLightAndDark: false,
+  //       class: 'icon-small',
+  //       link: 'https://balotti.eu/',
+  //     },
 
-  public logos: ILogo[][] = [
-    [
-      {
-        icon: 'logo-phocea-light',
-        label: 'Phocea Light',
-        isLightAndDark: false,
-        class: 'icon-large',
-        link: 'https://www.phocealight.fr/',
-      },
-      {
-        icon: 'logo-ffbad',
-        label: 'FFBAD',
-        isLightAndDark: false,
-        class: 'icon-large',
-        link: 'https://www.ffbad.org/',
-      },
-    ],
-    [
-      {
-        icon: 'logo-balotti',
-        label: 'Balotti',
-        isLightAndDark: false,
-        class: 'icon-small',
-        link: 'https://balotti.eu/',
-      },
+  //     {
+  //       icon: 'logo-liguesud',
+  //       label: 'Ligue Sud',
+  //       isLightAndDark: false,
+  //       class: 'icon-large',
+  //       link: 'http://www.liguepacabad.org/',
+  //     },
+  //   ],
+  //   [
+  //     {
+  //       icon: 'logo-badventure',
+  //       label: 'Badventure',
+  //       isLightAndDark: false,
+  //       class: 'icon-large',
+  //       link: 'https://www.badventure.fr/',
+  //     },
 
-      {
-        icon: 'logo-liguesud',
-        label: 'Ligue Sud',
-        isLightAndDark: false,
-        class: 'icon-large',
-        link: 'http://www.liguepacabad.org/',
-      },
-    ],
-    [
-      {
-        icon: 'logo-badventure',
-        label: 'Badventure',
-        isLightAndDark: false,
-        class: 'icon-large',
-        link: 'https://www.badventure.fr/',
-      },
-
-      {
-        icon: 'logo-ville-istres',
-        label: "Ville d'Istres",
-        isLightAndDark: false,
-        class: 'icon-large',
-        link: 'https://www.istres.fr/',
-      },
-    ],
-  ];
+  //     {
+  //       icon: 'logo-ville-istres',
+  //       label: "Ville d'Istres",
+  //       isLightAndDark: false,
+  //       class: 'icon-large',
+  //       link: 'https://www.istres.fr/',
+  //     },
+  //   ],
+  // ];
 
   public socials: ILogo[] = [
     {

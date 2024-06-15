@@ -301,32 +301,4 @@ export class PersistenceService {
 
     this.router.navigate([link]);
   }
-
-  private _originalCredits: string[] = ['Philippe HVP', 'Clémence Z'];
-
-  private _credits: string[] = [];
-
-  public get credits(): string[] {
-    return this._credits;
-  }
-
-  public shuffleCredits() {
-    // On mélange les ligne du tableau pour afficher les remerciements dans un ordre aléatoire à chaque ouverture
-    // du panneau A propos de
-    // Ceci dit, on mettra toujours Stéphane N en début de liste
-
-    // A chaque mélange, on repart de la version sans Stéphane N
-    this._credits = [...this._originalCredits];
-
-    // On mélange la liste
-    // for (let i: number = this._credits.length - 1; i > 0; i--) {
-    //   const j = Math.floor(Math.random() * (i + 1));
-    //   const temp = this._credits[i];
-    //   this._credits[i] = this._credits[j];
-    //   this._credits[j] = temp;
-    // }
-
-    // On ajoute Stéphane N au début
-    this._credits = ['Stéphane N', ...this._credits];
-  }
 }
