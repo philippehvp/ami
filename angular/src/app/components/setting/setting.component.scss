@@ -42,7 +42,19 @@
     width: 1.5em;
     height: 1.5em;
     margin-right: 0.5em;
-    border: 2px solid white;
+    border-radius: 50%;
+  }
+
+  .color-active::before {
+    transform: translateX(-50%);
+    border-radius: 100%;
+    position: absolute;
+
+    bottom: 0.5em;
+    margin-left: 0.75em;
+    content: "";
+    height: 8px;
+    width: 8px;
   }
 }
 

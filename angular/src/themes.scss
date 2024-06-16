@@ -1,4 +1,6 @@
 .isb-theme {
+  $color: white;
+
   .mat-drawer-container {
     background-position: bottom right;
     background-repeat: no-repeat;
@@ -44,6 +46,10 @@
   .thumb {
     background-color: #3f2f7d;
   }
+
+  .color-active::before {
+    background-color: #f28e16;
+  }
 }
 
 .circle-theme {
@@ -82,6 +88,7 @@
     background-color: black;
   }
 
+  // Spécifique
   .circle-panel {
     position: absolute;
     z-index: -1;
@@ -243,6 +250,8 @@
     background-color: #859082;
   }
 
+  // Spécifique
+
   .wave-panel {
     z-index: -1;
     position: absolute;
@@ -353,6 +362,12 @@
   .thumb {
     background-color: #272896;
   }
+
+  .color-active::before {
+    background-color: #818ee2;
+  }
+
+  // Spécifique
 
   .bubble-panel {
     opacity: 0.5;
@@ -475,6 +490,12 @@
     background-color: $color;
     color: $background;
   }
+
+  .color-active::before {
+    background-color: $color;
+  }
+
+  // Spécifique
 
   .betting {
     background-position: top center;
@@ -665,6 +686,12 @@
   .thumb {
     background-color: #b54e41;
   }
+
+  .color-active::before {
+    background-color: #fab581;
+  }
+
+  // Spécifique
 
   .setting {
     .label,
