@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private destroy$!: Subject<boolean>;
   private _isRelog!: boolean;
+  private _splashClass: string = 'splash';
 
   public get disabledLoginButton(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
@@ -60,6 +61,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this._isRelog) return this._isRelog;
 
     return false;
+  }
+
+  public get splashClass(): string {
+    return this._splashClass;
   }
 
   public ngOnInit() {
@@ -149,6 +154,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  public enter() {
+    this._splashClass += ' fadeOut';
   }
 
   public createBetter() {
