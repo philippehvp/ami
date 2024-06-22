@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { BetActions } from './store/action/bet.action';
 import { CommonService } from './services/common.service';
 import { BetState } from './store/state/bet.state';
-import { Observable } from 'rxjs';
+import { Observable, interval } from 'rxjs';
 import { IBetter, ISettingRaw } from './models/better';
 import { PersistenceService } from './services/persistence.service';
 import { MatSidenav } from '@angular/material/sidenav';

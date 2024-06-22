@@ -1,7 +1,6 @@
 .close {
   width: 100%;
   padding-block: 1em;
-  text-align: center;
   background-color: white;
   color: black;
 }
@@ -11,24 +10,19 @@
   flex-direction: column;
   height: 100vh;
   background-color: white;
+  text-align: center;
+  justify-items: center;
 }
 
 .title {
-  display: flex;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.2em;
-  line-height: 2em;
+  display: grid;
+  justify-items: center;
+  font-size: 1.5em;
 }
 
 .intro-panel {
   display: flex;
   flex-direction: column;
-  text-align: center;
-
-  .title {
-    font-size: 1.5em;
-  }
 
   p {
     line-height: 2em;
@@ -52,29 +46,7 @@
   max-width: 80px;
 }
 
-// .logo-panel {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding-block: 2em;
-
-//   .logo-row {
-//     display: flex;
-//     flex-direction: row;
-//   }
-
-//   .logo {
-//     display: flex;
-//     width: 120px;
-//     height: 90px;
-//     flex-direction: column;
-//     align-items: center;
-//     justify-content: center;
-//   }
-// }
-
 .intro-panel,
-//.logo-panel,
 .credits-panel {
   background-color: white;
   color: black;
@@ -108,8 +80,7 @@
 }
 
 .credits-panel {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   align-items: center;
   padding-top: 2em;
 

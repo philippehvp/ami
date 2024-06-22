@@ -78,9 +78,6 @@ hr {
   .isb {
     background-image: url("~/assets/img/logos/logo-isb-text.png");
   }
-  .phocea {
-    background-image: url("~/assets/img/logos/logo-phocea-light.png");
-  }
 }
 
 @media (max-width: 768px) {
@@ -91,11 +88,7 @@ hr {
 
     .isb {
       background-size: 140px;
-      background-position: 75%;
-    }
-    .phocea {
-      background-size: 90px;
-      background-position: 25%;
+      background-position: 50%;
     }
   }
 }
@@ -108,11 +101,7 @@ hr {
 
     .isb {
       background-size: 140px;
-      background-position: 95%;
-    }
-    .phocea {
-      background-size: 90px;
-      background-position: 5%;
+      background-position: 50%;
     }
   }
 }
