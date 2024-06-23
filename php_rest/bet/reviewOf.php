@@ -72,7 +72,7 @@
         " LEFT JOIN   cpi_point" .
         "             ON    cpi_better.id = cpi_point.better_id" .
         "                   AND   cpi_category.id = cpi_point.category_id" .
-        " JOIN        (" .
+        " LEFT JOIN   (" .
         "                 SELECT                cpi_category.id AS category_id," .
         "                                       CASE" .
         "                                         WHEN    cpi_bet.winner_player_id IS NULL" .
@@ -113,6 +113,7 @@
         "             ON    cpi_category.id = results.category_id" .
         " WHERE		    cpi_better.randomKey = ?" .
         " ORDER BY    cpi_contest.id, cpi_category.id";
+      
       $req = $db->prepare($query);
       $req->execute(array($randomKey));
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
