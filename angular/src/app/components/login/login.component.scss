@@ -1,15 +1,17 @@
 @import "./keyframes";
 
 .fadeOut {
-  animation-name: fadeOut;
-  animation-duration: 2s;
-  animation-delay: 9s;
-  animation-fill-mode: forwards;
+  animation-name: fadeOut, backgroundAnimation;
+  animation-duration: 2s, 9s;
+  animation-delay: 9s, 0s;
+  animation-fill-mode: forwards, forwards;
+  animation-direction: alternate;
 
-  -webkit-animation-name: fadeOut;
-  -webkit-animation-duration: 2s;
-  -webkit-animation-delay: 9s;
-  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-name: fadeOut, backgroundAnimation;
+  -webkit-animation-duration: 2s, 9s;
+  -webkit-animation-delay: 9s, 0s;
+  -webkit-animation-fill-mode: forwards, forwards;
+  -webkit-animation-direction: alternate;
 }
 
 .showMe {
@@ -38,7 +40,7 @@
   display: grid;
   height: 100vh;
 
-  background: radial-gradient(circle at center, #9466a7, #4a3054);
+  background: radial-gradient(circle at var(--x) var(--y), #9466a7, #4a3054);
 
   .winabad,
   .isb {
