@@ -1,63 +1,50 @@
-@-webkit-keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-    height: 100vh;
-  }
-
-  75% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-    height: 0;
-    display: none;
-  }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-    height: 100vh;
-  }
-
-  75% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-    height: 0;
-    display: none;
-  }
-}
+@import "./keyframes";
 
 .fadeOut {
-  -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
-
-  -webkit-animation-duration: 4.5s;
-  animation-duration: 4.5s;
-  -webkit-animation-fill-mode: forwards;
+  animation-duration: 2s;
+  animation-delay: 9s;
   animation-fill-mode: forwards;
+
+  -webkit-animation-name: fadeOut;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-delay: 9s;
+  -webkit-animation-fill-mode: forwards;
 }
 
-.splash {
+.showMe {
+  animation-name: showMe;
+  animation-duration: 4s;
+  animation-delay: 5s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: showMe;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-delay: 5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.showAndHideMe {
+  animation-name: showAndHideMe;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: showAndHideMe;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.intro {
   display: grid;
   height: 100vh;
 
   background: radial-gradient(circle at center, #9466a7, #4a3054);
 
-  .winabad {
+  .winabad,
+  .isb {
     display: grid;
+    grid-template-rows: 100vh;
+
     align-items: center;
     justify-items: center;
   }
