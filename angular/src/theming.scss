@@ -35,6 +35,39 @@ $md-palette-isb: (
   ),
 );
 
+$md-palette-wave: (
+  50: #f0f2f0,
+  100: #dadeda,
+  200: #c2c8c1,
+  300: #aab1a8,
+  400: #97a195,
+  500: #859082,
+  600: #7d887a,
+  700: #727d6f,
+  800: #687365,
+  900: #556152,
+  A100: #d6fccc,
+  A200: #aefa9c,
+  A400: #83ff63,
+  A700: #6eff4a,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
 $md-palette-bubble: (
   50: #e9ecfa,
   100: #c9cef2,
@@ -101,6 +134,39 @@ $md-palette-sky: (
   ),
 );
 
+$md-palette-circle: (
+  50: #e0e0e0,
+  100: #b3b3b3,
+  200: #808080,
+  300: #4d4d4d,
+  400: #262626,
+  500: #000000,
+  600: #000000,
+  700: #000000,
+  800: #000000,
+  900: #000000,
+  A100: #a6a6a6,
+  A200: #8c8c8c,
+  A400: #737373,
+  A700: #666666,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
 $md-palette-desert: (
   50: #f6eae8,
   100: #e9cac6,
@@ -139,6 +205,16 @@ $isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
 $isb-warn: mat-palette($md-palette-isb);
 $isb-theme: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
 
+$circle-primary: mat-palette($md-palette-circle, 500);
+$circle-accent: mat-palette($md-palette-circle, A200, A100, A400);
+$circle-warn: mat-palette($md-palette-circle);
+$circle-theme: mat-light-theme($circle-primary, $circle-accent, $circle-warn);
+
+$wave-primary: mat-palette($md-palette-wave, 100);
+$wave-accent: mat-palette($md-palette-wave, A200, A100, A400);
+$wave-warn: mat-palette($md-palette-wave);
+$wave-theme: mat-light-theme($wave-primary, $wave-accent, $wave-warn);
+
 $bubble-primary: mat-palette($md-palette-bubble, 300);
 $bubble-accent: mat-palette($md-palette-bubble, A400);
 $bubble-warn: mat-palette($md-palette-bubble, A200);
@@ -156,6 +232,14 @@ $desert-theme: mat-light-theme($desert-primary, $desert-accent, $desert-warn);
 
 .isb-theme {
   @include angular-material-theme($isb-theme);
+}
+
+.circle-theme {
+  @include angular-material-theme($circle-theme);
+}
+
+.wave-theme {
+  @include angular-material-theme($wave-theme);
 }
 
 .bubble-theme {

@@ -1,7 +1,40 @@
-@import "./fadeout";
-@import "./showandhideme";
-@import "./showme";
-@import "./backgroundanimation";
+@import "./keyframes";
+
+.fadeOut {
+  animation-name: fadeOut, backgroundAnimation;
+  animation-duration: 2s, 9s;
+  animation-delay: 9s, 0s;
+  animation-fill-mode: forwards, forwards;
+  animation-direction: alternate;
+
+  -webkit-animation-name: fadeOut, backgroundAnimation;
+  -webkit-animation-duration: 2s, 9s;
+  -webkit-animation-delay: 9s, 0s;
+  -webkit-animation-fill-mode: forwards, forwards;
+  -webkit-animation-direction: alternate;
+}
+
+.showMe {
+  animation-name: showMe;
+  animation-duration: 4s;
+  animation-delay: 5s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: showMe;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-delay: 5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.showAndHideMe {
+  animation-name: showAndHideMe;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: showAndHideMe;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-fill-mode: forwards;
+}
 
 .intro {
   display: grid;
