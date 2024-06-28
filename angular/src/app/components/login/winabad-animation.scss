@@ -1,4 +1,4 @@
-@-webkit-keyframes showAndHideMe {
+@-webkit-keyframes winabadAnimation {
   0% {
     opacity: 0;
   }
@@ -17,7 +17,7 @@
   }
 }
 
-@keyframes showAndHideMe {
+@keyframes winabadAnimation {
   0% {
     opacity: 0;
   }
@@ -36,12 +36,12 @@
   }
 }
 
-.showAndHideMe {
-  animation-name: showAndHideMe;
+.winabadAnimation {
+  animation-name: winabadAnimation;
   animation-duration: 5s;
   animation-fill-mode: forwards;
 
-  -webkit-animation-name: showAndHideMe;
+  -webkit-animation-name: winabadAnimation;
   -webkit-animation-duration: 5s;
   -webkit-animation-fill-mode: forwards;
 }

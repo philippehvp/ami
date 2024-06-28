@@ -1,21 +1,51 @@
-@import "./fadeout";
-@import "./showandhideme";
-@import "./showme";
-@import "./backgroundanimation";
+@import "./intro-animation";
+@import "./winabad-animation";
+@import "./isb-animation";
+@import "./enter-animation.scss";
+
+@property --x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 25%;
+}
+
+@property --y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 75%;
+}
 
 .intro {
   display: grid;
   height: 100vh;
+  grid-template-rows: repeat(1, 1fr);
+  grid-template-columns: 100%;
 
   background: radial-gradient(circle at var(--x) var(--y), #9466a7, #4a3054);
 
   .winabad,
   .isb {
     display: grid;
-    grid-template-rows: 100vh;
-
-    align-items: center;
+    grid-row: 1 / -1;
+    align-self: center;
     justify-items: center;
+  }
+
+  .enter {
+    display: inline;
+    position: absolute;
+    width: 100%;
+    top: 65vh;
+    text-align: center;
+    color: white;
+    opacity: 0;
+    vertical-align: middle;
+    line-height: 1;
+
+    .material-icons-outlined {
+      vertical-align: middle;
+      font-size: 3em;
+    }
   }
 }
 

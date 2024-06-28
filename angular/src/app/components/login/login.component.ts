@@ -50,6 +50,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private destroy$!: Subject<boolean>;
   private _isRelog!: boolean;
 
+  private _introClass: string = 'intro backgroundAnimation';
+
   public get disabledLoginButton(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
     const password: string = this.formGroup?.get(['password'])?.value || '';
@@ -60,6 +62,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this._isRelog) return this._isRelog;
 
     return false;
+  }
+
+  public get introClass(): string {
+    return this._introClass;
   }
 
   public ngOnInit() {
@@ -165,5 +171,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public toggleVisibility() {
     this.passwordVisibility = !this.passwordVisibility;
+  }
+
+  public enter() {
+    this._introClass = 'intro introAnimation';
   }
 }

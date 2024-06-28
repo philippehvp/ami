@@ -1,4 +1,4 @@
-@-webkit-keyframes showMe {
+@-webkit-keyframes isbAnimation {
   0% {
     opacity: 0;
   }
@@ -12,7 +12,7 @@
   }
 }
 
-@keyframes showMe {
+@keyframes isbAnimation {
   0% {
     opacity: 0;
   }
@@ -26,13 +26,13 @@
   }
 }
 
-.showMe {
-  animation-name: showMe;
+.isbAnimation {
+  animation-name: isbAnimation;
   animation-duration: 4s;
   animation-delay: 5s;
   animation-fill-mode: forwards;
 
-  -webkit-animation-name: showMe;
+  -webkit-animation-name: isbAnimation;
   -webkit-animation-duration: 4s;
   -webkit-animation-delay: 5s;
   -webkit-animation-fill-mode: forwards;

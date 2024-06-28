@@ -1,5 +1,5 @@
-<div *ngIf="!isRelog" class="intro fadeOut">
-  <div class="winabad showAndHideMe">
+<div *ngIf="!isRelog" [class]="introClass">
+  <div class="winabad winabadAnimation">
     <svg
       width="80%"
       viewBox="0 0 281 62"
@@ -84,7 +84,7 @@
     </svg>
   </div>
 
-  <div class="isb showMe">
+  <div class="isb isbAnimation">
     <svg
       width="80%"
       viewBox="0 0 3123 948"
@@ -166,6 +166,11 @@
         />
       </defs>
     </svg>
+  </div>
+
+  <div class="enter enterAnimation" (click)="enter()">
+    Entrer&nbsp;
+    <span class="material-icons-outlined"> arrow_circle_right </span>
   </div>
 </div>
 

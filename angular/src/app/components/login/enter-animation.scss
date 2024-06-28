@@ -1,0 +1,31 @@
+@-webkit-keyframes enterAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes enterAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.enterAnimation {
+  animation-name: enterAnimation;
+  animation-duration: 2s;
+  animation-delay: 9s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: enterAnimation;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-delay: 9s;
+  -webkit-animation-fill-mode: forwards;
+}
