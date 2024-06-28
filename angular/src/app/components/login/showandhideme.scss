@@ -1,0 +1,47 @@
+@-webkit-keyframes showAndHideMe {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes showAndHideMe {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.showAndHideMe {
+  animation-name: showAndHideMe;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: showAndHideMe;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-fill-mode: forwards;
+}
