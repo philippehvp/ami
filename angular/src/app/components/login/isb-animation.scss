@@ -1,39 +1,35 @@
-@-webkit-keyframes isbAnimation {
-  0% {
-    opacity: 0;
-  }
+#isb {
+  animation-name: fadeIn;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
 
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-  }
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-fill-mode: forwards;
 }
 
-@keyframes isbAnimation {
-  0% {
-    opacity: 0;
-  }
+#presente {
+  opacity: 0;
 
-  50% {
-    opacity: 1;
-  }
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  animation-delay: 2s;
+  animation-fill-mode: forwards;
 
-  100% {
-    opacity: 1;
-  }
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-delay: 2s;
+  -webkit-animation-fill-mode: forwards;
 }
 
 .isbAnimation {
-  animation-name: isbAnimation;
-  animation-duration: 4s;
+  animation-name: fadeOut;
+  animation-duration: 2s;
   animation-delay: 5s;
   animation-fill-mode: forwards;
 
-  -webkit-animation-name: isbAnimation;
-  -webkit-animation-duration: 4s;
+  -webkit-animation-name: fadeOut;
+  -webkit-animation-duration: 2s;
   -webkit-animation-delay: 5s;
   -webkit-animation-fill-mode: forwards;
 }

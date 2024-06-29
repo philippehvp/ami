@@ -76,12 +76,12 @@
 
 .introAnimation {
   animation-name: introAnimation;
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-fill-mode: forwards;
   animation-direction: alternate;
 
   -webkit-animation-name: introAnimation;
-  -webkit-animation-duration: 2s;
+  -webkit-animation-duration: 1s;
   -webkit-animation-fill-mode: forwards;
   -webkit-animation-direction: alternate;
 }
@@ -91,9 +91,11 @@
   animation-duration: 9s;
   animation-fill-mode: forwards;
   animation-direction: alternate;
+  animation-iteration-count: infinite;
 
   -webkit-animation-name: backgroundAnimation;
   -webkit-animation-duration: 9s;
   -webkit-animation-fill-mode: forwards;
   -webkit-animation-direction: alternate;
+  --webkit-animation-iteration-count: infinite;
 }
