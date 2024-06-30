@@ -1,24 +1,14 @@
 #isb {
-  animation-name: fadeIn;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
-
-  -webkit-animation-name: fadeIn;
-  -webkit-animation-duration: 3s;
-  -webkit-animation-fill-mode: forwards;
-}
-
-#presente {
   opacity: 0;
 
   animation-name: fadeIn;
   animation-duration: 2s;
-  animation-delay: 2s;
+  animation-delay: 1s;
   animation-fill-mode: forwards;
 
   -webkit-animation-name: fadeIn;
   -webkit-animation-duration: 2s;
-  -webkit-animation-delay: 2s;
+  -webkit-animation-delay: 1s;
   -webkit-animation-fill-mode: forwards;
 }
 
