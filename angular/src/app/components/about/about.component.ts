@@ -43,7 +43,11 @@ export class AboutComponent {
     }
   }
 
-  public openLink(logo: ILogo) {
-    window.open(logo.link, '_blank');
+  public openLogoLink(logoOrLink: ILogo) {
+    window.open((logoOrLink as ILogo).link, '_blank');
+  }
+
+  public openLink(link: string) {
+    window.open(link, '_blank');
   }
 }

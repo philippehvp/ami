@@ -79,6 +79,17 @@
   }
 }
 
+.sponsor-panel {
+  display: grid;
+  align-items: center;
+  padding-block: 2em;
+
+  .logo {
+    display: block;
+    margin-block: 0.5em;
+  }
+}
+
 .credits-panel {
   display: grid;
   align-items: center;

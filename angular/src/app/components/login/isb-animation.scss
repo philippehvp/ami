@@ -12,14 +12,28 @@
   -webkit-animation-fill-mode: forwards;
 }
 
+#outly {
+  opacity: 0;
+
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  animation-delay: 4s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-delay: 4s;
+  -webkit-animation-fill-mode: forwards;
+}
+
 .isbAnimation {
   animation-name: fadeOut;
   animation-duration: 2s;
-  animation-delay: 5s;
+  animation-delay: 8s;
   animation-fill-mode: forwards;
 
   -webkit-animation-name: fadeOut;
   -webkit-animation-duration: 2s;
-  -webkit-animation-delay: 5s;
+  -webkit-animation-delay: 8s;
   -webkit-animation-fill-mode: forwards;
 }
