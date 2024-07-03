@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private destroy$!: Subject<boolean>;
   private _isRelog!: boolean;
+  private _isISBShown: boolean = true;
 
   private _introClass: string = 'intro backgroundAnimation';
 
@@ -68,8 +69,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this._introClass;
   }
 
+  public get isISBShown(): boolean {
+    return this._isISBShown;
+  }
+
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
+
+    if (!this._isRelog) {
+      setTimeout(() => {
+        this._isISBShown = false;
+      }, 11000);
+    }
 
     this.route.data
       .pipe(

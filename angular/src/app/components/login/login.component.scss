@@ -1,5 +1,5 @@
-@import "./keyframes.scss";
-@import "./background-animation.scss";
+@import "./keyframes";
+@import "./background-animation";
 @import "./isb-animation";
 @import "./winabad-animation";
 @import "./intro-animation";
@@ -30,6 +30,7 @@
     grid-row: 1 / -1;
     align-self: center;
     justify-items: center;
+    z-index: 1;
   }
 }
 

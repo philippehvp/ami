@@ -1,11 +1,11 @@
 #winabad {
   opacity: 0;
-
   animation-name: fadeIn;
   animation-duration: 2s;
   animation-delay: 11s;
   animation-fill-mode: forwards;
 
+  -webkit-opacity: 0;
   -webkit-animation-name: fadeIn;
   -webkit-animation-duration: 2s;
   -webkit-animation-delay: 11s;
@@ -14,12 +14,12 @@
 
 #entrer {
   opacity: 0;
-
   animation-name: fadeIn;
   animation-duration: 2s;
   animation-delay: 14s;
   animation-fill-mode: forwards;
 
+  -webkit-opacity: 0;
   -webkit-animation-name: fadeIn;
   -webkit-animation-duration: 2s;
   -webkit-animation-delay: 14s;
