@@ -148,10 +148,8 @@ export class SidenavComponent implements OnInit {
       this.persistenceService.themes[0]
     );
 
-    if (!CommonService.isProduction) {
-      window.localStorage.removeItem('better');
-      window.localStorage.removeItem('settings');
-    }
+    window.localStorage.removeItem('better');
+    window.localStorage.removeItem('settings');
 
     this.persistenceService.navigate('relog');
   }

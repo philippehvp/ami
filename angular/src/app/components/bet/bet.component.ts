@@ -180,13 +180,11 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.persistenceService.theme
               );
 
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem('better', JSON.stringify(better));
-                window.localStorage.setItem(
-                  'settings',
-                  JSON.stringify(this.persistenceService.getSettings())
-                );
-              }
+              window.localStorage.setItem('better', JSON.stringify(better));
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
             } else {
               this.persistenceService.tutorialStep = 1;
             }
@@ -334,13 +332,11 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private storeBetterInLocalStorage(better: IBetter) {
-    if (!CommonService.isProduction) {
-      window.localStorage.setItem('better', JSON.stringify(better));
-      window.localStorage.setItem(
-        'settings',
-        JSON.stringify(this.persistenceService.getSettings())
-      );
-    }
+    window.localStorage.setItem('better', JSON.stringify(better));
+    window.localStorage.setItem(
+      'settings',
+      JSON.stringify(this.persistenceService.getSettings())
+    );
   }
 
   public get likePanelClass(): string {

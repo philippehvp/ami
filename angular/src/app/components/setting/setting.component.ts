@@ -54,12 +54,10 @@ export class SettingComponent {
               this.persistenceService.isClubName =
                 !this.persistenceService.isClubName;
 
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'settings',
-                  JSON.stringify(this.persistenceService.getSettings())
-                );
-              }
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
             }
           })
         )
@@ -88,12 +86,10 @@ export class SettingComponent {
               this.persistenceService.isFirstnameVisible =
                 !this.persistenceService.isFirstnameVisible;
 
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'settings',
-                  JSON.stringify(this.persistenceService.getSettings())
-                );
-              }
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
             }
           })
         )
@@ -122,12 +118,10 @@ export class SettingComponent {
               this.persistenceService.isPlayerRanking =
                 !this.persistenceService.isPlayerRanking;
 
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'settings',
-                  JSON.stringify(this.persistenceService.getSettings())
-                );
-              }
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
             }
           })
         )
@@ -152,12 +146,10 @@ export class SettingComponent {
               this.persistenceService.isAutoNavigation =
                 !this.persistenceService.isAutoNavigation;
 
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'settings',
-                  JSON.stringify(this.persistenceService.getSettings())
-                );
-              }
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
 
               if (this.persistenceService.isAutoNavigation) {
                 this.store.dispatch([
@@ -198,12 +190,10 @@ export class SettingComponent {
               this.persistenceService.isPlayerReverse =
                 !this.persistenceService.isPlayerReverse;
 
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'settings',
-                  JSON.stringify(this.persistenceService.getSettings())
-                );
-              }
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
             }
           })
         )
@@ -257,12 +247,10 @@ export class SettingComponent {
                 this.persistenceService.theme
               );
 
-              if (!CommonService.isProduction) {
-                window.localStorage.setItem(
-                  'settings',
-                  JSON.stringify(this.persistenceService.getSettings())
-                );
-              }
+              window.localStorage.setItem(
+                'settings',
+                JSON.stringify(this.persistenceService.getSettings())
+              );
             }
           })
         )

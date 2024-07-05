@@ -36,35 +36,30 @@ export class AppComponent implements AfterViewInit {
   }
 
   constructor() {
-    if (CommonService.isProduction) {
-      this.persistenceService.navigate('login');
-    } else {
-      const better: string = window.localStorage.getItem('better') || '';
-      const settings: string = window.localStorage.getItem('settings') || '';
+    const better: string = window.localStorage.getItem('better') || '';
+    const settings: string = window.localStorage.getItem('settings') || '';
 
-      if (better) {
-        const betterRestored: IBetter = JSON.parse(better);
-        this.store.dispatch([new BetActions.SetBetter(betterRestored)]);
+    if (better) {
+      const betterRestored: IBetter = JSON.parse(better);
+      this.store.dispatch([new BetActions.SetBetter(betterRestored)]);
 
-        if (settings) {
-          const settingsRaw: ISettingRaw = JSON.parse(settings);
-          this.persistenceService.restoreSettings(settingsRaw);
-        }
-
-        this.persistenceService.isEvaluationDone =
-          betterRestored.evaluation > 0;
-
-        if (betterRestored.endBetDate) {
-          // Les données restaurées par cookies remontent des champs en chaîne de caractères
-          if (new Date(betterRestored.endBetDate) < new Date()) {
-            this.persistenceService.navigate('better-ranking');
-          } else {
-            this.persistenceService.navigate('bet');
-          }
-        }
-      } else {
-        this.persistenceService.navigate('login');
+      if (settings) {
+        const settingsRaw: ISettingRaw = JSON.parse(settings);
+        this.persistenceService.restoreSettings(settingsRaw);
       }
+
+      this.persistenceService.isEvaluationDone = betterRestored.evaluation > 0;
+
+      if (betterRestored.endBetDate) {
+        // Les données restaurées par cookies remontent des champs en chaîne de caractères
+        if (new Date(betterRestored.endBetDate) < new Date()) {
+          this.persistenceService.navigate('better-ranking');
+        } else {
+          this.persistenceService.navigate('bet');
+        }
+      }
+    } else {
+      this.persistenceService.navigate('login');
     }
   }
 
