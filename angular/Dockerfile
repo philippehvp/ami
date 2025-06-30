@@ -1,8 +1,8 @@
-FROM node:latest
+FROM node:20
 
 WORKDIR /src
 COPY package*.json ./
-RUN npm install -g npm@9.6.7
+RUN npm install -g npm@latest
 RUN npm install
 RUN npm install @ngxs/store @angular/material --save
 
