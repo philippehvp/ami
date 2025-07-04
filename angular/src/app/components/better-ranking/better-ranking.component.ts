@@ -4,9 +4,10 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  inject,
 } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
 import {
   Observable,
   Subject,
@@ -17,17 +18,19 @@ import {
 } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterRanking, IRanking } from 'src/app/models/better-ranking';
-import { BetState } from 'src/app/store/state/bet.state';
+import {
+  IInformationDialogConfig,
+  InformationDialogType,
+} from 'src/app/models/information-dialog-type';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { ActivatedRoute } from '@angular/router';
-import { IBet } from 'src/app/models/bet';
 import { ThemeService } from 'src/app/services/theme.service';
+import { BetActions } from 'src/app/store/action/bet.action';
+import { BetState } from 'src/app/store/state/bet.state';
+import { InformationComponent } from '../information/information.component';
 
 type TData = {
   better: IBetter;
-  bets: IBet[];
-  bettersRanking: IBetterRanking;
+  bettersRanking: IBetterRanking | undefined;
 };
 
 @Component({
@@ -38,20 +41,9 @@ type TData = {
 export class BetterRankingComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  private store = inject(Store);
-  private persistenceService = inject(PersistenceService);
-  private renderer = inject(Renderer2);
-  private themeService = inject(ThemeService);
-  private route = inject(ActivatedRoute);
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
-
-  @Select(BetState.bettersRanking)
-  bettersRanking$!: Observable<IBetterRanking>;
-
-  @Select(BetState.bets)
-  bets$!: Observable<IBet[]>;
+  public better$!: Observable<IBetter>;
+  public bettersRanking$!: Observable<IBetterRanking | undefined>;
+  public isOffline$!: Observable<boolean>;
 
   private destroy$!: Subject<boolean>;
 
@@ -61,12 +53,28 @@ export class BetterRankingComponent
   public isRefreshSuspended: boolean = false;
   public spinnerValue!: number;
   private byRanking!: boolean;
+  private day = 0;
+
+  private isRefreshLaunched = false;
 
   public title!: string;
 
   public displayedColumns: string[] = ['ranking', 'name', 'points', 'duration'];
 
   public data$!: Observable<TData>;
+
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog,
+    private readonly persistenceService: PersistenceService,
+    private readonly renderer: Renderer2,
+    private readonly themeService: ThemeService,
+    private readonly route: ActivatedRoute
+  ) {
+    this.better$ = this.store.select(BetState.better);
+    this.bettersRanking$ = this.store.select(BetState.bettersRanking);
+    this.isOffline$ = this.store.select(BetState.isOffline);
+  }
 
   public get isReviewOfVisible(): boolean {
     return this.persistenceService.isReviewOfVisible;
@@ -78,7 +86,27 @@ export class BetterRankingComponent
       : 'normal-mode';
   }
 
-  public getDataSource(bettersRanking: IBetterRanking | null): IRanking[] {
+  public getCompletedCategories(
+    betterRankings: IBetterRanking | undefined
+  ): number {
+    if (betterRankings) {
+      return betterRankings.completedCategories;
+    }
+
+    return 0;
+  }
+
+  public getCountOfCategories(
+    betterRankings: IBetterRanking | undefined
+  ): number {
+    if (betterRankings) {
+      return betterRankings.countOfCategories;
+    }
+
+    return 0;
+  }
+
+  public getDataSource(bettersRanking: IBetterRanking | undefined): IRanking[] {
     if (bettersRanking && bettersRanking.rankings) {
       return bettersRanking.rankings;
     }
@@ -89,60 +117,75 @@ export class BetterRankingComponent
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
 
-    this.persistenceService.gobackPage = 'better-ranking';
-    this.seconds = this.longIntervalDuration;
-
-    this.interval = setInterval(() => {
-      if (!this.isRefreshSuspended) {
-        this.seconds--;
-        this.spinnerValue =
-          100 -
-          ((this.longIntervalDuration - this.seconds) /
-            this.longIntervalDuration) *
-            100;
-
-        if (this.seconds === 0) {
-          this.store.dispatch([
-            new BetActions.GetBetterRanking(this.byRanking),
-          ]);
-          this.seconds = this.longIntervalDuration;
-        }
-      }
-    }, 1000);
-
     combineLatest([this.better$, this.route.data])
       .pipe(
         takeUntil(this.destroy$),
-        filter(([better, routeData]) => !!better && !!routeData),
-        map(([better, route]) => {
-          if (better && route) {
+        filter(([better, data]) => !!better && !!data),
+        map(([better, data]) => {
+          if (better && data) {
             this.themeService.setTheme(
               this.renderer,
               this.persistenceService.theme
             );
 
-            this.byRanking = route && route['byRanking'] === 1;
+            this.byRanking = data && data['byRanking'] === 1;
+            this.day = data['day'];
+
+            this.seconds = this.longIntervalDuration;
+
+            this.persistenceService.gobackPage =
+              this.day === 1 ? 'better-ranking1' : 'better-ranking2';
+
+            const dayTitle = this.day === 1 ? 'DH/DD' : 'DMx';
+
             this.title =
-              route && route['byRanking'] === 1
-                ? 'Classement des joueurs'
-                : 'Nombre de points';
+              data && data['byRanking'] === 1
+                ? `Classement des joueurs ${dayTitle}`
+                : `Nombre de points ${dayTitle}`;
 
             this.store.dispatch([
-              new BetActions.GetBetterRanking(this.byRanking),
+              new BetActions.GetBetterRanking(this.byRanking, this.day),
             ]);
+
+            if (!this.isRefreshLaunched) {
+              this.launchAutoRefresh();
+              this.isRefreshLaunched = true;
+            }
           }
         })
       )
       .subscribe();
 
-    this.data$ = combineLatest([
-      this.better$,
-      this.bets$,
-      this.bettersRanking$,
-    ]).pipe(
-      map(([better, bets, bettersRanking]) => ({
+    this.isOffline$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((isOffline) => isOffline !== undefined),
+        map((isOffline) => {
+          if (isOffline) {
+            const config: MatDialogConfig<IInformationDialogConfig> = {
+              data: {
+                title: 'Session expirée',
+                message: 'Ta session est expirée. Merci de te reconnecter.',
+                dialogType: InformationDialogType.Information,
+                labels: ['Me connecter'],
+              },
+              disableClose: true,
+            };
+
+            this.dialog
+              .open(InformationComponent, config)
+              .afterClosed()
+              .subscribe(() => {
+                return this.persistenceService.navigate('relog');
+              });
+          }
+        })
+      )
+      .subscribe();
+
+    this.data$ = combineLatest([this.better$, this.bettersRanking$]).pipe(
+      map(([better, bettersRanking]) => ({
         better,
-        bets,
         bettersRanking,
       }))
     );
@@ -206,5 +249,27 @@ export class BetterRankingComponent
 
   public toggleRefresh() {
     this.isRefreshSuspended = !this.isRefreshSuspended;
+  }
+
+  private launchAutoRefresh() {
+    this.interval = setInterval(() => {
+      if (!this.isRefreshSuspended) {
+        this.seconds--;
+        this.spinnerValue =
+          100 -
+          ((this.longIntervalDuration - this.seconds) /
+            this.longIntervalDuration) *
+            100;
+
+        if (this.seconds === 0) {
+          if (this.day !== 0) {
+            this.store.dispatch([
+              new BetActions.GetBetterRanking(this.byRanking, this.day),
+            ]);
+          }
+          this.seconds = this.longIntervalDuration;
+        }
+      }
+    }, 1000);
   }
 }

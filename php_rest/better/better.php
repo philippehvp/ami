@@ -61,9 +61,16 @@
       $setting = $req->fetchAll(PDO::FETCH_ASSOC);
 
       // Lecture de la date maximale de pronostic de la journée en cours
-      $query = "SELECT fn_end_bet_date() AS endBetDate";
+      $query = "SELECT    fn_end_bet_date() AS endBetDate";
       $req = $db->query($query); 
       $endBetDate = $req->fetchAll(PDO::FETCH_ASSOC);
+
+      // On regarde si les résultats du premier jour sont affichables
+      $query =
+        " SELECT          fn_is_day1_bet_over() AS isDay1BetOver," .
+        "                 fn_is_day2_bet_over() AS isDay2BetOver";
+      $req = $db->query($query); 
+      $daysBetStatus = $req->fetchAll(PDO::FETCH_ASSOC);
 
       $ret = array(
         "accessKey" => $accessKey,
@@ -74,6 +81,8 @@
         "isTutorialDone" => $better["isTutorialDone"],
         "evaluation" => $better["evaluation"],
         "endBetDate" => $endBetDate[0]["endBetDate"],
+        "isDay1BetOver" => $daysBetStatus[0]["isDay1BetOver"],
+        "isDay2BetOver" => $daysBetStatus[0]["isDay2BetOver"],
         "setting" => array(
           "clubName" => $setting[0]["clubName"] ? $setting[0]["clubName"] : 0,
           "autoNavigation" => $setting[0]["autoNavigation"] ? $setting[0]["autoNavigation"] : 0, 

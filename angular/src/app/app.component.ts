@@ -53,7 +53,7 @@ export class AppComponent implements AfterViewInit {
       if (betterRestored.endBetDate) {
         // Les données restaurées par cookies remontent des champs en chaîne de caractères
         if (new Date(betterRestored.endBetDate) < new Date()) {
-          this.persistenceService.navigate('better-ranking');
+          this.persistenceService.navigate('better-ranking1');
         } else {
           this.persistenceService.navigate('bet');
         }

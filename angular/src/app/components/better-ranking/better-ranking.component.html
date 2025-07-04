@@ -22,14 +22,11 @@
 
       <span
         >Nombre de séries terminées :
-        {{ data?.bettersRanking?.completedCategories }} /
-        {{ (data.bets || []).length }}</span
+        {{ getCompletedCategories(data?.bettersRanking) }} /
+        {{ getCountOfCategories(data?.bettersRanking) }}</span
       >
 
-      <table
-        mat-table
-        [dataSource]="getDataSource(data.bettersRanking || null)"
-      >
+      <table mat-table [dataSource]="getDataSource(data.bettersRanking)">
         <ng-container matColumnDef="ranking">
           <th class="ranking" mat-header-cell *matHeaderCellDef>
             <span class="material-icons-outlined icon"> emoji_events </span>

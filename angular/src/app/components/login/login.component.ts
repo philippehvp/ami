@@ -32,16 +32,6 @@ export interface ILoginFormGroup {
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private dialog = inject(MatDialog);
-  private formBuilder = inject(FormBuilder);
-  private betterService = inject(BetterService);
-  private store = inject(Store);
-  private persistenceService = inject(PersistenceService);
-  private betService = inject(BetService);
-  private themeService = inject(ThemeService);
-  private renderer = inject(Renderer2);
-  private route = inject(ActivatedRoute);
-
   public formGroup!: FormGroup;
 
   public passwordVisibility: boolean = false;
@@ -52,6 +42,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   private _isISBShown: boolean = true;
 
   private _introClass: string = 'intro backgroundAnimation';
+
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly formBuilder: FormBuilder,
+    private readonly betterService: BetterService,
+    private readonly store: Store,
+    private readonly persistenceService: PersistenceService,
+    private readonly betService: BetService,
+    private readonly themeService: ThemeService,
+    private readonly renderer: Renderer2,
+    private readonly route: ActivatedRoute
+  ) {}
 
   public get disabledLoginButton(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';
@@ -139,9 +141,9 @@ export class LoginComponent implements OnInit, OnDestroy {
             ? 'welcome'
             : better.endBetDate && better.endBetDate > new Date()
             ? 'bet'
-            : 'better-ranking';
+            : 'better-ranking1';
 
-          if (link === 'better-ranking') {
+          if (link === 'better-ranking1') {
             window.localStorage.setItem('better', JSON.stringify(better));
             window.localStorage.setItem(
               'settings',

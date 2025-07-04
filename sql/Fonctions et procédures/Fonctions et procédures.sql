@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` FUNCTION `fn_calculate_points`(`p_truth_winner` INT, `p_truth_runnerUp` INT, `p_bet_winner` INT, `p_bet_runnerUp` INT) RETURNS int
+CREATE FUNCTION `fn_calculate_points`(`p_truth_winner` INT, `p_truth_runnerUp` INT, `p_bet_winner` INT, `p_bet_runnerUp` INT) RETURNS int
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -22,7 +22,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` FUNCTION `fn_can_create_better`() RETURNS int
+CREATE FUNCTION `fn_can_create_better`() RETURNS int
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -44,19 +44,24 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` FUNCTION `fn_completed_categories`() RETURNS int
+CREATE FUNCTION `fn_completed_categories`(p_day INT) RETURNS int
     READS SQL DATA
     DETERMINISTIC
 BEGIN
     /* fn_completed_categories */
-    DECLARE     l_completed INT;
+    DECLARE         l_completed INT;
 
     SELECT          COUNT(*) AS completed
     INTO            l_completed
     FROM            cpi_bet
     JOIN            cpi_better
                     ON      cpi_bet.better_id = cpi_better.id
-    WHERE           cpi_better.isAdmin = 1
+    JOIN            cpi_category
+                    ON      cpi_bet.category_id = cpi_category.id
+    JOIN            cpi_contest
+                    ON      cpi_category.contest_id = cpi_contest.id
+    WHERE           cpi_contest.day = p_day
+                    AND     cpi_better.isAdmin = 1
                     AND     cpi_bet.winner_player_id IS NOT NULL
                     AND     cpi_bet.runnerUp_player_id IS NOT NULL;
 
@@ -66,7 +71,32 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` FUNCTION `fn_connection_validity`() RETURNS datetime
+CREATE FUNCTION `fn_count_of_categories`(p_day INT) RETURNS int
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+    /* fn_completed_categories */
+    DECLARE         l_count INT;
+
+    SELECT          COUNT(*)
+    INTO            l_count
+    FROM            cpi_bet
+    JOIN            cpi_better
+                    ON      cpi_bet.better_id = cpi_better.id
+    JOIN            cpi_category
+                    ON      cpi_bet.category_id = cpi_category.id
+    JOIN            cpi_contest
+                    ON      cpi_category.contest_id = cpi_contest.id
+    WHERE           cpi_contest.day = p_day
+                    AND     cpi_better.isAdmin = 1;
+
+    RETURN l_count;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE FUNCTION `fn_connection_validity`() RETURNS datetime
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -77,7 +107,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` FUNCTION `fn_count_of_betters`() RETURNS int
+CREATE FUNCTION `fn_count_of_betters`() RETURNS int
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -104,7 +134,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` FUNCTION `fn_end_bet_date`() RETURNS datetime
+CREATE FUNCTION `fn_end_bet_date`() RETURNS datetime
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -122,7 +152,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` FUNCTION `fn_max_start_date`() RETURNS datetime
+CREATE FUNCTION `fn_max_start_date`() RETURNS datetime
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -140,7 +170,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` PROCEDURE `sp_calculate_point_ranking`()
+CREATE PROCEDURE `sp_calculate_point_ranking`()
     NO SQL
     DETERMINISTIC
 BEGIN
@@ -247,7 +277,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` PROCEDURE `sp_create_missing_bets`(IN `p_better` INT)
+CREATE PROCEDURE `sp_create_missing_bets`(IN `p_better` INT)
     DETERMINISTIC
 BEGIN
     /* sp_create_missing_bets */
@@ -361,7 +391,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` PROCEDURE `sp_delete_better`(IN `p_better` INT)
+CREATE PROCEDURE `sp_delete_better`(IN `p_better` INT)
     DETERMINISTIC
 BEGIN
     /* sp_delete_better */
@@ -396,9 +426,53 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`istresspruisb`@`%` PROCEDURE `sp_unset_bets`(IN `p_better` INT)
+CREATE PROCEDURE `sp_unset_bets`(IN `p_better` INT)
     DETERMINISTIC
 UPDATE      cpi_bet
 SET         cpi_bet.winner_player_id = NULL, cpi_bet.runnerUp_player_id = NULL
 WHERE       cpi_bet.better_id = p_better$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE FUNCTION `fn_is_day1_bet_over`() RETURNS int
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+
+    DECLARE     l_isDay1BetOver INT;
+
+    SELECT      CASE
+                    WHEN    MAX(cpi_contest.endBetDate) < NOW()
+                    THEN    1
+                    ELSE    0
+                END
+    INTO        l_isDay1BetOver
+    FROM        cpi_contest
+    WHERE       cpi_contest.day = 1;
+
+    RETURN l_isDay1BetOver;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE FUNCTION `fn_is_day2_bet_over`() RETURNS int
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+
+    DECLARE     l_isDay2BetOver INT;
+
+    SELECT      CASE
+                    WHEN    MAX(cpi_contest.endBetDate) < NOW()
+                    THEN    1
+                    ELSE    0
+                END
+    INTO        l_isDay2BetOver
+    FROM        cpi_contest
+    WHERE       cpi_contest.day = 2;
+
+    RETURN l_isDay2BetOver;
+
+END$$
 DELIMITER ;

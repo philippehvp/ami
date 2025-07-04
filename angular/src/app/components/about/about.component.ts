@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ILogo } from 'src/app/app.component';
 import { PersistenceService } from 'src/app/services/persistence.service';
 
@@ -8,8 +8,6 @@ import { PersistenceService } from 'src/app/services/persistence.service';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent {
-  private persistenceService = inject(PersistenceService);
-
   public socials: ILogo[] = [
     {
       icon: 'logo-isb',
@@ -33,6 +31,8 @@ export class AboutComponent {
       link: 'https://www.instagram.com/istressportsbadminton/',
     },
   ];
+
+  constructor(private readonly persistenceService: PersistenceService) {}
 
   public getLogoFile(logo: ILogo): string {
     const prefix = 'assets/img/logos/';

@@ -38,8 +38,11 @@
           " INSERT INTO         cpi_better(name, firstName, password, isAdmin, accessKey, randomKey, endAccessKeyValidityDate, contact, club, isTutorialDone, evaluation)" .
           " SELECT              ?, ?, ?, ?, ?, ?, fn_connection_validity(), ?, ?, ?, ?" .
           " WHERE               fn_can_create_better() = 1";
+
         $req = $db->prepare($query);
         $req->execute(array(strtoupper($name), $firstName, $password, 0, $accessKey, $randomKey, $contact, $club, 0, -1));
+
+  
     
         // Identifiant du dernier enregistrement ajouté
         $betterId = $db->lastInsertId();

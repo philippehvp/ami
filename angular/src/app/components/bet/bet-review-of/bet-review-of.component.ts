@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { BetState } from 'src/app/store/state/bet.state';
 import { IBetReviewOf } from 'src/app/models/bet-review-of';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetActions } from 'src/app/store/action/bet.action';
 import { IPlayer } from 'src/app/models/better-bet';
-import { UtilsService } from 'src/app/services/utils.service';
 import { IPlayerForReviewOf } from 'src/app/models/player';
+import { PersistenceService } from 'src/app/services/persistence.service';
+import { UtilsService } from 'src/app/services/utils.service';
+import { BetActions } from 'src/app/store/action/bet.action';
+import { BetState } from 'src/app/store/state/bet.state';
 
 export interface ICategoryReview {
   categoryId: number;
@@ -29,12 +29,15 @@ export interface IContestReview {
   styleUrls: ['./bet-review-of.component.scss'],
 })
 export class BetReviewOfComponent {
-  private persistenceService = inject(PersistenceService);
-  private store = inject(Store);
-  private utilsService = inject(UtilsService);
+  public betsReviewOf$!: Observable<IBetReviewOf[]>;
 
-  @Select(BetState.betsReviewOf)
-  betsReviewOf$!: Observable<IBetReviewOf[]>;
+  constructor(
+    private readonly persistenceService: PersistenceService,
+    private readonly store: Store,
+    private readonly utilsService: UtilsService
+  ) {
+    this.betsReviewOf$ = this.store.select(BetState.betsReviewOf);
+  }
 
   public get isClubName() {
     return this.persistenceService.isClubName;

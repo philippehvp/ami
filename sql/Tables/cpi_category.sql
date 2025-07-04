@@ -35,29 +35,6 @@ CREATE TABLE `cpi_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cpi_category`
---
-
-INSERT INTO `cpi_category` (`id`, `shortName`, `longName`, `contest_id`) VALUES
-(11, '1', 'Série 1', 1),
-(12, '2', 'Série 2', 1),
-(13, '3', 'Série 3', 1),
-(14, '4', 'Série 4', 1),
-(15, '5', 'Série 5', 1),
-(21, '1', 'Série 1', 2),
-(22, '2', 'Série 2', 2),
-(23, '3', 'Série 3', 2),
-(24, '4', 'Série 4', 2),
-(25, '5', 'Série 5', 2),
-(31, '1', 'Série 1', 3),
-(32, '2', 'Série 2', 3),
-(33, '3', 'Série 3', 3),
-(34, '4', 'Série 4', 3),
-(35, '5', 'Série 5', 3),
-(36, '6', 'Série 6', 3),
-(37, '7', 'Série 7', 3);
-
---
 -- Indexes for dumped tables
 --
 

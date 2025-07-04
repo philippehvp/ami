@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/winabad2024",
+            "outputPath": "dist/winabad2025",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],

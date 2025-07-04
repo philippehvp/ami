@@ -75,8 +75,8 @@ export class PersistenceService {
     this._isFirstnameVisible = isFirstnameVisible;
   }
 
-  private _isAutoNavigation: boolean = false;
-  public get isAutoNavigation(): boolean {
+  private _isAutoNavigation: boolean | undefined = undefined;
+  public get isAutoNavigation(): boolean | undefined {
     return this._isAutoNavigation;
   }
   public set isAutoNavigation(isAutoNavigation: boolean) {
@@ -94,11 +94,10 @@ export class PersistenceService {
   private _themes: ITheme[] = [
     {
       id: 1,
-      name: 'Tournoi ISB',
+      name: 'Tournoi 2025',
       mode: 'isb-theme',
       isLight: true,
-      color:
-        'linear-gradient(150deg, #fcc916, #f28e16, #c5e6f7, #6caee0, #b0d6b1, #8abb8c)',
+      color: 'linear-gradient(180deg, #db6daa, #db6daa, #93ce9a)',
       border: 'black',
       isAnimated: false,
       logoColor: 'black',
@@ -295,8 +294,9 @@ export class PersistenceService {
   }
 
   public navigate(link: string) {
-    this._isToolbarVisible =
-      link === 'bet' || link === 'better-ranking' || link === 'better-name';
+    const links = ['bet', 'better-ranking1', 'better-ranking2', 'better-name'];
+    this._isToolbarVisible = links.includes(link);
+
     this._isToolbarLimitedMode = link !== 'bet';
 
     this.router.navigate([link]);

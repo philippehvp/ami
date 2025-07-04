@@ -1,5 +1,6 @@
 export interface IBetterRanking {
   completedCategories: number;
+  countOfCategories: number;
   rankings: IRanking[];
 }
 

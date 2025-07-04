@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
@@ -13,17 +13,17 @@ import { BetterBetState } from 'src/app/store/state/better-bet.state';
   styleUrls: ['./better-bet.component.scss'],
 })
 export class BetterBetComponent implements OnInit, OnDestroy {
-  private store = inject(Store);
-
-  @Select(BetterBetState.betterBet)
-  betterBet$!: Observable<IBetterBet>;
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
+  public betterBet$!: Observable<IBetterBet | undefined>;
+  public better$!: Observable<IBetter>;
 
   private destroy$!: Subject<boolean>;
 
   public displayedColumns: string[] = [];
+
+  constructor(private readonly store: Store) {
+    this.better$ = this.store.select(BetState.better);
+    this.betterBet$ = this.store.select(BetterBetState.betterBet);
+  }
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();

@@ -1,11 +1,10 @@
-import { Component, Renderer2, ViewChild, inject } from '@angular/core';
+import { Component, Renderer2, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable, map, tap } from 'rxjs';
 import { IBetter, ISetting } from 'src/app/models/better';
 import { ITheme } from 'src/app/models/theme';
 import { IEmpty, IOffline } from 'src/app/models/utils';
-import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { ThemeService } from 'src/app/services/theme.service';
@@ -19,17 +18,20 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent {
-  private persistenceService = inject(PersistenceService);
-  private betterService = inject(BetterService);
-  private renderer = inject(Renderer2);
-  private themeService = inject(ThemeService);
-  private store = inject(Store);
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
+  public better$!: Observable<IBetter>;
 
   @ViewChild('settingsMenuTrigger') settingsMenuTrigger!: MatMenuTrigger;
   @ViewChild('themesMenuTrigger') themesMenuTrigger!: MatMenuTrigger;
+
+  constructor(
+    private readonly persistenceService: PersistenceService,
+    private readonly betterService: BetterService,
+    private readonly renderer: Renderer2,
+    private readonly themeService: ThemeService,
+    private readonly store: Store
+  ) {
+    this.better$ = this.store.select(BetState.better);
+  }
 
   public get isClubName(): boolean {
     return this.persistenceService.isClubName;
@@ -131,7 +133,7 @@ export class SettingComponent {
     $event.stopPropagation();
   }
 
-  public get isAutoNavigation(): boolean {
+  public get isAutoNavigation(): boolean | undefined {
     return this.persistenceService.isAutoNavigation;
   }
 

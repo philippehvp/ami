@@ -26,6 +26,8 @@ export interface IBetter {
   isTutorialDone: boolean;
   evaluation: number;
   endBetDate: Date | null;
+  isDay1BetOver: boolean;
+  isDay2BetOver: boolean;
 }
 
 export interface IBetterRaw {
@@ -39,4 +41,6 @@ export interface IBetterRaw {
   evaluation: number;
   endBetDate: string;
   setting: ISettingRaw;
+  isDay1BetOver: number;
+  isDay2BetOver: number;
 }

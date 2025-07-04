@@ -13,12 +13,14 @@ export class BetterRankingService {
 
   public getBettersRanking(
     accessKey: string,
-    byRanking: boolean
-  ): Observable<IBetterRanking[] | IOffline> {
+    byRanking: boolean,
+    day: number
+  ): Observable<IBetterRanking | IOffline> {
     const url = CommonService.getURL('ranking/bettersRanking');
-    return this.httpClient.post<IBetterRanking[]>(url, {
+    return this.httpClient.post<IBetterRanking>(url, {
       accessKey,
       byRanking: byRanking ? 1 : 0,
+      day,
     });
   }
 }

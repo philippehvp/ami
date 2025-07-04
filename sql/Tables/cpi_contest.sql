@@ -38,15 +38,6 @@ CREATE TABLE `cpi_contest` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cpi_contest`
---
-
-INSERT INTO `cpi_contest` (`id`, `shortName`, `longName`, `startDate`, `endBetDate`, `endAdminDate`, `day`) VALUES
-(1, 'DH', 'Doubles hommes', '2023-07-03 07:00:00', '2023-07-08 11:00:00', '2023-07-09 06:59:59', 1),
-(2, 'DD', 'Doubles dames', '2023-07-03 07:00:00', '2023-07-08 11:00:00', '2023-07-09 06:59:59', 1),
-(3, 'DM', 'Doubles mixtes', '2023-07-09 07:00:00', '2023-07-09 14:00:00', '2023-07-10 00:00:00', 2);
-
---
 -- Indexes for dumped tables
 --
 

@@ -27,7 +27,6 @@ const routes: Routes = [
     component: LoginComponent,
     data: { isRelog: true },
   },
-
   {
     path: 'create-better',
     component: CreateBetterComponent,
@@ -49,9 +48,14 @@ const routes: Routes = [
     component: BetterBetComponent,
   },
   {
-    path: 'better-ranking',
+    path: 'better-ranking1',
     component: BetterRankingComponent,
-    data: { byRanking: 1 },
+    data: { byRanking: 1, day: 1 },
+  },
+  {
+    path: 'better-ranking2',
+    component: BetterRankingComponent,
+    data: { byRanking: 1, day: 2 },
   },
   {
     path: 'better-name',

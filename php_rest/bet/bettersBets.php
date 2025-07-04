@@ -49,7 +49,11 @@
         " ORDER BY        cpi_better.name, cpi_better.firstName, cpi_better.id, cpi_category.id";
       $req = $db->query($query);
       $betsRaw = $req->fetchAll(PDO::FETCH_ASSOC);
-      $countOfCategories = sizeof($betsRaw) / sizeof($betters);
+      if (sizeof($betters)) {
+        $countOfCategories = sizeof($betsRaw) / sizeof($betters);
+      } else {
+        $countOfCategories = 0;
+      }
 
       $query =
         " SELECT          cpi_duration.better_id, cpi_duration.duration" .

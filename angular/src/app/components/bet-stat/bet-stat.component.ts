@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
-import { IBetter } from 'src/app/models/better';
-import { BetState } from 'src/app/store/state/bet.state';
-import { BetStatState } from 'src/app/store/state/bet-stat.state';
-import { BetStatActions } from 'src/app/store/action/bet-stat.action';
 import { IBetStat } from 'src/app/models/bet-stat';
+import { IBetter } from 'src/app/models/better';
+import { BetStatActions } from 'src/app/store/action/bet-stat.action';
+import { BetStatState } from 'src/app/store/state/bet-stat.state';
+import { BetState } from 'src/app/store/state/bet.state';
 
 @Component({
   selector: 'bet-stat',
@@ -13,13 +13,8 @@ import { IBetStat } from 'src/app/models/bet-stat';
   styleUrls: ['./bet-stat.component.scss'],
 })
 export class BetStatComponent implements OnInit, OnDestroy {
-  private store = inject(Store);
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
-
-  @Select(BetStatState.betStat)
-  betStat$!: Observable<IBetStat[]>;
+  public better$!: Observable<IBetter>;
+  public betStat$!: Observable<IBetStat[] | undefined>;
 
   private destroy$!: Subject<boolean>;
 
@@ -29,6 +24,11 @@ export class BetStatComponent implements OnInit, OnDestroy {
     'runnerUp',
     'category',
   ];
+
+  constructor(private readonly store: Store) {
+    this.better$ = this.store.select(BetState.better);
+    this.betStat$ = this.store.select(BetStatState.betStat);
+  }
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();

@@ -7,27 +7,25 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs/internal/Observable';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngxs/store';
 import { Subject, combineLatest, filter, map, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { IBetter } from 'src/app/models/better';
 import { ICategory } from 'src/app/models/category';
 import { IContest } from 'src/app/models/contest';
-import { BetState } from 'src/app/store/state/bet.state';
-import { InformationComponent } from '../information/information.component';
-import { IBetter } from 'src/app/models/better';
-import { BetActions } from 'src/app/store/action/bet.action';
+import { IDuration } from 'src/app/models/duration';
 import {
   IInformationDialogConfig,
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
-import { CommonService } from 'src/app/services/common.service';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { IDuration } from 'src/app/models/duration';
 import { ThemeService } from 'src/app/services/theme.service';
+import { BetActions } from 'src/app/store/action/bet.action';
+import { BetState } from 'src/app/store/state/bet.state';
+import { InformationComponent } from '../information/information.component';
 
 @Component({
   selector: 'bet',
@@ -35,36 +33,16 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['./bet.component.scss'],
 })
 export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
-  private store = inject(Store);
-  private dialog = inject(MatDialog);
-  private persistenceService = inject(PersistenceService);
-  private snackBar = inject(MatSnackBar);
-  private themeService = inject(ThemeService);
-  private renderer = inject(Renderer2);
-
   @ViewChild('betPanel')
   public betPanel!: ElementRef;
 
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
-
-  @Select(BetState.category)
-  category$!: Observable<ICategory>;
-
-  @Select(BetState.contest)
-  contest$!: Observable<IContest>;
-
-  @Select(BetState.isOffline)
-  isOffline$!: Observable<boolean>;
-
-  @Select(BetState.allBetsDone)
-  allBetsDone$!: Observable<boolean>;
-
-  @Select(BetState.proposeAutoNavigation)
-  proposeAutoNavigation$!: Observable<boolean>;
-
-  @Select(BetState.duration)
-  duration$!: Observable<IDuration>;
+  public better$!: Observable<IBetter>;
+  public category$!: Observable<ICategory>;
+  public contest$!: Observable<IContest>;
+  public isOffline$!: Observable<boolean>;
+  public allBetsDone$!: Observable<boolean>;
+  public proposeAutoNavigation$!: Observable<boolean | undefined>;
+  public duration$!: Observable<IDuration>;
 
   private resizeTimeout!: ReturnType<typeof setTimeout>;
 
@@ -83,6 +61,25 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   public tutorialLastStep: number = 4;
 
   public evaluations: number[] = [1, 2, 3, 4, 5];
+
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog,
+    private readonly persistenceService: PersistenceService,
+    private readonly snackBar: MatSnackBar,
+    private readonly themeService: ThemeService,
+    private readonly renderer: Renderer2
+  ) {
+    this.better$ = this.store.select(BetState.better);
+    this.category$ = this.store.select(BetState.category);
+    this.contest$ = this.store.select(BetState.contest);
+    this.isOffline$ = this.store.select(BetState.isOffline);
+    this.allBetsDone$ = this.store.select(BetState.allBetsDone);
+    this.proposeAutoNavigation$ = this.store.select(
+      BetState.proposeAutoNavigation
+    );
+    this.duration$ = this.store.select(BetState.duration);
+  }
 
   public get tutorialStep(): number {
     return this.persistenceService.tutorialStep;
@@ -169,7 +166,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
               .open(InformationComponent, config)
               .afterClosed()
               .subscribe(() => {
-                return this.persistenceService.navigate('login');
+                return this.persistenceService.navigate('relog');
               });
           }
 

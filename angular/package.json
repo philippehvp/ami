@@ -1,6 +1,6 @@
 {
   "name": "winabad",
-  "version": "2025.06.29",
+  "version": "2025.07.05",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

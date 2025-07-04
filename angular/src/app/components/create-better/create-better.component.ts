@@ -31,17 +31,19 @@ export interface ICreateBetterFormGroup {
   styleUrls: ['./create-better.component.scss'],
 })
 export class CreateBetterComponent implements OnInit {
-  private dialog = inject(MatDialog);
-  private fb = inject(FormBuilder);
-  private betterService = inject(BetterService);
-  private store = inject(Store);
-  private persistenceService = inject(PersistenceService);
-
   public formGroup!: FormGroup;
 
   public passwordVisibility: boolean = false;
   public hasMajority: boolean = false;
   public hasGDPRAccepted: boolean = false;
+
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly fb: FormBuilder,
+    private readonly betterService: BetterService,
+    private readonly store: Store,
+    private readonly persistenceService: PersistenceService
+  ) {}
 
   public get createBetterDisabled(): boolean {
     const name: string = this.formGroup?.get(['name'])?.value || '';

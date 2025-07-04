@@ -48,6 +48,8 @@ export class BetterService {
                 endBetDate: betterRaw.endBetDate
                   ? new Date(betterRaw.endBetDate)
                   : null,
+                isDay1BetOver: betterRaw.isDay1BetOver === 1,
+                isDay2BetOver: betterRaw.isDay2BetOver === 1,
               }
             : null;
         } else {

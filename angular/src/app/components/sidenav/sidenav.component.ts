@@ -1,6 +1,6 @@
-import { Component, OnInit, Renderer2, inject } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable, combineLatest, map } from 'rxjs';
 import { IBet } from 'src/app/models/bet';
 import { IBetter } from 'src/app/models/better';
@@ -14,7 +14,6 @@ import {
   InformationDialogType,
 } from 'src/app/models/information-dialog-type';
 import { InformationComponent } from '../information/information.component';
-import { CommonService } from 'src/app/services/common.service';
 import { BetterService } from 'src/app/services/rest/better.service';
 import { ThemeService } from 'src/app/services/theme.service';
 
@@ -30,23 +29,24 @@ type TData = {
   styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit {
-  private persistenceService = inject(PersistenceService);
-  private dialog = inject(MatDialog);
-  private store = inject(Store);
-  private themeService = inject(ThemeService);
-  private renderer = inject(Renderer2);
-  private betterService = inject(BetterService);
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
-
-  @Select(BetState.completedBets)
-  completedBets$!: Observable<number>;
-
-  @Select(BetState.bets)
-  bets$!: Observable<IBet[]>;
+  public better$!: Observable<IBetter>;
+  public completedBets$!: Observable<number>;
+  public bets$!: Observable<IBet[]>;
 
   public data$!: Observable<TData>;
+
+  constructor(
+    private readonly store: Store,
+    private readonly persistenceService: PersistenceService,
+    private readonly dialog: MatDialog,
+    private readonly themeService: ThemeService,
+    private readonly renderer: Renderer2,
+    private readonly betterService: BetterService
+  ) {
+    this.better$ = this.store.select(BetState.better);
+    this.completedBets$ = this.store.select(BetState.completedBets);
+    this.bets$ = this.store.select(BetState.bets);
+  }
 
   public ngOnInit() {
     this.data$ = combineLatest([
@@ -70,8 +70,12 @@ export class SidenavComponent implements OnInit {
     this.persistenceService.navigate('better-bet');
   }
 
-  public displayBettersRanking() {
-    this.persistenceService.navigate('better-ranking');
+  public displayBettersRanking1() {
+    this.persistenceService.navigate('better-ranking1');
+  }
+
+  public displayBettersRanking2() {
+    this.persistenceService.navigate('better-ranking2');
   }
 
   public displayBettersOrderedByName() {

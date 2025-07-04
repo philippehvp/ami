@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IBetter } from 'src/app/models/better';
 import { IBetterPoint } from 'src/app/models/better-point';
@@ -12,15 +12,15 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./bet-point.component.scss'],
 })
 export class BetPointComponent implements OnInit, OnDestroy {
-  private store = inject(Store);
-
-  @Select(BetState.betterPoints)
-  betterPoints$!: Observable<IBetterPoint[]>;
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
+  public betterPoints$!: Observable<IBetterPoint[]>;
+  public better$!: Observable<IBetter>;
 
   public displayedColumns: string[] = ['better', 'points'];
+
+  constructor(private readonly store: Store) {
+    this.betterPoints$ = this.store.select(BetState.betterPoints);
+    this.better$ = this.store.select(BetState.better);
+  }
 
   public ngOnInit() {
     this.store.dispatch([new BetActions.CalculatePointsAndRanking()]);

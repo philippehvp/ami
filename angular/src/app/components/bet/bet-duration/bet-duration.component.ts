@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IDuration } from 'src/app/models/duration';
 import { PersistenceService } from 'src/app/services/persistence.service';
@@ -12,11 +12,14 @@ import { BetState } from 'src/app/store/state/bet.state';
   styleUrls: ['./bet-duration.component.scss'],
 })
 export class BetDurationComponent {
-  private store = inject(Store);
-  private persistenceService = inject(PersistenceService);
+  public duration$!: Observable<IDuration>;
 
-  @Select(BetState.duration)
-  duration$!: Observable<IDuration>;
+  constructor(
+    private readonly store: Store,
+    private readonly persistenceService: PersistenceService
+  ) {
+    this.duration$ = this.store.select(BetState.duration);
+  }
 
   public get isDurationCompactMode(): boolean {
     return this.persistenceService.isDurationCompactMode;

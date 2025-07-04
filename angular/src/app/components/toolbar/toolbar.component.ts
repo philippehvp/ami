@@ -1,12 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { combineLatest, map } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { IBet } from 'src/app/models/bet';
 import { IBetter } from 'src/app/models/better';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetState } from 'src/app/store/state/bet.state';
 import { BetActions } from 'src/app/store/action/bet.action';
-import { combineLatest, map } from 'rxjs';
+import { BetState } from 'src/app/store/state/bet.state';
 
 export interface IToolbarOption {
   hasToolbar: boolean;
@@ -25,19 +25,20 @@ type TData = {
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-  private persistenceService = inject(PersistenceService);
-  private store = inject(Store);
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
-
-  @Select(BetState.completedBets)
-  completedBets$!: Observable<number>;
-
-  @Select(BetState.bets)
-  bets$!: Observable<IBet[]>;
+  public better$!: Observable<IBetter>;
+  public completedBets$!: Observable<number>;
+  public bets$!: Observable<IBet[]>;
 
   public data$!: Observable<TData>;
+
+  constructor(
+    private readonly persistenceService: PersistenceService,
+    private readonly store: Store
+  ) {
+    this.better$ = this.store.select(BetState.better);
+    this.completedBets$ = this.store.select(BetState.completedBets);
+    this.bets$ = this.store.select(BetState.bets);
+  }
 
   public ngOnInit() {
     this.data$ = combineLatest([

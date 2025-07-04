@@ -1,14 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs/internal/Observable';
-import { IBet } from 'src/app/models/bet';
-import { IBetter } from 'src/app/models/better';
-import { ICategory } from 'src/app/models/category';
-import { IContest } from 'src/app/models/contest';
-import { IPlayer } from 'src/app/models/player';
-import { PersistenceService as PersistenceService } from 'src/app/services/persistence.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
 import {
   BehaviorSubject,
   Subject,
@@ -17,8 +8,17 @@ import {
   map,
   takeUntil,
 } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 import { CPIAnimations } from 'src/app/animations/animations';
+import { IBet } from 'src/app/models/bet';
+import { IBetter } from 'src/app/models/better';
+import { ICategory } from 'src/app/models/category';
+import { IContest } from 'src/app/models/contest';
+import { IPlayer } from 'src/app/models/player';
+import { PersistenceService } from 'src/app/services/persistence.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { BetActions } from 'src/app/store/action/bet.action';
+import { BetState } from 'src/app/store/state/bet.state';
 
 type TData = {
   bet: IBet;
@@ -32,27 +32,12 @@ type TData = {
   animations: [CPIAnimations.fadeAnimation],
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
-  private store = inject(Store);
-  private persistenceService = inject(PersistenceService);
-  private utilsService = inject(UtilsService);
-
-  @Select(BetState.better)
-  better$!: Observable<IBetter>;
-
-  @Select(BetState.bet)
-  bet$!: Observable<IBet>;
-
-  @Select(BetState.contest)
-  contest$!: Observable<IContest>;
-
-  @Select(BetState.category)
-  category$!: Observable<ICategory>;
-
-  @Select(BetState.players)
-  players$!: Observable<IPlayer[]>;
-
-  @Select(BetState.isLoadingData)
-  isLoadingData$!: Observable<boolean>;
+  public better$!: Observable<IBetter>;
+  public bet$!: Observable<IBet>;
+  public contest$!: Observable<IContest>;
+  public category$!: Observable<ICategory>;
+  public players$!: Observable<IPlayer[]>;
+  public isLoadingData$!: Observable<boolean>;
 
   private destroy$!: Subject<boolean>;
   private loadingData$!: BehaviorSubject<boolean>;
@@ -72,6 +57,19 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   public displayedColumnsReverse: string[] = ['winner', 'runnerUp', 'name'];
 
   public data$!: Observable<TData>;
+
+  constructor(
+    private readonly store: Store,
+    private readonly persistenceService: PersistenceService,
+    private readonly utilsService: UtilsService
+  ) {
+    this.better$ = this.store.select(BetState.better);
+    this.bet$ = this.store.select(BetState.bet);
+    this.contest$ = this.store.select(BetState.contest);
+    this.category$ = this.store.select(BetState.category);
+    this.players$ = this.store.select(BetState.players);
+    this.isLoadingData$ = this.store.select(BetState.isLoadingData);
+  }
 
   public get isClubName() {
     return this.persistenceService.isClubName;

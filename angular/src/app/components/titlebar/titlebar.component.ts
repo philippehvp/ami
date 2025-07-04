@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PersistenceService } from 'src/app/services/persistence.service';
 
 @Component({
@@ -7,10 +7,10 @@ import { PersistenceService } from 'src/app/services/persistence.service';
   styleUrls: ['./titlebar.component.scss'],
 })
 export class TitlebarComponent {
-  private persistenceService = inject(PersistenceService);
-
   @Input()
   title!: string;
+
+  constructor(private readonly persistenceService: PersistenceService) {}
 
   public back() {
     this.persistenceService.navigate(this.persistenceService.gobackPage);

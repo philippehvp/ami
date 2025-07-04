@@ -36,10 +36,10 @@ export class BetStateModel {
   completedBets!: number;
   isLoadingData!: boolean;
   allBetsDone!: boolean;
-  proposeAutoNavigation!: boolean;
+  proposeAutoNavigation: boolean | undefined;
   categoryToDisplay!: number;
   betterPoints!: IBetterPoint[];
-  bettersRanking!: IBetterRanking[] | undefined;
+  bettersRanking!: IBetterRanking | undefined;
 }
 
 @State<BetStateModel>({
@@ -59,10 +59,10 @@ export class BetStateModel {
     completedBets: 0,
     isLoadingData: false,
     allBetsDone: false,
-    proposeAutoNavigation: false,
+    proposeAutoNavigation: undefined,
     categoryToDisplay: -1,
     betterPoints: [],
-    bettersRanking: [],
+    bettersRanking: undefined,
   },
 })
 @Injectable()
@@ -165,14 +165,18 @@ export class BetState {
     action: BetActions.GetBetterRanking
   ) {
     return this.rankingService
-      .getBettersRanking(state.getState().better.accessKey, action.byRanking)
+      .getBettersRanking(
+        state.getState().better.accessKey,
+        action.byRanking,
+        action.day
+      )
       .pipe(
-        tap((readBettersRanking: IBetterRanking[] | IOffline) => {
+        tap((readBettersRanking: IBetterRanking | IOffline) => {
           if (readBettersRanking && 'isOffline' in readBettersRanking) {
             state.dispatch([new ConnectionActions.IsOffline()]);
           } else {
             state.patchState({
-              bettersRanking: <IBetterRanking[]>readBettersRanking,
+              bettersRanking: <IBetterRanking>readBettersRanking,
             });
           }
         })
@@ -798,7 +802,11 @@ export class BetState {
       proposeAutoNavigation: false,
       categoryToDisplay: -1,
       betterPoints: [],
-      bettersRanking: [],
+      bettersRanking: {
+        completedCategories: 0,
+        countOfCategories: 0,
+        rankings: [],
+      },
     });
 
     this.persistenceService.init();

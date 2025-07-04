@@ -37,6 +37,8 @@ export class BetService {
             evaluation: betterRaw.evaluation,
             endBetDate: null,
             setting: <ISetting>{},
+            isDay1BetOver: betterRaw.isDay1BetOver === 1,
+            isDay2BetOver: betterRaw.isDay2BetOver === 1,
           };
         });
       })

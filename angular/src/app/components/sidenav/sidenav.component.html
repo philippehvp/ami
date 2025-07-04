@@ -2,7 +2,7 @@
   <span class="material-icons-outlined close link"> close </span>
 
   <span class="sidenav-panel">
-    <span *ngIf="data.better?.isAdmin; else normal">
+    <span *ngIf="data.better.isAdmin; else normal">
       <span class="link" (click)="navigate('bet')"
         ><span class="label">Remplir résultats</span></span
       >
@@ -14,8 +14,11 @@
       <span class="link" (click)="displayBettersOrderedByName()"
         >Nombre de points</span
       >
-      <span class="link" (click)="displayBettersRanking()">
-        <span class="label">Classement</span>
+      <span class="link" (click)="displayBettersRanking1()">
+        <span class="label">Classement DH/DD</span>
+      </span>
+      <span class="link" (click)="displayBettersRanking2()">
+        <span class="label">Classement DMx</span>
       </span>
       <hr />
 
@@ -28,7 +31,7 @@
     <ng-template #normal>
       <span
         class="link"
-        *ngIf="isBettingPhase(data.better?.endBetDate || null)"
+        *ngIf="isBettingPhase(data.better.endBetDate || null)"
         (click)="navigate('bet')"
         ><span class="material-icons-outlined icon"> cottage </span
         ><span class="label">Pronostics</span></span
@@ -36,11 +39,20 @@
 
       <span
         class="link"
-        *ngIf="!isBettingPhase(data.better?.endBetDate || null)"
-        (click)="displayBettersRanking()"
+        *ngIf="data.better.isDay1BetOver"
+        (click)="displayBettersRanking1()"
       >
         <span class="material-icons-outlined icon"> emoji_events </span>
-        <span class="label">Classement</span>
+        <span class="label">Classement DH/DD</span>
+      </span>
+
+      <span
+        class="link"
+        *ngIf="data.better.isDay2BetOver"
+        (click)="displayBettersRanking2()"
+      >
+        <span class="material-icons-outlined icon"> emoji_events </span>
+        <span class="label">Classement DMx</span>
       </span>
 
       <span class="link" (click)="navigate('rule')"
@@ -49,7 +61,7 @@
       >
       <span
         class="link"
-        *ngIf="isBettingPhase(data.better?.endBetDate || null)"
+        *ngIf="isBettingPhase(data.better.endBetDate || null)"
         (click)="displayTutorial()"
       >
         <span class="material-icons-outlined icon"> help_outline </span>
@@ -79,13 +91,13 @@
       <hr />
       <span
         class="link"
-        *ngIf="isBettingPhase(data.better?.endBetDate || null)"
+        *ngIf="isBettingPhase(data.better.endBetDate || null)"
         (click)="eraseBets(data?.better || null)"
       >
         <span class="material-icons-outlined icon"> restart_alt </span>
         <span class="label">RAZ des pronostics</span>
       </span>
-      <span class="link" (click)="deleteAccount(data?.better || null)">
+      <span class="link" (click)="deleteAccount(data.better || null)">
         <span class="material-icons-outlined icon"> delete </span>
         <span class="label">Effacement du compte</span>
       </span>
