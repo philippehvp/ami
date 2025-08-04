@@ -20,9 +20,11 @@
         " FROM        cpi_better" .
         " JOIN        cpi_ranking" .
         "             ON    cpi_better.id = cpi_ranking.better_id" .
-        " JOIN        (     SELECT    *" .
-        "                   FROM      cpi_contest" .
-        "                   LIMIT 1" .
+        " JOIN        (" .
+        "               SELECT    *" .
+        "               FROM      cpi_contest" .
+        "               WHERE     cpi_contest.day = " . $day .
+        "               LIMIT     1" .
         "             ) cpi_contest" .
         "             ON    cpi_ranking.contest_day = cpi_contest.day" .
         " JOIN        cpi_duration" .
@@ -36,6 +38,7 @@
       } else {
         $query .= " ORDER BY    cpi_better.name, cpi_better.firstName, cpi_better.id";
       }
+
       $req = $db->query($query);
       $rankings = $req->fetchAll(PDO::FETCH_ASSOC);
 
@@ -43,6 +46,7 @@
       $query =
         " SELECT      fn_completed_categories(" . $day . ") AS completed," .
         "             fn_count_of_categories(" . $day . ") AS countOfCategories";
+        
       $req = $db->query($query);
       $res = $req->fetchAll(PDO::FETCH_ASSOC);
       $completedCategories = $res[0]["completed"];
