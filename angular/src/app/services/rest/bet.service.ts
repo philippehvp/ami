@@ -1,20 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { IBetter, IBetterRaw, ISetting } from 'src/app/models/better';
+import { IBetter, IBetterRaw, ISetting } from '../../models/better';
 import { CommonService } from '../common.service';
-import { IContest } from 'src/app/models/contest';
+import { IContest } from '../../models/contest';
 import { map } from 'rxjs/internal/operators/map';
-import { IBet } from 'src/app/models/bet';
-import { IDuration, IDurationRaw } from 'src/app/models/duration';
-import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
-import { IBetterBet } from 'src/app/models/better-bet';
-import { IBetterPoint } from 'src/app/models/better-point';
+import { IBet } from '../../models/bet';
+import { IDuration, IDurationRaw } from '../../models/duration';
+import { IEmpty, INotUpdatable, IOffline } from '../../models/utils';
+import { IBetterBet } from '../../models/better-bet';
+import { IBetterPoint } from '../../models/better-point';
 import {
   ICanCreateBetter,
   ICanCreateBetterRaw,
-} from 'src/app/models/can-create-better';
-import { IBetReviewOf, IBetReviewOfRaw } from 'src/app/models/bet-review-of';
+} from '../../models/can-create-better';
+import { IBetReviewOf, IBetReviewOfRaw } from '../../models/bet-review-of';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,7 @@ export class BetService {
             isDay2BetOver: betterRaw.isDay2BetOver === 1,
           };
         });
-      })
+      }),
     );
   }
 
@@ -66,9 +66,9 @@ export class BetService {
               winnerId: bet.winnerId,
               runnerUpId: bet.runnerUpId,
               isComplete: !!bet.winnerId && !!bet.runnerUpId,
-            }
+            },
         );
-      })
+      }),
     );
   }
 
@@ -82,12 +82,12 @@ export class BetService {
           isDurationModified:
             (<IDurationRaw>durationRaw).isDurationModified === 1,
         };
-      })
+      }),
     );
   }
 
   private getDurationRaw(
-    accessKey: string
+    accessKey: string,
   ): Observable<IDurationRaw | IOffline> {
     const url = CommonService.getURL('bet/duration');
     return this.httpClient.post<IDurationRaw>(url, { accessKey });
@@ -97,7 +97,7 @@ export class BetService {
     accessKey: string,
     contestId: number,
     day: number,
-    duration: number
+    duration: number,
   ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/updateDuration');
     return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
@@ -112,7 +112,7 @@ export class BetService {
     accessKey: string,
     contestId: number,
     categoryId: number,
-    playerId: number
+    playerId: number,
   ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/updateWinner');
     return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
@@ -127,7 +127,7 @@ export class BetService {
     accessKey: string,
     contestId: number,
     categoryId: number,
-    playerId: number
+    playerId: number,
   ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/updateRunnerUp');
     return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
@@ -139,7 +139,7 @@ export class BetService {
   }
 
   public calculatepointsAndRanking(
-    accessKey: string
+    accessKey: string,
   ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/calculatePointsAndRanking');
     return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
@@ -149,7 +149,7 @@ export class BetService {
 
   public getBettersPoints(
     accessKey: string,
-    categoryId: number
+    categoryId: number,
   ): Observable<IBetterPoint[] | IOffline> {
     const url = CommonService.getURL('point/bettersPoints');
     return this.httpClient.post<IBetterPoint[]>(url, {
@@ -165,7 +165,7 @@ export class BetService {
 
   public getBetsReviewOf(
     accessKey: string,
-    randomKey: string
+    randomKey: string,
   ): Observable<IBetReviewOf[] | IOffline> {
     return this.getBetsReviewOfRaw(accessKey, randomKey).pipe(
       map((betsReviewOfRaw) => {
@@ -224,13 +224,13 @@ export class BetService {
             isCategoryDone: betReviewOfRaw.category_done === 1,
           };
         });
-      })
+      }),
     );
   }
 
   public getBetsReviewOfRaw(
     accessKey: string,
-    randomKey: string
+    randomKey: string,
   ): Observable<IBetReviewOfRaw[]> {
     const url = CommonService.getURL('bet/reviewOf');
     return this.httpClient.post<IBetReviewOfRaw[]>(url, {
@@ -240,7 +240,7 @@ export class BetService {
   }
 
   public eraseBets(
-    accessKey: string
+    accessKey: string,
   ): Observable<IEmpty | IOffline | INotUpdatable> {
     const url = CommonService.getURL('bet/eraseBets');
     return this.httpClient.put<IEmpty | IOffline | INotUpdatable>(url, {
@@ -255,7 +255,7 @@ export class BetService {
         return {
           canCreateBetter: canCreateBetterRaw.canCreateBetter === 1,
         };
-      })
+      }),
     );
   }
 }

@@ -1,16 +1,34 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
-import { IBetStat } from 'src/app/models/bet-stat';
-import { IBetter } from 'src/app/models/better';
-import { BetStatActions } from 'src/app/store/action/bet-stat.action';
-import { BetStatState } from 'src/app/store/state/bet-stat.state';
-import { BetState } from 'src/app/store/state/bet.state';
+import { IBetStat } from '../../models/bet-stat';
+import { IBetter } from '../../models/better';
+import { BetStatActions } from '../../store/action/bet-stat.action';
+import { BetStatState } from '../../store/state/bet-stat.state';
+import { BetState } from '../../store/state/bet.state';
+import { TitlebarComponent } from '../titlebar/titlebar.component';
+import {
+  MatCellDef,
+  MatHeaderCellDef,
+  MatHeaderRowDef,
+  MatRowDef,
+  MatTable,
+} from '@angular/material/table';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'bet-stat',
   templateUrl: './bet-stat.component.html',
   styleUrls: ['./bet-stat.component.scss'],
+  imports: [
+    AsyncPipe,
+    TitlebarComponent,
+    MatTable,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatHeaderRowDef,
+    MatRowDef,
+  ],
 })
 export class BetStatComponent implements OnInit, OnDestroy {
   public better$!: Observable<IBetter>;
@@ -42,7 +60,7 @@ export class BetStatComponent implements OnInit, OnDestroy {
               new BetStatActions.GetBetStat(better.accessKey),
             ]);
           }
-        })
+        }),
       )
       .subscribe();
   }

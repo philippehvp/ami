@@ -4,7 +4,8 @@
   .mat-drawer-container {
     background-position: bottom right;
     background-repeat: no-repeat;
-    background-image: url("~/assets/img/background/isb.png"),
+    background-image:
+      url("~/assets/img/background/isb.png"),
       linear-gradient(
         150deg,
         #fce7f0,
@@ -52,7 +53,7 @@
   }
 }
 
-.bubble-theme {
+.blue-theme {
   $color: white;
   $setting: white;
 
@@ -128,29 +129,44 @@
       span {
         border-radius: 50%;
         background-color: #4fc3dc;
-        box-shadow: 0 0 0 10px #4fc3dc44, 0 0 50px #4fc3dc, 0 0 100px #4fc3dc;
+        box-shadow:
+          0 0 0 10px #4fc3dc44,
+          0 0 50px #4fc3dc,
+          0 0 100px #4fc3dc;
         animation: animate 125s linear infinite;
         animation-duration: calc(240s / var(--i));
       }
 
       span.color1 {
         background-color: #ff2d75;
-        box-shadow: 0 0 0 10px #ff2d7544, 0 0 50px #ff2d75, 0 0 100px #ff2d75;
+        box-shadow:
+          0 0 0 10px #ff2d7544,
+          0 0 50px #ff2d75,
+          0 0 100px #ff2d75;
       }
 
       span.color2 {
         background-color: #4fc3dc;
-        box-shadow: 0 0 0 10px #4fc3dc44, 0 0 50px #4fc3dc, 0 0 100px #4fc3dc;
+        box-shadow:
+          0 0 0 10px #4fc3dc44,
+          0 0 50px #4fc3dc,
+          0 0 100px #4fc3dc;
       }
 
       span.color3 {
         background-color: #dfd95b;
-        box-shadow: 0 0 0 10px #dfd95b44, 0 0 50px #dfd95b, 0 0 100px #dfd95b;
+        box-shadow:
+          0 0 0 10px #dfd95b44,
+          0 0 50px #dfd95b,
+          0 0 100px #dfd95b;
       }
 
       span.color4 {
         background-color: #64123f;
-        box-shadow: 0 0 0 10px #64123f44, 0 0 50px #64123f, 0 0 100px #64123f;
+        box-shadow:
+          0 0 0 10px #64123f44,
+          0 0 50px #64123f,
+          0 0 100px #64123f;
       }
 
       span.size1 {
@@ -185,7 +201,7 @@
   }
 }
 
-.sky-theme {
+.black-theme {
   $color: #bcc0c3;
   $background: #222;
 

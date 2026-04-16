@@ -94,7 +94,7 @@ export class PersistenceService {
   private _themes: ITheme[] = [
     {
       id: 1,
-      name: 'Tournoi 2025',
+      name: 'Tournoi 2026',
       mode: 'isb-theme',
       isLight: true,
       color: 'linear-gradient(180deg, #db6daa, #db6daa, #93ce9a)',
@@ -136,7 +136,7 @@ export class PersistenceService {
     {
       id: 5,
       name: 'Noir',
-      mode: 'sky-theme',
+      mode: 'black-theme',
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',

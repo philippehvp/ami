@@ -6,11 +6,11 @@ import {
   IBetterRaw,
   ISetting,
   ISettingRaw,
-} from 'src/app/models/better';
+} from '../../models/better';
 import { CommonService } from '../common.service';
-import { IEmpty, IError, IOffline } from 'src/app/models/utils';
+import { IEmpty, IError, IOffline } from '../../models/utils';
 import { PersistenceService } from '../persistence.service';
-import { ConnectionActions } from 'src/app/store/action/connection.action';
+import { ConnectionActions } from '../../store/action/connection.action';
 import { Store } from '@ngxs/store';
 
 @Injectable({
@@ -55,7 +55,7 @@ export class BetterService {
         } else {
           return null;
         }
-      })
+      }),
     );
   }
 
@@ -69,7 +69,7 @@ export class BetterService {
     password: string,
     firstName: string,
     contact: string,
-    club: string
+    club: string,
   ): Observable<IError | IBetter> {
     const url = CommonService.getURL('better/createBetter');
     return this.httpClient
@@ -96,7 +96,7 @@ export class BetterService {
               evaluation: betterRaw.evaluation,
             };
           }
-        })
+        }),
       );
   }
 
@@ -109,7 +109,7 @@ export class BetterService {
 
   public setEvaluation(
     accessKey: string,
-    evaluation: number
+    evaluation: number,
   ): Observable<IEmpty | IOffline> {
     const url = CommonService.getURL('better/updateEvaluation');
     return this.httpClient
@@ -122,7 +122,7 @@ export class BetterService {
           if (evaluation && 'isOffline' in evaluation) {
             this.store.dispatch([new ConnectionActions.IsOffline()]);
           }
-        })
+        }),
       );
   }
 
@@ -137,13 +137,13 @@ export class BetterService {
           if (account && 'isOffline' in account) {
             this.store.dispatch([new ConnectionActions.IsOffline()]);
           }
-        })
+        }),
       );
   }
 
   public updateSetting(
     better: IBetter,
-    settings: ISetting
+    settings: ISetting,
   ): Observable<IEmpty | IOffline | ISetting> {
     const url = CommonService.getURL('better/updateSetting');
     return this.httpClient.post<IEmpty | IOffline>(url, {

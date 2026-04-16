@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { tap } from 'rxjs';
-import { IOffline } from 'src/app/models/utils';
+import { IOffline } from '../../models/utils';
 import { ConnectionActions } from '../action/connection.action';
-import { IBetStat } from 'src/app/models/bet-stat';
+import { IBetStat } from '../../models/bet-stat';
 import { BetStatActions } from '../action/bet-stat.action';
-import { BetStatService } from 'src/app/services/rest/bet-stat.service';
+import { BetStatService } from '../../services/rest/bet-stat.service';
 
 export class BetStatModel {
   betStat!: IBetStat[] | undefined;
@@ -29,7 +29,7 @@ export class BetStatState {
   @Action(BetStatActions.GetBetStat)
   getBetStat(
     state: StateContext<BetStatModel>,
-    action: BetStatActions.GetBetStat
+    action: BetStatActions.GetBetStat,
   ) {
     return this.statService.getBetStat(action.accessKey).pipe(
       tap((readBetStat: IBetStat[] | IOffline) => {
@@ -40,7 +40,7 @@ export class BetStatState {
             betStat: <IBetStat[]>readBetStat,
           });
         }
-      })
+      }),
     );
   }
 }

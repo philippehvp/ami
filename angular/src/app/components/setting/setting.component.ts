@@ -1,21 +1,24 @@
 import { Component, Renderer2, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngxs/store';
 import { Observable, map, tap } from 'rxjs';
-import { IBetter, ISetting } from 'src/app/models/better';
-import { ITheme } from 'src/app/models/theme';
-import { IEmpty, IOffline } from 'src/app/models/utils';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetterService } from 'src/app/services/rest/better.service';
-import { ThemeService } from 'src/app/services/theme.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { ConnectionActions } from 'src/app/store/action/connection.action';
-import { BetState } from 'src/app/store/state/bet.state';
+import { IBetter, ISetting } from '../../models/better';
+import { ITheme } from '../../models/theme';
+import { IEmpty, IOffline } from '../../models/utils';
+import { PersistenceService } from '../../services/persistence.service';
+import { BetterService } from '../../services/rest/better.service';
+import { ThemeService } from '../../services/theme.service';
+import { BetActions } from '../../store/action/bet.action';
+import { ConnectionActions } from '../../store/action/connection.action';
+import { BetState } from '../../store/state/bet.state';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'setting',
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.scss'],
+  imports: [AsyncPipe, MatMenuTrigger, MatMenu, MatSlideToggleModule],
 })
 export class SettingComponent {
   public better$!: Observable<IBetter>;
@@ -28,7 +31,7 @@ export class SettingComponent {
     private readonly betterService: BetterService,
     private readonly renderer: Renderer2,
     private readonly themeService: ThemeService,
-    private readonly store: Store
+    private readonly store: Store,
   ) {
     this.better$ = this.store.select(BetState.better);
   }
@@ -58,10 +61,10 @@ export class SettingComponent {
 
               window.localStorage.setItem(
                 'settings',
-                JSON.stringify(this.persistenceService.getSettings())
+                JSON.stringify(this.persistenceService.getSettings()),
               );
             }
-          })
+          }),
         )
         .subscribe();
     }
@@ -90,10 +93,10 @@ export class SettingComponent {
 
               window.localStorage.setItem(
                 'settings',
-                JSON.stringify(this.persistenceService.getSettings())
+                JSON.stringify(this.persistenceService.getSettings()),
               );
             }
-          })
+          }),
         )
         .subscribe();
     }
@@ -122,10 +125,10 @@ export class SettingComponent {
 
               window.localStorage.setItem(
                 'settings',
-                JSON.stringify(this.persistenceService.getSettings())
+                JSON.stringify(this.persistenceService.getSettings()),
               );
             }
-          })
+          }),
         )
         .subscribe();
     }
@@ -150,7 +153,7 @@ export class SettingComponent {
 
               window.localStorage.setItem(
                 'settings',
-                JSON.stringify(this.persistenceService.getSettings())
+                JSON.stringify(this.persistenceService.getSettings()),
               );
 
               if (this.persistenceService.isAutoNavigation) {
@@ -159,7 +162,7 @@ export class SettingComponent {
                 ]);
               }
             }
-          })
+          }),
         )
         .subscribe();
     }
@@ -194,10 +197,10 @@ export class SettingComponent {
 
               window.localStorage.setItem(
                 'settings',
-                JSON.stringify(this.persistenceService.getSettings())
+                JSON.stringify(this.persistenceService.getSettings()),
               );
             }
-          })
+          }),
         )
         .subscribe();
     }
@@ -246,15 +249,15 @@ export class SettingComponent {
               const theme = this.persistenceService.setTheme(id);
               this.themeService.setTheme(
                 this.renderer,
-                this.persistenceService.theme
+                this.persistenceService.theme,
               );
 
               window.localStorage.setItem(
                 'settings',
-                JSON.stringify(this.persistenceService.getSettings())
+                JSON.stringify(this.persistenceService.getSettings()),
               );
             }
-          })
+          }),
         )
         .subscribe();
     }
@@ -289,7 +292,7 @@ export class SettingComponent {
 
   private updateSetting(
     better: IBetter,
-    settings: ISetting
+    settings: ISetting,
   ): Observable<IEmpty | IOffline | ISetting | null> {
     return this.betterService.updateSetting(better, settings).pipe(
       map((settings) => {
@@ -299,7 +302,7 @@ export class SettingComponent {
         } else {
           return settings;
         }
-      })
+      }),
     );
   }
 }

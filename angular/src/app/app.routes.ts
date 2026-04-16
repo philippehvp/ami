@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, RouterModule } from '@angular/router';
 
 import { BetComponent } from './components/bet/bet.component';
 import { LoginComponent } from './components/login/login.component';
@@ -12,7 +12,7 @@ import { RuleComponent } from './components/rule/rule.component';
 import { BetStatComponent } from './components/bet-stat/bet-stat.component';
 import { UnavailableComponent } from './components/unavailable/unavailable.component';
 
-const routes: Routes = [
+export const appRoutes: Route[] = [
   {
     path: 'bet',
     component: BetComponent,
@@ -80,11 +80,3 @@ const routes: Routes = [
     data: { isRelog: false },
   },
 ];
-
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { enableTracing: false, useHash: true }),
-  ],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

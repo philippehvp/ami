@@ -1,25 +1,31 @@
-import { Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InformationComponent } from '../information/information.component';
 import {
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { BetterService } from 'src/app/services/rest/better.service';
+import { BetterService } from '../../services/rest/better.service';
 import { Store } from '@ngxs/store';
-import { BetActions } from 'src/app/store/action/bet.action';
+import { BetActions } from '../../store/action/bet.action';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-dialog-type';
+} from '../../models/information-dialog-type';
 import { Subject, map, takeUntil } from 'rxjs';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetService } from 'src/app/services/rest/bet.service';
-import { CommonService } from 'src/app/services/common.service';
-import { ThemeService } from 'src/app/services/theme.service';
+import { PersistenceService } from '../../services/persistence.service';
+import { BetService } from '../../services/rest/bet.service';
+import { ThemeService } from '../../services/theme.service';
 import { ActivatedRoute } from '@angular/router';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+
+import { MatButtonModule } from '@angular/material/button';
 
 export interface ILoginFormGroup {
   name: ValidationErrors;
@@ -30,6 +36,13 @@ export interface ILoginFormGroup {
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   public formGroup!: FormGroup;
@@ -52,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly betService: BetService,
     private readonly themeService: ThemeService,
     private readonly renderer: Renderer2,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) {}
 
   public get disabledLoginButton(): boolean {
@@ -62,9 +75,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public get isRelog(): boolean {
-    if (this._isRelog) return this._isRelog;
+    //if (this._isRelog) return this._isRelog;
+    //return false;
 
-    return false;
+    return true;
   }
 
   public get introClass(): string {
@@ -89,13 +103,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map((route) => {
           this._isRelog = route && route['isRelog'] === true;
-        })
+        }),
       )
       .subscribe();
 
     this.themeService.setTheme(
       this.renderer,
-      this.persistenceService.themes[0]
+      this.persistenceService.themes[0],
     );
 
     this.formGroup = this.formBuilder.group({
@@ -109,7 +123,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map((canCreateBetter) => {
           this.canCreateBetter = canCreateBetter.canCreateBetter;
-        })
+        }),
       )
       .subscribe();
   }
@@ -138,16 +152,16 @@ export class LoginComponent implements OnInit, OnDestroy {
           const link: string = better.isAdmin
             ? 'bet'
             : !better.isTutorialDone
-            ? 'welcome'
-            : better.endBetDate && better.endBetDate > new Date()
-            ? 'bet'
-            : 'better-ranking1';
+              ? 'welcome'
+              : better.endBetDate && better.endBetDate > new Date()
+                ? 'bet'
+                : 'better-ranking1';
 
           if (link === 'better-ranking1') {
             window.localStorage.setItem('better', JSON.stringify(better));
             window.localStorage.setItem(
               'settings',
-              JSON.stringify(this.persistenceService.getSettings())
+              JSON.stringify(this.persistenceService.getSettings()),
             );
           }
 

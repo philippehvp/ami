@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { IBubble, ThemeService } from 'src/app/services/theme.service';
+import { PersistenceService } from '../../../services/persistence.service';
+import {
+  IBubble as IBubble,
+  ThemeService,
+} from '../../../services/theme.service';
 
 @Component({
   selector: 'bubble',
@@ -14,7 +17,7 @@ export class BubbleComponent implements OnInit {
   public bubbles!: IBubble[];
 
   public ngOnInit() {
-    this.bubbles = this.themeService.bubbles;
+    this.bubbles = this.themeService.blues;
   }
 
   public get animationPlayState(): string {

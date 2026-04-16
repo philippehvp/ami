@@ -1,16 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
-import { IBetter } from 'src/app/models/better';
-import { IBetterBet, IPlayer } from 'src/app/models/better-bet';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
-import { BetterBetState } from 'src/app/store/state/better-bet.state';
+import { IBetter } from '../../models/better';
+import { IBetterBet, IPlayer } from '../../models/better-bet';
+import { BetActions } from '../../store/action/bet.action';
+import { BetState } from '../../store/state/bet.state';
+import { BetterBetState } from '../../store/state/better-bet.state';
+import { TitlebarComponent } from '../titlebar/titlebar.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'better-bet',
   templateUrl: './better-bet.component.html',
   styleUrls: ['./better-bet.component.scss'],
+  imports: [AsyncPipe, TitlebarComponent],
 })
 export class BetterBetComponent implements OnInit, OnDestroy {
   public betterBet$!: Observable<IBetterBet | undefined>;
@@ -37,7 +40,7 @@ export class BetterBetComponent implements OnInit, OnDestroy {
               new BetActions.GetBetterBet(better.accessKey),
             ]);
           }
-        })
+        }),
       )
       .subscribe();
 
@@ -49,12 +52,12 @@ export class BetterBetComponent implements OnInit, OnDestroy {
             this.displayedColumns = [];
             betterBet.header.map((header) => {
               this.displayedColumns.push(
-                header.contestName + ' - ' + header.categoryName
+                header.contestName + ' - ' + header.categoryName,
               );
               this.displayedColumns.push('Pts');
             });
           }
-        })
+        }),
       )
       .subscribe();
   }

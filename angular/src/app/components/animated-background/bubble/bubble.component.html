@@ -1,8 +1,9 @@
 <span class="bubbles">
-  <span
-    *ngFor="let bubble of bubbles"
-    style="--i: {{ bubble.id }}"
-    [class]="getBubbleClass(bubble)"
-    [style.animationPlayState]="animationPlayState"
-  ></span>
+  @for (bubble of bubbles; track bubble) {
+    <span
+      style="--i: {{ bubble.id }}"
+      [class]="getBubbleClass(bubble)"
+      [style.animationPlayState]="animationPlayState"
+    ></span>
+  }
 </span>

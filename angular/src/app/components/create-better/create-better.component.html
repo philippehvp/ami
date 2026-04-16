@@ -52,18 +52,14 @@
           maxlength="4"
           (input)="checkPassword($event)"
         />
-        <mat-icon
-          matSuffix
-          *ngIf="!passwordVisibility"
-          (click)="toggleVisibility()"
-          >visibility_off</mat-icon
-        >
-        <mat-icon
-          matSuffix
-          *ngIf="passwordVisibility"
-          (click)="toggleVisibility()"
-          >visibility</mat-icon
-        >
+        @if (!passwordVisibility) {
+          <mat-icon matSuffix (click)="toggleVisibility()"
+            >visibility_off</mat-icon
+          >
+        }
+        @if (passwordVisibility) {
+          <mat-icon matSuffix (click)="toggleVisibility()">visibility</mat-icon>
+        }
       </mat-form-field>
       <br />
 
@@ -93,14 +89,14 @@
     <span class="accept-panel">
       <span class="accept-row">
         <span class="checkbox-area"
-          ><mat-checkbox [(ngModel)]="hasMajority" required></mat-checkbox
+          ><mat-checkbox [checked]="hasMajority" required></mat-checkbox
         ></span>
         <span class="label">Je certifie avoir 18 ans ou plus</span>
       </span>
 
       <span class="accept-row">
         <span class="checkbox-area">
-          <mat-checkbox [(ngModel)]="hasGDPRAccepted"> </mat-checkbox>
+          <mat-checkbox [checked]="hasGDPRAccepted"> </mat-checkbox>
         </span>
         <span class="label">J'accepte la Charte WINABAD</span>
       </span>

@@ -1,3 +1,16 @@
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
+
+import { appRoutes } from './app.routes';
+import { provideRouter } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+import { BetStatState } from './store/state/bet-stat.state';
+import { BetState } from './store/state/bet.state';
+import { BetterBetState } from './store/state/better-bet.state';
+
 export namespace AppConfig {
   // REST PHP
   export const PRODUCTION_PHP_REST_URL: string = 'php_rest/';
@@ -5,3 +18,13 @@ export namespace AppConfig {
 
   export const PHP_SUFFIX: string = '.php';
 }
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(appRoutes),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    importProvidersFrom(
+      NgxsModule.forRoot([BetStatState, BetState, BetterBetState]),
+    ),
+  ],
+};

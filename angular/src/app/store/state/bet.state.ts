@@ -2,24 +2,24 @@ import { Injectable, inject } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { map, tap } from 'rxjs/operators';
 import { BetActions } from '../action/bet.action';
-import { BetService } from 'src/app/services/rest/bet.service';
-import { IBetter } from 'src/app/models/better';
-import { IContest } from 'src/app/models/contest';
-import { ICategory } from 'src/app/models/category';
-import { IPlayer } from 'src/app/models/player';
-import { PlayerService } from 'src/app/services/rest/player.service';
-import { IBet } from 'src/app/models/bet';
+import { BetService } from '../../services/rest/bet.service';
+import { IBetter } from '../../models/better';
+import { IContest } from '../../models/contest';
+import { ICategory } from '../../models/category';
+import { IPlayer } from '../../models/player';
+import { PlayerService } from '../../services/rest/player.service';
+import { IBet } from '../../models/bet';
 import { updateItem, patch } from '@ngxs/store/operators';
-import { IDuration } from 'src/app/models/duration';
-import { IEmpty, INotUpdatable, IOffline } from 'src/app/models/utils';
+import { IDuration } from '../../models/duration';
+import { IEmpty, INotUpdatable, IOffline } from '../../models/utils';
 import { ConnectionActions } from '../action/connection.action';
-import { BetterService } from 'src/app/services/rest/better.service';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { IBetterPoint } from 'src/app/models/better-point';
-import { IBetReviewOf } from 'src/app/models/bet-review-of';
+import { BetterService } from '../../services/rest/better.service';
+import { PersistenceService } from '../../services/persistence.service';
+import { IBetterPoint } from '../../models/better-point';
+import { IBetReviewOf } from '../../models/bet-review-of';
 import { EMPTY } from 'rxjs';
-import { IBetterRanking } from 'src/app/models/better-ranking';
-import { BetterRankingService } from 'src/app/services/rest/better-ranking.service';
+import { IBetterRanking } from '../../models/better-ranking';
+import { BetterRankingService } from '../../services/rest/better-ranking.service';
 
 export class BetStateModel {
   isOffline!: boolean;
@@ -57,7 +57,7 @@ export class BetStateModel {
     betsReviewOf: [],
     duration: {} as IDuration,
     completedBets: 0,
-    isLoadingData: false,
+    isLoadingData: true,
     allBetsDone: false,
     proposeAutoNavigation: undefined,
     categoryToDisplay: -1,
@@ -162,13 +162,13 @@ export class BetState {
   @Action(BetActions.GetBetterRanking)
   getBetterRanking(
     state: StateContext<BetStateModel>,
-    action: BetActions.GetBetterRanking
+    action: BetActions.GetBetterRanking,
   ) {
     return this.rankingService
       .getBettersRanking(
         state.getState().better.accessKey,
         action.byRanking,
-        action.day
+        action.day,
       )
       .pipe(
         tap((readBettersRanking: IBetterRanking | IOffline) => {
@@ -179,7 +179,7 @@ export class BetState {
               bettersRanking: <IBetterRanking>readBettersRanking,
             });
           }
-        })
+        }),
       );
   }
 
@@ -207,14 +207,14 @@ export class BetState {
             // Hors connexion
             state.dispatch([new ConnectionActions.IsOffline()]);
           }
-        })
+        }),
       );
   }
 
   @Action(BetActions.SetEvaluation)
   updateEvaluation(
     state: StateContext<BetStateModel>,
-    action: BetActions.SetEvaluation
+    action: BetActions.SetEvaluation,
   ) {
     const better = state.getState().better;
     state.patchState({
@@ -223,7 +223,7 @@ export class BetState {
     return this.betterService
       .setEvaluation(
         state.getState().better?.accessKey || '',
-        action.evaluationLevel
+        action.evaluationLevel,
       )
       .pipe(
         tap((ret: IEmpty | IOffline) => {
@@ -231,14 +231,14 @@ export class BetState {
             // Hors connexion
             state.dispatch([new ConnectionActions.IsOffline()]);
           }
-        })
+        }),
       );
   }
 
   @Action(BetActions.GetContests)
   getContests(
     state: StateContext<BetStateModel>,
-    action: BetActions.GetContests
+    action: BetActions.GetContests,
   ) {
     return this.betService.getContests(action.accessKey).pipe(
       map((readContests: IContest[] | IOffline) => {
@@ -265,22 +265,22 @@ export class BetState {
                   (c) => c.id === contest.id,
                   patch({
                     isUpdatable: isAdmin ? true : isUpdatable,
-                  })
+                  }),
                 ),
-              })
+              }),
             );
 
             state.dispatch([new BetActions.GetBets()]);
           });
         }
-      })
+      }),
     );
   }
 
   @Action(BetActions.SetCategory)
   setCategory(
     state: StateContext<BetStateModel>,
-    action: BetActions.SetCategory
+    action: BetActions.SetCategory,
   ) {
     const currentState = state.getState();
 
@@ -306,7 +306,7 @@ export class BetState {
   @Action(BetActions.GetPlayers)
   getPlayers(
     state: StateContext<BetStateModel>,
-    action: BetActions.GetPlayers
+    action: BetActions.GetPlayers,
   ) {
     const currentState = state.getState();
 
@@ -324,7 +324,7 @@ export class BetState {
               isLoadingData: false,
             });
           }
-        })
+        }),
       );
   }
 
@@ -367,14 +367,14 @@ export class BetState {
             ]);
           }
         }
-      })
+      }),
     );
   }
 
   @Action(BetActions.GetBetsReviewOf)
   getBetsReviewOf(
     state: StateContext<BetStateModel>,
-    action: BetActions.GetBetsReviewOf
+    action: BetActions.GetBetsReviewOf,
   ) {
     const currentState = state.getState();
 
@@ -394,7 +394,7 @@ export class BetState {
                 betsReviewOf: <IBetReviewOf[]>readBetsReviewOf,
               });
             }
-          })
+          }),
         );
     } else {
       state.patchState({
@@ -459,7 +459,7 @@ export class BetState {
 
   private getNextBet(
     state: StateContext<BetStateModel>,
-    currentBetIndex: number
+    currentBetIndex: number,
   ): number {
     let ret = ++currentBetIndex;
     if (ret === state.getState()?.bets?.length) {
@@ -495,7 +495,7 @@ export class BetState {
 
   private searchNextBetToFill(
     state: StateContext<BetStateModel>,
-    currentBetIndex: number
+    currentBetIndex: number,
   ): number {
     const currentState = state.getState();
 
@@ -516,7 +516,7 @@ export class BetState {
 
   private searchBetToFill(
     state: StateContext<BetStateModel>,
-    category: number
+    category: number,
   ): number {
     const currentState = state.getState();
 
@@ -548,7 +548,7 @@ export class BetState {
 
   private handleError(
     state: StateContext<BetStateModel>,
-    ret: IOffline | INotUpdatable
+    ret: IOffline | INotUpdatable,
   ) {
     if ('isOffline' in ret) {
       state.dispatch([new ConnectionActions.IsOffline()]);
@@ -566,7 +566,7 @@ export class BetState {
         currentState.better?.accessKey || '',
         currentState.contest?.id || 0,
         currentState.category?.id || 0,
-        action.playerId
+        action.playerId,
       )
       .pipe(
         tap((ret: IEmpty | IOffline | INotUpdatable) => {
@@ -591,7 +591,7 @@ export class BetState {
                         !bet?.runnerUpId || bet?.runnerUpId === action.playerId
                           ? false
                           : true,
-                    })
+                    }),
                   ),
                   bet: {
                     ...bet,
@@ -603,7 +603,7 @@ export class BetState {
                         ? false
                         : true,
                   },
-                })
+                }),
               );
 
               this.calculateCompletedBetsOnUpdate(state);
@@ -612,7 +612,7 @@ export class BetState {
               if (this.persistenceService.isAutoNavigation) {
                 const categoryId = this.searchBetToFill(
                   state,
-                  currentState.category?.id || 0
+                  currentState.category?.id || 0,
                 );
                 if (categoryId !== -1) {
                   state.dispatch([new BetActions.SetCategory(categoryId)]);
@@ -620,14 +620,14 @@ export class BetState {
               }
             }
           }
-        })
+        }),
       );
   }
 
   @Action(BetActions.SetRunnerUp)
   setRunnerUp(
     state: StateContext<BetStateModel>,
-    action: BetActions.SetRunnerUp
+    action: BetActions.SetRunnerUp,
   ) {
     const currentState = state.getState();
 
@@ -636,7 +636,7 @@ export class BetState {
         currentState.better?.accessKey || '',
         currentState.contest?.id || 0,
         currentState.category?.id || 0,
-        action.playerId
+        action.playerId,
       )
       .pipe(
         tap((ret: IEmpty | IOffline | INotUpdatable) => {
@@ -661,7 +661,7 @@ export class BetState {
                         !bet?.winnerId || bet?.winnerId === action.playerId
                           ? false
                           : true,
-                    })
+                    }),
                   ),
                   bet: {
                     ...bet,
@@ -673,7 +673,7 @@ export class BetState {
                         ? false
                         : true,
                   },
-                })
+                }),
               );
 
               this.calculateCompletedBetsOnUpdate(state);
@@ -682,7 +682,7 @@ export class BetState {
               if (this.persistenceService.isAutoNavigation) {
                 const categoryId = this.searchBetToFill(
                   state,
-                  currentState.category?.id || 0
+                  currentState.category?.id || 0,
                 );
                 if (categoryId !== -1) {
                   state.dispatch([new BetActions.SetCategory(categoryId)]);
@@ -690,7 +690,7 @@ export class BetState {
               }
             }
           }
-        })
+        }),
       );
   }
 
@@ -708,14 +708,14 @@ export class BetState {
             duration: <IDuration>readDuration,
           });
         }
-      })
+      }),
     );
   }
 
   @Action(BetActions.SetDuration)
   setDuration(
     state: StateContext<BetStateModel>,
-    action: BetActions.SetDuration
+    action: BetActions.SetDuration,
   ) {
     const currentState = state.getState();
 
@@ -724,7 +724,7 @@ export class BetState {
         currentState.better?.accessKey || '0',
         currentState.contest?.id || 0,
         currentState.contest?.day || 0,
-        action.duration
+        action.duration,
       )
       .pipe(
         tap((ret: IEmpty | IOffline | INotUpdatable) => {
@@ -739,7 +739,7 @@ export class BetState {
             };
             state.patchState({ isOffline: false, duration: duration });
           }
-        })
+        }),
       );
   }
 
@@ -757,7 +757,7 @@ export class BetState {
   @Action(BetActions.GetBetterPoint)
   getBetterPoint(
     state: StateContext<BetStateModel>,
-    action: BetActions.GetBetterPoint
+    action: BetActions.GetBetterPoint,
   ) {
     return this.pointService
       .getBettersPoints(state.getState().better.accessKey, action.categoryId)
@@ -771,7 +771,7 @@ export class BetState {
               betterPoints: <IBetterPoint[]>readBetterPoints,
             });
           }
-        })
+        }),
       );
   }
 
@@ -815,7 +815,7 @@ export class BetState {
   @Action(BetActions.IsLoadingData)
   isLoadingData(
     state: StateContext<BetStateModel>,
-    action: BetActions.IsLoadingData
+    action: BetActions.IsLoadingData,
   ) {
     state.patchState({ isLoadingData: action.isLoadingData });
   }
@@ -829,7 +829,7 @@ export class BetState {
     if (currentCategoryIndex !== -1 && state.getState().bet.isComplete) {
       const nextBetCategoryId = this.searchNextBetToFill(
         state,
-        currentCategoryIndex || 0
+        currentCategoryIndex || 0,
       );
 
       if (nextBetCategoryId !== -1) {
@@ -858,9 +858,9 @@ export class BetState {
                     winnerId: 0,
                     runnerUpId: 0,
                     isComplete: false,
-                  })
+                  }),
                 ),
-              })
+              }),
             );
           });
 
@@ -884,7 +884,7 @@ export class BetState {
           state.dispatch([
             new BetActions.SetCategory(state.getState().bets[0].categoryId),
           ]);
-        })
+        }),
       )
       .subscribe();
   }
@@ -898,7 +898,7 @@ export class BetState {
           if (ret && 'isOffline' in ret) {
             state.dispatch([new ConnectionActions.IsOffline()]);
           }
-        })
+        }),
       );
   }
 }

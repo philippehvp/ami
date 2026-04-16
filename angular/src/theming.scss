@@ -1,171 +1,31 @@
-@import "@angular/material/theming";
+@use "@angular/material" as mat;
 
-@include mat-core();
-
-$md-palette-isb: (
-  50: #e8e6ef,
-  100: #c5c1d8,
-  200: #9f97be,
-  300: #796da4,
-  400: #5c4e91,
-  500: #3f2f7d,
-  600: #392a75,
-  700: #31236a,
-  800: #291d60,
-  900: #1b124d,
-  A100: #9787ff,
-  A200: #6b54ff,
-  A400: #3e21ff,
-  A700: #2808ff,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #ffffff,
-    A400: #ffffff,
-    A700: #ffffff,
-  ),
-);
-
-$md-palette-bubble: (
-  50: #e9ecfa,
-  100: #c9cef2,
-  200: #a5aeea,
-  300: #818ee2,
-  400: #6675db,
-  500: #4b5dd5,
-  600: #4455d0,
-  700: #3b4bca,
-  800: #3341c4,
-  900: #2330ba,
-  A100: #f6f6ff,
-  A200: #c3c7ff,
-  A400: #9098ff,
-  A700: #7680ff,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
-  ),
-);
-
-$md-palette-sky: (
-  50: #e4e4e4,
-  100: #bdbdbd,
-  200: #919191,
-  300: #646464,
-  400: #434343,
-  500: #222222,
-  600: #1e1e1e,
-  700: #191919,
-  800: #141414,
-  900: #0c0c0c,
-  A100: #e76c6c,
-  A200: #e04040,
-  A400: #ec0000,
-  A700: #d30000,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #ffffff,
-    A400: #ffffff,
-    A700: #ffffff,
-  ),
-);
-
-$md-palette-desert: (
-  50: #f6eae8,
-  100: #e9cac6,
-  200: #daa7a0,
-  300: #cb837a,
-  400: #c0695e,
-  500: #b54e41,
-  600: #ae473b,
-  700: #a53d32,
-  800: #9d352a,
-  900: #8d251c,
-  A100: #ffcac7,
-  A200: #ff9b94,
-  A400: #ff6b61,
-  A700: #ff5347,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
-  ),
-);
-
-$isb-primary: mat-palette($md-palette-isb, 500);
-$isb-accent: mat-palette($md-palette-isb, A200, A100, A400);
-$isb-warn: mat-palette($md-palette-isb);
-$isb-theme: mat-light-theme($isb-primary, $isb-accent, $isb-warn);
-
-$bubble-primary: mat-palette($md-palette-bubble, 300);
-$bubble-accent: mat-palette($md-palette-bubble, A400);
-$bubble-warn: mat-palette($md-palette-bubble, A200);
-$bubble-theme: mat-light-theme($bubble-primary, $bubble-accent, $bubble-warn);
-
-$sky-primary: mat-palette($md-palette-sky, 100);
-$sky-accent: mat-palette($md-palette-sky, A400);
-$sky-warn: mat-palette($md-palette-sky, A200);
-$sky-theme: mat-dark-theme($sky-primary, $sky-accent, $sky-warn);
-
-$desert-primary: mat-palette($md-palette-desert, 50);
-$desert-accent: mat-palette($md-palette-desert, A200, A100, A400);
-$desert-warn: mat-palette($md-palette-desert);
-$desert-theme: mat-light-theme($desert-primary, $desert-accent, $desert-warn);
+@include mat.core();
 
 .isb-theme {
-  @include angular-material-theme($isb-theme);
+  @include mat.theme(
+    (
+      color: mat.$azure-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
 }
 
-.bubble-theme {
-  @include angular-material-theme($bubble-theme);
-}
+// .bubble-theme {
+//   @include mat.theme($bubble-theme);
+//   400: #6675db,
+//   500: #4b5dd5,
+// }
 
-.sky-theme {
-  @include angular-material-theme($sky-theme);
-}
+// .black-theme {
+//   @include mat.theme($black-theme);
+//   400: #434343,
+//   500: #222222,
+// }
 
-.desert-theme {
-  @include angular-material-theme($desert-theme);
-}
+// .desert-theme {
+//   @include mat.theme($desert-theme);
+//   400: #c0695e,
+//   500: #b54e41,
+// }

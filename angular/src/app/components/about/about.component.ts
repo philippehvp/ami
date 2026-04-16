@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ILogo } from 'src/app/app.component';
-import { PersistenceService } from 'src/app/services/persistence.service';
+import { ILogo } from '../../app.component';
+import { PersistenceService } from '../../services/persistence.service';
 
 @Component({
   selector: 'about',

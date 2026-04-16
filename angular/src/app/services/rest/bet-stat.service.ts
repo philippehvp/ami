@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { IOffline } from '../../models/utils';
 import { CommonService } from '../common.service';
-import { IBetStat } from 'src/app/models/bet-stat';
+import { IBetStat } from '../../models/bet-stat';
 
 @Injectable({
   providedIn: 'root',

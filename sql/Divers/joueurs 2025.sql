@@ -1,4 +1,4 @@
-TRUNCATE TABLE cpi_better;
+TRUNCATE TABLE cpi_player;
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('COMTAT Clément', 'DESMARETZ Simon', 'Bad In Marseille', 'Badminton Olympique De Pernes', 'R4', 'R4', 11);
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('KANAKA Shafwan', 'ROSE Valentin', 'Badminton Toulon Metropole 83 ', 'Badminton Toulon Metropole 83 ', 'R4', 'R4', 11);
 INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('SUPERVIA Inaki', 'WOLFS Bastien', 'Avignon Badminton Club', 'Avignon Badminton Club', 'R4', 'R4', 11);

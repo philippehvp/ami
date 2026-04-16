@@ -1,84 +1,87 @@
-<ng-container *ngIf="better$ | async as better">
-  <div class="setting-area">
-    <span
-      class="setting link"
-      #settingsMenuTrigger="matMenuTrigger"
-      [matMenuTriggerFor]="settingsMenu"
-    >
-      <span class="material-icons-outlined icon"> tune </span>
-      <mat-menu #settingsMenu="matMenu">
-        <span class="title-panel">
-          <span class="title">Affichage</span>
-          <span class="close link" (click)="settingsMenuTrigger.closeMenu()"
-            >Fermer</span
-          >
-        </span>
-        <span class="menu-item link" (click)="toggleClubName(better, $event)">
-          <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
-          <span class="label">Afficher le nom des clubs</span>
-        </span>
-        <span
-          class="menu-item link"
-          (click)="togglePlayerRanking(better, $event)"
-        >
-          <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
-          <span class="label">Afficher le classement</span>
-        </span>
-        <span
-          class="menu-item link"
-          (click)="toggleFirstnameVisible(better, $event)"
-        >
-          <mat-slide-toggle [checked]="isFirstnameVisible"> </mat-slide-toggle>
-          <span class="label">Afficher les prénoms</span>
-        </span>
-      </mat-menu>
-      <span class="label">Affichage</span>
-    </span>
-
-    <span class="setting link" (click)="toggleAutoNavigation(better || null)">
-      <span class="material-icons-outlined icon">
-        {{ autoNavigationIcon }}
-      </span>
-      <span class="label">{{ autoNavigationLabel }}</span>
-    </span>
-
-    <span class="setting link" (click)="togglePlayerReverse(better || null)">
-      <span class="material-icons icon">
-        {{ playerReverseIcon }}
-      </span>
-      <span class="label">{{ playerReverseLabel }}</span>
-    </span>
-
-    <span
-      class="setting link"
-      #themesMenuTrigger="matMenuTrigger"
-      [matMenuTriggerFor]="themesMenu"
-    >
-      <span class="material-icons-outlined icon"> palette </span>
-      <mat-menu #themesMenu="matMenu">
-        <span class="themes-panel">
+@if (better$ | async; as better) {
+  <ng-container>
+    <div class="setting-area">
+      <span
+        class="setting link"
+        #settingsMenuTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="settingsMenu"
+      >
+        <span class="material-icons-outlined icon"> tune </span>
+        <mat-menu #settingsMenu="matMenu">
           <span class="title-panel">
-            <span class="title">Thèmes</span>
-            <span class="close link" (click)="themesMenuTrigger.closeMenu()"
+            <span class="title">Affichage</span>
+            <span class="close link" (click)="settingsMenuTrigger.closeMenu()"
               >Fermer</span
             >
           </span>
-          <span class="menu-item">{{ theme.name }}</span>
+          <span class="menu-item link" (click)="toggleClubName(better, $event)">
+            <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
+            <span class="label">Afficher le nom des clubs</span>
+          </span>
+          <span
+            class="menu-item link"
+            (click)="togglePlayerRanking(better, $event)"
+          >
+            <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
+            <span class="label">Afficher le classement</span>
+          </span>
+          <span
+            class="menu-item link"
+            (click)="toggleFirstnameVisible(better, $event)"
+          >
+            <mat-slide-toggle [checked]="isFirstnameVisible">
+            </mat-slide-toggle>
+            <span class="label">Afficher les prénoms</span>
+          </span>
+        </mat-menu>
+        <span class="label">Affichage</span>
+      </span>
 
-          <span class="menu-item link">
-            <span class="color-item">
-              <span
-                class="color"
-                [style.background]="theme.color"
-                [style.borderColor]="getBorderColor(theme)"
-                [class]="{ 'color-active': isCurrentTheme(theme) }"
-                (click)="changeTheme($event, better, theme.id)"
-                *ngFor="let theme of themes"
+      <span class="setting link" (click)="toggleAutoNavigation(better || null)">
+        <span class="material-icons-outlined icon">
+          {{ autoNavigationIcon }}
+        </span>
+        <span class="label">{{ autoNavigationLabel }}</span>
+      </span>
+
+      <span class="setting link" (click)="togglePlayerReverse(better || null)">
+        <span class="material-icons icon">
+          {{ playerReverseIcon }}
+        </span>
+        <span class="label">{{ playerReverseLabel }}</span>
+      </span>
+
+      <span
+        class="setting link"
+        #themesMenuTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="themesMenu"
+      >
+        <span class="material-icons-outlined icon"> palette </span>
+        <mat-menu #themesMenu="matMenu">
+          <span class="themes-panel">
+            <span class="title-panel">
+              <span class="title">Thèmes</span>
+              <span class="close link" (click)="themesMenuTrigger.closeMenu()"
+                >Fermer</span
               >
+            </span>
+            <span class="menu-item">{{ theme.name }}</span>
+
+            <span class="menu-item link">
+              <span class="color-item">
+                @for (theme of themes; track $index) {
+                  <span
+                    class="color"
+                    [style.background]="theme.color"
+                    [style.borderColor]="getBorderColor(theme)"
+                    [class]="{ 'color-active': isCurrentTheme(theme) }"
+                    (click)="changeTheme($event, better, theme.id)"
+                  >
+                  </span>
+                }
               </span>
             </span>
-          </span>
-          <!-- <span
+            <!-- <span
             class="menu-item link"
             (click)="toggleAnimateTheme(theme, $event)"
           >
@@ -90,7 +93,7 @@
             <span class="label">Animer le thème</span>
           </span> -->
 
-          <!-- <span
+            <!-- <span
             class="menu-item link"
             (click)="toggleShowThemeAnimation(theme, $event)"
           >
@@ -101,9 +104,10 @@
             </mat-slide-toggle>
             <span class="label">Afficher l'animation</span>
           </span> -->
-        </span>
-      </mat-menu>
-      <span class="label">Thèmes</span>
-    </span>
-  </div>
-</ng-container>
+          </span>
+        </mat-menu>
+        <span class="label">Thèmes</span>
+      </span>
+    </div>
+  </ng-container>
+}

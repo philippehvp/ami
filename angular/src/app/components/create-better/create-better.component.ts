@@ -2,22 +2,27 @@ import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { InformationComponent } from '../information/information.component';
-import { BetterService } from 'src/app/services/rest/better.service';
-import { IError } from 'src/app/models/utils';
-import { IBetter } from 'src/app/models/better';
-import { BetActions } from 'src/app/store/action/bet.action';
+import { BetterService } from '../../services/rest/better.service';
+import { IError } from '../../models/utils';
+import { IBetter } from '../../models/better';
+import { BetActions } from '../../store/action/bet.action';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-dialog-type';
-import { PersistenceService } from 'src/app/services/persistence.service';
+} from '../../models/information-dialog-type';
+import { PersistenceService } from '../../services/persistence.service';
 import { GdprComponent } from '../gdpr/gdpr.component';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -29,6 +34,13 @@ export interface ICreateBetterFormGroup {
   selector: 'create-better',
   templateUrl: './create-better.component.html',
   styleUrls: ['./create-better.component.scss'],
+  imports: [
+    MatFormField,
+    MatLabel,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatCheckboxModule,
+  ],
 })
 export class CreateBetterComponent implements OnInit {
   public formGroup!: FormGroup;
@@ -42,7 +54,7 @@ export class CreateBetterComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly betterService: BetterService,
     private readonly store: Store,
-    private readonly persistenceService: PersistenceService
+    private readonly persistenceService: PersistenceService,
   ) {}
 
   public get createBetterDisabled(): boolean {

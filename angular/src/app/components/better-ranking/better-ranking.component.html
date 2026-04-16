@@ -1,106 +1,111 @@
-<ng-container *ngIf="data$ | async as data">
-  <div
-    class="ranking-panel slow-animation"
-    *ngIf="!isReviewOfVisible"
-    [class]="expandPanelClass"
-  >
-    <div class="card row growing">
-      <span class="header">
-        <span class="title">{{ title }}</span>
+@if (data$ | async; as data) {
+  <ng-container>
+    @if (!isReviewOfVisible) {
+      <div class="ranking-panel slow-animation" [class]="expandPanelClass">
+        <div class="card row growing">
+          <span class="header">
+            <span class="title">{{ title }}</span>
 
-        <span class="timer-panel">
-          <span *ngIf="isRefreshSuspended" (click)="toggleRefresh()"
-            ><span class="material-icons-outlined"> play_arrow </span></span
+            <span class="timer-panel">
+              @if (isRefreshSuspended) {
+                <span (click)="toggleRefresh()"
+                  ><span class="material-icons-outlined">
+                    play_arrow
+                  </span></span
+                >
+              }
+
+              @if (!isRefreshSuspended) {
+                <span (click)="toggleRefresh()"
+                  ><span class="material-icons-outlined"> pause </span></span
+                >
+              }
+              <mat-progress-bar class="progress-bar" [value]="spinnerValue">
+              </mat-progress-bar>
+            </span>
+          </span>
+
+          <span
+            >Nombre de séries terminées :
+            {{ getCompletedCategories(data?.bettersRanking) }} /
+            {{ getCountOfCategories(data?.bettersRanking) }}</span
           >
-          <span *ngIf="!isRefreshSuspended" (click)="toggleRefresh()"
-            ><span class="material-icons-outlined"> pause </span></span
-          >
-          <mat-progress-bar class="progress-bar" [value]="spinnerValue">
-          </mat-progress-bar>
-        </span>
-      </span>
 
-      <span
-        >Nombre de séries terminées :
-        {{ getCompletedCategories(data?.bettersRanking) }} /
-        {{ getCountOfCategories(data?.bettersRanking) }}</span
-      >
+          <table mat-table [dataSource]="getDataSource(data.bettersRanking)">
+            <ng-container matColumnDef="ranking">
+              <th class="ranking" mat-header-cell *matHeaderCellDef>
+                <span class="material-icons-outlined icon"> emoji_events </span>
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let ranking"
+                class="ranking"
+                (click)="showBetsReviewOf(ranking, data.better || null)"
+              >
+                {{ ranking.ranking }}
+              </td>
+            </ng-container>
 
-      <table mat-table [dataSource]="getDataSource(data.bettersRanking)">
-        <ng-container matColumnDef="ranking">
-          <th class="ranking" mat-header-cell *matHeaderCellDef>
-            <span class="material-icons-outlined icon"> emoji_events </span>
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let ranking"
-            class="ranking"
-            (click)="showBetsReviewOf(ranking, data.better || null)"
-          >
-            {{ ranking.ranking }}
-          </td>
-        </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>
+                <span>Joueurs</span>
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let ranking"
+                (click)="showBetsReviewOf(ranking, data.better || null)"
+              >
+                {{ getRankingBetterName(ranking, data.better || null) }}
+              </td>
+            </ng-container>
 
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>
-            <span>Joueurs</span>
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let ranking"
-            (click)="showBetsReviewOf(ranking, data.better || null)"
-          >
-            {{ getRankingBetterName(ranking, data.better || null) }}
-          </td>
-        </ng-container>
+            <ng-container matColumnDef="points">
+              <th mat-header-cell *matHeaderCellDef>
+                <span>Points</span>
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let ranking"
+                (click)="showBetsReviewOf(ranking, data.better || null)"
+              >
+                {{ ranking.points }}
+              </td>
+            </ng-container>
 
-        <ng-container matColumnDef="points">
-          <th mat-header-cell *matHeaderCellDef>
-            <span>Points</span>
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let ranking"
-            (click)="showBetsReviewOf(ranking, data.better || null)"
-          >
-            {{ ranking.points }}
-          </td>
-        </ng-container>
+            <ng-container matColumnDef="duration">
+              <th mat-header-cell *matHeaderCellDef>
+                <span>Durée</span>
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let ranking"
+                (click)="showBetsReviewOf(ranking, data.better || null)"
+              >
+                {{ ranking.duration }}
+              </td>
+            </ng-container>
 
-        <ng-container matColumnDef="duration">
-          <th mat-header-cell *matHeaderCellDef>
-            <span>Durée</span>
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let ranking"
-            (click)="showBetsReviewOf(ranking, data.better || null)"
-          >
-            {{ ranking.duration }}
-          </td>
-        </ng-container>
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      </div>
+    }
 
-        <tr
-          mat-header-row
-          *matHeaderRowDef="displayedColumns; sticky: true"
-        ></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
+    @if (isReviewOfVisible) {
+      <div class="review-of-panel slow-animation" [class]="expandPanelClass">
+        <div class="card row growing">
+          <bet-review-of></bet-review-of>
+        </div>
+      </div>
+    }
+
+    <!-- Paramétrage -->
+    <div class="row no-growing setting-panel slow-animation">
+      <setting></setting>
     </div>
-  </div>
-
-  <div
-    class="review-of-panel slow-animation"
-    *ngIf="isReviewOfVisible"
-    [class]="expandPanelClass"
-  >
-    <div class="card row growing">
-      <bet-review-of></bet-review-of>
-    </div>
-  </div>
-
-  <!-- Paramétrage -->
-  <div class="row no-growing setting-panel slow-animation">
-    <setting></setting>
-  </div>
-</ng-container>
+  </ng-container>
+}

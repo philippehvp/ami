@@ -19,7 +19,7 @@
           stroke-miterlimit: 10;
         "
       >
-        <g id="WINABAD" transform="matrix(1,0,0,1,-97.8396,-315.84)">
+        <g id="UMPIRE" transform="matrix(1,0,0,1,-97.8396,-315.84)">
           <g id="volant">
             <g transform="matrix(1,0,0,1,249.103,368.321)">
               <path
@@ -84,7 +84,7 @@
     </span>
     <p>
       Le club Istres Sports Badminton<br />est heureux de présenter le jeu
-      WINABAD<br />
+      UMPIRE<br />
       et te remercie d'y participer.
     </p>
   </span>
@@ -92,21 +92,19 @@
   <span class="social-panel">
     <span class="title">Infos et news du club sur</span>
     <span class="logo-row">
-      <span
-        class="social link"
-        *ngFor="let social of socials"
-        (click)="openLogoLink(social)"
-      >
-        <span class="logo">
-          <img
-            [src]="getLogoFile(social)"
-            alt=""
-            class="icon"
-            [class]="social.class"
-          />
+      @for (social of socials; track social) {
+        <span class="social link" (click)="openLogoLink(social)">
+          <span class="logo">
+            <img
+              [src]="getLogoFile(social)"
+              alt=""
+              class="icon"
+              [class]="social.class"
+            />
+          </span>
+          <span class="label">{{ social.label }}</span>
         </span>
-        <span class="label">{{ social.label }}</span>
-      </span>
+      }
     </span>
   </span>
 

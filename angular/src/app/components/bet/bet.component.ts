@@ -13,24 +13,49 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { Subject, combineLatest, filter, map, takeUntil } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { IBetter } from 'src/app/models/better';
-import { ICategory } from 'src/app/models/category';
-import { IContest } from 'src/app/models/contest';
-import { IDuration } from 'src/app/models/duration';
+import { IBetter } from '../../models/better';
+import { ICategory } from '../../models/category';
+import { IContest } from '../../models/contest';
+import { IDuration } from '../../models/duration';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-dialog-type';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { ThemeService } from 'src/app/services/theme.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
+} from '../../models/information-dialog-type';
+import { PersistenceService } from '../../services/persistence.service';
+import { ThemeService } from '../../services/theme.service';
+import { BetActions } from '../../store/action/bet.action';
+import { BetState } from '../../store/state/bet.state';
 import { InformationComponent } from '../information/information.component';
+import { AsyncPipe } from '@angular/common';
+import { CircleComponent } from '../animated-background/circle/circle.component';
+import { WaveComponent } from '../animated-background/wave/wave.component';
+import { BubbleComponent } from '../animated-background/bubble/bubble.component';
+import { SkyComponent } from '../animated-background/sky/sky.component';
+import { BetDurationComponent } from './bet-duration/bet-duration.component';
+import { BetContestComponent } from './bet-contest/bet-contest.component';
+import { BetPlayerComponent } from './bet-player/bet-player.component';
+import { BetReviewOfComponent } from './bet-review-of/bet-review-of.component';
+import { SettingComponent } from '../setting/setting.component';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'bet',
   templateUrl: './bet.component.html',
   styleUrls: ['./bet.component.scss'],
+  imports: [
+    AsyncPipe,
+    CircleComponent,
+    WaveComponent,
+    BubbleComponent,
+    SkyComponent,
+    BetDurationComponent,
+    BetContestComponent,
+    BetPlayerComponent,
+    BetReviewOfComponent,
+    SettingComponent,
+    MatMenuTrigger,
+    MatMenu,
+  ],
 })
 export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('betPanel')
@@ -68,7 +93,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly persistenceService: PersistenceService,
     private readonly snackBar: MatSnackBar,
     private readonly themeService: ThemeService,
-    private readonly renderer: Renderer2
+    private readonly renderer: Renderer2,
   ) {
     this.better$ = this.store.select(BetState.better);
     this.category$ = this.store.select(BetState.category);
@@ -76,7 +101,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isOffline$ = this.store.select(BetState.isOffline);
     this.allBetsDone$ = this.store.select(BetState.allBetsDone);
     this.proposeAutoNavigation$ = this.store.select(
-      BetState.proposeAutoNavigation
+      BetState.proposeAutoNavigation,
     );
     this.duration$ = this.store.select(BetState.duration);
   }
@@ -174,19 +199,19 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
             if (better.isTutorialDone) {
               this.themeService.setTheme(
                 this.renderer,
-                this.persistenceService.theme
+                this.persistenceService.theme,
               );
 
               window.localStorage.setItem('better', JSON.stringify(better));
               window.localStorage.setItem(
                 'settings',
-                JSON.stringify(this.persistenceService.getSettings())
+                JSON.stringify(this.persistenceService.getSettings()),
               );
             } else {
               this.persistenceService.tutorialStep = 1;
             }
           }
-        })
+        }),
       )
       .subscribe();
 
@@ -242,7 +267,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
             }
           }
-        })
+        }),
       )
       .subscribe();
 
@@ -275,7 +300,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
               });
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -301,17 +326,17 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
 
     document.documentElement.style.setProperty(
       '--expand-height-normal',
-      `${expandHeightNormal}px`
+      `${expandHeightNormal}px`,
     );
 
     document.documentElement.style.setProperty(
       '--expand-height-compact',
-      `${expandHeightCompact}px`
+      `${expandHeightCompact}px`,
     );
   }
 
   public displayBetterPoints(
-    betterPointsCategoryToDisplay: number | undefined
+    betterPointsCategoryToDisplay: number | undefined,
   ): boolean {
     return !!betterPointsCategoryToDisplay;
   }
@@ -332,7 +357,7 @@ export class BetComponent implements OnInit, OnDestroy, AfterViewInit {
     window.localStorage.setItem('better', JSON.stringify(better));
     window.localStorage.setItem(
       'settings',
-      JSON.stringify(this.persistenceService.getSettings())
+      JSON.stringify(this.persistenceService.getSettings()),
     );
   }
 

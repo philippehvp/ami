@@ -1,35 +1,53 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import {
-  BehaviorSubject,
-  Subject,
-  combineLatest,
-  filter,
-  map,
-  takeUntil,
-} from 'rxjs';
+import { Subject, combineLatest, filter, map, takeUntil } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { CPIAnimations } from 'src/app/animations/animations';
-import { IBet } from 'src/app/models/bet';
-import { IBetter } from 'src/app/models/better';
-import { ICategory } from 'src/app/models/category';
-import { IContest } from 'src/app/models/contest';
-import { IPlayer } from 'src/app/models/player';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { UtilsService } from 'src/app/services/utils.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
+import { IBet } from '../../../models/bet';
+import { IBetter } from '../../../models/better';
+import { ICategory } from '../../../models/category';
+import { IContest } from '../../../models/contest';
+import { IPlayer } from '../../../models/player';
+import { PersistenceService } from '../../../services/persistence.service';
+import { UtilsService } from '../../../services/utils.service';
+import { BetActions } from '../../../store/action/bet.action';
+import { BetState } from '../../../store/state/bet.state';
+import {
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableModule,
+} from '@angular/material/table';
+import { MatIcon } from '@angular/material/icon';
+import { AsyncPipe } from '@angular/common';
 
 type TData = {
   bet: IBet;
   better: IBetter;
+  isLoadingData: boolean;
 };
 
 @Component({
   selector: 'bet-player',
   templateUrl: './bet-player.component.html',
   styleUrls: ['./bet-player.component.scss'],
-  animations: [CPIAnimations.fadeAnimation],
+  imports: [
+    AsyncPipe,
+    MatTable,
+    MatTableModule,
+    MatIcon,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatColumnDef,
+    MatHeaderRow,
+    MatRow,
+  ],
 })
 export class BetPlayerComponent implements OnInit, OnDestroy {
   public better$!: Observable<IBetter>;
@@ -37,31 +55,23 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
   public contest$!: Observable<IContest>;
   public category$!: Observable<ICategory>;
   public players$!: Observable<IPlayer[]>;
-  public isLoadingData$!: Observable<boolean>;
+  public isLoadingData$: Observable<boolean>;
+  public data$!: Observable<TData>;
 
   private destroy$!: Subject<boolean>;
-  private loadingData$!: BehaviorSubject<boolean>;
-  private isHiding$!: BehaviorSubject<boolean>;
-
-  public animationState!: string;
 
   public playersDisplayed!: IPlayer[];
-  public playersReceived!: IPlayer[];
 
-  public headerContestLabelReceived!: string;
-  public headerCategoryLabelReceived!: string;
   public headerContestLabelDisplayed!: string;
   public headerCategoryLabelDisplayed!: string;
 
   public displayedColumns: string[] = ['name', 'winner', 'runnerUp'];
   public displayedColumnsReverse: string[] = ['winner', 'runnerUp', 'name'];
 
-  public data$!: Observable<TData>;
-
   constructor(
     private readonly store: Store,
     private readonly persistenceService: PersistenceService,
-    private readonly utilsService: UtilsService
+    private readonly utilsService: UtilsService,
   ) {
     this.better$ = this.store.select(BetState.better);
     this.bet$ = this.store.select(BetState.bet);
@@ -89,104 +99,42 @@ export class BetPlayerComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.destroy$ = new Subject<boolean>();
-    this.isHiding$ = new BehaviorSubject<boolean>(true);
-    this.loadingData$ = new BehaviorSubject<boolean>(true);
-
-    this.animationState = 'show';
-
-    // Ecoute du store isLoadingData
-    this.isLoadingData$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((isLoadingData) => {
-          this.loadingData$.next(isLoadingData);
-        })
-      )
-      .subscribe();
-
-    this.loadingData$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((isLoadingData) => {
-          if (isLoadingData) {
-            // Début chargement de données
-            this.animationState = 'hide';
-            this.isHiding$.next(true);
-          } else {
-            // Fin de chargement des données
-            if (this.isHiding$.value === false) {
-              // L'animation de masquage est terminée, on peut donc afficher les données tout de suite
-              // Cela arrive si le temps de masquage est très bas
-              this.playersDisplayed = this.playersReceived;
-              this.headerContestLabelDisplayed =
-                this.headerContestLabelReceived;
-              this.headerCategoryLabelDisplayed =
-                this.headerCategoryLabelReceived;
-              this.animationState = 'show';
-            }
-          }
-        })
-      )
-      .subscribe();
-
-    this.isHiding$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((isHiding) => {
-          if (isHiding === false && this.loadingData$.value === false) {
-            this.playersDisplayed = this.playersReceived;
-            this.headerContestLabelDisplayed = this.headerContestLabelReceived;
-            this.headerCategoryLabelDisplayed =
-              this.headerCategoryLabelReceived;
-            this.animationState = 'show';
-          }
-        })
-      )
-      .subscribe();
 
     combineLatest([this.contest$, this.category$, this.players$])
       .pipe(
         takeUntil(this.destroy$),
         filter(
-          ([contest, category, players]) => !!contest && !!category && !!players
+          ([contest, category, players]) =>
+            !!contest && !!category && !!players,
         ),
         map(([contest, category, players]) => {
           if (contest && category) {
-            this.headerContestLabelReceived = contest.longName;
-            this.headerCategoryLabelReceived = category.longName;
+            this.headerContestLabelDisplayed = contest.longName;
+            this.headerCategoryLabelDisplayed = category.longName;
           }
 
-          this.playersReceived = players;
-
-          if (!this.playersDisplayed) {
-            // Dans le cas où on a affiché une autre page et que l'on revient, on force le chargement des joueurs
-            this.headerContestLabelDisplayed = this.headerContestLabelReceived;
-            this.headerCategoryLabelDisplayed =
-              this.headerCategoryLabelReceived;
-            this.playersDisplayed = players;
-          }
-        })
+          this.playersDisplayed = players;
+        }),
       )
       .subscribe();
 
-    this.data$ = combineLatest([this.bet$, this.better$]).pipe(
-      map(([bet, better]) => ({
-        bet,
-        better,
-      }))
+    this.data$ = combineLatest([
+      this.bet$,
+      this.better$,
+      this.isLoadingData$,
+    ]).pipe(
+      map(([bet, better, isLoadingData]) => {
+        return {
+          bet,
+          better,
+          isLoadingData,
+        };
+      }),
     );
   }
 
   public ngOnDestroy() {
     this.destroy$.next(true);
-  }
-
-  public animationDone($event: any) {
-    // On vient de finir une animation qui peut-être le masquage ou l'affichage des données
-    // Dans notre cas, on se concentre uniquement sur le masquage des données
-    if ($event.toState === 'hide') {
-      this.isHiding$.next(false);
-    }
   }
 
   public isWinnerChecked(bet: IBet | undefined, playerId: number): boolean {

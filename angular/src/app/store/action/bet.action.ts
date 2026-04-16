@@ -1,4 +1,4 @@
-import { IBetter } from 'src/app/models/better';
+import { IBetter } from '../../models/better';
 
 export namespace BetActions {
   export class SetBetter {
@@ -118,6 +118,9 @@ export namespace BetActions {
 
   export class GetBetterRanking {
     static readonly type = '[Bet] Get Better Ranking';
-    constructor(public byRanking: boolean, public day: number) {}
+    constructor(
+      public byRanking: boolean,
+      public day: number,
+    ) {}
   }
 }

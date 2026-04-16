@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { CommonService } from '../common.service';
-import { IPlayer } from 'src/app/models/player';
+import { IPlayer } from '../../models/player';
 import { map, of } from 'rxjs';
-import { IEmpty, IOffline } from 'src/app/models/utils';
-import { ConnectionActions } from 'src/app/store/action/connection.action';
+import { IEmpty, IOffline } from '../../models/utils';
+import { ConnectionActions } from '../../store/action/connection.action';
 import { Store } from '@ngxs/store';
 
 export interface IStoredPlayer {
@@ -28,13 +28,13 @@ export class PlayerService {
 
   public getPlayers(
     accessKey: string,
-    categoryId: number
+    categoryId: number,
   ): Observable<IOffline | IPlayer[]> {
     // Recherche des joueurs qui auraient déjà été lus
     const storedPlayer = this._allPlayers.find(
       (storedPlayer: IStoredPlayer) => {
         return storedPlayer.categoryId === categoryId;
-      }
+      },
     );
 
     if (storedPlayer) {
@@ -53,7 +53,7 @@ export class PlayerService {
             }
             this._allPlayers.push({ categoryId: categoryId, players: players });
             return players;
-          })
+          }),
         );
     }
   }

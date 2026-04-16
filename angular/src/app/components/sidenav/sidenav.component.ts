@@ -2,20 +2,21 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { Observable, combineLatest, map } from 'rxjs';
-import { IBet } from 'src/app/models/bet';
-import { IBetter } from 'src/app/models/better';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetState } from 'src/app/store/state/bet.state';
+import { IBet } from '../../models/bet';
+import { IBetter } from '../../models/better';
+import { PersistenceService } from '../../services/persistence.service';
+import { BetState } from '../../store/state/bet.state';
 import { GdprComponent } from '../gdpr/gdpr.component';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { ConnectionActions } from 'src/app/store/action/connection.action';
+import { BetActions } from '../../store/action/bet.action';
+import { ConnectionActions } from '../../store/action/connection.action';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-dialog-type';
+} from '../../models/information-dialog-type';
 import { InformationComponent } from '../information/information.component';
-import { BetterService } from 'src/app/services/rest/better.service';
-import { ThemeService } from 'src/app/services/theme.service';
+import { BetterService } from '../../services/rest/better.service';
+import { ThemeService } from '../../services/theme.service';
+import { AsyncPipe } from '@angular/common';
 
 type TData = {
   better: IBetter;
@@ -27,6 +28,7 @@ type TData = {
   selector: 'sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
+  imports: [AsyncPipe],
 })
 export class SidenavComponent implements OnInit {
   public better$!: Observable<IBetter>;
@@ -41,7 +43,7 @@ export class SidenavComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly themeService: ThemeService,
     private readonly renderer: Renderer2,
-    private readonly betterService: BetterService
+    private readonly betterService: BetterService,
   ) {
     this.better$ = this.store.select(BetState.better);
     this.completedBets$ = this.store.select(BetState.completedBets);
@@ -58,7 +60,7 @@ export class SidenavComponent implements OnInit {
         better,
         bets,
         completedBets,
-      }))
+      })),
     );
   }
 
@@ -117,7 +119,7 @@ export class SidenavComponent implements OnInit {
   public logout(
     betsCount: number,
     completedBetsCount: number,
-    isAdmin: boolean
+    isAdmin: boolean,
   ) {
     // On vérifie que le pronostiqueur ait saisi tous ses pronostics
     if (betsCount !== completedBetsCount && !isAdmin) {
@@ -125,9 +127,9 @@ export class SidenavComponent implements OnInit {
         data: {
           title: 'Pronostics incomplets',
           message:
-            "Tu n'as pas saisi tous les pronostics. Sûr de vouloir quitter WINABAD ?",
+            "Tous les pronostics n'ont pas été saisis. Sûr de vouloir quitter WINABAD ?",
           dialogType: InformationDialogType.YesNo,
-          labels: ['Annuler', 'Quitter'],
+          labels: ['Rester', 'Quitter'],
         },
       };
 
@@ -149,7 +151,7 @@ export class SidenavComponent implements OnInit {
 
     this.themeService.setTheme(
       this.renderer,
-      this.persistenceService.themes[0]
+      this.persistenceService.themes[0],
     );
 
     window.localStorage.removeItem('better');

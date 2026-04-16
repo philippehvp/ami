@@ -16,17 +16,28 @@ import {
   map,
   takeUntil,
 } from 'rxjs';
-import { IBetter } from 'src/app/models/better';
-import { IBetterRanking, IRanking } from 'src/app/models/better-ranking';
+import { IBetter } from '../../models/better';
+import { IBetterRanking, IRanking } from '../../models/better-ranking';
 import {
   IInformationDialogConfig,
   InformationDialogType,
-} from 'src/app/models/information-dialog-type';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { ThemeService } from 'src/app/services/theme.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
+} from '../../models/information-dialog-type';
+import { PersistenceService } from '../../services/persistence.service';
+import { ThemeService } from '../../services/theme.service';
+import { BetActions } from '../../store/action/bet.action';
+import { BetState } from '../../store/state/bet.state';
 import { InformationComponent } from '../information/information.component';
+import {
+  MatCellDef,
+  MatHeaderCellDef,
+  MatHeaderRowDef,
+  MatRowDef,
+  MatTable,
+} from '@angular/material/table';
+import { BetReviewOfComponent } from '../bet/bet-review-of/bet-review-of.component';
+import { SettingComponent } from '../setting/setting.component';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { AsyncPipe } from '@angular/common';
 
 type TData = {
   better: IBetter;
@@ -37,6 +48,17 @@ type TData = {
   selector: 'better-ranking',
   templateUrl: './better-ranking.component.html',
   styleUrls: ['./better-ranking.component.scss'],
+  imports: [
+    AsyncPipe,
+    MatTable,
+    MatCellDef,
+    MatHeaderCellDef,
+    MatHeaderRowDef,
+    MatRowDef,
+    BetReviewOfComponent,
+    SettingComponent,
+    MatProgressBar,
+  ],
 })
 export class BetterRankingComponent
   implements OnInit, OnDestroy, AfterViewInit
@@ -69,7 +91,7 @@ export class BetterRankingComponent
     private readonly persistenceService: PersistenceService,
     private readonly renderer: Renderer2,
     private readonly themeService: ThemeService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) {
     this.better$ = this.store.select(BetState.better);
     this.bettersRanking$ = this.store.select(BetState.bettersRanking);
@@ -87,7 +109,7 @@ export class BetterRankingComponent
   }
 
   public getCompletedCategories(
-    betterRankings: IBetterRanking | undefined
+    betterRankings: IBetterRanking | undefined,
   ): number {
     if (betterRankings) {
       return betterRankings.completedCategories;
@@ -97,7 +119,7 @@ export class BetterRankingComponent
   }
 
   public getCountOfCategories(
-    betterRankings: IBetterRanking | undefined
+    betterRankings: IBetterRanking | undefined,
   ): number {
     if (betterRankings) {
       return betterRankings.countOfCategories;
@@ -125,7 +147,7 @@ export class BetterRankingComponent
           if (better && data) {
             this.themeService.setTheme(
               this.renderer,
-              this.persistenceService.theme
+              this.persistenceService.theme,
             );
 
             this.byRanking = data && data['byRanking'] === 1;
@@ -152,7 +174,7 @@ export class BetterRankingComponent
               this.isRefreshLaunched = true;
             }
           }
-        })
+        }),
       )
       .subscribe();
 
@@ -179,7 +201,7 @@ export class BetterRankingComponent
                 return this.persistenceService.navigate('relog');
               });
           }
-        })
+        }),
       )
       .subscribe();
 
@@ -187,7 +209,7 @@ export class BetterRankingComponent
       map(([better, bettersRanking]) => ({
         better,
         bettersRanking,
-      }))
+      })),
     );
   }
 
@@ -211,12 +233,12 @@ export class BetterRankingComponent
 
     document.documentElement.style.setProperty(
       '--expand-height-normal',
-      `${expandHeightNormal}px`
+      `${expandHeightNormal}px`,
     );
 
     document.documentElement.style.setProperty(
       '--expand-height-compact',
-      `${expandHeightCompact}px`
+      `${expandHeightCompact}px`,
     );
   }
 
@@ -236,7 +258,7 @@ export class BetterRankingComponent
 
   public getRankingBetterName(
     ranking: IRanking,
-    better: IBetter | null
+    better: IBetter | null,
   ): string {
     if (ranking && better) {
       return ranking.randomKey === better.randomKey

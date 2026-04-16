@@ -1,5 +1,4 @@
 import { Platform } from '@angular/cdk/platform';
-import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import { IPlayer, IPlayerForReviewOf } from '../models/player';
 import { PersistenceService } from './persistence.service';

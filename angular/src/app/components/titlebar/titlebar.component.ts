@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PersistenceService } from 'src/app/services/persistence.service';
+import { PersistenceService } from '../../services/persistence.service';
 
 @Component({
   selector: 'titlebar',

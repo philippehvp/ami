@@ -3,18 +3,20 @@
   <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <div *ngIf="isInformationType; else yesNo">
-    <button mat-raised-button color="primary" (click)="close()" cdkFocusInitial>
-      {{ firstButtonLabel }}
-    </button>
-  </div>
-
-  <ng-template #yesNo>
-    <button mat-raised-button (click)="cancel()" cdkFocusInitial>
-      {{ firstButtonLabel }}
-    </button>
-    <button mat-raised-button (click)="validate()">
-      {{ secondButtonLabel }}
-    </button>
-  </ng-template>
+  @if (isInformationType) {
+    <div>
+      <button matButton mat-dialog-close>
+        {{ firstButtonLabel }}
+      </button>
+    </div>
+  } @else {
+    <div>
+      <button matButton mat-raised-button mat-dialog-close>
+        {{ firstButtonLabel }}
+      </button>
+      <button matButton mat-raised-button (click)="validate()">
+        {{ secondButtonLabel }}
+      </button>
+    </div>
+  }
 </mat-dialog-actions>

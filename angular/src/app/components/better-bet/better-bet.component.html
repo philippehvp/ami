@@ -1,70 +1,84 @@
-<ng-container *ngIf="betterBet$ | async as betterBet">
-  <div class="bet-panel">
-    <titlebar title="Résumé des pronostics"></titlebar>
+@if (betterBet$ | async; as betterBet) {
+  <ng-container>
+    <div class="bet-panel">
+      <titlebar title="Résumé des pronostics"></titlebar>
 
-    <table class="better-bet">
-      <thead>
-        <tr>
-          <th>NOM PRENOM</th>
-          <th>CLUB</th>
-          <th>V/F</th>
-          <th
-            *ngFor="let column of displayedColumns; let i = index"
-            [attr.colspan]="i % 2 === 0 ? 2 : 0"
-            [style.display]="i % 2 === 0 ? '' : 'none'"
-          >
-            {{ column }}
-          </th>
-          <th>Match le + long</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container
-          *ngFor="let betterBet of betterBet?.bets || []; let i = index"
-        >
-          <!-- Winners -->
+      <table class="better-bet">
+        <thead>
           <tr>
-            <td rowspan="2">
-              {{ betterBet.name.toUpperCase() }}
-            </td>
-
-            <td rowspan="2">
-              {{ betterBet.club.toUpperCase() }}
-            </td>
-
-            <td>V</td>
-
-            <td
-              class="winner"
-              *ngFor="let column of displayedColumns; let j = index"
-              [attr.rowspan]="j % 2 === 0 ? 1 : 2"
-            >
-              {{ getPlayerName(betterBet.winners, j) }}
-            </td>
-            <td rowspan="2">
-              {{ betterBet.duration }}
-            </td>
-            <td rowspan="2">&nbsp;</td>
+            <th>NOM PRENOM</th>
+            <th>CLUB</th>
+            <th>V/F</th>
+            @for (column of displayedColumns; track $index; let i = $index) {
+              <th
+                [attr.colspan]="i % 2 === 0 ? 2 : 0"
+                [style.display]="i % 2 === 0 ? '' : 'none'"
+              >
+                {{ column }}
+              </th>
+            }
+            <th>Match le + long</th>
+            <th>Total</th>
           </tr>
+        </thead>
+        <tbody>
+          @for (
+            betterBet of betterBet?.bets || [];
+            track $index;
+            let i = $index
+          ) {
+            <ng-container>
+              <!-- Winners -->
+              <tr>
+                <td rowspan="2">
+                  {{ betterBet.name.toUpperCase() }}
+                </td>
 
-          <!-- Runners Up -->
-          <tr>
-            <td rowspan="0" style="display: none"></td>
-            <td>F</td>
+                <td rowspan="2">
+                  {{ betterBet.club.toUpperCase() }}
+                </td>
 
-            <td
-              *ngFor="let column of displayedColumns; let j = index"
-              [attr.rowspan]="j % 2 === 0 ? 1 : 0"
-              [style.display]="j % 2 === 0 ? '' : 'none'"
-            >
-              {{ getPlayerName(betterBet.runnersUp, j) }}
-            </td>
-            <td rowspan="0" style="display: none"></td>
-            <td rowspan="0" style="display: none"></td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
-</ng-container>
+                <td>V</td>
+
+                @for (
+                  column of displayedColumns;
+                  track $index;
+                  let j = $index
+                ) {
+                  <td class="winner" [attr.rowspan]="j % 2 === 0 ? 1 : 2">
+                    {{ getPlayerName(betterBet.winners, j) }}
+                  </td>
+                }
+                <td rowspan="2">
+                  {{ betterBet.duration }}
+                </td>
+                <td rowspan="2">&nbsp;</td>
+              </tr>
+
+              <!-- Runners Up -->
+              <tr>
+                <td rowspan="0" style="display: none"></td>
+                <td>F</td>
+
+                @for (
+                  column of displayedColumns;
+                  track $index;
+                  let j = $index
+                ) {
+                  <td
+                    [attr.rowspan]="j % 2 === 0 ? 1 : 0"
+                    [style.display]="j % 2 === 0 ? '' : 'none'"
+                  >
+                    {{ getPlayerName(betterBet.runnersUp, j) }}
+                  </td>
+                }
+                <td rowspan="0" style="display: none"></td>
+                <td rowspan="0" style="display: none"></td>
+              </tr>
+            </ng-container>
+          }
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+}

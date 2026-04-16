@@ -1,6 +1,6 @@
 export interface IPlayer {
   id: number;
-  catergoryId: number;
+  categoryId: number;
 
   playerName1: string;
   playerNameOnly1: string;

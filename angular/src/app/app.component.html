@@ -1,29 +1,35 @@
-<ng-container class="toolbar" *ngIf="better$ | async as better">
-  <mat-sidenav-container>
-    <mat-sidenav-content class="content">
-      <!-- Toolbar -->
-      <div
-        class="row no-growing toolbar-panel"
-        *ngIf="better && isToolbarVisible"
+@if (better$ | async; as better) {
+  <ng-container class="toolbar">
+    <mat-sidenav-container>
+      <mat-sidenav-content class="content">
+        <!-- Toolbar -->
+        @if (better && isToolbarVisible) {
+          <div class="row no-growing toolbar-panel">
+            <mat-toolbar>
+              <toolbar></toolbar>
+            </mat-toolbar>
+          </div>
+        }
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+
+      <mat-sidenav
+        #aboutnav
+        mode="over"
+        position="start"
+        (click)="toggleAboutNav()"
       >
-        <mat-toolbar>
-          <toolbar></toolbar>
-        </mat-toolbar>
-      </div>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
+        <about></about>
+      </mat-sidenav>
 
-    <mat-sidenav
-      #aboutnav
-      mode="over"
-      position="start"
-      (click)="toggleAboutNav()"
-    >
-      <about></about>
-    </mat-sidenav>
-
-    <mat-sidenav #sidenav mode="over" position="end" (click)="toggleSideMenu()">
-      <sidenav></sidenav>
-    </mat-sidenav>
-  </mat-sidenav-container>
-</ng-container>
+      <mat-sidenav
+        #sidenav
+        mode="over"
+        position="end"
+        (click)="toggleSideMenu()"
+      >
+        <sidenav></sidenav>
+      </mat-sidenav>
+    </mat-sidenav-container>
+  </ng-container>
+}

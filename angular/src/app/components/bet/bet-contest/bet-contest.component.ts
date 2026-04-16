@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { combineLatest, map } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { IBet } from 'src/app/models/bet';
-import { ICategory } from 'src/app/models/category';
-import { IContest } from 'src/app/models/contest';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
+import { IBet } from '../../../models/bet';
+import { ICategory } from '../../../models/category';
+import { IContest } from '../../../models/contest';
+import { BetActions } from '../../../store/action/bet.action';
+import { BetState } from '../../../store/state/bet.state';
+import { AsyncPipe } from '@angular/common';
 
 type TData = {
   bets: IBet[];
@@ -18,6 +19,7 @@ type TData = {
   selector: 'bet-contest',
   templateUrl: './bet-contest.component.html',
   styleUrls: ['./bet-contest.component.scss'],
+  imports: [AsyncPipe],
 })
 export class BetContestComponent implements OnInit {
   public contests$!: Observable<IContest[]>;
@@ -40,7 +42,7 @@ export class BetContestComponent implements OnInit {
       this.contests$,
       this.category$,
     ]).pipe(
-      map(([bets, contests, category]) => <TData>{ bets, contests, category })
+      map(([bets, contests, category]) => <TData>{ bets, contests, category }),
     );
   }
 
@@ -51,7 +53,7 @@ export class BetContestComponent implements OnInit {
   public getCategoryClass(
     bets: IBet[],
     loopCategory: ICategory,
-    category?: ICategory | null
+    category?: ICategory | null,
   ): string {
     if (loopCategory && bets) {
       // Recherche de la série dans les pronostics
@@ -64,8 +66,8 @@ export class BetContestComponent implements OnInit {
             ? 'complete complete-selected'
             : 'complete'
           : category?.id === loopCategory.id
-          ? 'uncomplete uncomplete-selected'
-          : 'uncomplete';
+            ? 'uncomplete uncomplete-selected'
+            : 'uncomplete';
       }
     }
 
@@ -86,7 +88,7 @@ export class BetContestComponent implements OnInit {
 
   public isCurrentCategory(
     category: ICategory | null,
-    currentCategory: ICategory | null
+    currentCategory: ICategory | null,
   ): boolean {
     return category && currentCategory
       ? category.id === currentCategory.id

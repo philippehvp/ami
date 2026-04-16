@@ -1,8 +1,8 @@
-@import "./keyframes";
-@import "./background-animation";
-@import "./isb-animation";
-@import "./winabad-animation";
-@import "./intro-animation";
+@use "./keyframes";
+@use "./background-animation";
+@use "./isb-animation";
+@use "./winabad-animation";
+@use "./intro-animation";
 
 @property --x {
   syntax: "<percentage>";

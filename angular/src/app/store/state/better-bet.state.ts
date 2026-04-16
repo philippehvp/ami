@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { tap } from 'rxjs';
-import { IOffline } from 'src/app/models/utils';
+import { IOffline } from '../../models/utils';
 import { ConnectionActions } from '../action/connection.action';
-import { IBetterBet } from 'src/app/models/better-bet';
+import { IBetterBet } from '../../models/better-bet';
 import { BetActions } from '../action/bet.action';
-import { BetService } from 'src/app/services/rest/bet.service';
+import { BetService } from '../../services/rest/bet.service';
 
 export class BetterBetModel {
   betterBet!: IBetterBet | undefined;
@@ -29,7 +29,7 @@ export class BetterBetState {
   @Action(BetActions.GetBetterBet)
   getBetterBet(
     state: StateContext<BetterBetModel>,
-    action: BetActions.GetBetterBet
+    action: BetActions.GetBetterBet,
   ) {
     return this.betService.getBetterBet(action.accessKey).pipe(
       tap((readBetterBets: IBetterBet | IOffline) => {
@@ -40,7 +40,7 @@ export class BetterBetState {
             betterBet: <IBetterBet>readBetterBets,
           });
         }
-      })
+      }),
     );
   }
 }

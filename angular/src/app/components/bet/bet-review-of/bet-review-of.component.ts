@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { IBetReviewOf } from 'src/app/models/bet-review-of';
-import { IPlayer } from 'src/app/models/better-bet';
-import { IPlayerForReviewOf } from 'src/app/models/player';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { UtilsService } from 'src/app/services/utils.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
+import { IBetReviewOf } from '../../../models/bet-review-of';
+import { IPlayer } from '../../../models/better-bet';
+import { IPlayerForReviewOf } from '../../../models/player';
+import { PersistenceService } from '../../../services/persistence.service';
+import { UtilsService } from '../../../services/utils.service';
+import { BetActions } from '../../../store/action/bet.action';
+import { BetState } from '../../../store/state/bet.state';
+import { AsyncPipe } from '@angular/common';
 
 export interface ICategoryReview {
   categoryId: number;
@@ -27,6 +28,7 @@ export interface IContestReview {
   selector: 'bet-review-of',
   templateUrl: './bet-review-of.component.html',
   styleUrls: ['./bet-review-of.component.scss'],
+  imports: [AsyncPipe],
 })
 export class BetReviewOfComponent {
   public betsReviewOf$!: Observable<IBetReviewOf[]>;
@@ -34,7 +36,7 @@ export class BetReviewOfComponent {
   constructor(
     private readonly persistenceService: PersistenceService,
     private readonly store: Store,
-    private readonly utilsService: UtilsService
+    private readonly utilsService: UtilsService,
   ) {
     this.betsReviewOf$ = this.store.select(BetState.betsReviewOf);
   }

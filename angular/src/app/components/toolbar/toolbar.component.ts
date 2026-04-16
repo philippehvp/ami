@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { combineLatest, map } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { IBet } from 'src/app/models/bet';
-import { IBetter } from 'src/app/models/better';
-import { PersistenceService } from 'src/app/services/persistence.service';
-import { BetActions } from 'src/app/store/action/bet.action';
-import { BetState } from 'src/app/store/state/bet.state';
+import { IBet } from '../../models/bet';
+import { IBetter } from '../../models/better';
+import { PersistenceService } from '../../services/persistence.service';
+import { BetActions } from '../../store/action/bet.action';
+import { BetState } from '../../store/state/bet.state';
+
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { AsyncPipe } from '@angular/common';
 
 export interface IToolbarOption {
   hasToolbar: boolean;
@@ -23,6 +26,7 @@ type TData = {
   selector: 'toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
+  imports: [MatProgressBar, AsyncPipe],
 })
 export class ToolbarComponent implements OnInit {
   public better$!: Observable<IBetter>;
@@ -33,7 +37,7 @@ export class ToolbarComponent implements OnInit {
 
   constructor(
     private readonly persistenceService: PersistenceService,
-    private readonly store: Store
+    private readonly store: Store,
   ) {
     this.better$ = this.store.select(BetState.better);
     this.completedBets$ = this.store.select(BetState.completedBets);
@@ -50,7 +54,7 @@ export class ToolbarComponent implements OnInit {
         better,
         bets,
         completedBets,
-      }))
+      })),
     );
   }
 
