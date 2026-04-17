@@ -101,8 +101,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.route.data
       .pipe(
         takeUntil(this.destroy$),
-        map((route) => {
-          this._isRelog = route && route['isRelog'] === true;
+        map((data) => {
+          this._isRelog = data && data['isRelog'] === true;
         }),
       )
       .subscribe();

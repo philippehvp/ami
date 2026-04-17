@@ -1,7 +1,7 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { IBet } from '../../models/bet';
 import { IBetter } from '../../models/better';
 import { PersistenceService } from '../../services/persistence.service';
@@ -30,38 +30,53 @@ type TData = {
   styleUrls: ['./sidenav.component.scss'],
   imports: [AsyncPipe],
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
+  private readonly store = inject(Store);
+  private readonly persistenceService = inject(PersistenceService);
+  private readonly dialog = inject(MatDialog);
+  private readonly themeService = inject(ThemeService);
+  private readonly renderer = inject(Renderer2);
+  private readonly betterService = inject(BetterService);
+
   public better$!: Observable<IBetter>;
   public completedBets$!: Observable<number>;
   public bets$!: Observable<IBet[]>;
 
+  private destroy$!: Subject<boolean>;
+
   public data$!: Observable<TData>;
 
-  constructor(
-    private readonly store: Store,
-    private readonly persistenceService: PersistenceService,
-    private readonly dialog: MatDialog,
-    private readonly themeService: ThemeService,
-    private readonly renderer: Renderer2,
-    private readonly betterService: BetterService,
-  ) {
+  constructor() {
     this.better$ = this.store.select(BetState.better);
     this.completedBets$ = this.store.select(BetState.completedBets);
     this.bets$ = this.store.select(BetState.bets);
   }
 
+  public get isTutorialAvailable(): boolean {
+    return this.persistenceService.isTutorialAvailable;
+  }
+
   public ngOnInit() {
+    this.destroy$ = new Subject<boolean>();
+
     this.data$ = combineLatest([
       this.better$,
       this.bets$,
       this.completedBets$,
     ]).pipe(
+      takeUntil(this.destroy$),
       map(([better, bets, completedBets]) => ({
         better,
         bets,
         completedBets,
       })),
     );
+  }
+
+  public ngOnDestroy() {
+    if (this.destroy$) {
+      this.destroy$.next(true);
+    }
   }
 
   public navigate(link: string) {
@@ -112,8 +127,11 @@ export class SidenavComponent implements OnInit {
   }
 
   public displayTutorial() {
-    this.persistenceService.isCompactMode = false;
-    this.persistenceService.tutorialStep = 1;
+    // On lance le tutoriel uniquement si on est sur la page de pronostic
+    if (this.persistenceService.isTutorialAvailable) {
+      this.persistenceService.isCompactMode = false;
+      this.persistenceService.tutorialStep = 1;
+    }
   }
 
   public logout(

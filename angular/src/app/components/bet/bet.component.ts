@@ -37,6 +37,7 @@ import { BetPlayerComponent } from './bet-player/bet-player.component';
 import { BetReviewOfComponent } from './bet-review-of/bet-review-of.component';
 import { SettingComponent } from '../setting/setting.component';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'bet',
@@ -55,6 +56,8 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
     SettingComponent,
     MatMenuTrigger,
     MatMenu,
+    MatButton,
+    MatButtonModule,
   ],
 })
 export class BetComponent implements OnInit, OnDestroy, AfterViewInit {

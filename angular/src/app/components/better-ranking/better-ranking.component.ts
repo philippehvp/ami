@@ -28,11 +28,14 @@ import { BetActions } from '../../store/action/bet.action';
 import { BetState } from '../../store/state/bet.state';
 import { InformationComponent } from '../information/information.component';
 import {
+  MatCell,
   MatCellDef,
   MatHeaderCellDef,
+  MatHeaderRow,
   MatHeaderRowDef,
   MatRowDef,
   MatTable,
+  MatTableModule,
 } from '@angular/material/table';
 import { BetReviewOfComponent } from '../bet/bet-review-of/bet-review-of.component';
 import { SettingComponent } from '../setting/setting.component';
@@ -51,7 +54,10 @@ type TData = {
   imports: [
     AsyncPipe,
     MatTable,
+    MatTableModule,
+    MatCell,
     MatCellDef,
+    MatHeaderRow,
     MatHeaderCellDef,
     MatHeaderRowDef,
     MatRowDef,

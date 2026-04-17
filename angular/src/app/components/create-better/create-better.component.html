@@ -88,38 +88,32 @@
 
     <span class="accept-panel">
       <span class="accept-row">
-        <span class="checkbox-area"
-          ><mat-checkbox [checked]="hasMajority" required></mat-checkbox
-        ></span>
-        <span class="label">Je certifie avoir 18 ans ou plus</span>
+        <mat-checkbox [(ngModel)]="hasMajority" required
+          >Je certifie avoir 18 ans ou plus</mat-checkbox
+        >
       </span>
 
       <span class="accept-row">
-        <span class="checkbox-area">
-          <mat-checkbox [checked]="hasGDPRAccepted"> </mat-checkbox>
-        </span>
-        <span class="label">J'accepte la Charte WINABAD</span>
-      </span>
-
-      <span class="accept-row">
-        <span class="checkbox-area"> </span>
-        <span class="label"
-          ><a (click)="openGDPR()" class="read-gdpr"
-            >Consulter la Charte WINABAD</a
-          ></span
+        <mat-checkbox [(ngModel)]="hasGDPRAccepted"
+          >J'accepte la Charte WINABAD</mat-checkbox
         >
       </span>
     </span>
 
-    <button
-      mat-raised-button
-      color="primary"
-      class="create-button"
-      (click)="createBetter()"
-      [disabled]="createBetterDisabled"
-    >
-      Créer le compte
-    </button>
+    <span>
+      <a (click)="openGDPR()" class="read-gdpr">Consulter la Charte WINABAD</a>
+    </span>
+
+    <span class="create-button-panel">
+      <button
+        matButton="filled"
+        class="create-button"
+        (click)="createBetter()"
+        [disabled]="createBetterDisabled"
+      >
+        Créer le compte
+      </button>
+    </span>
 
     <a class="back" (click)="back()">Revenir</a>
   </div>

@@ -15,23 +15,25 @@
             >
           </span>
           <span class="menu-item link" (click)="toggleClubName(better, $event)">
-            <mat-slide-toggle [checked]="isClubName"> </mat-slide-toggle>
-            <span class="label">Afficher le nom des clubs</span>
+            <mat-slide-toggle [checked]="isClubName"
+              >Afficher le nom des clubs</mat-slide-toggle
+            >
           </span>
           <span
             class="menu-item link"
             (click)="togglePlayerRanking(better, $event)"
           >
-            <mat-slide-toggle [checked]="isPlayerRanking"> </mat-slide-toggle>
-            <span class="label">Afficher le classement</span>
+            <mat-slide-toggle [checked]="isPlayerRanking"
+              >Afficher le classement</mat-slide-toggle
+            >
           </span>
           <span
             class="menu-item link"
             (click)="toggleFirstnameVisible(better, $event)"
           >
             <mat-slide-toggle [checked]="isFirstnameVisible">
-            </mat-slide-toggle>
-            <span class="label">Afficher les prénoms</span>
+              Afficher les prénoms</mat-slide-toggle
+            >
           </span>
         </mat-menu>
         <span class="label">Affichage</span>

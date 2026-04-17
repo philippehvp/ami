@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .isb-theme {
   $color: white;
 
@@ -49,11 +51,11 @@
   }
 
   .color-active::before {
-    background-color: #f28e16;
+    background-color: var(--mat-sys-primary);
   }
 }
 
-.blue-theme {
+.bubble-theme {
   $color: white;
   $setting: white;
 
@@ -201,7 +203,7 @@
   }
 }
 
-.black-theme {
+.sky-theme {
   $color: #bcc0c3;
   $background: #222;
 
@@ -247,7 +249,7 @@
   }
 
   .color-active::before {
-    background-color: $color;
+    background-color: $background;
   }
 
   // Spécifique
@@ -280,12 +282,17 @@
     $numComet2: 11;
 
     @function create-stars($n) {
-      $stars: "#{random($starFieldWidth)}px #{random($starFieldHeight)}px #fff";
+      $stars: #{math.random($starFieldWidth)}px
+        #{math.random($starFieldHeight)}px #fff;
 
       @for $i from 2 through $n {
-        $stars: "#{$stars} , #{random($starFieldWidth)}px #{random($starFieldHeight)}px #fff";
+        $stars:
+          #{$stars},
+          #{math.random($starFieldWidth)}px
+            #{math.random($starFieldHeight)}px
+            #fff;
       }
-      @return unquote($stars);
+      @return $stars;
     }
 
     @mixin star-template($numStars, $starSize, $scrollSpeed) {
@@ -310,13 +317,13 @@
 
     @mixin shooting-star-template-right-left($numStars, $speed) {
       z-index: 1;
-      width: (random(5) + 1) + px;
-      height: (random(10) + 1) + 80px;
+      width: (math.random(5) + 1) + px;
+      height: (math.random(10) + 1) + 80px;
       border-top-left-radius: 50%;
       border-top-right-radius: 50%;
       position: absolute;
-      bottom: random(50) + px;
-      right: random(150) + px;
+      bottom: math.random(50) + px;
+      right: math.random(150) + px;
       background: linear-gradient(
         to top,
         rgba(255, 255, 255, 0),
@@ -327,13 +334,13 @@
 
     @mixin shooting-star-template-left-right($numStars, $speed) {
       z-index: 1;
-      width: (random(5) + 1) + px;
-      height: (random(10) + 1) + 80px;
+      width: (math.random(5) + 1) + px;
+      height: (math.random(10) + 1) + 80px;
       border-top-left-radius: 50%;
       border-top-right-radius: 50%;
       position: absolute;
-      bottom: random(50) + px;
-      left: random(150) + px;
+      bottom: math.random(50) + px;
+      left: math.random(150) + px;
       background: linear-gradient(
         to top,
         rgba(255, 255, 255, 0),

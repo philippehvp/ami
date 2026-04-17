@@ -58,7 +58,10 @@
             ><span class="material-icons-outlined icon"> rule </span
             ><span class="label">Barème</span></span
           >
-          @if (isBettingPhase(data.better.endBetDate || null)) {
+          @if (
+            isBettingPhase(data.better.endBetDate || null) &&
+            isTutorialAvailable
+          ) {
             <span class="link" (click)="displayTutorial()">
               <span class="material-icons-outlined icon"> help_outline </span>
               <span class="label">Tutoriel</span>

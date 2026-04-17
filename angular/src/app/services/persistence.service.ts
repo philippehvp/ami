@@ -136,7 +136,7 @@ export class PersistenceService {
     {
       id: 5,
       name: 'Noir',
-      mode: 'black-theme',
+      mode: 'sky-theme',
       isLight: false,
       color: 'linear-gradient(-135deg, #222, #24323b, #4d5256)',
       border: 'white',
@@ -261,6 +261,11 @@ export class PersistenceService {
     return this._isToolbarLimitedMode;
   }
 
+  private _isTutorialAvailable: boolean = false;
+  public get isTutorialAvailable(): boolean {
+    return this._isTutorialAvailable;
+  }
+
   private _isEvaluationDone: boolean = false;
   public get isEvaluationDone(): boolean {
     return this._isEvaluationDone;
@@ -298,6 +303,7 @@ export class PersistenceService {
     this._isToolbarVisible = links.includes(link);
 
     this._isToolbarLimitedMode = link !== 'bet';
+    this._isTutorialAvailable = link === 'bet';
 
     this.router.navigate([link]);
   }

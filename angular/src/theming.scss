@@ -1,16 +1,20 @@
 @use "@angular/material" as mat;
+@import "/src/app/styles/themes/isb.css";
+@import "/src/app/styles/themes/bubble.css";
+@import "/src/app/styles/themes/sky.css";
+@import "/src/app/styles/themes/desert.css";
 
-@include mat.core();
-
-.isb-theme {
-  @include mat.theme(
-    (
-      color: mat.$azure-palette,
-      typography: Roboto,
-      density: 0,
-    )
-  );
-}
+// .isb-theme {
+//   @include mat.theme(
+//     (
+//       color: mat.$azure-palette,
+//       typography: Roboto,
+//       density: 0,
+//     )
+//   );
+//    400: #5c4e91
+//    500: #3f2f7d
+// }
 
 // .bubble-theme {
 //   @include mat.theme($bubble-theme);
@@ -18,7 +22,7 @@
 //   500: #4b5dd5,
 // }
 
-// .black-theme {
+// .sky-theme {
 //   @include mat.theme($black-theme);
 //   400: #434343,
 //   500: #222222,

@@ -1,7 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  model,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
   Validators,
@@ -19,10 +25,13 @@ import {
 } from '../../models/information-dialog-type';
 import { PersistenceService } from '../../services/persistence.service';
 import { GdprComponent } from '../gdpr/gdpr.component';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatLabel } from '@angular/material/form-field';
 
 import { MatIconModule } from '@angular/material/icon';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 export interface ICreateBetterFormGroup {
   name: ValidationErrors;
@@ -35,19 +44,25 @@ export interface ICreateBetterFormGroup {
   templateUrl: './create-better.component.html',
   styleUrls: ['./create-better.component.scss'],
   imports: [
-    MatFormField,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatLabel,
     ReactiveFormsModule,
     MatIconModule,
     MatCheckboxModule,
+    MatButtonModule,
+    MatCheckbox,
+    MatCheckboxModule,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateBetterComponent implements OnInit {
   public formGroup!: FormGroup;
 
   public passwordVisibility: boolean = false;
-  public hasMajority: boolean = false;
-  public hasGDPRAccepted: boolean = false;
+  public hasMajority = model(false);
+  public hasGDPRAccepted = model(false);
 
   constructor(
     private readonly dialog: MatDialog,
@@ -68,8 +83,8 @@ export class CreateBetterComponent implements OnInit {
       password === '' ||
       password.length < 4 ||
       contact === '' ||
-      this.hasMajority === false ||
-      this.hasGDPRAccepted === false
+      this.hasMajority() === false ||
+      this.hasGDPRAccepted() === false
     );
   }
 
@@ -97,8 +112,8 @@ export class CreateBetterComponent implements OnInit {
       password.trim() === '' ||
       firstName.trim() === '' ||
       contact.trim() === '' ||
-      this.hasMajority === false ||
-      this.hasGDPRAccepted === false
+      this.hasMajority() === false ||
+      this.hasGDPRAccepted() === false
     ) {
       const config: MatDialogConfig<IInformationDialogConfig> = {
         data: {

@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 import { appRoutes } from './app.routes';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withRouterConfig } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 import { BetStatState } from './store/state/bet-stat.state';
 import { BetState } from './store/state/bet.state';
@@ -21,7 +21,10 @@ export namespace AppConfig {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(appRoutes),
+    provideRouter(
+      appRoutes,
+      withRouterConfig({ onSameUrlNavigation: 'reload' }),
+    ),
     provideZoneChangeDetection({ eventCoalescing: true }),
     importProvidersFrom(
       NgxsModule.forRoot([BetStatState, BetState, BetterBetState]),
