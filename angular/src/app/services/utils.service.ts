@@ -1,14 +1,11 @@
 import { Platform } from '@angular/cdk/platform';
 import { Injectable, inject } from '@angular/core';
-import { IPlayer, IPlayerForReviewOf } from '../models/player';
-import { PersistenceService } from './persistence.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
   private platform = inject(Platform);
-  private persistenceService = inject(PersistenceService);
 
   private _isMobile: boolean | null = null;
 
@@ -22,43 +19,7 @@ export class UtilsService {
     }
   }
 
-  public firstPlayerLabel(player: IPlayer | IPlayerForReviewOf): string {
-    if (player && player.playerName1) {
-      let ret: string = this.persistenceService.isPlayerRanking
-        ? player.playerRanking1 + ' - '
-        : '';
-
-      ret += this.persistenceService.isFirstnameVisible
-        ? player.playerName1
-        : player.playerNameOnly1;
-
-      return ret;
-    }
-
-    return '-';
-  }
-
-  public secondPlayerLabel(player: IPlayer | IPlayerForReviewOf): string {
-    if (player && player.playerName2) {
-      let ret: string = this.persistenceService.isPlayerRanking
-        ? player.playerRanking2 + ' - '
-        : '';
-
-      ret += this.persistenceService.isFirstnameVisible
-        ? player.playerName2
-        : player.playerNameOnly2;
-
-      return ret;
-    }
-
-    return '-';
-  }
-
-  public firstPlayerClub(player: IPlayer | IPlayerForReviewOf): string {
-    return player && player.playerClub1 ? player.playerClub1 : '';
-  }
-
-  public secondPlayerClub(player: IPlayer | IPlayerForReviewOf): string {
-    return player && player.playerClub2 ? player.playerClub2 : '';
+  public static isNotNullNorUndefined(obj: unknown): boolean {
+    return obj !== null && obj !== undefined;
   }
 }

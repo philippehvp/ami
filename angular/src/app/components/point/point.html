@@ -1,0 +1,9 @@
+<div class="points">
+  @for(point of points; track point) {
+  <span class="point">
+    @if(isNotNullNorUndefined(point.pointPlayer1) &&
+    isNotNullNorUndefined(point.pointPlayer2)) { {{point.pointPlayer1}} -
+    {{point.pointPlayer2}} }
+  </span>
+  }
+</div>

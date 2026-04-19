@@ -1,9 +1,0 @@
-<span class="bubbles">
-  @for (bubble of bubbles; track bubble) {
-    <span
-      style="--i: {{ bubble.id }}"
-      [class]="getBubbleClass(bubble)"
-      [style.animationPlayState]="animationPlayState"
-    ></span>
-  }
-</span>

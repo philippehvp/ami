@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { CommonService } from '../common.service';
 import { IPlayer } from '../../models/player';
 import { map, of } from 'rxjs';
-import { IEmpty, IOffline } from '../../models/utils';
-import { ConnectionActions } from '../../store/action/connection.action';
 import { Store } from '@ngxs/store';
 
 export interface IStoredPlayer {
@@ -26,10 +24,7 @@ export class PlayerService {
     this._allPlayers = [];
   }
 
-  public getPlayers(
-    accessKey: string,
-    categoryId: number,
-  ): Observable<IOffline | IPlayer[]> {
+  public getPlayers(categoryId: number): Observable<IPlayer[]> {
     // Recherche des joueurs qui auraient déjà été lus
     const storedPlayer = this._allPlayers.find(
       (storedPlayer: IStoredPlayer) => {
@@ -43,28 +38,14 @@ export class PlayerService {
       const url = CommonService.getURL('player/players');
       return this.httpClient
         .post<IPlayer[]>(url, {
-          accessKey,
           category: categoryId,
         })
         .pipe(
           map((players) => {
-            if (players && 'isOffline' in players) {
-              this.store.dispatch([new ConnectionActions.IsOffline()]);
-            }
             this._allPlayers.push({ categoryId: categoryId, players: players });
             return players;
           }),
         );
     }
-  }
-
-  public setPlayersNames(accessKey: string): Observable<IOffline | IEmpty> {
-    const url = CommonService.getURL('player/setPlayersNames');
-
-    return this.httpClient
-      .post<IOffline | IEmpty>(url, {
-        accessKey,
-      })
-      .pipe();
   }
 }

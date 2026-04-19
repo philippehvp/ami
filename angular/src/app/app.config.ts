@@ -7,9 +7,7 @@ import {
 import { appRoutes } from './app.routes';
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { BetStatState } from './store/state/bet-stat.state';
-import { BetState } from './store/state/bet.state';
-import { BetterBetState } from './store/state/better-bet.state';
+import { UmpireState } from './store/state/umpire.state';
 
 export namespace AppConfig {
   // REST PHP
@@ -26,8 +24,6 @@ export const appConfig: ApplicationConfig = {
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
     ),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    importProvidersFrom(
-      NgxsModule.forRoot([BetStatState, BetState, BetterBetState]),
-    ),
+    importProvidersFrom(NgxsModule.forRoot([UmpireState])),
   ],
 };

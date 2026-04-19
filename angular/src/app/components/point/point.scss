@@ -1,0 +1,20 @@
+.points {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 0.5em;
+  margin-top: 1em;
+}
+
+.point {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 4em;
+  height: 2em;
+  border-width: 1px;
+  border-color: grey;
+  border-radius: 3px;
+  background-color: #eee;
+  cursor: pointer;
+}

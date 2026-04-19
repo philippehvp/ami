@@ -1,0 +1,46 @@
+@if(categories$ | async; as categories) {
+<div class="selection">
+  <div>
+    <mat-form-field>
+      <mat-label>Séries</mat-label>
+      <mat-select
+        [(ngModel)]="currentCategory"
+        (selectionChange)="onSelectionChangeCategory()"
+      >
+        @for (category of categories; track category) {
+        <mat-option [value]="category"
+          >{{category.contestShortName}} - {{category.shortName}}</mat-option
+        >
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="players">
+    @if(players$ | async; as players) {
+    <mat-form-field>
+      <mat-label>Joueur 1</mat-label>
+      <mat-select [(ngModel)]="currentPlayer1">
+        @for (player of players; track player) {
+        <mat-option [value]="player"
+          >{{player.playerName1}} - {{player.playerName2}}</mat-option
+        >
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Joueur 2</mat-label>
+      <mat-select [(ngModel)]="currentPlayer2">
+        @for (player of players; track player) {
+        <mat-option [value]="player"
+          >{{player.playerName1}} - {{player.playerName2}}</mat-option
+        >
+        }
+      </mat-select>
+    </mat-form-field>
+    }
+  </div>
+</div>
+
+}

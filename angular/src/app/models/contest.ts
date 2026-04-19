@@ -7,7 +7,6 @@ export interface IContest {
   startDate: Date;
   endBetDate: Date;
   endAdminDate: Date;
-  day: number;
-  isUpdatable: boolean;
+
   categories: ICategory[];
 }
