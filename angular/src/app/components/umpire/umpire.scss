@@ -1,6 +1,6 @@
 .page {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-rows: max-content;
   height: 100vh;
   padding: 0.5em;
 }

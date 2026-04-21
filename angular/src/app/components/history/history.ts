@@ -1,43 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Point } from '../point/point';
 import { IMatch } from '../../models/match';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { UmpireState } from '../../store/state/umpire.state';
+import { Store } from '@ngxs/store';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'history',
-  imports: [MatTabsModule, Point],
+  imports: [AsyncPipe, MatTabsModule, Point],
   templateUrl: './history.html',
   styleUrl: './history.scss',
 })
-export class History {
-  public match: IMatch = {
-    sets: [
-      {
-        id: 1,
-        points: [
-          {
-            pointPlayer1: 10,
-            pointPlayer2: 3,
-            server: 10,
-            receiver: 11,
-          },
-        ],
-      },
-      {
-        id: 2,
-        points: [
-          {
-            pointPlayer1: 4,
-            pointPlayer2: 2,
-            server: 14,
-            receiver: 20,
-          },
-        ],
-      },
-      {
-        id: 3,
-        points: [],
-      },
-    ],
-  };
+export class History implements OnInit, OnDestroy {
+  private readonly store: Store = inject(Store);
+
+  public match$: Observable<IMatch>;
+
+  private destroy$!: Subject<boolean>;
+
+  constructor() {
+    this.match$ = this.store.select(UmpireState.match);
+  }
+
+  public ngOnInit() {
+    this.destroy$ = new Subject<boolean>();
+  }
+
+  public ngOnDestroy() {
+    if (this.destroy$) {
+      this.destroy$.next(true);
+    }
+  }
 }

@@ -1,10 +1,16 @@
 .selection {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 3fr 1fr;
 }
 
 .players {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 1em;
+}
+
+.launch {
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }

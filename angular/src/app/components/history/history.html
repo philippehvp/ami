@@ -1,5 +1,7 @@
+@if(match$ | async; as match) {
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-  <mat-tab label="Premier set"><point [set]="match.sets[0]"></point></mat-tab>
-  <mat-tab label="Deuxième set"><point [set]="match.sets[1]"></point></mat-tab>
-  <mat-tab label="Troisième set"><point [set]="match.sets[2]"></point></mat-tab>
+  <mat-tab label="Premier set"><point [setId]="1"></point></mat-tab>
+  <mat-tab label="Deuxième set"><point [setId]="2"></point></mat-tab>
+  <mat-tab label="Troisième set"><point [setId]="3"></point></mat-tab>
 </mat-tab-group>
+}

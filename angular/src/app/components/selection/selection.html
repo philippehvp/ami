@@ -19,7 +19,7 @@
   <div class="players">
     @if(players$ | async; as players) {
     <mat-form-field>
-      <mat-label>Joueur 1</mat-label>
+      <mat-label>Paire 1</mat-label>
       <mat-select [(ngModel)]="currentPlayer1">
         @for (player of players; track player) {
         <mat-option [value]="player"
@@ -30,7 +30,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Joueur 2</mat-label>
+      <mat-label>Paire 2</mat-label>
       <mat-select [(ngModel)]="currentPlayer2">
         @for (player of players; track player) {
         <mat-option [value]="player"
@@ -40,6 +40,10 @@
       </mat-select>
     </mat-form-field>
     }
+  </div>
+
+  <div class="launch">
+    <button matButton="filled" (click)="launchMatch()">Lancer le match</button>
   </div>
 </div>
 

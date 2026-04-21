@@ -7,6 +7,9 @@ import { IContest } from '../../models/contest';
 import { ICategory } from '../../models/category';
 import { IPlayer } from '../../models/player';
 import { PlayerService } from '../../services/rest/player.service';
+import { IMatch } from '../../models/match';
+import { IPoint, SERVER_SIDE } from '../../models/point';
+import { IPlayerPosition } from '../../models/player-position';
 
 export class UmpireStateModel {
   contest!: IContest;
@@ -14,9 +17,10 @@ export class UmpireStateModel {
   categories!: ICategory[];
   category!: ICategory;
   players!: IPlayer[];
-  player1!: IPlayer;
-  player2!: IPlayer;
-  categoryToDisplay!: number;
+  match!: IMatch;
+  currentSet!: number;
+  currentPoint!: number;
+  justPlayedPoint!: IPoint | undefined;
 }
 
 @State<UmpireStateModel>({
@@ -27,9 +31,25 @@ export class UmpireStateModel {
     categories: [],
     category: {} as ICategory,
     players: [],
-    player1: {} as IPlayer,
-    player2: {} as IPlayer,
-    categoryToDisplay: -1,
+    match: {
+      sets: [
+        {
+          id: 1,
+          points: [],
+        },
+        {
+          id: 2,
+          points: [],
+        },
+        {
+          id: 3,
+          points: [],
+        },
+      ],
+    } as IMatch,
+    currentSet: 0,
+    currentPoint: 0,
+    justPlayedPoint: undefined,
   },
 })
 @Injectable()
@@ -63,13 +83,13 @@ export class UmpireState {
   }
 
   @Selector()
-  static player1(state: UmpireStateModel) {
-    return state.player1;
+  static match(state: UmpireStateModel) {
+    return state.match;
   }
 
   @Selector()
-  static player2(state: UmpireStateModel) {
-    return state.player2;
+  static justPlayedPoint(state: UmpireStateModel) {
+    return state.justPlayedPoint;
   }
 
   @Action(UmpireActions.GetContests)
@@ -127,5 +147,136 @@ export class UmpireState {
         });
       }),
     );
+  }
+
+  @Action(UmpireActions.InitMatch)
+  initMatch(
+    state: StateContext<UmpireStateModel>,
+    action: UmpireActions.InitMatch,
+  ) {
+    // Création du premier point depuis les informations de lancement du match
+    const point: IPoint = {
+      pointTeamLeft: 0,
+      pointTeamRight: 0,
+      playerPositionLeftTeam: action.firstPoint.playerPositionLeftTeam,
+      playerPositionRightTeam: action.firstPoint.playerPositionRightTeam,
+      serverSide: action.firstPoint.serverSide,
+    } as IPoint;
+
+    const match: IMatch = {
+      sets: [
+        {
+          id: 1,
+          points: [point],
+        },
+        {
+          id: 2,
+          points: [],
+        },
+        {
+          id: 3,
+          points: [],
+        },
+      ],
+    };
+
+    state.patchState({
+      match,
+      currentSet: 0,
+      currentPoint: 0,
+      justPlayedPoint: point,
+    });
+  }
+
+  @Action(UmpireActions.AddPoint)
+  addPoint(
+    state: StateContext<UmpireStateModel>,
+    action: UmpireActions.AddPoint,
+  ) {
+    const currentState = state.getState();
+    const currentMatch = currentState.match;
+    const currentSet = currentState.currentSet;
+    const currentPoint = currentState.currentPoint;
+
+    const lastPoint: IPoint =
+      currentMatch.sets[currentSet].points[currentPoint];
+
+    let justPlayedPoint: IPoint = {} as IPoint;
+
+    if (action.isLeftSide) {
+      // Equipe qui a marqué est à gauche
+      // Si c'était déjà l'équipe de gauche qui avait le service
+      if (lastPoint.serverSide === SERVER_SIDE.LEFT) {
+        // On inverse les joueurs
+        justPlayedPoint.playerPositionLeftTeam = this.revertPlayerPosition(
+          lastPoint.playerPositionLeftTeam,
+        );
+        justPlayedPoint.playerPositionRightTeam =
+          lastPoint.playerPositionRightTeam;
+        justPlayedPoint.pointTeamLeft = lastPoint.pointTeamLeft + 1;
+        justPlayedPoint.pointTeamRight = lastPoint.pointTeamRight;
+        justPlayedPoint.serverSide = lastPoint.serverSide;
+      } else {
+        // C'est l'équipe de droite qui avait le service
+        justPlayedPoint.playerPositionLeftTeam =
+          lastPoint.playerPositionLeftTeam;
+        justPlayedPoint.playerPositionRightTeam =
+          lastPoint.playerPositionRightTeam;
+        justPlayedPoint.pointTeamLeft = lastPoint.pointTeamLeft + 1;
+        justPlayedPoint.pointTeamRight = lastPoint.pointTeamRight;
+        justPlayedPoint.serverSide = SERVER_SIDE.LEFT;
+      }
+    } else {
+      // Equipe qui a marqué est à droite
+      // Si c'était déjà l'équipe de droite qui avait le service
+      if (lastPoint.serverSide === SERVER_SIDE.RIGHT) {
+        // On inverse les joueurs
+        justPlayedPoint.playerPositionRightTeam = this.revertPlayerPosition(
+          lastPoint.playerPositionRightTeam,
+        );
+        justPlayedPoint.playerPositionLeftTeam =
+          lastPoint.playerPositionLeftTeam;
+        justPlayedPoint.pointTeamRight = lastPoint.pointTeamRight + 1;
+        justPlayedPoint.pointTeamLeft = lastPoint.pointTeamLeft;
+        justPlayedPoint.serverSide = lastPoint.serverSide;
+      } else {
+        // C'est l'équipe de gauche qui avait le service
+        justPlayedPoint.playerPositionRightTeam =
+          lastPoint.playerPositionRightTeam;
+        justPlayedPoint.playerPositionLeftTeam =
+          lastPoint.playerPositionLeftTeam;
+        justPlayedPoint.pointTeamRight = lastPoint.pointTeamRight + 1;
+        justPlayedPoint.pointTeamLeft = lastPoint.pointTeamLeft;
+        justPlayedPoint.serverSide = SERVER_SIDE.RIGHT;
+      }
+    }
+
+    currentMatch.sets[currentSet].points[currentPoint + 1] = justPlayedPoint;
+
+    state.patchState({
+      match: currentMatch,
+      currentPoint: currentPoint + 1,
+      justPlayedPoint: justPlayedPoint,
+    });
+  }
+
+  private revertPlayerPosition(
+    playerPosition: IPlayerPosition,
+  ): IPlayerPosition {
+    const newPlayerOnLeft = playerPosition.playerRight;
+    const newPlayerOnRight = playerPosition.playerLeft;
+
+    return {
+      playerLeft: newPlayerOnLeft,
+      playerRight: newPlayerOnRight,
+    };
+  }
+
+  private checkEndOfMatch(state: StateContext<UmpireStateModel>): boolean {
+    return false;
+  }
+
+  private checkEndOfSet(state: StateContext<UmpireStateModel>): boolean {
+    return false;
   }
 }

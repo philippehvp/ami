@@ -1,9 +1,10 @@
+@if(points$ | async; as point) {
 <div class="points">
-  @for(point of points; track point) {
+  @for(cell of cells; track cell; let index = $index) {
   <span class="point">
-    @if(isNotNullNorUndefined(point.pointPlayer1) &&
-    isNotNullNorUndefined(point.pointPlayer2)) { {{point.pointPlayer1}} -
-    {{point.pointPlayer2}} }
+    @if(point[$index]) { {{point[$index].pointTeamLeft}} -
+    {{point[$index].pointTeamRight}} }
   </span>
   }
 </div>
+}

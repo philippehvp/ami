@@ -1,11 +1,13 @@
+import { IPlayer } from './player';
 import { IPlayerPosition } from './player-position';
+import { SERVER_SIDE } from './point';
 
-export enum SERVER_SIDE {
-  LEFT = 1,
-  RIGHT = 2,
+export interface ILaunchData {
+  player1: IPlayer;
+  player2: IPlayer;
 }
 
-export interface IPoint {
+export interface IFirstPoint {
   pointTeamLeft: number;
   pointTeamRight: number;
 

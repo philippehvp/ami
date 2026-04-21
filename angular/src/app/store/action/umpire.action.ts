@@ -1,3 +1,6 @@
+import { IFirstPoint } from '../../models/launch-data';
+import { IPoint } from '../../models/point';
+
 export namespace UmpireActions {
   export class GetContests {
     static readonly type = '[Umpire] Get Contests';
@@ -22,5 +25,15 @@ export namespace UmpireActions {
   export class GetPlayers {
     static readonly type = '[Umpire] Get Players';
     constructor(public categoryId: number) {}
+  }
+
+  export class InitMatch {
+    static readonly type = '[Umpire] Init Match';
+    constructor(public firstPoint: IFirstPoint) {}
+  }
+
+  export class AddPoint {
+    static readonly type = '[Umpire] Add Point';
+    constructor(public isLeftSide: boolean) {}
   }
 }

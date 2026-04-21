@@ -1,1 +1,40 @@
-Live
+@if(justPlayedPoint$ | async; as justPlayedPoint) { @if(justPlayedPoint) {
+
+<div class="action-area">
+  <div>
+    <button matButton="filled" (click)="addPointTeamLeft()">
+      {{justPlayedPoint.pointTeamLeft}}
+    </button>
+  </div>
+  <div>
+    <button matButton="filled" (click)="addPointTeamRight()">
+      {{justPlayedPoint.pointTeamRight}}
+    </button>
+  </div>
+</div>
+
+<div class="court-area">
+  <div>
+    <div>
+      {{getPlayerName(justPlayedPoint.playerPositionLeftTeam.playerLeft)}}
+    </div>
+    <div>
+      {{getPlayerName(justPlayedPoint.playerPositionLeftTeam.playerRight)}}
+    </div>
+  </div>
+
+  <div>
+    <mat-icon [fontIcon]="getArrow(justPlayedPoint)"></mat-icon>
+  </div>
+
+  <div>
+    <div>
+      {{getPlayerName(justPlayedPoint.playerPositionRightTeam.playerRight)}}
+    </div>
+    <div>
+      {{getPlayerName(justPlayedPoint.playerPositionRightTeam.playerLeft)}}
+    </div>
+  </div>
+</div>
+
+} }
