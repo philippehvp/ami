@@ -65,16 +65,18 @@ export class Points implements OnInit, OnDestroy {
     return UtilsService.isNotNullNorUndefined(obj);
   }
 
-  public showPoint(point: IPoint, pointIndex: number) {
-    if (point) {
+  public showPoint(points: IPoint[], pointIndex: number) {
+    if (points) {
       const config: MatDialogConfig<{
-        justPlayedPoint: IPoint;
+        points: IPoint[];
         pointIndex: number;
       }> = {
         data: {
-          justPlayedPoint: point,
+          points: points,
           pointIndex,
         },
+        width: '100%',
+        height: '100%',
       };
       this.dialog.open(ViewPoint, config).afterClosed().subscribe();
     }

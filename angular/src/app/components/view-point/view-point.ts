@@ -13,9 +13,10 @@ import { Court } from '../court/court';
 import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngxs/store';
 import { UmpireActions } from '../../store/action/umpire.action';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-view-point',
+  selector: 'view-point',
   imports: [
     MatDialogContent,
     MatDialogTitle,
@@ -23,6 +24,7 @@ import { UmpireActions } from '../../store/action/umpire.action';
     MatDialogClose,
     MatButtonModule,
     Court,
+    MatIconModule,
   ],
   templateUrl: './view-point.html',
   styleUrl: './view-point.scss',
@@ -30,7 +32,10 @@ import { UmpireActions } from '../../store/action/umpire.action';
 export class ViewPoint {
   private readonly store: Store = inject(Store);
 
-  public data: { justPlayedPoint: IPoint; pointIndex: number } =
+  public currentShowedPoint!: IPoint;
+  public currentShowedPointIndex!: number;
+
+  public data: { points: IPoint[]; pointIndex: number } =
     inject(MAT_DIALOG_DATA);
 
   private matDialogRef = inject(MatDialogRef);
@@ -38,5 +43,26 @@ export class ViewPoint {
   public goBackToPoint() {
     this.store.dispatch(new UmpireActions.GoBackToPoint(this.data.pointIndex));
     this.matDialogRef.close();
+  }
+
+  public showNextPoint() {
+    if (this.currentShowedPointIndex < this.data.points.length - 1) {
+      this.currentShowedPoint =
+        this.data.points[++this.currentShowedPointIndex];
+    }
+  }
+
+  public showPreviousPoint() {
+    if (this.currentShowedPointIndex > 0) {
+      this.currentShowedPoint =
+        this.data.points[--this.currentShowedPointIndex];
+    }
+  }
+
+  constructor() {
+    this.currentShowedPointIndex = this.data.pointIndex;
+    this.currentShowedPoint = this.data.points[this.currentShowedPointIndex];
+
+    this.matDialogRef.updateSize('auto', 'auto');
   }
 }

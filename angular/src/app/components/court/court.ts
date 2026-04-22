@@ -34,6 +34,5 @@ export class Court {
         return 'north_west';
       }
     }
-    return '';
   }
 }

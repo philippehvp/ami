@@ -1,6 +1,22 @@
 <h2 mat-dialog-title>Consultation du point</h2>
 <mat-dialog-content>
-  <court [justPlayedPoint]="data.justPlayedPoint"></court>
+  <div class="view-score-area">
+    <div class="score">{{ currentShowedPoint.pointTeamLeft}}</div>
+    <div class="score">{{ currentShowedPoint.pointTeamRight}}</div>
+  </div>
+  <div class="view-court-area">
+    <div class="navigation">
+      <button matIconButton (click)="showPreviousPoint()">
+        <mat-icon fontIcon="arrow_left" class="arrow"></mat-icon>
+      </button>
+    </div>
+    <court [justPlayedPoint]="currentShowedPoint"></court>
+    <div class="navigation">
+      <button matIconButton (click)="showNextPoint()">
+        <mat-icon fontIcon="arrow_right" class="arrow"></mat-icon>
+      </button>
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button matButton (click)="goBackToPoint()">Revenir ici</button>

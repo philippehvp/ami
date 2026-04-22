@@ -1,6 +1,5 @@
 .court-area {
   display: grid;
-  //grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
     "area1 area3 area4"
     "area2 area3 area5";
@@ -41,6 +40,6 @@
   align-items: center;
 }
 
-.area {
+.arrow {
   transform: scale(3);
 }

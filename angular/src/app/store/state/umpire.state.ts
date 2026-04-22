@@ -306,6 +306,7 @@ export class UmpireState {
       currentPoint: action.pointIndex,
     });
   }
+
   private revertPlayerPosition(
     playerPosition: IPlayerPosition,
   ): IPlayerPosition {

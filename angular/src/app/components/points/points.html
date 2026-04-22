@@ -1,7 +1,7 @@
 @if(points$ | async; as points) {
 <div class="points">
   @for(cell of cells; track cell; let index = $index) {
-  <span class="point" (click)="showPoint(points[$index], $index)">
+  <span class="point" (click)="showPoint(points, $index)">
     @if(points[$index]) { {{displayScore(points[$index])}} }
   </span>
   }

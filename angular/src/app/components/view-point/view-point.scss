@@ -1,0 +1,27 @@
+.view-score-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  line-height: 3em;
+}
+
+.score {
+  display: grid;
+  justify-content: center;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+.view-court-area {
+  display: grid;
+  grid-template-columns: 5em 1fr 5em;
+}
+
+.navigation {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  transform: scale(3);
+}
