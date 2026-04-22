@@ -1,0 +1,19 @@
+<div class="court-area">
+  <div class="area1 player">
+    {{getPlayerName(justPlayedPoint.playerPositionLeftTeam.playerLeft)}}
+  </div>
+  <div class="area2 player">
+    {{getPlayerName(justPlayedPoint.playerPositionLeftTeam.playerRight)}}
+  </div>
+
+  <div class="area3 arrow-area">
+    <mat-icon [fontIcon]="getArrow(justPlayedPoint)" class="area"></mat-icon>
+  </div>
+
+  <div class="area4 player">
+    {{getPlayerName(justPlayedPoint.playerPositionRightTeam.playerRight)}}
+  </div>
+  <div class="area5 player">
+    {{getPlayerName(justPlayedPoint.playerPositionRightTeam.playerLeft)}}
+  </div>
+</div>

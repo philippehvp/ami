@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Consultation du point</h2>
+<mat-dialog-content>
+  <court [justPlayedPoint]="data.justPlayedPoint"></court>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="goBackToPoint()">Revenir ici</button>
+  <button matButton mat-dialog-close>Fermer</button>
+</mat-dialog-actions>

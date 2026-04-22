@@ -17,11 +17,6 @@ export namespace UmpireActions {
     constructor(public contestId: number) {}
   }
 
-  export class SetCategory {
-    static readonly type = '[Bet] Set Category';
-    constructor(public categoryId: number) {}
-  }
-
   export class GetPlayers {
     static readonly type = '[Umpire] Get Players';
     constructor(public categoryId: number) {}
@@ -35,5 +30,10 @@ export namespace UmpireActions {
   export class AddPoint {
     static readonly type = '[Umpire] Add Point';
     constructor(public isLeftSide: boolean) {}
+  }
+
+  export class GoBackToPoint {
+    static readonly type = '[Umpire] Go Back To Point';
+    constructor(public pointIndex: number) {}
   }
 }

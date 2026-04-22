@@ -4,7 +4,7 @@ import { History } from '../history/history';
 import { Live } from '../live/live';
 
 @Component({
-  selector: 'app-umpire',
+  selector: 'umpire',
   imports: [Selection, History, Live],
   templateUrl: './umpire.html',
   styleUrl: './umpire.scss',

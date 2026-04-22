@@ -50,17 +50,17 @@
       </mat-radio-group>
     </div>
   </div>
-  <div class="side-selection-area">
-    <div class="label-area"><h2>Côté de l'équipe qui sert</h2></div>
-    <mat-radio-group [(ngModel)]="serverSide">
+  <div class="label-area"><h2>Côté de l'équipe qui sert</h2></div>
+  <mat-radio-group [(ngModel)]="serverSide">
+    <div class="side-selection-area">
       <div>
         <mat-radio-button [value]="1">Gauche</mat-radio-button>
       </div>
       <div>
         <mat-radio-button [value]="2">Droite</mat-radio-button>
       </div>
-    </mat-radio-group>
-  </div>
+    </div>
+  </mat-radio-group>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button matButton mat-dialog-close>Annuler</button>

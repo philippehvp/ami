@@ -7,18 +7,21 @@ import { map, Observable, of, Subject, takeUntil } from 'rxjs';
 import { IMatch } from '../../models/match';
 import { UmpireState } from '../../store/state/umpire.state';
 import { AsyncPipe } from '@angular/common';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ViewPoint } from '../view-point/view-point';
 
 @Component({
   selector: 'point',
   imports: [AsyncPipe],
-  templateUrl: './point.html',
-  styleUrl: './point.scss',
+  templateUrl: './points.html',
+  styleUrl: './points.scss',
 })
-export class Point implements OnInit, OnDestroy {
+export class Points implements OnInit, OnDestroy {
   @Input()
-  setId!: number;
+  set$!: Observable<ISet>;
 
   private readonly store: Store = inject(Store);
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   public match$: Observable<IMatch>;
 
@@ -42,17 +45,11 @@ export class Point implements OnInit, OnDestroy {
       this.cells.push({} as IPoint);
     }
 
-    this.match$
+    this.set$
       .pipe(
         takeUntil(this.destroy$),
-        map((match) => {
-          const set: ISet | undefined = match.sets.find((set) => {
-            return set.id === this.setId;
-          });
-
-          if (set) {
-            this.points$ = of(set.points);
-          }
+        map((set) => {
+          this.points$ = of(set.points);
         }),
       )
       .subscribe();
@@ -66,5 +63,24 @@ export class Point implements OnInit, OnDestroy {
 
   public isSet(obj: unknown): boolean {
     return UtilsService.isNotNullNorUndefined(obj);
+  }
+
+  public showPoint(point: IPoint, pointIndex: number) {
+    if (point) {
+      const config: MatDialogConfig<{
+        justPlayedPoint: IPoint;
+        pointIndex: number;
+      }> = {
+        data: {
+          justPlayedPoint: point,
+          pointIndex,
+        },
+      };
+      this.dialog.open(ViewPoint, config).afterClosed().subscribe();
+    }
+  }
+
+  public displayScore(point: IPoint): string {
+    return `${point.pointTeamLeft} - ${point.pointTeamRight}`;
   }
 }

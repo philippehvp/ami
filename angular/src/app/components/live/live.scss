@@ -1,10 +1,18 @@
 .action-area {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+
   text-align: center;
 }
 
-.court-area {
+.score-area {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+
+.score {
+  font-size: 3em;
+  font-weight: bold;
 }

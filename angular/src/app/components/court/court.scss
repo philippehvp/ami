@@ -1,0 +1,46 @@
+.court-area {
+  display: grid;
+  //grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    "area1 area3 area4"
+    "area2 area3 area5";
+}
+
+.player {
+  display: grid;
+  height: 10em;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+}
+
+.area1 {
+  grid-area: area1;
+}
+
+.area2 {
+  grid-area: area2;
+}
+
+.area3 {
+  grid-area: area3;
+}
+
+.area4 {
+  grid-area: area4;
+}
+
+.area5 {
+  grid-area: area5;
+}
+
+.arrow-area {
+  display: grid;
+  height: 30em;
+  justify-content: center;
+  align-items: center;
+}
+
+.area {
+  transform: scale(3);
+}

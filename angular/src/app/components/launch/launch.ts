@@ -16,7 +16,7 @@ import { IFirstPoint, ILaunchData } from '../../models/launch-data';
 import { IPlayerPosition } from '../../models/player-position';
 import { SERVER_SIDE } from '../../models/point';
 @Component({
-  selector: 'app-launch',
+  selector: 'launch',
   imports: [
     FormsModule,
     MatButtonModule,

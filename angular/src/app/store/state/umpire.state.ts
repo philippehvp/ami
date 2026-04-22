@@ -10,43 +10,35 @@ import { PlayerService } from '../../services/rest/player.service';
 import { IMatch } from '../../models/match';
 import { IPoint, SERVER_SIDE } from '../../models/point';
 import { IPlayerPosition } from '../../models/player-position';
+import { ISet } from '../../models/set';
 
 export class UmpireStateModel {
-  contest!: IContest;
   contests!: IContest[];
   categories!: ICategory[];
-  category!: ICategory;
   players!: IPlayer[];
   match!: IMatch;
+  firstSet!: ISet;
+  secondSet!: ISet;
+  thirdSet!: ISet;
   currentSet!: number;
   currentPoint!: number;
+
   justPlayedPoint!: IPoint | undefined;
 }
 
 @State<UmpireStateModel>({
   name: 'bet',
   defaults: {
-    contest: {} as IContest,
     contests: [],
     categories: [],
-    category: {} as ICategory,
+
     players: [],
     match: {
-      sets: [
-        {
-          id: 1,
-          points: [],
-        },
-        {
-          id: 2,
-          points: [],
-        },
-        {
-          id: 3,
-          points: [],
-        },
-      ],
+      sets: [{}, {}, {}],
     } as IMatch,
+    firstSet: {} as ISet,
+    secondSet: {} as ISet,
+    thirdSet: {} as ISet,
     currentSet: 0,
     currentPoint: 0,
     justPlayedPoint: undefined,
@@ -56,21 +48,6 @@ export class UmpireStateModel {
 export class UmpireState {
   private umpireService = inject(UmpireService);
   private playerService = inject(PlayerService);
-
-  @Selector()
-  static contest(state: UmpireStateModel) {
-    return state.contest;
-  }
-
-  @Selector()
-  static contests(state: UmpireStateModel) {
-    return state.contests;
-  }
-
-  @Selector()
-  static category(state: UmpireStateModel) {
-    return state.category;
-  }
 
   @Selector()
   static categories(state: UmpireStateModel) {
@@ -85,6 +62,21 @@ export class UmpireState {
   @Selector()
   static match(state: UmpireStateModel) {
     return state.match;
+  }
+
+  @Selector()
+  static firstSet(state: UmpireStateModel) {
+    return state.firstSet;
+  }
+
+  @Selector()
+  static secondSet(state: UmpireStateModel) {
+    return state.secondSet;
+  }
+
+  @Selector()
+  static thirdSet(state: UmpireStateModel) {
+    return state.thirdSet;
   }
 
   @Selector()
@@ -115,26 +107,6 @@ export class UmpireState {
     );
   }
 
-  @Action(UmpireActions.SetCategory)
-  setCategory(
-    state: StateContext<UmpireStateModel>,
-    action: UmpireActions.SetCategory,
-  ) {
-    const currentState = state.getState();
-
-    if (currentState.category?.id !== action.categoryId) {
-      return currentState.contests?.map((contest) => {
-        contest.categories?.map((category) => {
-          if (category.id === action.categoryId) {
-            state.patchState({ category, contest });
-          }
-        });
-      });
-    } else {
-      return;
-    }
-  }
-
   @Action(UmpireActions.GetPlayers)
   getPlayers(
     state: StateContext<UmpireStateModel>,
@@ -163,25 +135,22 @@ export class UmpireState {
       serverSide: action.firstPoint.serverSide,
     } as IPoint;
 
+    const firstSet: ISet = {
+      points: [point],
+    };
+
+    const secondSet: ISet = { points: [] };
+    const thirdSet: ISet = { points: [] };
+
     const match: IMatch = {
-      sets: [
-        {
-          id: 1,
-          points: [point],
-        },
-        {
-          id: 2,
-          points: [],
-        },
-        {
-          id: 3,
-          points: [],
-        },
-      ],
+      sets: [firstSet, secondSet, thirdSet],
     };
 
     state.patchState({
       match,
+      firstSet,
+      secondSet,
+      thirdSet,
       currentSet: 0,
       currentPoint: 0,
       justPlayedPoint: point,
@@ -194,12 +163,11 @@ export class UmpireState {
     action: UmpireActions.AddPoint,
   ) {
     const currentState = state.getState();
-    const currentMatch = currentState.match;
+    const match = currentState.match;
     const currentSet = currentState.currentSet;
     const currentPoint = currentState.currentPoint;
 
-    const lastPoint: IPoint =
-      currentMatch.sets[currentSet].points[currentPoint];
+    const lastPoint: IPoint = match.sets[currentSet].points[currentPoint];
 
     let justPlayedPoint: IPoint = {} as IPoint;
 
@@ -251,15 +219,93 @@ export class UmpireState {
       }
     }
 
-    currentMatch.sets[currentSet].points[currentPoint + 1] = justPlayedPoint;
+    let setToUpdate: ISet = match.sets[currentSet];
+    setToUpdate.points.push(justPlayedPoint);
+
+    switch (currentSet) {
+      case 0:
+        state.patchState({
+          firstSet: {
+            points: setToUpdate.points,
+          },
+        });
+        break;
+      case 1:
+        state.patchState({ secondSet: { points: setToUpdate.points } });
+        break;
+      case 2:
+        state.patchState({ thirdSet: { points: setToUpdate.points } });
+        break;
+    }
 
     state.patchState({
-      match: currentMatch,
+      match,
       currentPoint: currentPoint + 1,
-      justPlayedPoint: justPlayedPoint,
+      justPlayedPoint,
     });
   }
 
+  @Action(UmpireActions.GoBackToPoint)
+  goBackToPoint(
+    state: StateContext<UmpireStateModel>,
+    action: UmpireActions.GoBackToPoint,
+  ) {
+    const currentState = state.getState();
+    const match = currentState.match;
+    const currentSet = currentState.currentSet;
+    const justPlayedPoint = match.sets[currentSet].points[action.pointIndex];
+
+    // Remise à zéro des points du set qui se trouvent après le point dont l'index est passé en paramètre
+    // Remise à zéro des points du ou des sets suivants si c'est le cas
+
+    switch (currentSet) {
+      case 0:
+        state.patchState({
+          firstSet: {
+            points: currentState.firstSet.points.slice(
+              0,
+              action.pointIndex + 1,
+            ),
+          },
+          secondSet: { points: [] },
+          thirdSet: { points: [] },
+        });
+        break;
+      case 1:
+        state.patchState({
+          secondSet: {
+            points: currentState.secondSet.points.slice(
+              0,
+              action.pointIndex + 1,
+            ),
+          },
+          thirdSet: { points: [] },
+        });
+        break;
+      case 2:
+        state.patchState({
+          thirdSet: {
+            points: currentState.thirdSet.points.slice(
+              0,
+              action.pointIndex + 1,
+            ),
+          },
+        });
+        break;
+    }
+
+    state.patchState({
+      match: {
+        sets: [
+          state.getState().firstSet,
+          state.getState().secondSet,
+          state.getState().thirdSet,
+        ],
+      },
+      justPlayedPoint,
+      currentPoint: action.pointIndex,
+    });
+  }
   private revertPlayerPosition(
     playerPosition: IPlayerPosition,
   ): IPlayerPosition {
