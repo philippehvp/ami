@@ -1,4 +1,4 @@
-import { Component, inject, model, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, model, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { UmpireActions } from '../../store/action/umpire.action';
 import { Observable } from 'rxjs';
@@ -8,13 +8,13 @@ import { UmpireState } from '../../store/state/umpire.state';
 import { MatFormField, MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { IPlayer } from '../../models/player';
+import { IPair, PAIR_ALIAS } from '../../models/pair';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Launch } from '../launch/launch';
-import { IFirstPoint, ILaunchData } from '../../models/launch-data';
-import { IPoint } from '../../models/point';
-import { PlayerNameService } from '../../services/player-name.service';
+import { LaunchMatch } from '../launch-match/launch-match';
+import { IFirstPoint, ILaunchMatchData } from '../../models/launch-data';
+import { PlayerOnCourtService } from '../../services/player-on-court.service';
+import { SERVER_SIDE } from '../../models/point';
 
 @Component({
   selector: 'selection',
@@ -29,30 +29,28 @@ import { PlayerNameService } from '../../services/player-name.service';
   templateUrl: './selection.html',
   styleUrl: './selection.scss',
 })
-export class Selection implements OnInit, OnDestroy {
+export class Selection implements OnInit {
   private readonly store: Store = inject(Store);
   private readonly dialog: MatDialog = inject(MatDialog);
-  private readonly playerNameService: PlayerNameService =
-    inject(PlayerNameService);
+  private readonly playerOnCourtService: PlayerOnCourtService =
+    inject(PlayerOnCourtService);
 
   public currentCategory = model<ICategory>();
-  public currentPlayer1 = model<IPlayer>();
-  public currentPlayer2 = model<IPlayer>();
+  public leftPair = model<IPair>();
+  public rightPair = model<IPair>();
 
   public categories$: Observable<ICategory[]>;
 
-  public players$!: Observable<IPlayer[]>;
+  public pairs$!: Observable<IPair[]>;
 
   constructor() {
     this.categories$ = this.store.select(UmpireState.categories);
-    this.players$ = this.store.select(UmpireState.players);
+    this.pairs$ = this.store.select(UmpireState.players);
   }
 
   public ngOnInit() {
     this.store.dispatch([new UmpireActions.GetContests()]);
   }
-
-  public ngOnDestroy() {}
 
   public onSelectionChangeCategory() {
     // Sélection d'une série : on doit charger la liste des joueurs de la série
@@ -61,29 +59,85 @@ export class Selection implements OnInit, OnDestroy {
     ]);
   }
 
-  public launchMatch() {
-    const config: MatDialogConfig<ILaunchData> = {
+  public launch() {
+    const config: MatDialogConfig<ILaunchMatchData> = {
       data: {
-        player1: this.currentPlayer1() as IPlayer,
-        player2: this.currentPlayer2() as IPlayer,
+        leftPair: this.leftPair() as IPair,
+        rightPair: this.rightPair() as IPair,
       },
     };
     this.dialog
-      .open(Launch, config)
+      .open(LaunchMatch, config)
       .afterClosed()
       .subscribe((firstPoint: IFirstPoint) => {
         if (firstPoint) {
-          // Mise en place des noms des joueurs
-          this.playerNameService.setPlayersName([
-            this.currentPlayer1()?.playerName1 || '',
-            this.currentPlayer1()?.playerName2 || '',
-            this.currentPlayer2()?.playerName1 || '',
-            this.currentPlayer2()?.playerName2 || '',
-          ]);
+          this.setPlayersName();
+          this.setPairsPositionForAllSets(firstPoint);
 
           // Initialisation match
           this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
         }
       });
+  }
+
+  private setPlayersName() {
+    this.playerOnCourtService.setPlayersName([
+      this.leftPair()?.playerName1 || '',
+      this.leftPair()?.playerName2 || '',
+      this.rightPair()?.playerName1 || '',
+      this.rightPair()?.playerName2 || '',
+    ]);
+  }
+
+  private setPairsPositionForAllSets(firstPoint: IFirstPoint) {
+    if (firstPoint.serverSide === SERVER_SIDE.LEFT) {
+      // Au début du match, le serveur est à gauche
+      if (
+        firstPoint.playerPositionLeftPair.playerLeft === 1 ||
+        firstPoint.playerPositionLeftPair.playerLeft === 2
+      ) {
+        // Le serveur est de l'équipe dans la liste de gauche
+        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.ONE_TWO);
+
+        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.THREE_FOUR);
+      } else {
+        // Le serveur est de l'équipe dans la liste de droite
+        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+
+        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.ONE_TWO);
+      }
+    } else {
+      // Au début du match, le serveur est à droite
+      if (
+        firstPoint.playerPositionLeftPair.playerLeft === 1 ||
+        firstPoint.playerPositionLeftPair.playerLeft === 2
+      ) {
+        // Le serveur est de l'équipe dans la liste de gauche
+        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+
+        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.ONE_TWO);
+      } else {
+        // Le serveur est de l'équipe dans la liste de droite
+        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.ONE_TWO);
+
+        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.THREE_FOUR);
+        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.ONE_TWO);
+        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.THREE_FOUR);
+      }
+    }
   }
 }

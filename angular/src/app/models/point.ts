@@ -6,11 +6,11 @@ export enum SERVER_SIDE {
 }
 
 export interface IPoint {
-  pointTeamLeft: number;
-  pointTeamRight: number;
+  pointLeftPair: number;
+  pointRightPair: number;
 
-  playerPositionLeftTeam: IPlayerPosition;
-  playerPositionRightTeam: IPlayerPosition;
+  playerPositionLeftPair: IPlayerPosition;
+  playerPositionRightPair: IPlayerPosition;
 
   serverSide: SERVER_SIDE;
 }

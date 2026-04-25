@@ -3,16 +3,16 @@
 <div class="action-area">
   <div class="score-area">
     <div>
-      <button matFab normal (click)="addPointTeamLeft()">
+      <button matFab normal (click)="addPointLeftPair()">
         <mat-icon>add</mat-icon>
       </button>
     </div>
-    <div class="score">{{justPlayedPoint.pointTeamLeft}}</div>
+    <div class="score">{{justPlayedPoint.pointLeftPair}}</div>
   </div>
   <div class="score-area">
-    <div class="score">{{justPlayedPoint.pointTeamRight}}</div>
+    <div class="score">{{justPlayedPoint.pointRightPair}}</div>
     <div>
-      <button matFab normal (click)="addPointTeamRight()">
+      <button matFab normal (click)="addPointRightPair()">
         <mat-icon>add</mat-icon>
       </button>
     </div>

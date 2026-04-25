@@ -41,7 +41,9 @@ export class ViewPoint {
   private matDialogRef = inject(MatDialogRef);
 
   public goBackToPoint() {
-    this.store.dispatch(new UmpireActions.GoBackToPoint(this.data.pointIndex));
+    this.store.dispatch(
+      new UmpireActions.GoBackToPoint(this.currentShowedPointIndex),
+    );
     this.matDialogRef.close();
   }
 

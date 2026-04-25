@@ -4,12 +4,11 @@ import { Observable } from 'rxjs/internal/Observable';
 
 import { CommonService } from '../common.service';
 import { IContest } from '../../models/contest';
-import { map } from 'rxjs/internal/operators/map';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UmpireService {
+export class ContestService {
   private httpClient = inject(HttpClient);
 
   public getContests(): Observable<IContest[]> {

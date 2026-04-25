@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Lancement du set</h2>
+<mat-dialog-content>
+  <div class="launch-area">
+    <div class="label-area">
+      <h2>Serveur</h2>
+    </div>
+    <div>
+      <mat-radio-group [(ngModel)]="server">
+        <div class="server-receiver-area">
+          @if(launchSetData.isPlayer1Or2AsServer) {
+          <mat-radio-button [value]="1">{{player1Name}}</mat-radio-button>
+          <mat-radio-button [value]="2">{{player2Name}}</mat-radio-button>
+          } @else {
+          <mat-radio-button [value]="3">{{player3Name}}</mat-radio-button>
+          <mat-radio-button [value]="4">{{player4Name}}</mat-radio-button>
+          }
+        </div>
+      </mat-radio-group>
+    </div>
+    <div class="label-area"><h2>Receveur</h2></div>
+    <div>
+      <mat-radio-group [(ngModel)]="receiver">
+        <div class="server-receiver-area">
+          @if(launchSetData.isPlayer1Or2AsServer) {
+          <mat-radio-button [value]="3">{{player3Name}}</mat-radio-button>
+          <mat-radio-button [value]="4">{{player4Name}}</mat-radio-button>
+          } @else {
+          <mat-radio-button [value]="1">{{player1Name}}</mat-radio-button>
+          <mat-radio-button [value]="2">{{player2Name}}</mat-radio-button>
+
+          }
+        </div>
+      </mat-radio-group>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton mat-dialog-close>Annuler</button>
+  <button matButton (click)="validate()" cdkFocusInitial>Lancer</button>
+</mat-dialog-actions>

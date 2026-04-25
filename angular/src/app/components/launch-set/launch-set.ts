@@ -12,11 +12,12 @@ import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
 
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { IFirstPoint, ILaunchData } from '../../models/launch-data';
+import { IFirstPoint, ILaunchSetData } from '../../models/launch-data';
 import { IPlayerPosition } from '../../models/player-position';
 import { SERVER_SIDE } from '../../models/point';
+import { PlayerOnCourtService } from '../../services/player-on-court.service';
 @Component({
-  selector: 'launch',
+  selector: 'launch-set',
   imports: [
     FormsModule,
     MatButtonModule,
@@ -28,35 +29,52 @@ import { SERVER_SIDE } from '../../models/point';
     MatRadioModule,
     MatRadioButton,
   ],
-  templateUrl: './launch.html',
-  styleUrl: './launch.scss',
+  templateUrl: './launch-set.html',
+  styleUrl: './launch-set.scss',
 })
-export class Launch {
+export class LaunchSet {
+  private readonly playerOnCourtService: PlayerOnCourtService =
+    inject(PlayerOnCourtService);
+
   public server = model<number>();
   public receiver = model<number>();
-  public serverSide = model<number>();
 
-  public launchData: ILaunchData = inject(MAT_DIALOG_DATA);
-  private matDialogRef = inject(MatDialogRef<ILaunchData>);
+  public launchSetData: ILaunchSetData = inject(MAT_DIALOG_DATA);
+  private matDialogRef = inject(MatDialogRef<ILaunchSetData>);
 
-  constructor() {}
+  constructor() {
+    console.log(this.launchSetData);
+  }
 
   public validate() {
     const firstPoint: IFirstPoint = {
-      pointTeamLeft: 0,
-      pointTeamRight: 0,
-      serverSide: this.serverSide(),
-      playerPositionLeftTeam: this.getPlayerPositionLeftTeam(),
-      playerPositionRightTeam: this.getPlayerPositionRightTeam(),
+      pointLeftPair: 0,
+      pointRightPair: 0,
+      serverSide: this.launchSetData.serverSide,
+      playerPositionLeftPair: this.getPlayerPositionLeftPair(),
+      playerPositionRightPair: this.getPlayerPositionRightPair(),
     } as IFirstPoint;
     this.matDialogRef.close(firstPoint);
   }
 
-  private getPlayerPositionLeftTeam(): IPlayerPosition {
-    let serverSide = 0;
-    serverSide = this.serverSide()?.valueOf() || 0;
+  public get player1Name(): string {
+    return this.playerOnCourtService.getPlayerName(1);
+  }
 
-    if (serverSide === SERVER_SIDE.LEFT) {
+  public get player2Name(): string {
+    return this.playerOnCourtService.getPlayerName(2);
+  }
+
+  public get player3Name(): string {
+    return this.playerOnCourtService.getPlayerName(3);
+  }
+
+  public get player4Name(): string {
+    return this.playerOnCourtService.getPlayerName(4);
+  }
+
+  private getPlayerPositionLeftPair(): IPlayerPosition {
+    if (this.launchSetData.serverSide === SERVER_SIDE.LEFT) {
       let server = 0;
       server = this.server()?.valueOf() || 0;
 
@@ -71,7 +89,7 @@ export class Launch {
           playerRight: server === 3 ? 3 : 4,
         };
       }
-    } else if (serverSide === SERVER_SIDE.RIGHT) {
+    } else if (this.launchSetData.serverSide === SERVER_SIDE.RIGHT) {
       let receiver = 0;
       receiver = this.receiver()?.valueOf() || 0;
 
@@ -91,11 +109,8 @@ export class Launch {
     return {} as IPlayerPosition;
   }
 
-  private getPlayerPositionRightTeam(): IPlayerPosition {
-    let serverSide = -1;
-    serverSide = this.serverSide()?.valueOf() || -1;
-
-    if (serverSide === SERVER_SIDE.RIGHT) {
+  private getPlayerPositionRightPair(): IPlayerPosition {
+    if (this.launchSetData.serverSide === SERVER_SIDE.RIGHT) {
       let server = 0;
       server = this.server()?.valueOf() || 0;
       if (server === 1 || server === 2) {
@@ -109,7 +124,7 @@ export class Launch {
           playerRight: server === 3 ? 3 : 4,
         };
       }
-    } else if (serverSide === SERVER_SIDE.LEFT) {
+    } else if (this.launchSetData.serverSide === SERVER_SIDE.LEFT) {
       let receiver = 0;
       receiver = this.receiver()?.valueOf() || 0;
       if (receiver === 1 || receiver === 2) {

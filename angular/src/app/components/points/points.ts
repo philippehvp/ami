@@ -2,10 +2,8 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { IPoint } from '../../models/point';
 import { ISet } from '../../models/set';
 import { UtilsService } from '../../services/utils.service';
-import { Store } from '@ngxs/store';
 import { map, Observable, of, Subject, takeUntil } from 'rxjs';
-import { IMatch } from '../../models/match';
-import { UmpireState } from '../../store/state/umpire.state';
+
 import { AsyncPipe } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ViewPoint } from '../view-point/view-point';
@@ -20,10 +18,7 @@ export class Points implements OnInit, OnDestroy {
   @Input()
   set$!: Observable<ISet>;
 
-  private readonly store: Store = inject(Store);
   private readonly dialog: MatDialog = inject(MatDialog);
-
-  public match$: Observable<IMatch>;
 
   public points$: Observable<IPoint[]>;
 
@@ -32,7 +27,6 @@ export class Points implements OnInit, OnDestroy {
   private destroy$!: Subject<boolean>;
 
   constructor() {
-    this.match$ = this.store.select(UmpireState.match);
     this.points$ = of();
   }
 
@@ -83,6 +77,6 @@ export class Points implements OnInit, OnDestroy {
   }
 
   public displayScore(point: IPoint): string {
-    return `${point.pointTeamLeft} - ${point.pointTeamRight}`;
+    return `${point.pointLeftPair} - ${point.pointRightPair}`;
   }
 }

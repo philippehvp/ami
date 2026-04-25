@@ -1,4 +1,4 @@
-export interface IPlayer {
+export interface IPair {
   id: number;
   categoryId: number;
 
@@ -11,4 +11,9 @@ export interface IPlayer {
   playerNameOnly2: string;
   playerRanking2: string;
   playerClub2: string;
+}
+
+export enum PAIR_ALIAS {
+  ONE_TWO = 0,
+  THREE_FOUR = 1,
 }

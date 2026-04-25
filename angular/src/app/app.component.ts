@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 
@@ -18,8 +17,6 @@ export interface ILogo {
   imports: [RouterModule, MatToolbarModule],
 })
 export class AppComponent implements AfterViewInit {
-  private store = inject(Store);
-
   constructor() {}
 
   public ngAfterViewInit() {}

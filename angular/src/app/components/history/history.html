@@ -1,5 +1,9 @@
 @if(firstSet$ | async; as firstSet) { @if(isSetHasPoint(firstSet)) {
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+<mat-tab-group
+  mat-stretch-tabs="false"
+  mat-align-tabs="start"
+  [selectedIndex]="selectedIndex"
+>
   <mat-tab label="Premier set"><point [set$]="firstSet$"></point></mat-tab>
 
   @if(secondSet$ | async; as secondSet) { @if(isSetHasPoint(secondSet)) {

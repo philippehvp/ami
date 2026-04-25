@@ -27,9 +27,14 @@ export namespace UmpireActions {
     constructor(public firstPoint: IFirstPoint) {}
   }
 
+  export class InitSet {
+    static readonly type = '[Umpire] Init Set';
+    constructor(public firstPoint: IFirstPoint) {}
+  }
+
   export class AddPoint {
     static readonly type = '[Umpire] Add Point';
-    constructor(public isLeftSide: boolean) {}
+    constructor(public isPointWinnerOnLeftSide: boolean) {}
   }
 
   export class GoBackToPoint {
