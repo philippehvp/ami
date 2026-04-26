@@ -12,6 +12,7 @@ import { IPlayerPosition } from '../../models/player-position';
 import { ISet } from '../../models/set';
 import { PlayerOnCourtService } from '../../services/player-on-court.service';
 import { IEndOfSet } from '../../models/end-of-set';
+import { withJsonpSupport } from '@angular/common/http';
 
 const SWITCH_SCORE = 11;
 const FIRST_SET_ID = 1;
@@ -40,6 +41,8 @@ export class UmpireStateModel {
 
   firstSetAliasPairWinner: PAIR_ALIAS | undefined;
 
+  isSwitchInThirdSetDone!: boolean;
+
   setIndexToShow!: number;
 }
 
@@ -62,6 +65,7 @@ export class UmpireStateModel {
     isEndOfSecondSet: undefined,
 
     firstSetAliasPairWinner: undefined,
+    isSwitchInThirdSetDone: false,
 
     setIndexToShow: 0,
   },
@@ -185,6 +189,9 @@ export class UmpireState {
       justPlayedPoint: point,
       isEndOfGame: false,
       isEndOfFirstSet: undefined,
+
+      firstSetAliasPairWinner: undefined,
+      isSwitchInThirdSetDone: false,
     });
 
     state.patchState({ currentSet: state.getState().firstSet });
@@ -248,7 +255,12 @@ export class UmpireState {
     const lastPoint = currentState.lastPoint;
 
     if (lastPoint) {
+      if (this.isEndOfSet(lastPoint)) {
+        return;
+      }
+
       const justPlayedPoint: IPoint = this.getNextPoint(
+        state,
         currentSet,
         lastPoint,
         action.isPointWinnerOnLeftSide,
@@ -362,6 +374,13 @@ export class UmpireState {
               points: currentSet.points,
             },
           });
+
+          // Dans le cas du troisième set, on regarde si on n'a pas demandé à revenir avant un éventuel changement de terrain
+          if (
+            pointToGoBack.pointLeftPair < SWITCH_SCORE &&
+            pointToGoBack.pointRightPair < SWITCH_SCORE
+          )
+            state.patchState({ isSwitchInThirdSetDone: false });
           break;
       }
 
@@ -375,21 +394,32 @@ export class UmpireState {
   }
 
   private getNextPoint(
+    state: StateContext<UmpireStateModel>,
     currentSet: ISet,
     lastPoint: IPoint,
-    isLeftSide: boolean,
+    isPointWinnerOnLeftSide: boolean,
   ): IPoint {
+    const currentState = state.getState();
+
     // Détection de la permutation des équipes dans le dernier set
     if (
       currentSet.setId === THIRD_SET_ID &&
-      (lastPoint.pointLeftPair === SWITCH_SCORE - 1 ||
-        lastPoint.pointRightPair === SWITCH_SCORE - 1)
+      ((lastPoint.pointLeftPair === SWITCH_SCORE - 1 &&
+        isPointWinnerOnLeftSide) ||
+        (lastPoint.pointRightPair === SWITCH_SCORE - 1 &&
+          !isPointWinnerOnLeftSide)) &&
+      currentState.isSwitchInThirdSetDone === false
     ) {
-      return this.getNextPointSwitchLastSet(lastPoint, isLeftSide);
+      const point: IPoint = this.getNextPointSwitchLastSet(
+        lastPoint,
+        isPointWinnerOnLeftSide,
+      );
+      state.patchState({ isSwitchInThirdSetDone: true });
+      return point;
     }
 
     let justPlayedPoint: IPoint = {} as IPoint;
-    if (isLeftSide) {
+    if (isPointWinnerOnLeftSide) {
       // Equipe qui a marqué est à gauche
       // Si c'était déjà l'équipe de gauche qui avait le service
       if (lastPoint.serverSide === SERVER_SIDE.LEFT) {
@@ -449,53 +479,73 @@ export class UmpireState {
 
   private getNextPointSwitchLastSet(
     lastPoint: IPoint,
-    isLeftSide: boolean,
+    isPointWinnerOfLeftSide: boolean,
   ): IPoint {
-    if (isLeftSide) {
-      // Equipe à gauche vient de marquer et va avoir le nombre de points de la pause
-      const newPlayerPositionLeftPair: IPlayerPosition = {
-        playerLeft: lastPoint.playerPositionRightPair.playerLeft,
-        playerRight: lastPoint.playerPositionRightPair.playerRight,
-      };
+    let newPlayerPositionLeftPair: IPlayerPosition;
+    let newPlayerPositionRightPair: IPlayerPosition;
+    let newScoreLeftPair = -1;
+    let newScoreRightPair = -1;
 
-      const newPlayerPositionRightPair: IPlayerPosition = {
+    // L'équipe qui ne marque pas le point ne voit pas la position de ses joueurs changer
+    // L'équipe qui marque un point voit la position de ses joueurs changer si elle servait déjà
+    if (lastPoint.serverSide === SERVER_SIDE.LEFT && isPointWinnerOfLeftSide) {
+      newPlayerPositionRightPair = {
         playerLeft: lastPoint.playerPositionLeftPair.playerRight,
         playerRight: lastPoint.playerPositionLeftPair.playerLeft,
       };
 
-      const newScoreLeftPair = lastPoint.pointRightPair;
-      const newScoreRightPair = lastPoint.pointLeftPair + 1;
+      newPlayerPositionLeftPair = {
+        playerLeft: lastPoint.playerPositionRightPair.playerLeft,
+        playerRight: lastPoint.playerPositionRightPair.playerRight,
+      };
 
-      return {
-        playerPositionLeftPair: newPlayerPositionLeftPair,
-        playerPositionRightPair: newPlayerPositionRightPair,
-        pointLeftPair: newScoreLeftPair,
-        pointRightPair: newScoreRightPair,
-        serverSide: SERVER_SIDE.LEFT,
-      } as IPoint;
-    } else {
-      // Equipe à droite vient de marquer et va avoir le nombre de points de la pause
-      const newPlayerPositionLeftPair: IPlayerPosition = {
+      newScoreRightPair = lastPoint.pointLeftPair + 1;
+      newScoreLeftPair = lastPoint.pointRightPair;
+    } else if (
+      lastPoint.serverSide === SERVER_SIDE.RIGHT &&
+      !isPointWinnerOfLeftSide
+    ) {
+      newPlayerPositionLeftPair = {
         playerLeft: lastPoint.playerPositionRightPair.playerRight,
         playerRight: lastPoint.playerPositionRightPair.playerLeft,
       };
 
-      const newPlayerPositionRightPair: IPlayerPosition = {
+      newPlayerPositionRightPair = {
         playerLeft: lastPoint.playerPositionLeftPair.playerLeft,
         playerRight: lastPoint.playerPositionLeftPair.playerRight,
       };
 
-      const newScoreLeftPair = lastPoint.pointRightPair + 1;
-      const newScoreRightPair = lastPoint.pointLeftPair;
+      newScoreLeftPair = lastPoint.pointRightPair + 1;
+      newScoreRightPair = lastPoint.pointLeftPair;
+    } else {
+      // L'équipe qui vient de marquer le point ne servait pas
+      // On ne change donc pas la position des joueurs de l'équipe qui sert
+      newPlayerPositionLeftPair = {
+        playerLeft: lastPoint.playerPositionRightPair.playerLeft,
+        playerRight: lastPoint.playerPositionRightPair.playerRight,
+      };
 
-      return {
-        playerPositionLeftPair: newPlayerPositionLeftPair,
-        playerPositionRightPair: newPlayerPositionRightPair,
-        pointLeftPair: newScoreLeftPair,
-        pointRightPair: newScoreRightPair,
-        serverSide: SERVER_SIDE.LEFT,
-      } as IPoint;
+      newPlayerPositionRightPair = {
+        playerLeft: lastPoint.playerPositionLeftPair.playerLeft,
+        playerRight: lastPoint.playerPositionLeftPair.playerRight,
+      };
+
+      if (isPointWinnerOfLeftSide) {
+        newScoreRightPair = lastPoint.pointLeftPair + 1;
+      } else {
+        newScoreLeftPair = lastPoint.pointRightPair + 1;
+      }
     }
+
+    return {
+      playerPositionLeftPair: newPlayerPositionLeftPair,
+      playerPositionRightPair: newPlayerPositionRightPair,
+      pointLeftPair: newScoreLeftPair,
+      pointRightPair: newScoreRightPair,
+      serverSide: isPointWinnerOfLeftSide
+        ? SERVER_SIDE.RIGHT
+        : SERVER_SIDE.LEFT,
+    } as IPoint;
   }
 
   private revertPlayerPosition(
@@ -525,13 +575,13 @@ export class UmpireState {
     return false;
   }
 
-  private isEndOfSet(justPlayedPoint: IPoint): boolean {
-    if (justPlayedPoint.serverSide === SERVER_SIDE.LEFT) {
+  private isEndOfSet(point: IPoint): boolean {
+    if (point.serverSide === SERVER_SIDE.LEFT) {
       // Equipe à gauche qui vient de marquer
       if (
-        justPlayedPoint.pointLeftPair === MAX_END_OF_SET_SCORE ||
-        (justPlayedPoint.pointLeftPair >= END_OF_SET_SCORE &&
-          justPlayedPoint.pointLeftPair - justPlayedPoint.pointRightPair >= 2)
+        point.pointLeftPair === MAX_END_OF_SET_SCORE ||
+        (point.pointLeftPair >= END_OF_SET_SCORE &&
+          point.pointLeftPair - point.pointRightPair >= 2)
       ) {
         return true;
       }
@@ -540,9 +590,9 @@ export class UmpireState {
     } else {
       // Equipe à droite qui vient de marquer
       if (
-        justPlayedPoint.pointRightPair === MAX_END_OF_SET_SCORE ||
-        (justPlayedPoint.pointRightPair >= END_OF_SET_SCORE &&
-          justPlayedPoint.pointRightPair - justPlayedPoint.pointLeftPair >= 2)
+        point.pointRightPair === MAX_END_OF_SET_SCORE ||
+        (point.pointRightPair >= END_OF_SET_SCORE &&
+          point.pointRightPair - point.pointLeftPair >= 2)
       ) {
         return true;
       }

@@ -23,8 +23,8 @@ export class PlayerOnCourtService {
     this._playersName = playersName;
   }
 
-  public getPlayerName(index: number): string {
-    return this._playersName[index - 1];
+  public getPlayerName(playerNumber: number): string {
+    return this._playersName[playerNumber - 1];
   }
 
   public setFirstSetLeftPair(pairAlias: PAIR_ALIAS) {

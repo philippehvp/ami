@@ -11,28 +11,82 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class Court {
   @Input()
-  justPlayedPoint!: IPoint;
+  point!: IPoint;
 
   private readonly playerNameService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
 
-  public getPlayerName(index: number): string {
-    return this.playerNameService.getPlayerName(index);
+  public getPlayerName(playerNumber: number): string {
+    return this.playerNameService.getPlayerName(playerNumber);
   }
 
-  public getArrow(justPlayedPoint: IPoint): string {
-    if (justPlayedPoint.serverSide === SERVER_SIDE.LEFT) {
-      if (justPlayedPoint.pointLeftPair % 2 === 0) {
-        return 'north_east';
-      } else {
-        return 'south_east';
-      }
+  public getArrow(point: IPoint): string {
+    if (point.serverSide === SERVER_SIDE.LEFT) {
+      return point.pointLeftPair % 2 === 0 ? 'north_east' : 'south_east';
     } else {
-      if (justPlayedPoint.pointRightPair % 2 === 0) {
-        return 'south_west';
-      } else {
-        return 'north_west';
-      }
+      return point.pointRightPair % 2 === 0 ? 'south_west' : 'north_west';
     }
+  }
+
+  public isServer(point: IPoint, areaPosition: number): boolean {
+    let ret = false;
+
+    switch (areaPosition) {
+      case 1:
+        ret =
+          point.serverSide === SERVER_SIDE.LEFT &&
+          point.pointLeftPair % 2 !== 0;
+        break;
+      case 2:
+        ret =
+          point.serverSide === SERVER_SIDE.LEFT &&
+          point.pointLeftPair % 2 === 0;
+        break;
+      case 3:
+        ret =
+          point.serverSide === SERVER_SIDE.RIGHT &&
+          point.pointRightPair % 2 === 0;
+        break;
+      case 4:
+        ret =
+          point.serverSide === SERVER_SIDE.RIGHT &&
+          point.pointRightPair % 2 !== 0;
+        break;
+    }
+
+    return ret;
+  }
+
+  public isReceiver(point: IPoint, areaPosition: number): boolean {
+    let ret = false;
+
+    switch (areaPosition) {
+      case 1:
+        ret =
+          point.serverSide === SERVER_SIDE.RIGHT &&
+          point.pointRightPair % 2 !== 0;
+        break;
+      case 2:
+        ret =
+          point.serverSide === SERVER_SIDE.RIGHT &&
+          point.pointRightPair % 2 === 0;
+        break;
+      case 3:
+        ret =
+          point.serverSide === SERVER_SIDE.LEFT &&
+          point.pointLeftPair % 2 === 0;
+        break;
+      case 4:
+        ret =
+          point.serverSide === SERVER_SIDE.LEFT &&
+          point.pointLeftPair % 2 !== 0;
+        break;
+    }
+
+    if (ret) {
+      console.log('Receveur', point, areaPosition);
+    }
+
+    return ret;
   }
 }
