@@ -39,6 +39,9 @@ export namespace UmpireActions {
 
   export class GoBackToPoint {
     static readonly type = '[Umpire] Go Back To Point';
-    constructor(public pointIndex: number) {}
+    constructor(
+      public setId: number,
+      public pointIndex: number,
+    ) {}
   }
 }

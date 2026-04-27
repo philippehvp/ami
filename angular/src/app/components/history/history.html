@@ -4,13 +4,13 @@
   mat-align-tabs="start"
   [selectedIndex]="selectedIndex"
 >
-  <mat-tab label="Premier set"><point [set$]="firstSet$"></point></mat-tab>
+  <mat-tab label="Premier set"><points [set$]="firstSet$"></points></mat-tab>
 
   @if(secondSet$ | async; as secondSet) { @if(isSetHasPoint(secondSet)) {
-  <mat-tab label="Deuxième set"><point [set$]="secondSet$"></point></mat-tab>
+  <mat-tab label="Deuxième set"><points [set$]="secondSet$"></points></mat-tab>
 
   @if(thirdSet$ | async; as thirdSet) { @if(isSetHasPoint(thirdSet)) {
-  <mat-tab label="Troisième set"><point [set$]="thirdSet$"></point></mat-tab>
+  <mat-tab label="Troisième set"><points [set$]="thirdSet$"></points></mat-tab>
   } } } }
 </mat-tab-group>
 } }

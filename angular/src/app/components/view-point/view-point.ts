@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngxs/store';
 import { UmpireActions } from '../../store/action/umpire.action';
 import { MatIconModule } from '@angular/material/icon';
+import { ISet } from '../../models/set';
 
 @Component({
   selector: 'view-point',
@@ -35,14 +36,17 @@ export class ViewPoint {
   public currentShowedPoint!: IPoint;
   public currentShowedPointIndex!: number;
 
-  public data: { points: IPoint[]; pointIndex: number } =
+  public data: { set: ISet; points: IPoint[]; pointIndex: number } =
     inject(MAT_DIALOG_DATA);
 
   private matDialogRef = inject(MatDialogRef);
 
   public goBackToPoint() {
     this.store.dispatch(
-      new UmpireActions.GoBackToPoint(this.currentShowedPointIndex),
+      new UmpireActions.GoBackToPoint(
+        this.data.set.setId,
+        this.currentShowedPointIndex,
+      ),
     );
     this.matDialogRef.close();
   }
@@ -64,7 +68,5 @@ export class ViewPoint {
   constructor() {
     this.currentShowedPointIndex = this.data.pointIndex;
     this.currentShowedPoint = this.data.points[this.currentShowedPointIndex];
-
-    this.matDialogRef.updateSize('auto', 'auto');
   }
 }

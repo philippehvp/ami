@@ -2,14 +2,14 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { IPoint } from '../../models/point';
 import { ISet } from '../../models/set';
 import { UtilsService } from '../../services/utils.service';
-import { map, Observable, of, Subject, takeUntil } from 'rxjs';
+import { filter, map, Observable, of, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ViewPoint } from '../view-point/view-point';
 
 @Component({
-  selector: 'point',
+  selector: 'points',
   imports: [AsyncPipe],
   templateUrl: './points.html',
   styleUrl: './points.scss',
@@ -42,6 +42,7 @@ export class Points implements OnInit, OnDestroy {
     this.set$
       .pipe(
         takeUntil(this.destroy$),
+        filter((set) => !!set),
         map((set) => {
           this.points$ = of(set.points);
         }),
@@ -59,20 +60,20 @@ export class Points implements OnInit, OnDestroy {
     return UtilsService.isNotNullNorUndefined(obj);
   }
 
-  public showPoint(points: IPoint[], pointIndex: number) {
-    if (points) {
+  public showPoint(set: ISet, points: IPoint[], pointIndex: number) {
+    if (points && pointIndex < points.length) {
       const config: MatDialogConfig<{
+        set: ISet;
         points: IPoint[];
         pointIndex: number;
       }> = {
         data: {
+          set: set,
           points: points,
           pointIndex,
         },
         maxWidth: '100vw',
         maxHeight: '100vh',
-        height: '100%',
-        width: '100%',
       };
       this.dialog.open(ViewPoint, config).afterClosed().subscribe();
     }

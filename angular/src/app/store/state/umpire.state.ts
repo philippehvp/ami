@@ -334,21 +334,27 @@ export class UmpireState {
     action: UmpireActions.GoBackToPoint,
   ) {
     const currentState = state.getState();
-    const currentSet = currentState.currentSet;
-    const pointToGoBack = this.getPointFromCurrentSet(state, action.pointIndex);
+    const setIdToGoBack = action.setId;
+    const pointToGoBack = this.getPointFromSet(
+      state,
+      action.setId,
+      action.pointIndex,
+    );
 
     if (pointToGoBack) {
       // Remise à zéro des points du set qui se trouvent après le point dont l'index est passé en paramètre
       // Remise à zéro des points du ou des sets suivants si c'est le cas
+      let currentSet: ISet = {} as ISet;
 
-      currentSet.points = currentSet.points.slice(0, action.pointIndex + 1);
-
-      switch (currentSet.setId) {
+      switch (setIdToGoBack) {
         case FIRST_SET_ID:
+          const firstSet = currentState.firstSet;
+          firstSet.points = firstSet.points.slice(0, action.pointIndex + 1);
+          currentSet = firstSet;
           state.patchState({
             firstSet: {
               setId: FIRST_SET_ID,
-              points: currentSet.points,
+              points: firstSet.points,
             },
             secondSet: undefined,
             thirdSet: undefined,
@@ -356,20 +362,26 @@ export class UmpireState {
           });
           break;
         case SECOND_SET_ID:
+          const secondSet = currentState.secondSet;
+          secondSet.points = secondSet.points.slice(0, action.pointIndex + 1);
+          currentSet = secondSet;
           state.patchState({
             secondSet: {
               setId: SECOND_SET_ID,
-              points: currentSet.points,
+              points: secondSet.points,
             },
             thirdSet: undefined,
             isEndOfSecondSet: undefined,
           });
           break;
         case THIRD_SET_ID:
+          const thirdSet = currentState.thirdSet;
+          thirdSet.points = thirdSet.points.slice(0, action.pointIndex + 1);
+          currentSet = thirdSet;
           state.patchState({
             thirdSet: {
               setId: THIRD_SET_ID,
-              points: currentSet.points,
+              points: thirdSet.points,
             },
           });
 
@@ -468,11 +480,20 @@ export class UmpireState {
     return justPlayedPoint;
   }
 
-  private getPointFromCurrentSet(
+  private getPointFromSet(
     state: StateContext<UmpireStateModel>,
+    setId: number,
     pointIndex: number,
-  ): IPoint {
-    return state.getState().currentSet.points[pointIndex];
+  ): IPoint | undefined {
+    if (setId === FIRST_SET_ID) {
+      return state.getState().firstSet.points[pointIndex];
+    } else if (setId === SECOND_SET_ID) {
+      return state.getState().secondSet.points[pointIndex];
+    } else if (setId === THIRD_SET_ID) {
+      return state.getState().thirdSet.points[pointIndex];
+    }
+
+    return undefined;
   }
 
   private getNextPointSwitchLastSet(
