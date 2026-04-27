@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class Court {
   @Input()
   point!: IPoint;
+  @Input()
+  isLiveMode!: boolean;
 
   private readonly playerNameService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
@@ -81,10 +83,6 @@ export class Court {
           point.serverSide === SERVER_SIDE.LEFT &&
           point.pointLeftPair % 2 !== 0;
         break;
-    }
-
-    if (ret) {
-      console.log('Receveur', point, areaPosition);
     }
 
     return ret;

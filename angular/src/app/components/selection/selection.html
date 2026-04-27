@@ -43,7 +43,13 @@
   </div>
 
   <div class="launch">
-    <button matButton="filled" (click)="launch()">Lancer le match</button>
+    <button
+      matButton="filled"
+      (click)="launch()"
+      [disabled]="isLaunchDisabled()"
+    >
+      Lancer le match
+    </button>
   </div>
 </div>
 

@@ -3,6 +3,7 @@
     class="area1 player"
     [class.server]="isServer(point, 1)"
     [class.receiver]="isReceiver(point, 1)"
+    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionLeftPair.playerLeft)}}
   </div>
@@ -10,16 +11,16 @@
     class="area2 player"
     [class.server]="isServer(point, 2)"
     [class.receiver]="isReceiver(point, 2)"
+    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionLeftPair.playerRight)}}
   </div>
 
   <div class="area3 arrow-area">
-    <!-- <mat-icon [fontIcon]="getArrow(point)" class="arrow"></mat-icon> -->
-    @if(getArrow(point) === 'north_east') {
+    @if(isLiveMode) { @if(getArrow(point) === 'north_east') {
     <svg
-      width="50%"
-      height="50%"
+      width="30%"
+      height="30%"
       viewBox="0 0 474 474"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +38,7 @@
         transform="matrix(2.946278,-2.946278,2.946278,2.946278,-4792.346777,1341.487137)"
       >
         <path
+          id="arrow"
           d="M1012,624.824L1037.53,661.006C1039.65,664.024 1039.65,668.057 1037.53,671.076L1012,707.258C1006.74,714.724 1015.02,724.241 1023.14,720.06L1112.98,673.808C1119.3,670.556 1119.3,661.525 1112.98,658.274L1023.14,612.022C1015.02,607.841 1006.74,617.358 1012,624.824Z"
           style="fill-rule: nonzero"
         />
@@ -44,8 +46,8 @@
     </svg>
     } @else if(getArrow(point) === 'south_east') {
     <svg
-      width="50%"
-      height="50%"
+      width="30%"
+      height="30%"
       viewBox="0 0 474 474"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -63,6 +65,7 @@
         transform="matrix(2.946278,2.946278,-2.946278,2.946278,-867.662599,-4792.346777)"
       >
         <path
+          id="arrow"
           d="M1012,624.824L1037.53,661.006C1039.65,664.024 1039.65,668.057 1037.53,671.076L1012,707.258C1006.74,714.724 1015.02,724.241 1023.14,720.06L1112.98,673.808C1119.3,670.556 1119.3,661.525 1112.98,658.274L1023.14,612.022C1015.02,607.841 1006.74,617.358 1012,624.824Z"
           style="fill-rule: nonzero"
         />
@@ -70,8 +73,8 @@
     </svg>
     } @else if(getArrow(point) === 'south_west') {
     <svg
-      width="50%"
-      height="50%"
+      width="30%"
+      height="30%"
       viewBox="0 0 474 474"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -89,6 +92,7 @@
         transform="matrix(-2.946278,2.946278,2.946278,2.946278,1341.487137,-4792.346777)"
       >
         <path
+          id="arrow"
           d="M1012,624.824L1037.53,661.006C1039.65,664.024 1039.65,668.057 1037.53,671.076L1012,707.258C1006.74,714.724 1015.02,724.241 1023.14,720.06L1112.98,673.808C1119.3,670.556 1119.3,661.525 1112.98,658.274L1023.14,612.022C1015.02,607.841 1006.74,617.358 1012,624.824Z"
           style="fill-rule: nonzero"
         />
@@ -97,8 +101,8 @@
 
     } @else if(getArrow(point) === 'north_west') {
     <svg
-      width="50%"
-      height="50%"
+      width="30%"
+      height="30%"
       viewBox="0 0 474 474"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -116,11 +120,14 @@
         transform="matrix(-2.946278,-2.946278,2.946278,-2.946278,1341.487137,5266.170331)"
       >
         <path
+          id="arrow"
           d="M1012,624.824L1037.53,661.006C1039.65,664.024 1039.65,668.057 1037.53,671.076L1012,707.258C1006.74,714.724 1015.02,724.241 1023.14,720.06L1112.98,673.808C1119.3,670.556 1119.3,661.525 1112.98,658.274L1023.14,612.022C1015.02,607.841 1006.74,617.358 1012,624.824Z"
           style="fill-rule: nonzero"
         />
       </g>
     </svg>
+    } } @else {
+    <mat-icon [fontIcon]="getArrow(point)" class="arrow"></mat-icon>
     }
   </div>
 
@@ -128,6 +135,7 @@
     class="area4 player"
     [class.server]="isServer(point, 3)"
     [class.receiver]="isReceiver(point, 3)"
+    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionRightPair.playerRight)}}
   </div>
@@ -135,6 +143,7 @@
     class="area5 player"
     [class.server]="isServer(point, 4)"
     [class.receiver]="isReceiver(point, 4)"
+    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionRightPair.playerLeft)}}
   </div>

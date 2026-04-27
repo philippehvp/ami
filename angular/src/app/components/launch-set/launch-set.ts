@@ -42,9 +42,7 @@ export class LaunchSet {
   public launchSetData: ILaunchSetData = inject(MAT_DIALOG_DATA);
   private matDialogRef = inject(MatDialogRef<ILaunchSetData>);
 
-  constructor() {
-    console.log(this.launchSetData);
-  }
+  constructor() {}
 
   public validate() {
     const firstPoint: IFirstPoint = {

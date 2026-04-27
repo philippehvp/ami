@@ -312,9 +312,7 @@ export class UmpireState {
               break;
             case SECOND_SET_ID:
               // La détection de la fin du match prime sur la détection de la fin du deuxième set
-              if (this.isEndOfMatch(state, action.isPointWinnerOnLeftSide)) {
-                console.log('Fin du match suite à la victoire 2 à 0');
-              } else {
+              if (!this.isEndOfMatch(state, action.isPointWinnerOnLeftSide)) {
                 state.patchState({
                   isEndOfSecondSet: {
                     isPointWinnerOnLeftSide: action.isPointWinnerOnLeftSide,

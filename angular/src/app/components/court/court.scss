@@ -7,16 +7,19 @@
 
 .player {
   display: grid;
-  height: 10em;
   font-size: 1.5em;
   justify-content: center;
   align-items: center;
+  min-width: 14em;
+}
+
+.big {
+  height: 10em;
 }
 
 .server,
 .receiver {
   font-weight: bold;
-  text-decoration: underline;
 }
 
 .area1 {
@@ -43,8 +46,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.arrow {
-  transform: scale(3);
 }

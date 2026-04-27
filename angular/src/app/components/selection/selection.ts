@@ -36,8 +36,8 @@ export class Selection implements OnInit {
     inject(PlayerOnCourtService);
 
   public currentCategory = model<ICategory>();
-  public leftPair = model<IPair>();
-  public rightPair = model<IPair>();
+  public leftPair = model<IPair>({} as IPair);
+  public rightPair = model<IPair>({} as IPair);
 
   public categories$: Observable<ICategory[]>;
 
@@ -57,6 +57,9 @@ export class Selection implements OnInit {
     this.store.dispatch([
       new UmpireActions.GetPlayers((this.currentCategory() as ICategory).id),
     ]);
+
+    this.leftPair.set({} as IPair);
+    this.rightPair.set({} as IPair);
   }
 
   public launch() {
@@ -78,6 +81,14 @@ export class Selection implements OnInit {
           this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
         }
       });
+  }
+
+  public isLaunchDisabled(): boolean {
+    return this.leftPair()?.id &&
+      this.rightPair()?.id &&
+      this.leftPair()?.id !== this.rightPair()?.id
+      ? false
+      : true;
   }
 
   private setPlayersName() {

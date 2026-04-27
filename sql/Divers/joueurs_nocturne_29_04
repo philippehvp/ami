@@ -1,0 +1,53 @@
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('LEBON Quentin', 'VILLEDIEU Cedric', 'Ailes Sportives Airbus Helicopters - Badminton', 'Martigues Badminton Club', 'R4', 'R4', 11);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('GROSSETETE Pierre', 'MILLE Laurent', 'Martigues Badminton Club', 'Martigues Badminton Club', 'R5', 'R4', 11);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('GALLO Guillaume', 'LONGET Kevin', 'Aix Universite Club Badminton', 'Aix Universite Club Badminton', 'R5', 'R5', 11);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('CAUSSE Pascal', 'TORRIS Laurent', 'Ailes Sportives Airbus Helicopters - Badminton', 'Ailes Sportives Airbus Helicopters - Badminton', 'R5', 'R5', 11);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('BECQ Florent', 'FAROUEL Pol', 'Aix Universite Club Badminton', 'Bad In Marseille', 'R5', 'R6', 12);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('BALTHAZARD Tom', 'BARGETON-SVETLICIC Alex', 'Aix Universite Club Badminton', 'Asptt Marseille', 'R6', 'R6', 12);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('D''ANGELO Olivier', 'ZOPPIS Baptiste', 'Istres Sports Badminton', 'Istres Sports Badminton', 'R6', 'R6', 12);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('DENYS Alexandre', 'DIDIER Fabio', 'Aix Universite Club Badminton', 'Aix Universite Club Badminton', 'R5', 'D7', 12);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('JULIEN Michael', 'LE DREVO Alexandre', 'Istres Sports Badminton', 'Istres Sports Badminton', 'R6', 'R6', 13);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('DELMAS Guillaume', 'GAZEAU Axel', 'Istres Sports Badminton', 'Asptt Marseille', 'D8', 'D9', 13);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('ARNAUD Guillaume', 'MARQUIER Martial', 'Badminton Club des Aiglons d''Eyguieres', 'Badminton Club Fos', 'D9', 'D8', 13);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('BRESIL Romain', 'PAQUE Antoine', 'Vitrolles Badminton', 'Olympique Cabries Calas Bad.', 'D9', 'D9', 14);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('D''ANGELO Laurent', 'POIRON Morgan', 'Istres Sports Badminton', 'Istres Sports Badminton', 'D9', 'D9', 14);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('BRENOT Valentin', 'GOMEZ Christophe', 'Martigues Badminton Club', 'Martigues Badminton Club', 'D9', 'D8', 14);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('DECORPS Alexandre', 'HOCHSTRASSER Camille', 'Istres Sports Badminton', 'Istres Sports Badminton', 'D9', 'D9', 14);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('ALLAMELLE Franck', 'MERCIER Jeremy', 'Istres Sports Badminton', 'Istres Sports Badminton', 'D9', 'D9', 15);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('BUTTELLI Stephane', 'NEGRI Nicolas', 'Badminton Salonais', 'Badminton Salonais', 'D9', 'P10', 15);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('BIN NAZIRUDDIN Muhammad al faruqi', 'DA ROCHA Christophe', 'Istres Sports Badminton', 'Istres Sports Badminton', 'P10', 'D9', 15);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('CHABERT BATAILLE Julien', 'HERMINIER Bruno', 'Istres Sports Badminton', 'Istres Sports Badminton', 'P10', 'D9', 15);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('ABEZA Lucas', 'TAUOTA Didier moana', 'Istres Sports Badminton', 'Istres Sports Badminton', 'D9', 'P10', 16);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('DI NUCCI Léo', 'DO MANH Gaël', 'Badminton Salonais', 'Badminton Salonais', 'D9', 'P10', 16);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('INIESTA Olivier', 'SALIK Zoubir', 'Badminton Club Pelissannais', 'Ailes Sportives Airbus Helicopters - Badminton', 'P10', 'D9', 16);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('KHAMVILAY Alan', 'KHAMVILAY Alex', 'Istres Sports Badminton', 'Istres Sports Badminton', 'P11', 'P10', 16);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('GRUBE Laurent', 'SOUHAMI Karim', 'Badminton Olympique Uni. Mars', 'Stade Marseillais Universite Club', 'P12', 'P10', 17);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('HOCHSTRASSER Thierry', 'NGUYEN Viet cuong', 'Istres Sports Badminton', 'Istres Sports Badminton', 'P12', 'P11', 17);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('CATENI Kevin', 'FLAUTO Gino', 'Istres Sports Badminton', 'Istres Sports Badminton', 'P12', 'P12', 17);
+
+INSERT INTO cpi_player(playerName1, playerName2, playerClub1, playerClub2, playerRanking1, playerRanking2, category_id) VALUES('DERAEDT Jerome', 'WEITEN Maxime', 'Istres Sports Badminton', 'Istres Sports Badminton', 'P12', 'P12', 17);

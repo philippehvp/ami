@@ -69,8 +69,10 @@ export class Points implements OnInit, OnDestroy {
           points: points,
           pointIndex,
         },
-        width: '100%',
+        maxWidth: '100vw',
+        maxHeight: '100vh',
         height: '100%',
+        width: '100%',
       };
       this.dialog.open(ViewPoint, config).afterClosed().subscribe();
     }
