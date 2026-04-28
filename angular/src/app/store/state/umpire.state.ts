@@ -549,8 +549,10 @@ export class UmpireState {
 
       if (isPointWinnerOfLeftSide) {
         newScoreRightPair = lastPoint.pointLeftPair + 1;
+        newScoreLeftPair = lastPoint.pointRightPair;
       } else {
         newScoreLeftPair = lastPoint.pointRightPair + 1;
+        newScoreRightPair = lastPoint.pointLeftPair;
       }
     }
 
