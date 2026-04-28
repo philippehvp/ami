@@ -409,8 +409,6 @@ export class UmpireState {
     lastPoint: IPoint,
     isPointWinnerOnLeftSide: boolean,
   ): IPoint {
-    const currentState = state.getState();
-
     // Détection de la permutation des équipes dans le dernier set
     if (
       currentSet.setId === THIRD_SET_ID &&
@@ -418,7 +416,7 @@ export class UmpireState {
         isPointWinnerOnLeftSide) ||
         (lastPoint.pointRightPair === SWITCH_SCORE - 1 &&
           !isPointWinnerOnLeftSide)) &&
-      currentState.isSwitchInThirdSetDone === false
+      state.getState().isSwitchInThirdSetDone === false
     ) {
       const point: IPoint = this.getNextPointSwitchLastSet(
         lastPoint,

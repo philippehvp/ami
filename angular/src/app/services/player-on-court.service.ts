@@ -16,9 +16,6 @@ export class PlayerOnCourtService {
   private _thirdSetLeftPair!: PAIR_ALIAS;
   private _thirdSetRightPair!: PAIR_ALIAS;
 
-  private _beginSetServer!: IPair;
-  private _beginSetReceiver!: IPair;
-
   public setPlayersName(playersName: string[]) {
     this._playersName = playersName;
   }
@@ -73,21 +70,5 @@ export class PlayerOnCourtService {
 
   public getThirdSetRightPair(): PAIR_ALIAS {
     return this._thirdSetRightPair;
-  }
-
-  public setBeginSetServer(nextServer: IPair) {
-    this._beginSetServer = nextServer;
-  }
-
-  public setBeginSetReceiver(nextReceiver: IPair) {
-    this._beginSetReceiver = nextReceiver;
-  }
-
-  public getBeginSetServer(): IPair {
-    return this._beginSetServer;
-  }
-
-  public getBeginSetReceiver(): IPair {
-    return this._beginSetReceiver;
   }
 }

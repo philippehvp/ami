@@ -110,10 +110,10 @@ export class Live implements OnInit, OnDestroy {
 
     if (isPointWinnerOfLeftSide) {
       // L'équipe à gauche a marqué le dernier point
-      // Donc c'est l'équipe à droite qui servira en premier dans le deuxième set
       serverSide = SERVER_SIDE.RIGHT;
       if (
-        this.playerOnCourtService.getFirstSetLeftPair() === PAIR_ALIAS.ONE_TWO
+        this.playerOnCourtService.getFirstSetLeftPair().valueOf() ===
+        PAIR_ALIAS.ONE_TWO
       ) {
         isPlayer1Or2AsServer = true;
         isPlayer3Or4AsServer = false;
@@ -126,7 +126,8 @@ export class Live implements OnInit, OnDestroy {
       // Donc c'est l'équipe à gauche qui servira en premier dans le deuxième set
       serverSide = SERVER_SIDE.LEFT;
       if (
-        this.playerOnCourtService.getFirstSetLeftPair() === PAIR_ALIAS.ONE_TWO
+        this.playerOnCourtService.getFirstSetLeftPair().valueOf() ===
+        PAIR_ALIAS.ONE_TWO
       ) {
         isPlayer1Or2AsServer = false;
         isPlayer3Or4AsServer = true;
@@ -155,7 +156,8 @@ export class Live implements OnInit, OnDestroy {
       // Donc c'est l'équipe à droite qui servira en premier dans le deuxième set
       serverSide = SERVER_SIDE.RIGHT;
       if (
-        this.playerOnCourtService.getSecondSetLeftPair() === PAIR_ALIAS.ONE_TWO
+        this.playerOnCourtService.getSecondSetLeftPair().valueOf() ===
+        PAIR_ALIAS.ONE_TWO
       ) {
         isPlayer1Or2AsServer = true;
         isPlayer3Or4AsServer = false;
@@ -168,7 +170,8 @@ export class Live implements OnInit, OnDestroy {
       // Donc c'est l'équipe à gauche qui servira en premier dans le deuxième set
       serverSide = SERVER_SIDE.LEFT;
       if (
-        this.playerOnCourtService.getSecondSetLeftPair() === PAIR_ALIAS.ONE_TWO
+        this.playerOnCourtService.getSecondSetLeftPair().valueOf() ===
+        PAIR_ALIAS.ONE_TWO
       ) {
         isPlayer1Or2AsServer = false;
         isPlayer3Or4AsServer = true;

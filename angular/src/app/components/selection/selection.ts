@@ -101,54 +101,25 @@ export class Selection implements OnInit {
   }
 
   private setPairsPositionForAllSets(firstPoint: IFirstPoint) {
-    if (firstPoint.serverSide === SERVER_SIDE.LEFT) {
-      // Au début du match, le serveur est à gauche
-      if (
-        firstPoint.playerPositionLeftPair.playerLeft === 1 ||
-        firstPoint.playerPositionLeftPair.playerLeft === 2
-      ) {
-        // Le serveur est de l'équipe dans la liste de gauche
-        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.ONE_TWO);
+    if (
+      firstPoint.playerPositionLeftPair.playerLeft === 1 ||
+      firstPoint.playerPositionLeftPair.playerLeft === 2
+    ) {
+      this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.ONE_TWO);
+      this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+      this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.ONE_TWO);
 
-        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.THREE_FOUR);
-      } else {
-        // Le serveur est de l'équipe dans la liste de droite
-        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.THREE_FOUR);
-
-        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.ONE_TWO);
-      }
+      this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.THREE_FOUR);
+      this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.ONE_TWO);
+      this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.THREE_FOUR);
     } else {
-      // Au début du match, le serveur est à droite
-      if (
-        firstPoint.playerPositionLeftPair.playerLeft === 1 ||
-        firstPoint.playerPositionLeftPair.playerLeft === 2
-      ) {
-        // Le serveur est de l'équipe dans la liste de gauche
-        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+      this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.THREE_FOUR);
+      this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.ONE_TWO);
+      this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.THREE_FOUR);
 
-        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.ONE_TWO);
-      } else {
-        // Le serveur est de l'équipe dans la liste de droite
-        this.playerOnCourtService.setFirstSetLeftPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setSecondSetLeftPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setThirdSetLeftPair(PAIR_ALIAS.ONE_TWO);
-
-        this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.THREE_FOUR);
-        this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.ONE_TWO);
-        this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.THREE_FOUR);
-      }
+      this.playerOnCourtService.setFirstSetRightPair(PAIR_ALIAS.ONE_TWO);
+      this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.THREE_FOUR);
+      this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.ONE_TWO);
     }
   }
 }
