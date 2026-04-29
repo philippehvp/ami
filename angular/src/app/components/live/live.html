@@ -3,20 +3,19 @@
 <div class="action-area">
   <div class="score-area">
     <div>
-      <button matFab normal (click)="addPointLeftPair()">
-        <mat-icon>add</mat-icon>
-      </button>
+      <button matButton="filled" (click)="addPointLeftPair()">+ 1</button>
     </div>
     <div class="score">{{justPlayedPoint.pointLeftPair}}</div>
   </div>
   <div class="score-area">
     <div class="score">{{justPlayedPoint.pointRightPair}}</div>
     <div>
-      <button matFab normal (click)="addPointRightPair()">
-        <mat-icon>add</mat-icon>
-      </button>
+      <button matButton="filled" (click)="addPointRightPair()">+ 1</button>
     </div>
   </div>
 </div>
 
-<court [point]="justPlayedPoint" [isLiveMode]="true"></court> } }
+<div class="court-area">
+  <court [point]="justPlayedPoint" [isLiveMode]="true"></court>
+</div>
+} }

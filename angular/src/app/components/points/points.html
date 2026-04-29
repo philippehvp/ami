@@ -1,7 +1,12 @@
 @if(points$ | async; as points) { @if(set$ | async; as set) {
 <div class="points">
   @for(cell of cells; track cell; let index = $index) {
-  <span class="point" (click)="showPoint(set, points, $index)">
+  <span
+    class="point"
+    [class.played]="cellHasPoint(points, $index)"
+    [class.empty]="!cellHasPoint(points, $index)"
+    (click)="showPoint(set, points, $index)"
+  >
     @if(points[$index]) { {{displayScore(points[$index])}} }
   </span>
   }

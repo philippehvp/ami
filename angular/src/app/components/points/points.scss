@@ -13,9 +13,14 @@
   align-items: center;
   width: 4em;
   height: 2em;
-  border-width: 1px;
-  border-color: grey;
-  border-radius: 3px;
-  background-color: #eee;
   cursor: pointer;
+}
+
+.played {
+  color: white;
+  background-color: #339950;
+}
+
+.empty {
+  background-color: #f1f1f1;
 }

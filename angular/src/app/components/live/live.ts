@@ -6,7 +6,6 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { IPoint, SERVER_SIDE } from '../../models/point';
 import { UmpireState } from '../../store/state/umpire.state';
 import { AsyncPipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { Court } from '../court/court';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IFirstPoint, ILaunchSetData } from '../../models/launch-data';
@@ -17,7 +16,7 @@ import { LaunchSet } from '../launch-set/launch-set';
 
 @Component({
   selector: 'live',
-  imports: [AsyncPipe, MatButtonModule, MatIconModule, Court],
+  imports: [AsyncPipe, MatButtonModule, Court],
   templateUrl: './live.html',
   styleUrl: './live.scss',
 })

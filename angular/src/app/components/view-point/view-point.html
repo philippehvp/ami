@@ -10,7 +10,9 @@
         <mat-icon fontIcon="arrow_left" class="arrow"></mat-icon>
       </button>
     </div>
-    <court [point]="currentShowedPoint" [isLiveMode]="false"></court>
+    <div class="court">
+      <court [point]="currentShowedPoint" [isLiveMode]="false"></court>
+    </div>
     <div class="navigation">
       <button matIconButton (click)="showNextPoint()">
         <mat-icon fontIcon="arrow_right" class="arrow"></mat-icon>

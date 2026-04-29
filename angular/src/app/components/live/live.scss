@@ -7,6 +7,13 @@
   margin-bottom: 2em;
 }
 
+.court-area {
+  display: grid;
+  height: 100%;
+  background-color: #339950;
+  align-items: center;
+}
+
 .score-area {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

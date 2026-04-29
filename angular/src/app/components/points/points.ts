@@ -82,4 +82,8 @@ export class Points implements OnInit, OnDestroy {
   public displayScore(point: IPoint): string {
     return `${point.pointLeftPair} - ${point.pointRightPair}`;
   }
+
+  public cellHasPoint(points: IPoint[], index: number): boolean {
+    return index < points.length;
+  }
 }
