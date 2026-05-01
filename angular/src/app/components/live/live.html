@@ -16,6 +16,13 @@
 </div>
 
 <div class="court-area">
-  <court [point]="justPlayedPoint" [isLiveMode]="true"></court>
+  @if(isCourtModeLeftRight) {
+  <court-left-right
+    [point]="justPlayedPoint"
+    [isLiveMode]="true"
+  ></court-left-right>
+  } @else if(isCourtModeUpDown){
+  <court-up-down [point]="justPlayedPoint" [isLiveMode]="true"></court-up-down>
+  }
 </div>
 } }

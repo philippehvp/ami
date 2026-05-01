@@ -16,7 +16,7 @@ import { IFirstPoint, ILaunchMatchData } from '../../models/launch-data';
 import { IPlayerPosition } from '../../models/player-position';
 import { SERVER_SIDE } from '../../models/point';
 @Component({
-  selector: 'launch-match',
+  selector: 'launch-match-up-down',
   imports: [
     FormsModule,
     MatButtonModule,
@@ -28,10 +28,10 @@ import { SERVER_SIDE } from '../../models/point';
     MatRadioModule,
     MatRadioButton,
   ],
-  templateUrl: './launch-match.html',
-  styleUrl: './launch-match.scss',
+  templateUrl: './launch-match-up-down.html',
+  styleUrl: './launch-match-up-down.scss',
 })
-export class LaunchMatch {
+export class LaunchMatchUpDown {
   public server = model<number>();
   public receiver = model<number>();
   public serverSide = model<number>();

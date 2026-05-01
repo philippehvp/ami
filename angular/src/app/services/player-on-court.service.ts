@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { IPair, PAIR_ALIAS } from '../models/pair';
 
+export enum COURT_MODE {
+  LEFT_RIGHT = 0,
+  UP_DOWN = 1,
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerOnCourtService {
+  private _courtMode: COURT_MODE | undefined = undefined;
+
   private _playersName: string[] = [];
 
   private _firstSetLeftPair!: PAIR_ALIAS;
@@ -15,6 +22,14 @@ export class PlayerOnCourtService {
 
   private _thirdSetLeftPair!: PAIR_ALIAS;
   private _thirdSetRightPair!: PAIR_ALIAS;
+
+  public getCourtMode(): COURT_MODE | undefined {
+    return this._courtMode;
+  }
+
+  public setCourtMode(courtMode: COURT_MODE) {
+    this._courtMode = courtMode;
+  }
 
   public setPlayersName(playersName: string[]) {
     this._playersName = playersName;

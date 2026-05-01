@@ -1,0 +1,75 @@
+.court {
+  display: grid;
+  grid-template-areas:
+    "areaPlayer1 areaArrow areaPlayer3"
+    "areaPlayer2 areaArrow areaPlayer4";
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.player {
+  display: grid;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+  min-width: 14em;
+  min-height: 5em;
+}
+
+.big {
+  height: 10em;
+}
+
+.server,
+.receiver {
+  font-weight: bold;
+  color: white;
+}
+
+.areaPlayer1 {
+  grid-area: areaPlayer1;
+  border-top: 6px solid white;
+  border-bottom: 3px solid white;
+  border-left: 6px solid white;
+}
+
+.areaPlayer2 {
+  grid-area: areaPlayer2;
+  border-top: 3px solid white;
+  border-bottom: 6px solid white;
+  border-left: 6px solid white;
+}
+
+.areaArrow {
+  grid-area: areaArrow;
+  border: 6px solid white;
+  border: 6px solid white;
+}
+
+.areaPlayer3 {
+  grid-area: areaPlayer3;
+  border-top: 6px solid white;
+  border-bottom: 3px solid white;
+  border-right: 6px solid white;
+}
+
+.areaPlayer4 {
+  grid-area: areaPlayer4;
+  border-top: 3px solid white;
+  border-bottom: 6px solid white;
+  border-right: 6px solid white;
+}
+
+.arrow-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  color: white;
+}
+
+#arrow {
+  fill: white;
+}

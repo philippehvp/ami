@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Lancement du match</h2>
+<mat-dialog-content>
+  <div class="launch-area">
+    <div class="label-area">
+      <h2>Serveur</h2>
+    </div>
+    <div>
+      <mat-radio-group [(ngModel)]="server">
+        <div class="server-receiver-area">
+          <div>
+            <mat-radio-button [value]="1"
+              >{{launchMatchData.leftPair.playerName1}}</mat-radio-button
+            >
+            <mat-radio-button [value]="2"
+              >{{launchMatchData.leftPair.playerName2}}</mat-radio-button
+            >
+          </div>
+          <div>
+            <mat-radio-button [value]="3"
+              >{{launchMatchData.rightPair.playerName1}}</mat-radio-button
+            >
+            <mat-radio-button [value]="4"
+              >{{launchMatchData.rightPair.playerName2}}</mat-radio-button
+            >
+          </div>
+        </div>
+      </mat-radio-group>
+    </div>
+    <div class="label-area"><h2>Receveur</h2></div>
+    <div>
+      <mat-radio-group [(ngModel)]="receiver">
+        <div class="server-receiver-area">
+          <div>
+            <mat-radio-button [value]="1"
+              >{{launchMatchData.leftPair.playerName1}}</mat-radio-button
+            >
+            <mat-radio-button [value]="2"
+              >{{launchMatchData.leftPair.playerName2}}</mat-radio-button
+            >
+          </div>
+          <div>
+            <mat-radio-button [value]="3"
+              >{{launchMatchData.rightPair.playerName1}}</mat-radio-button
+            >
+            <mat-radio-button [value]="4"
+              >{{launchMatchData.rightPair.playerName2}}</mat-radio-button
+            >
+          </div>
+        </div>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="label-area"><h2>Côté de l'équipe qui sert</h2></div>
+  <mat-radio-group [(ngModel)]="serverSide">
+    <div class="side-selection-area">
+      <div>
+        <mat-radio-button [value]="1">Haut</mat-radio-button>
+      </div>
+      <div>
+        <mat-radio-button [value]="2">Bas</mat-radio-button>
+      </div>
+    </div>
+  </mat-radio-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton mat-dialog-close>Annuler</button>
+  <button matButton (click)="validate()" cdkFocusInitial>Lancer</button>
+</mat-dialog-actions>

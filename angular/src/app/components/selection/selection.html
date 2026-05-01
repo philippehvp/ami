@@ -45,10 +45,17 @@
   <div class="launch">
     <button
       matButton="filled"
-      (click)="launch()"
+      (click)="launchLeftRight()"
       [disabled]="isLaunchDisabled()"
     >
-      Lancer le match
+      Lancer G/D
+    </button>
+    <button
+      matButton="filled"
+      (click)="launchUpDown()"
+      [disabled]="isLaunchDisabled()"
+    >
+      Lancer H/B
     </button>
   </div>
 </div>

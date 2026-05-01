@@ -11,7 +11,10 @@
       </button>
     </div>
     <div class="court">
-      <court [point]="currentShowedPoint" [isLiveMode]="false"></court>
+      <court-left-right
+        [point]="currentShowedPoint"
+        [isLiveMode]="false"
+      ></court-left-right>
     </div>
     <div class="navigation">
       <button matIconButton (click)="showNextPoint()">

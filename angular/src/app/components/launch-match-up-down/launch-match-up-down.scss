@@ -1,0 +1,20 @@
+.launch-area {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.label-area {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.server-receiver-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.side-selection-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}

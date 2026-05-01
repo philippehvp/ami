@@ -6,17 +6,21 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { IPoint, SERVER_SIDE } from '../../models/point';
 import { UmpireState } from '../../store/state/umpire.state';
 import { AsyncPipe } from '@angular/common';
-import { Court } from '../court/court';
+import { CourtLeftRight } from '../court-left-right/court-left-right';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IFirstPoint, ILaunchSetData } from '../../models/launch-data';
-import { PlayerOnCourtService } from '../../services/player-on-court.service';
+import {
+  COURT_MODE,
+  PlayerOnCourtService,
+} from '../../services/player-on-court.service';
 import { IEndOfSet } from '../../models/end-of-set';
 import { PAIR_ALIAS } from '../../models/pair';
 import { LaunchSet } from '../launch-set/launch-set';
+import { CourtUpDown } from '../court-up-down/court-up-down';
 
 @Component({
   selector: 'live',
-  imports: [AsyncPipe, MatButtonModule, Court],
+  imports: [AsyncPipe, MatButtonModule, CourtLeftRight, CourtUpDown],
   templateUrl: './live.html',
   styleUrl: './live.scss',
 })
@@ -185,5 +189,17 @@ export class Live implements OnInit, OnDestroy {
       isPlayer3Or4AsServer,
       serverSide,
     } as ILaunchSetData;
+  }
+
+  private getCourtMode(): COURT_MODE | undefined {
+    return this.playerOnCourtService.getCourtMode();
+  }
+
+  public get isCourtModeLeftRight(): boolean {
+    return this.getCourtMode() === COURT_MODE.LEFT_RIGHT;
+  }
+
+  public get isCourtModeUpDown(): boolean {
+    return this.getCourtMode() === COURT_MODE.UP_DOWN;
   }
 }

@@ -11,10 +11,14 @@ import { AsyncPipe } from '@angular/common';
 import { IPair, PAIR_ALIAS } from '../../models/pair';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LaunchMatch } from '../launch-match/launch-match';
+import { LaunchMatchLeftRight } from '../launch-match-left-right/launch-match-left-right';
 import { IFirstPoint, ILaunchMatchData } from '../../models/launch-data';
-import { PlayerOnCourtService } from '../../services/player-on-court.service';
+import {
+  COURT_MODE,
+  PlayerOnCourtService,
+} from '../../services/player-on-court.service';
 import { SERVER_SIDE } from '../../models/point';
+import { LaunchMatchUpDown } from '../launch-match-up-down/launch-match-up-down';
 
 @Component({
   selector: 'selection',
@@ -62,7 +66,7 @@ export class Selection implements OnInit {
     this.rightPair.set({} as IPair);
   }
 
-  public launch() {
+  public launchLeftRight() {
     const config: MatDialogConfig<ILaunchMatchData> = {
       data: {
         leftPair: this.leftPair() as IPair,
@@ -70,10 +74,33 @@ export class Selection implements OnInit {
       },
     };
     this.dialog
-      .open(LaunchMatch, config)
+      .open(LaunchMatchLeftRight, config)
       .afterClosed()
       .subscribe((firstPoint: IFirstPoint) => {
         if (firstPoint) {
+          this.playerOnCourtService.setCourtMode(COURT_MODE.LEFT_RIGHT);
+          this.setPlayersName();
+          this.setPairsPositionForAllSets(firstPoint);
+
+          // Initialisation match
+          this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
+        }
+      });
+  }
+
+  public launchUpDown() {
+    const config: MatDialogConfig<ILaunchMatchData> = {
+      data: {
+        leftPair: this.leftPair() as IPair,
+        rightPair: this.rightPair() as IPair,
+      },
+    };
+    this.dialog
+      .open(LaunchMatchUpDown, config)
+      .afterClosed()
+      .subscribe((firstPoint: IFirstPoint) => {
+        if (firstPoint) {
+          this.playerOnCourtService.setCourtMode(COURT_MODE.UP_DOWN);
           this.setPlayersName();
           this.setPairsPositionForAllSets(firstPoint);
 

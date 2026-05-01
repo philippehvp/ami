@@ -9,7 +9,7 @@ import {
 } from '@angular/material/dialog';
 
 import { IPoint } from '../../models/point';
-import { Court } from '../court/court';
+import { CourtLeftRight } from '../court-left-right/court-left-right';
 import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngxs/store';
 import { UmpireActions } from '../../store/action/umpire.action';
@@ -24,7 +24,7 @@ import { ISet } from '../../models/set';
     MatDialogActions,
     MatDialogClose,
     MatButtonModule,
-    Court,
+    CourtLeftRight,
     MatIconModule,
   ],
   templateUrl: './view-point.html',

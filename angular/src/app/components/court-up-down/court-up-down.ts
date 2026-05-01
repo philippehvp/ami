@@ -4,12 +4,12 @@ import { PlayerOnCourtService } from '../../services/player-on-court.service';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'court',
+  selector: 'court-up-down',
   imports: [MatIconModule],
-  templateUrl: './court.html',
-  styleUrl: './court.scss',
+  templateUrl: './court-up-down.html',
+  styleUrl: './court-up-down.scss',
 })
-export class Court {
+export class CourtUpDown {
   @Input()
   point!: IPoint;
   @Input()
@@ -24,9 +24,9 @@ export class Court {
 
   public getArrow(point: IPoint): string {
     if (point.serverSide === SERVER_SIDE.LEFT) {
-      return point.pointLeftPair % 2 === 0 ? 'north_east' : 'south_east';
+      return point.pointLeftPair % 2 === 0 ? 'south_east' : 'south_west';
     } else {
-      return point.pointRightPair % 2 === 0 ? 'south_west' : 'north_west';
+      return point.pointRightPair % 2 === 0 ? 'north_west' : 'north_east';
     }
   }
 
