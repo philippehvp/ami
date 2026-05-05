@@ -5,26 +5,39 @@ import { UtilsService } from '../../services/utils.service';
 import { filter, map, Observable, of, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ViewPoint } from '../view-point/view-point';
+import { CourtLeftRight } from '../court-left-right/court-left-right';
+import { Store } from '@ngxs/store';
+import { MatButtonModule } from '@angular/material/button';
+import { UmpireActions } from '../../store/action/umpire.action';
+
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+} from '@angular/material/bottom-sheet';
+import { Confirmation } from '../confirmation/confirmation';
 
 @Component({
   selector: 'points',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, CourtLeftRight, MatButtonModule, MatBottomSheetModule],
   templateUrl: './points.html',
   styleUrl: './points.scss',
 })
 export class Points implements OnInit, OnDestroy {
+  private readonly store: Store = inject(Store);
+
   @Input()
   set$!: Observable<ISet>;
 
-  private readonly dialog: MatDialog = inject(MatDialog);
-
   public points$: Observable<IPoint[]>;
+
+  public pointToShow: IPoint | undefined = undefined;
+  public pointIndex: number | undefined = undefined;
 
   public cells!: IPoint[];
 
   private destroy$!: Subject<boolean>;
+
+  private goBackToConfirmation = inject(MatBottomSheet);
 
   constructor() {
     this.points$ = of();
@@ -61,21 +74,21 @@ export class Points implements OnInit, OnDestroy {
   }
 
   public showPoint(set: ISet, points: IPoint[], pointIndex: number) {
-    if (points && pointIndex < points.length) {
-      const config: MatDialogConfig<{
-        set: ISet;
-        points: IPoint[];
-        pointIndex: number;
-      }> = {
-        data: {
-          set: set,
-          points: points,
-          pointIndex,
-        },
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-      };
-      this.dialog.open(ViewPoint, config).afterClosed().subscribe();
+    // On considère que l'on veut revenir à ce point si on clique à nouveau dessus
+    if (this.pointIndex === pointIndex) {
+      this.goBackToConfirmation
+        .open(Confirmation)
+        .afterDismissed()
+        .subscribe((isGoBackConfirmation: boolean) => {
+          if (isGoBackConfirmation) {
+            this.goBackToPoint(set);
+          }
+        });
+    } else {
+      if (points && pointIndex < points.length) {
+        this.pointToShow = points[pointIndex];
+        this.pointIndex = pointIndex;
+      }
     }
   }
 
@@ -85,5 +98,11 @@ export class Points implements OnInit, OnDestroy {
 
   public cellHasPoint(points: IPoint[], index: number): boolean {
     return index < points.length;
+  }
+
+  public goBackToPoint(set: ISet) {
+    this.store.dispatch(
+      new UmpireActions.GoBackToPoint(set.setId, this.pointIndex),
+    );
   }
 }

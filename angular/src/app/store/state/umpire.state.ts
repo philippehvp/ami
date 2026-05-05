@@ -12,15 +12,15 @@ import { IPlayerPosition } from '../../models/player-position';
 import { ISet } from '../../models/set';
 import { PlayerOnCourtService } from '../../services/player-on-court.service';
 import { IEndOfSet } from '../../models/end-of-set';
-import { withJsonpSupport } from '@angular/common/http';
 
-const SWITCH_SCORE = 11;
-const FIRST_SET_ID = 1;
-const SECOND_SET_ID = 2;
-const THIRD_SET_ID = 3;
-
-const END_OF_SET_SCORE = 21;
-const MAX_END_OF_SET_SCORE = 30;
+import {
+  END_OF_SET_SCORE,
+  FIRST_SET_ID,
+  MAX_END_OF_SET_SCORE,
+  SECOND_SET_ID,
+  SWITCH_SCORE,
+  THIRD_SET_ID,
+} from '../../models/constants';
 
 export class UmpireStateModel {
   contests!: IContest[];
@@ -333,73 +333,75 @@ export class UmpireState {
     state: StateContext<UmpireStateModel>,
     action: UmpireActions.GoBackToPoint,
   ) {
-    const currentState = state.getState();
-    const setIdToGoBack = action.setId;
-    const pointToGoBack = this.getPointFromSet(
-      state,
-      action.setId,
-      action.pointIndex,
-    );
+    if (action.pointIndex !== undefined) {
+      const currentState = state.getState();
+      const setIdToGoBack = action.setId;
+      const pointToGoBack = this.getPointFromSet(
+        state,
+        action.setId,
+        action.pointIndex,
+      );
 
-    if (pointToGoBack) {
-      // Remise à zéro des points du set qui se trouvent après le point dont l'index est passé en paramètre
-      // Remise à zéro des points du ou des sets suivants si c'est le cas
-      let currentSet: ISet = {} as ISet;
+      if (pointToGoBack) {
+        // Remise à zéro des points du set qui se trouvent après le point dont l'index est passé en paramètre
+        // Remise à zéro des points du ou des sets suivants si c'est le cas
+        let currentSet: ISet = {} as ISet;
 
-      switch (setIdToGoBack) {
-        case FIRST_SET_ID:
-          const firstSet = currentState.firstSet;
-          firstSet.points = firstSet.points.slice(0, action.pointIndex + 1);
-          currentSet = firstSet;
-          state.patchState({
-            firstSet: {
-              setId: FIRST_SET_ID,
-              points: firstSet.points,
-            },
-            secondSet: undefined,
-            thirdSet: undefined,
-            isEndOfFirstSet: undefined,
-          });
-          break;
-        case SECOND_SET_ID:
-          const secondSet = currentState.secondSet;
-          secondSet.points = secondSet.points.slice(0, action.pointIndex + 1);
-          currentSet = secondSet;
-          state.patchState({
-            secondSet: {
-              setId: SECOND_SET_ID,
-              points: secondSet.points,
-            },
-            thirdSet: undefined,
-            isEndOfSecondSet: undefined,
-          });
-          break;
-        case THIRD_SET_ID:
-          const thirdSet = currentState.thirdSet;
-          thirdSet.points = thirdSet.points.slice(0, action.pointIndex + 1);
-          currentSet = thirdSet;
-          state.patchState({
-            thirdSet: {
-              setId: THIRD_SET_ID,
-              points: thirdSet.points,
-            },
-          });
+        switch (setIdToGoBack) {
+          case FIRST_SET_ID:
+            const firstSet = currentState.firstSet;
+            firstSet.points = firstSet.points.slice(0, action.pointIndex + 1);
+            currentSet = firstSet;
+            state.patchState({
+              firstSet: {
+                setId: FIRST_SET_ID,
+                points: firstSet.points,
+              },
+              secondSet: undefined,
+              thirdSet: undefined,
+              isEndOfFirstSet: undefined,
+            });
+            break;
+          case SECOND_SET_ID:
+            const secondSet = currentState.secondSet;
+            secondSet.points = secondSet.points.slice(0, action.pointIndex + 1);
+            currentSet = secondSet;
+            state.patchState({
+              secondSet: {
+                setId: SECOND_SET_ID,
+                points: secondSet.points,
+              },
+              thirdSet: undefined,
+              isEndOfSecondSet: undefined,
+            });
+            break;
+          case THIRD_SET_ID:
+            const thirdSet = currentState.thirdSet;
+            thirdSet.points = thirdSet.points.slice(0, action.pointIndex + 1);
+            currentSet = thirdSet;
+            state.patchState({
+              thirdSet: {
+                setId: THIRD_SET_ID,
+                points: thirdSet.points,
+              },
+            });
 
-          // Dans le cas du troisième set, on regarde si on n'a pas demandé à revenir avant un éventuel changement de terrain
-          if (
-            pointToGoBack.pointLeftPair < SWITCH_SCORE &&
-            pointToGoBack.pointRightPair < SWITCH_SCORE
-          )
-            state.patchState({ isSwitchInThirdSetDone: false });
-          break;
+            // Dans le cas du troisième set, on regarde si on n'a pas demandé à revenir avant un éventuel changement de terrain
+            if (
+              pointToGoBack.pointLeftPair < SWITCH_SCORE &&
+              pointToGoBack.pointRightPair < SWITCH_SCORE
+            )
+              state.patchState({ isSwitchInThirdSetDone: false });
+            break;
+        }
+
+        state.patchState({
+          currentSet,
+          currentPointIndex: action.pointIndex,
+          justPlayedPoint: pointToGoBack,
+          lastPoint: pointToGoBack,
+        });
       }
-
-      state.patchState({
-        currentSet,
-        currentPointIndex: action.pointIndex,
-        justPlayedPoint: pointToGoBack,
-        lastPoint: pointToGoBack,
-      });
     }
   }
 

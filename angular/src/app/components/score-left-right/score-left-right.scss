@@ -1,0 +1,33 @@
+.score {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  text-align: center;
+}
+
+.score-left,
+.score-right {
+  display: grid;
+  align-items: center;
+}
+
+.score-left {
+  grid-template-columns: 2fr 1fr;
+}
+
+.score-right {
+  grid-template-columns: 1fr 2fr;
+}
+
+.score-left > div:first-child {
+  text-align: right;
+}
+
+.score-right > div:nth-child(2) {
+  text-align: left;
+}
+
+.score-value {
+  font-size: 3em;
+  font-weight: bold;
+}

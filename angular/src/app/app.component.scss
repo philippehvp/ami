@@ -1,1 +1,12 @@
+.content {
+  height: 100vh;
+  padding: 0.5em;
+}
 
+.live {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  justify-content: center;
+}

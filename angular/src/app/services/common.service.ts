@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommonService {
+  private readonly router: Router = inject(Router);
+
   static isProduction: boolean | undefined;
 
   static getURL(url: string): string {

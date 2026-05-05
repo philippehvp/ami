@@ -1,75 +1,88 @@
 .court {
-  display: grid;
-  grid-template-areas:
-    "areaPlayer2 areaPlayer1"
-    "areaArrow areaArrow"
-    "areaPlayer4 areaPlayer3";
-  padding: 0.5em;
+  position: relative;
+  width: 910px;
+  height: 760px;
+
+  background-image: url("../../../assets/img/background/court-up-down.png");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
 }
 
 .player {
-  display: grid;
+  display: flex;
   font-size: 1.5em;
   justify-content: center;
+  text-align: center;
   align-items: center;
-  min-width: 14em;
-  min-height: 5em;
 }
 
-.big {
-  height: 10em;
+.server::before {
+  font-family: "Material Icons";
+  content: "\e7cd";
+  margin-right: 0.5em;
 }
 
-.server,
-.receiver {
-  font-weight: bold;
-  color: white;
-}
-
-.areaPlayer1 {
-  grid-area: areaPlayer1;
-  border-top: 6px solid white;
-  border-left: 3px solid white;
-  border-right: 6px solid white;
-}
-
-.areaPlayer2 {
-  grid-area: areaPlayer2;
-  border-top: 6px solid white;
-  border-left: 6px solid white;
-  border-right: 3px solid white;
-}
-
-.areaArrow {
-  grid-area: areaArrow;
-  border: 6px solid white;
-}
-
-.areaPlayer3 {
-  grid-area: areaPlayer3;
-  border-bottom: 6px solid white;
-  border-left: 3px solid white;
-  border-right: 6px solid white;
-}
-
-.areaPlayer4 {
-  grid-area: areaPlayer4;
-  border-bottom: 6px solid white;
-  border-left: 6px solid white;
-  border-right: 3px solid white;
-}
-
-.arrow-area {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10em;
+.player1,
+.player2,
+.player3,
+.player4 {
+  position: absolute;
+  width: 367px;
+  height: 237px;
 }
 
 .arrow {
-  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 180px;
+  top: 301px;
+  width: 537px;
+  height: 160px;
 }
 
-#arrow {
-  fill: white;
+.player1 {
+  left: 397px;
+  top: 20px;
+}
+
+.player1.server,
+.player1.receiver {
+  left: 397px;
+  top: 105px;
+}
+
+.player2 {
+  left: 132px;
+  top: 20px;
+}
+
+.player2.server,
+.player2.receiver {
+  left: 132px;
+  top: 105px;
+}
+
+.player3 {
+  left: 430px;
+  top: 500px;
+}
+
+.player3.server,
+.player3.receiver {
+  left: 430px;
+  top: 415px;
+}
+
+.player4 {
+  left: 110px;
+  top: 500px;
+}
+
+.player4.server,
+.player4.receiver {
+  left: 110px;
+  top: 415px;
 }

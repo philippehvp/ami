@@ -6,6 +6,8 @@ import { ICategory } from '../../models/category';
 import { UmpireState } from '../../store/state/umpire.state';
 
 import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { IPair, PAIR_ALIAS } from '../../models/pair';
@@ -17,8 +19,12 @@ import {
   COURT_MODE,
   PlayerOnCourtService,
 } from '../../services/player-on-court.service';
-import { SERVER_SIDE } from '../../models/point';
 import { LaunchMatchUpDown } from '../launch-match-up-down/launch-match-up-down';
+import { MatIconModule } from '@angular/material/icon';
+import { ViewModeService } from '../../services/view-mode.service';
+
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatchService } from '../../services/match.service';
 
 @Component({
   selector: 'selection',
@@ -29,6 +35,9 @@ import { LaunchMatchUpDown } from '../launch-match-up-down/launch-match-up-down'
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './selection.html',
   styleUrl: './selection.scss',
@@ -38,6 +47,8 @@ export class Selection implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly playerOnCourtService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
+  private readonly viewModeService: ViewModeService = inject(ViewModeService);
+  private readonly matchService: MatchService = inject(MatchService);
 
   public currentCategory = model<ICategory>();
   public leftPair = model<IPair>({} as IPair);
@@ -56,12 +67,23 @@ export class Selection implements OnInit {
     this.store.dispatch([new UmpireActions.GetContests()]);
   }
 
+  public get courtModeLeftRight(): boolean {
+    return this.playerOnCourtService.getCourtMode() === COURT_MODE.LEFT_RIGHT;
+  }
+
+  public set courtModeLeftRight(courtModeLeftRight: boolean) {
+    this.playerOnCourtService.setCourtMode(
+      courtModeLeftRight ? COURT_MODE.LEFT_RIGHT : COURT_MODE.UP_DOWN,
+    );
+  }
+
   public onSelectionChangeCategory() {
     // Sélection d'une série : on doit charger la liste des joueurs de la série
     this.store.dispatch([
       new UmpireActions.GetPlayers((this.currentCategory() as ICategory).id),
     ]);
 
+    this.matchService.isMatchLaunched = false;
     this.leftPair.set({} as IPair);
     this.rightPair.set({} as IPair);
   }
@@ -81,6 +103,7 @@ export class Selection implements OnInit {
           this.playerOnCourtService.setCourtMode(COURT_MODE.LEFT_RIGHT);
           this.setPlayersName();
           this.setPairsPositionForAllSets(firstPoint);
+          this.matchService.isMatchLaunched = true;
 
           // Initialisation match
           this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
@@ -103,6 +126,7 @@ export class Selection implements OnInit {
           this.playerOnCourtService.setCourtMode(COURT_MODE.UP_DOWN);
           this.setPlayersName();
           this.setPairsPositionForAllSets(firstPoint);
+          this.matchService.isMatchLaunched = true;
 
           // Initialisation match
           this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
@@ -116,6 +140,16 @@ export class Selection implements OnInit {
       this.leftPair()?.id !== this.rightPair()?.id
       ? false
       : true;
+  }
+
+  public isLeftRightMode(): boolean {
+    return this.playerOnCourtService.getCourtMode() === COURT_MODE.LEFT_RIGHT;
+  }
+
+  public onChangeCourtMode() {
+    this.playerOnCourtService.switchCourtMode();
+    this.courtModeLeftRight =
+      this.playerOnCourtService.getCourtMode() === COURT_MODE.LEFT_RIGHT;
   }
 
   private setPlayersName() {
@@ -148,5 +182,9 @@ export class Selection implements OnInit {
       this.playerOnCourtService.setSecondSetRightPair(PAIR_ALIAS.THREE_FOUR);
       this.playerOnCourtService.setThirdSetRightPair(PAIR_ALIAS.ONE_TWO);
     }
+  }
+
+  public get isMatchLaunched(): boolean {
+    return this.matchService.isMatchLaunched;
   }
 }

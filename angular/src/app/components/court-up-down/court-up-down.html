@@ -1,23 +1,21 @@
 <div class="court">
   <div
-    class="areaPlayer2 player"
+    class="player2 player"
     [class.server]="isServer(point, 2)"
     [class.receiver]="isReceiver(point, 2)"
-    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionLeftPair.playerRight)}}
   </div>
   <div
-    class="areaPlayer1 player"
+    class="player1 player"
     [class.server]="isServer(point, 1)"
     [class.receiver]="isReceiver(point, 1)"
-    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionLeftPair.playerLeft)}}
   </div>
 
-  <div class="areaArrow arrow-area">
-    @if(isLiveMode) { @if(getArrow(point) === 'north_east') {
+  <div class="arrow">
+    @if(getArrow(point) === 'north_east') {
     <svg
       width="30%"
       height="30%"
@@ -126,24 +124,20 @@
         />
       </g>
     </svg>
-    } } @else {
-    <mat-icon [fontIcon]="getArrow(point)" class="arrow"></mat-icon>
     }
   </div>
 
   <div
-    class="areaPlayer4 player"
+    class="player4 player"
     [class.server]="isServer(point, 4)"
     [class.receiver]="isReceiver(point, 4)"
-    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionRightPair.playerLeft)}}
   </div>
   <div
-    class="areaPlayer3 player"
+    class="player3 player"
     [class.server]="isServer(point, 3)"
     [class.receiver]="isReceiver(point, 3)"
-    [class.big]="!isLiveMode"
   >
     {{getPlayerName(point.playerPositionRightPair.playerRight)}}
   </div>

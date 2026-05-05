@@ -17,10 +17,21 @@ import { IEndOfSet } from '../../models/end-of-set';
 import { PAIR_ALIAS } from '../../models/pair';
 import { LaunchSet } from '../launch-set/launch-set';
 import { CourtUpDown } from '../court-up-down/court-up-down';
+import { ViewModeService } from '../../services/view-mode.service';
+import { ScoreLeftRight } from '../score-left-right/score-left-right';
+import { ScoreUpDown } from '../score-up-down/score-up-down';
+import { MatchService } from '../../services/match.service';
 
 @Component({
   selector: 'live',
-  imports: [AsyncPipe, MatButtonModule, CourtLeftRight, CourtUpDown],
+  imports: [
+    AsyncPipe,
+    MatButtonModule,
+    CourtLeftRight,
+    CourtUpDown,
+    ScoreLeftRight,
+    ScoreUpDown,
+  ],
   templateUrl: './live.html',
   styleUrl: './live.scss',
 })
@@ -29,6 +40,8 @@ export class Live implements OnInit, OnDestroy {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly playerOnCourtService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
+  private readonly viewModeService: ViewModeService = inject(ViewModeService);
+  private readonly matchService: MatchService = inject(MatchService);
 
   public justPlayedPoint$: Observable<IPoint | undefined>;
   public isEndOfFirstSet$: Observable<IEndOfSet | undefined>;
@@ -94,14 +107,6 @@ export class Live implements OnInit, OnDestroy {
     if (this.destroy$) {
       this.destroy$.next(true);
     }
-  }
-
-  public addPointLeftPair() {
-    this.store.dispatch(new UmpireActions.AddPoint(true));
-  }
-
-  public addPointRightPair() {
-    this.store.dispatch(new UmpireActions.AddPoint(false));
   }
 
   private calculatePairPositionEndFirstSet(
@@ -199,7 +204,7 @@ export class Live implements OnInit, OnDestroy {
     return this.getCourtMode() === COURT_MODE.LEFT_RIGHT;
   }
 
-  public get isCourtModeUpDown(): boolean {
-    return this.getCourtMode() === COURT_MODE.UP_DOWN;
+  public get isMatchLaunched(): boolean {
+    return this.matchService.isMatchLaunched;
   }
 }

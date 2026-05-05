@@ -1,5 +1,5 @@
 @if(categories$ | async; as categories) {
-<div class="selection">
+<div class="selection-area">
   <div>
     <mat-form-field>
       <mat-label>Séries</mat-label>
@@ -7,7 +7,7 @@
         [(ngModel)]="currentCategory"
         (selectionChange)="onSelectionChangeCategory()"
       >
-        @for (category of categories; track category) {
+        @for (category of categories; track category.id) {
         <mat-option [value]="category"
           >{{category.contestShortName}} - {{category.shortName}}</mat-option
         >
@@ -16,12 +16,12 @@
     </mat-form-field>
   </div>
 
-  <div class="players">
+  <div class="players-area">
     @if(pairs$ | async; as pairs) {
     <mat-form-field>
       <mat-label>Paire 1</mat-label>
       <mat-select [(ngModel)]="leftPair">
-        @for (pair of pairs; track pair) {
+        @for (pair of pairs; track pair.id) {
         <mat-option [value]="pair"
           >{{pair.playerName1}} - {{pair.playerName2}}</mat-option
         >
@@ -32,7 +32,7 @@
     <mat-form-field>
       <mat-label>Paire 2</mat-label>
       <mat-select [(ngModel)]="rightPair">
-        @for (pair of pairs; track pair) {
+        @for (pair of pairs; track pair.id) {
         <mat-option [value]="pair"
           >{{pair.playerName1}} - {{pair.playerName2}}</mat-option
         >
@@ -42,21 +42,32 @@
     }
   </div>
 
-  <div class="launch">
-    <button
-      matButton="filled"
-      (click)="launchLeftRight()"
-      [disabled]="isLaunchDisabled()"
-    >
-      Lancer G/D
-    </button>
-    <button
-      matButton="filled"
-      (click)="launchUpDown()"
-      [disabled]="isLaunchDisabled()"
-    >
-      Lancer H/B
-    </button>
+  <div class="launch-area">
+    <div>
+      <button
+        matButton
+        [matMenuTriggerFor]="launch"
+        [disabled]="isLaunchDisabled()"
+      >
+        <mat-icon>arrow_drop_down</mat-icon>
+        Lancer
+      </button>
+      <mat-menu #launch="matMenu">
+        <button mat-menu-item (click)="launchLeftRight()">
+          Gauche / droite
+        </button>
+        <button mat-menu-item (click)="launchUpDown()">Haut / bas</button>
+      </mat-menu>
+    </div>
+    <div>
+      <mat-slide-toggle
+        [checked]="courtModeLeftRight"
+        [disabled]="!isMatchLaunched"
+        (change)="onChangeCourtMode()"
+      >
+        G/D
+      </mat-slide-toggle>
+    </div>
   </div>
 </div>
 

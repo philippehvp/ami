@@ -1,28 +1,16 @@
-@if(justPlayedPoint$ | async; as justPlayedPoint) { @if(justPlayedPoint) {
-
-<div class="action-area">
-  <div class="score-area">
-    <div>
-      <button matButton="filled" (click)="addPointLeftPair()">+ 1</button>
-    </div>
-    <div class="score">{{justPlayedPoint.pointLeftPair}}</div>
-  </div>
-  <div class="score-area">
-    <div class="score">{{justPlayedPoint.pointRightPair}}</div>
-    <div>
-      <button matButton="filled" (click)="addPointRightPair()">+ 1</button>
-    </div>
+@if(isMatchLaunched) {@if(justPlayedPoint$ | async; as justPlayedPoint) {
+@if(isCourtModeLeftRight) {
+<div class="live-left-right">
+  <score-left-right [point]="justPlayedPoint"></score-left-right>
+  <div class="court">
+    <court-left-right [point]="justPlayedPoint"></court-left-right>
   </div>
 </div>
-
-<div class="court-area">
-  @if(isCourtModeLeftRight) {
-  <court-left-right
-    [point]="justPlayedPoint"
-    [isLiveMode]="true"
-  ></court-left-right>
-  } @else if(isCourtModeUpDown){
-  <court-up-down [point]="justPlayedPoint" [isLiveMode]="true"></court-up-down>
-  }
+} @else {
+<div class="live-up-down">
+  <div class="court">
+    <court-up-down [point]="justPlayedPoint"></court-up-down>
+  </div>
+  <score-up-down [point]="justPlayedPoint"></score-up-down>
 </div>
-} }
+} }}

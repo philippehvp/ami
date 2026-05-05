@@ -1,0 +1,14 @@
+<div class="score">
+  <div class="score-up">
+    <div>
+      <button matButton="filled" (click)="addPointLeftPair()">+ 1</button>
+    </div>
+    <div class="score-value">{{point.pointLeftPair}}</div>
+  </div>
+  <div class="score-down">
+    <div class="score-value">{{point.pointRightPair}}</div>
+    <div>
+      <button matButton="filled" (click)="addPointRightPair()">+ 1</button>
+    </div>
+  </div>
+</div>

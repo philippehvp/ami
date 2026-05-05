@@ -31,6 +31,13 @@ export class PlayerOnCourtService {
     this._courtMode = courtMode;
   }
 
+  public switchCourtMode() {
+    this._courtMode =
+      this._courtMode === COURT_MODE.LEFT_RIGHT
+        ? COURT_MODE.UP_DOWN
+        : COURT_MODE.LEFT_RIGHT;
+  }
+
   public setPlayersName(playersName: string[]) {
     this._playersName = playersName;
   }

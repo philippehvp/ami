@@ -5,11 +5,16 @@
     class="point"
     [class.played]="cellHasPoint(points, $index)"
     [class.empty]="!cellHasPoint(points, $index)"
+    [class.is-active]="$index === pointIndex"
     (click)="showPoint(set, points, $index)"
   >
     @if(points[$index]) { {{displayScore(points[$index])}} }
   </span>
+
   }
 </div>
 
-} }
+@if(pointToShow) {
+
+<court-left-right [point]="pointToShow"></court-left-right>
+} } }

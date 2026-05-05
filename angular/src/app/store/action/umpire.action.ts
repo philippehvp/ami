@@ -41,7 +41,7 @@ export namespace UmpireActions {
     static readonly type = '[Umpire] Go Back To Point';
     constructor(
       public setId: number,
-      public pointIndex: number,
+      public pointIndex: number | undefined,
     ) {}
   }
 }

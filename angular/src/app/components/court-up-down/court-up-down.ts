@@ -12,8 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 export class CourtUpDown {
   @Input()
   point!: IPoint;
-  @Input()
-  isLiveMode!: boolean;
 
   private readonly playerNameService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
