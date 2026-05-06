@@ -1,7 +1,7 @@
 .court {
   position: relative;
-  width: 910px;
-  height: 760px;
+  width: 814px;
+  height: 680px;
 
   background-image: url("../../../assets/img/background/court-up-down.png");
   background-repeat: no-repeat;
@@ -37,52 +37,52 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  left: 180px;
-  top: 301px;
+  left: 131px;
+  top: 270px;
   width: 537px;
-  height: 160px;
+  height: 142px;
 }
 
 .player1 {
-  left: 397px;
+  left: 332px;
   top: 20px;
 }
 
 .player1.server,
 .player1.receiver {
-  left: 397px;
+  left: 338px;
   top: 105px;
 }
 
 .player2 {
-  left: 132px;
+  left: 101px;
   top: 20px;
 }
 
 .player2.server,
 .player2.receiver {
-  left: 132px;
+  left: 96px;
   top: 105px;
 }
 
 .player3 {
-  left: 430px;
-  top: 500px;
+  left: 379px;
+  top: 436px;
 }
 
 .player3.server,
 .player3.receiver {
-  left: 430px;
-  top: 415px;
+  left: 364px;
+  top: 347px;
 }
 
 .player4 {
-  left: 110px;
-  top: 500px;
+  left: 70px;
+  top: 436px;
 }
 
 .player4.server,
 .player4.receiver {
-  left: 110px;
-  top: 415px;
+  left: 78px;
+  top: 347px;
 }
