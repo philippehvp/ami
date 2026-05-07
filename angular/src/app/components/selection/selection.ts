@@ -6,7 +6,6 @@ import { ICategory } from '../../models/category';
 import { UmpireState } from '../../store/state/umpire.state';
 
 import { MatFormField, MatSelectModule } from '@angular/material/select';
-import { MatMenuModule } from '@angular/material/menu';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
@@ -20,8 +19,6 @@ import {
   PlayerOnCourtService,
 } from '../../services/player-on-court.service';
 import { LaunchMatchUpDown } from '../launch-match-up-down/launch-match-up-down';
-import { MatIconModule } from '@angular/material/icon';
-import { ViewModeService } from '../../services/view-mode.service';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatchService } from '../../services/match.service';
@@ -35,8 +32,6 @@ import { MatchService } from '../../services/match.service';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatMenuModule,
-    MatIconModule,
     MatSlideToggleModule,
   ],
   templateUrl: './selection.html',
@@ -47,7 +42,6 @@ export class Selection implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly playerOnCourtService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
-  private readonly viewModeService: ViewModeService = inject(ViewModeService);
   private readonly matchService: MatchService = inject(MatchService);
 
   public currentCategory = model<ICategory>();
@@ -86,6 +80,14 @@ export class Selection implements OnInit {
     this.matchService.isMatchLaunched = false;
     this.leftPair.set({} as IPair);
     this.rightPair.set({} as IPair);
+  }
+
+  public launch() {
+    if (this.courtModeLeftRight) {
+      this.launchLeftRight();
+    } else {
+      this.launchUpDown();
+    }
   }
 
   public launchLeftRight() {

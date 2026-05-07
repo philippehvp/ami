@@ -5,7 +5,6 @@ import { UtilsService } from '../../services/utils.service';
 import { filter, map, Observable, of, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
-import { CourtLeftRight } from '../court-left-right/court-left-right';
 import { Store } from '@ngxs/store';
 import { MatButtonModule } from '@angular/material/button';
 import { UmpireActions } from '../../store/action/umpire.action';
@@ -15,10 +14,11 @@ import {
   MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
 import { Confirmation } from '../confirmation/confirmation';
+import { CourtLight } from '../court-light/court-light';
 
 @Component({
   selector: 'points',
-  imports: [AsyncPipe, CourtLeftRight, MatButtonModule, MatBottomSheetModule],
+  imports: [AsyncPipe, CourtLight, MatButtonModule, MatBottomSheetModule],
   templateUrl: './points.html',
   styleUrl: './points.scss',
 })

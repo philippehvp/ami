@@ -8,7 +8,7 @@
 }
 
 .point {
-  display: grid;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 4em;
@@ -18,6 +18,12 @@
 
 .is-active {
   background-color: var(--mat-sys-primary) !important;
+}
+
+.is-active::after {
+  font-family: "Material Icons";
+  content: "\e166";
+  margin-left: 0.5em;
 }
 
 .played {

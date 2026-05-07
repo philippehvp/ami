@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'bottom-sheet-overview-example-sheet',
   templateUrl: 'confirmation.html',
-  imports: [MatListModule],
+  imports: [MatListModule, MatButtonModule],
 })
 export class Confirmation {
   private _bottomSheetRef =

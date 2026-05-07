@@ -1,0 +1,50 @@
+.court {
+  display: grid;
+  width: 100%;
+  grid-template-areas:
+    "player1 arrow player3"
+    "player2 arrow player4";
+}
+
+.player {
+  display: flex;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+}
+
+.server::before {
+  font-family: "Material Icons";
+  content: "\e7cd";
+  margin-right: 0.5em;
+}
+
+.player1,
+.player2,
+.player3,
+.player4 {
+  height: 150px;
+}
+
+.arrow {
+  grid-area: arrow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player1 {
+  grid-area: player1;
+}
+
+.player2 {
+  grid-area: player2;
+}
+
+.player3 {
+  grid-area: player3;
+}
+
+.player4 {
+  grid-area: player4;
+}

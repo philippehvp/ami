@@ -10,7 +10,7 @@ export enum COURT_MODE {
   providedIn: 'root',
 })
 export class PlayerOnCourtService {
-  private _courtMode: COURT_MODE | undefined = undefined;
+  private _courtMode: COURT_MODE = COURT_MODE.LEFT_RIGHT;
 
   private _playersName: string[] = [];
 

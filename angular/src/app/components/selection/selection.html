@@ -44,29 +44,18 @@
 
   <div class="launch-area">
     <div>
-      <button
-        matButton
-        [matMenuTriggerFor]="launch"
-        [disabled]="isLaunchDisabled()"
-      >
-        <mat-icon>arrow_drop_down</mat-icon>
-        Lancer
-      </button>
-      <mat-menu #launch="matMenu">
-        <button mat-menu-item (click)="launchLeftRight()">
-          Gauche / droite
-        </button>
-        <button mat-menu-item (click)="launchUpDown()">Haut / bas</button>
-      </mat-menu>
-    </div>
-    <div>
       <mat-slide-toggle
         [checked]="courtModeLeftRight"
-        [disabled]="!isMatchLaunched"
+        [disabled]="isLaunchDisabled()"
         (change)="onChangeCourtMode()"
       >
         G/D
       </mat-slide-toggle>
+    </div>
+    <div>
+      <button matButton (click)="launch()" [disabled]="isLaunchDisabled()">
+        Lancer
+      </button>
     </div>
   </div>
 </div>
