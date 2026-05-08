@@ -1,19 +1,21 @@
 <div class="content">
   <selection></selection>
   @if (isMatchLaunched) {
-    <mat-tab-group>
-      <mat-tab label="Live">
-        <live></live>
-      </mat-tab>
-      <mat-tab label="Premier set">
-        <points [set$]="firstSet$" />
-      </mat-tab>
-      <mat-tab label="Deuxième set">
-        <points [set$]="secondSet$" />
-      </mat-tab>
-      <mat-tab label="Troisième set">
-        <points [set$]="thirdSet$" />
-      </mat-tab>
-    </mat-tab-group>
+    <div class="view">
+      <mat-tab-group>
+        <mat-tab label="Live">
+          <live></live>
+        </mat-tab>
+        <mat-tab label="Premier set">
+          <points [set$]="firstSet$" />
+        </mat-tab>
+        <mat-tab label="Deuxième set">
+          <points [set$]="secondSet$" />
+        </mat-tab>
+        <mat-tab label="Troisième set">
+          <points [set$]="thirdSet$" />
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   }
 </div>

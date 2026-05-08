@@ -16,6 +16,7 @@ import { IFirstPoint, ILaunchSetData } from '../../models/launch-data';
 import { IPlayerPosition } from '../../models/player-position';
 import { SERVER_SIDE } from '../../models/point';
 import { PlayerOnCourtService } from '../../services/player-on-court.service';
+import { MatchService } from '../../services/match.service';
 @Component({
   selector: 'launch-set',
   imports: [
@@ -41,8 +42,6 @@ export class LaunchSet {
 
   public launchSetData: ILaunchSetData = inject(MAT_DIALOG_DATA);
   private matDialogRef = inject(MatDialogRef<ILaunchSetData>);
-
-  constructor() {}
 
   public validate() {
     const firstPoint: IFirstPoint = {
@@ -139,5 +138,9 @@ export class LaunchSet {
     }
 
     return {} as IPlayerPosition;
+  }
+
+  public get isSetLaunchable(): boolean {
+    return MatchService.isSetLaunchable(this.server(), this.receiver());
   }
 }

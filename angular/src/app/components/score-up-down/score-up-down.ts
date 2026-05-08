@@ -16,8 +16,6 @@ export class ScoreUpDown {
   @Input()
   point!: IPoint;
 
-  constructor() {}
-
   public addPointLeftPair() {
     this.store.dispatch(new UmpireActions.AddPoint(true));
   }

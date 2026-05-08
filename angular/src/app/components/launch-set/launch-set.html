@@ -36,5 +36,7 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button matButton mat-dialog-close>Annuler</button>
-  <button matButton (click)="validate()" cdkFocusInitial>Lancer</button>
+  <button matButton (click)="validate()" [disabled]="!isSetLaunchable">
+    Lancer
+  </button>
 </mat-dialog-actions>

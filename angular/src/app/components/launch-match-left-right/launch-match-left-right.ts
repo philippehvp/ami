@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { IFirstPoint, ILaunchMatchData } from '../../models/launch-data';
 import { IPlayerPosition } from '../../models/player-position';
 import { SERVER_SIDE } from '../../models/point';
+import { MatchService } from '../../services/match.service';
 @Component({
   selector: 'launch-match-left-right',
   imports: [
@@ -38,8 +39,6 @@ export class LaunchMatchLeftRight {
 
   public launchMatchData: ILaunchMatchData = inject(MAT_DIALOG_DATA);
   private matDialogRef = inject(MatDialogRef<ILaunchMatchData>);
-
-  constructor() {}
 
   public validate() {
     const firstPoint: IFirstPoint = {
@@ -126,5 +125,13 @@ export class LaunchMatchLeftRight {
     }
 
     return {} as IPlayerPosition;
+  }
+
+  public get isLaunchable(): boolean | undefined {
+    return MatchService.isMatchLaunchable(
+      this.server(),
+      this.receiver(),
+      this.serverSide(),
+    );
   }
 }
