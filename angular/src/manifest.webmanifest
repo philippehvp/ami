@@ -1,7 +1,7 @@
 {
-  "name": "Winabad",
-  "short_name": "Winabad",
-  "theme_color": "#1976d2",
+  "name": "Animations",
+  "short_name": "Animations",
+  "theme_color": "#5a246a",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

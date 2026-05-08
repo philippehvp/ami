@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPair, PAIR_ALIAS } from '../models/pair';
+import { PAIR_ALIAS } from '../models/pair';
 
 export enum COURT_MODE {
   LEFT_RIGHT = 0,

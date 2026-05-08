@@ -18,10 +18,6 @@ export class PairPlayerService {
 
   private _allPairs: IStoredPair[] = [];
 
-  public emptyPairs() {
-    this._allPairs = [];
-  }
-
   public getPairs(categoryId: number): Observable<IPair[]> {
     // Recherche des joueurs qui auraient déjà été lus
     const storedPair = this._allPairs.find((storedPlayer: IStoredPair) => {

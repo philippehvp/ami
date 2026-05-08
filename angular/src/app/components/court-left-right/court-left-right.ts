@@ -21,10 +21,18 @@ export class CourtLeftRight {
   }
 
   public getArrow(point: IPoint): string {
-    if (point.serverSide === SERVER_SIDE.LEFT) {
-      return point.pointLeftPair % 2 === 0 ? 'north_east' : 'south_east';
+    const isLeftSideServe = point.serverSide === SERVER_SIDE.LEFT;
+    const pointLeftPair = point.pointLeftPair;
+    const pointRightPair = point.pointRightPair;
+
+    if (isLeftSideServe) {
+      // Left side serving - arrow points from left to right
+      const isEvenPoint = pointLeftPair % 2 === 0;
+      return isEvenPoint ? 'north_east' : 'south_east';
     } else {
-      return point.pointRightPair % 2 === 0 ? 'south_west' : 'north_west';
+      // Right side serving - arrow points from right to left
+      const isEvenPoint = pointRightPair % 2 === 0;
+      return isEvenPoint ? 'south_west' : 'north_west';
     }
   }
 

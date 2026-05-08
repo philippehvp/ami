@@ -1,0 +1,38 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with gradient -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5a246a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#89b591;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Main circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#logoGradient)" filter="url(#shadow)"/>
+  
+  <!-- Animation symbol - stylized "A" for Animations -->
+  <g transform="translate(100, 100)">
+    <!-- Left leg of A -->
+    <path d="M -30,-25 L -15,25 L -5,25 L -20,-25 Z" fill="#f8e69c" opacity="0.9"/>
+    <!-- Right leg of A -->
+    <path d="M 30,-25 L 15,25 L 5,25 L 20,-25 Z" fill="#f8e69c" opacity="0.9"/>
+    <!-- Cross bar of A -->
+    <rect x="-25" y="-5" width="50" height="8" rx="2" fill="#e3effb" opacity="0.9"/>
+    <!-- Animation dots -->
+    <circle cx="-35" cy="35" r="3" fill="#6caee0" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="0" cy="35" r="3" fill="#6caee0" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="35" cy="35" r="3" fill="#6caee0" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Subtle ring effect -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#f8e69c" stroke-width="1" opacity="0.3"/>
+</svg>

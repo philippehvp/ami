@@ -32,6 +32,7 @@ export interface ILogo {
     Live,
     Points,
   ],
+  schemas: [],
 })
 export class AppComponent implements AfterViewInit {
   private readonly store: Store = inject(Store);

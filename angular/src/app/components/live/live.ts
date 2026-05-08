@@ -1,5 +1,4 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngxs/store';
 import { UmpireActions } from '../../store/action/umpire.action';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
@@ -17,7 +16,6 @@ import { IEndOfSet } from '../../models/end-of-set';
 import { PAIR_ALIAS } from '../../models/pair';
 import { LaunchSet } from '../launch-set/launch-set';
 import { CourtUpDown } from '../court-up-down/court-up-down';
-import { ViewModeService } from '../../services/view-mode.service';
 import { ScoreLeftRight } from '../score-left-right/score-left-right';
 import { ScoreUpDown } from '../score-up-down/score-up-down';
 import { MatchService } from '../../services/match.service';
@@ -26,7 +24,6 @@ import { MatchService } from '../../services/match.service';
   selector: 'live',
   imports: [
     AsyncPipe,
-    MatButtonModule,
     CourtLeftRight,
     CourtUpDown,
     ScoreLeftRight,
@@ -40,7 +37,6 @@ export class Live implements OnInit, OnDestroy {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly playerOnCourtService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
-  private readonly viewModeService: ViewModeService = inject(ViewModeService);
   private readonly matchService: MatchService = inject(MatchService);
 
   public justPlayedPoint$: Observable<IPoint | undefined>;

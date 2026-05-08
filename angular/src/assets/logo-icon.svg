@@ -1,0 +1,19 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simplified version for favicon/icon use -->
+  <defs>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5a246a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#89b591;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main circle -->
+  <circle cx="32" cy="32" r="28" fill="url(#iconGradient)"/>
+  
+  <!-- Simplified A symbol -->
+  <g transform="translate(32, 32)">
+    <path d="M -10,-8 L -5,8 L -2,8 L -7,-8 Z" fill="#f8e69c" opacity="0.9"/>
+    <path d="M 10,-8 L 5,8 L 2,8 L 7,-8 Z" fill="#f8e69c" opacity="0.9"/>
+    <rect x="-8" y="-2" width="16" height="3" rx="1" fill="#e3effb" opacity="0.9"/>
+  </g>
+</svg>

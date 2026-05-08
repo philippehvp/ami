@@ -1,5 +1,4 @@
 import { IFirstPoint } from '../../models/launch-data';
-import { IPoint } from '../../models/point';
 
 export namespace UmpireActions {
   export class GetContests {
