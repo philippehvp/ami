@@ -1,21 +1,26 @@
-<div class="content">
-  <selection></selection>
-  @if (isMatchLaunched) {
-    <div class="view">
-      <mat-tab-group>
-        <mat-tab label="Live">
-          <live></live>
-        </mat-tab>
-        <mat-tab label="Premier set">
-          <points [set$]="firstSet$" />
-        </mat-tab>
-        <mat-tab label="Deuxième set">
-          <points [set$]="secondSet$" />
-        </mat-tab>
-        <mat-tab label="Troisième set">
-          <points [set$]="thirdSet$" />
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  }
+<div class="page">
+  <div class="selection">
+    <selection></selection>
+  </div>
+  <div class="content">
+    @if (isMatchLaunched) {
+      <div class="view">
+        <mat-tab-group>
+          <mat-tab label="Live">
+            <live></live>
+          </mat-tab>
+          <mat-tab label="Premier set">
+            <points [set$]="firstSet$" />
+          </mat-tab>
+          <mat-tab label="Deuxième set">
+            <points [set$]="secondSet$" />
+          </mat-tab>
+          <mat-tab label="Troisième set">
+            <points [set$]="thirdSet$" />
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    }
+  </div>
+  <div class="footer"></div>
 </div>

@@ -1,15 +1,28 @@
 .live-left-right {
   display: grid;
-  row-gap: 1em;
-  padding-top: 1em;
-}
+  grid-template-rows: 5em 1fr;
+  height: 100%;
 
-.court {
-  display: grid;
-  justify-content: center;
+  .score {
+    display: grid;
+    align-items: center;
+  }
+
+  .court {
+    display: grid;
+  }
 }
 
 .live-up-down {
   display: grid;
   grid-template-columns: 5fr 1fr;
+  height: 100%;
+
+  .court {
+    display: grid;
+  }
+
+  .score {
+    display: grid;
+  }
 }

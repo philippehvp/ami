@@ -1,19 +1,16 @@
 .court {
-  position: relative;
-  width: 814px;
-  height: 680px;
+  display: grid;
+  grid-template-areas:
+    "p2 p2 p2 a p1 p1 p1"
+    "p4 p4 p4 a p3 p3 p3";
 
-  background-image: url("../../../assets/img/background/court-up-down.png");
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+  height: 100%;
 }
 
 .player {
   display: flex;
   font-size: 1.5em;
   justify-content: center;
-  text-align: center;
   align-items: center;
 }
 
@@ -23,66 +20,26 @@
   margin-right: 0.5em;
 }
 
-.player1,
-.player2,
-.player3,
-.player4 {
-  position: absolute;
-  width: 367px;
-  height: 237px;
-}
-
 .arrow {
-  display: flex;
-  justify-content: center;
+  grid-area: a;
+
+  display: grid;
+  justify-items: center;
   align-items: center;
-  position: absolute;
-  left: 131px;
-  top: 270px;
-  width: 537px;
-  height: 142px;
 }
 
 .player1 {
-  left: 332px;
-  top: 20px;
-}
-
-.player1.server,
-.player1.receiver {
-  left: 338px;
-  top: 105px;
+  grid-area: p1;
 }
 
 .player2 {
-  left: 101px;
-  top: 20px;
-}
-
-.player2.server,
-.player2.receiver {
-  left: 96px;
-  top: 105px;
+  grid-area: p2;
 }
 
 .player3 {
-  left: 379px;
-  top: 436px;
-}
-
-.player3.server,
-.player3.receiver {
-  left: 364px;
-  top: 347px;
+  grid-area: p3;
 }
 
 .player4 {
-  left: 70px;
-  top: 436px;
-}
-
-.player4.server,
-.player4.receiver {
-  left: 78px;
-  top: 347px;
+  grid-area: p4;
 }

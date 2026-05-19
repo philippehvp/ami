@@ -1,9 +1,11 @@
 .court {
   display: grid;
-  width: 100%;
+
   grid-template-areas:
     "player1 arrow player3"
     "player2 arrow player4";
+
+  height: 100%;
 }
 
 .player {
@@ -19,17 +21,10 @@
   margin-right: 0.5em;
 }
 
-.player1,
-.player2,
-.player3,
-.player4 {
-  height: 150px;
-}
-
 .arrow {
   grid-area: arrow;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  justify-items: center;
   align-items: center;
 }
 

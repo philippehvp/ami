@@ -21,83 +21,9 @@ hr {
   cursor: pointer;
 }
 
-.mat-bottom-sheet-container {
-  padding: 0 !important;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 0.5em;
-  margin-top: 0.25em;
-  margin-right: 0.5em;
-  margin-bottom: 0.25em;
-  margin-left: 0.5em;
-  padding: 0.5em 0.5em 0 0.5em;
-}
-
-.row.no-growing {
-  flex: 0 1 auto;
-}
-
-.row.growing {
-  flex: 1 1 auto;
-  overflow-y: auto;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.animation {
-  animation: fadeIn 0.75s;
-}
-
-.slow-animation {
-  animation: fadeIn 1s;
-}
-
-.login-logo-panel {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  padding-top: 1em;
-
-  span {
-    display: flex;
-    justify-content: center;
-    background-repeat: no-repeat;
-    width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .login-logo-panel {
-    span {
-      height: 60px;
-    }
-
-    .isb {
-      background-size: 140px;
-      background-position: 50%;
-    }
-  }
-}
-
-@media (min-width: 769px) {
-  .login-logo-panel {
-    span {
-      height: 80px;
-    }
-
-    .isb {
-      background-size: 140px;
-      background-position: 50%;
-    }
+app-root {
+  .mat-mdc-tab-body-wrapper,
+  mat-tab {
+    height: 100%;
   }
 }

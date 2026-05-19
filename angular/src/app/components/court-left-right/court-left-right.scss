@@ -1,12 +1,10 @@
 .court {
-  position: relative;
-  width: 1100px;
-  height: 510px;
+  display: grid;
+  grid-template-areas:
+    "p1 a p3"
+    "p2 a p4";
 
-  background-image: url("../../../assets/img/background/court-left-right.png");
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+  height: 100%;
 }
 
 .player {
@@ -22,43 +20,25 @@
   margin-right: 0.5em;
 }
 
-.player1,
-.player2,
-.player3,
-.player4 {
-  position: absolute;
-  width: 315px;
-  height: 204px;
-}
-
 .arrow {
-  display: flex;
-  justify-content: center;
+  grid-area: a;
+  display: grid;
+  justify-items: center;
   align-items: center;
-
-  position: absolute;
-  left: 394px;
-  top: 48px;
-  width: 311px;
-  height: 413px;
 }
 
 .player1 {
-  left: 73px;
-  top: 48px;
+  grid-area: p1;
 }
 
 .player2 {
-  left: 73px;
-  top: 257px;
+  grid-area: p2;
 }
 
 .player3 {
-  left: 712px;
-  top: 48px;
+  grid-area: p3;
 }
 
 .player4 {
-  left: 712px;
-  top: 257px;
+  grid-area: p4;
 }
