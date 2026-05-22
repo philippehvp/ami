@@ -1,17 +1,15 @@
 .page {
   display: grid;
-  grid-template-rows: 4em 1fr 3em;
+  grid-template-rows: 4em 1fr 4em;
 
   height: 100vh;
+
+  padding: 0.5em;
 }
 
 .view {
   height: 100%;
 }
-
-// .footer {
-//   background-color: grey;
-// }
 
 mat-tab-group {
   height: 100%;

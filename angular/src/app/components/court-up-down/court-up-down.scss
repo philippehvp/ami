@@ -1,8 +1,11 @@
 .court {
   display: grid;
   grid-template-areas:
-    "p2 p2 p2 a p1 p1 p1"
-    "p4 p4 p4 a p3 p3 p3";
+    "p2 p1"
+    "a a"
+    "p4 p3";
+  grid-template-rows: 1fr 6em 1fr;
+  grid-template-columns: repeat(2, 1fr);
 
   height: 100%;
 }
@@ -18,14 +21,34 @@
   font-family: "Material Icons";
   content: "\e7cd";
   margin-right: 0.5em;
+  padding: 0.3em;
+  border-radius: 50%;
 }
 
 .arrow {
   grid-area: a;
-
   display: grid;
   justify-items: center;
   align-items: center;
+
+  background-image: radial-gradient(var(--mat-sys-primary) 4px, transparent 0);
+  background-size: 6em 6em;
+}
+
+.north-east {
+  transform: rotate(45deg) scale(3);
+}
+
+.south-east {
+  transform: rotate(135deg) scale(3);
+}
+
+.north-west {
+  transform: rotate(-45deg) scale(3);
+}
+
+.south-west {
+  transform: rotate(-135deg) scale(3);
 }
 
 .player1 {

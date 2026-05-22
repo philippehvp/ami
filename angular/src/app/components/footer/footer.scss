@@ -1,0 +1,8 @@
+.footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 100%;
+
+  justify-items: center;
+  align-items: center;
+}

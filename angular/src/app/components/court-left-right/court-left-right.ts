@@ -2,6 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { IPoint, SERVER_SIDE } from '../../models/point';
 import { PlayerOnCourtService } from '../../services/player-on-court.service';
 import { MatIconModule } from '@angular/material/icon';
+import { ArrowService } from '../../services/arrow.service';
 
 @Component({
   selector: 'court-left-right',
@@ -21,19 +22,7 @@ export class CourtLeftRight {
   }
 
   public getArrow(point: IPoint): string {
-    const isLeftSideServe = point.serverSide === SERVER_SIDE.LEFT;
-    const pointLeftPair = point.pointLeftPair;
-    const pointRightPair = point.pointRightPair;
-
-    if (isLeftSideServe) {
-      // Left side serving - arrow points from left to right
-      const isEvenPoint = pointLeftPair % 2 === 0;
-      return isEvenPoint ? 'north_east' : 'south_east';
-    } else {
-      // Right side serving - arrow points from right to left
-      const isEvenPoint = pointRightPair % 2 === 0;
-      return isEvenPoint ? 'south_west' : 'north_west';
-    }
+    return ArrowService.getArrowLeftRight(point);
   }
 
   public isServer(point: IPoint, areaPosition: number): boolean {

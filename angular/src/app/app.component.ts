@@ -11,6 +11,7 @@ import { Live } from './components/live/live';
 import { Points } from './components/points/points';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatchService } from './services/match.service';
+import { Footer } from './components/footer/footer';
 
 export interface ILogo {
   icon: string;
@@ -31,6 +32,7 @@ export interface ILogo {
     Selection,
     Live,
     Points,
+    Footer,
   ],
 })
 export class AppComponent implements AfterViewInit {

@@ -2,6 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { IPoint, SERVER_SIDE } from '../../models/point';
 import { PlayerOnCourtService } from '../../services/player-on-court.service';
 import { MatIconModule } from '@angular/material/icon';
+import { ArrowService } from '../../services/arrow.service';
 
 @Component({
   selector: 'court-light',
@@ -21,11 +22,7 @@ export class CourtLight {
   }
 
   public getArrow(point: IPoint): string {
-    if (point.serverSide === SERVER_SIDE.LEFT) {
-      return point.pointLeftPair % 2 === 0 ? 'north_east' : 'south_east';
-    } else {
-      return point.pointRightPair % 2 === 0 ? 'south_west' : 'north_west';
-    }
+    return ArrowService.getArrowLeftRight(point);
   }
 
   public isServer(point: IPoint, areaPosition: number): boolean {

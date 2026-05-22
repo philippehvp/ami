@@ -26,12 +26,6 @@
   background-color: var(--mat-sys-primary) !important;
 }
 
-.is-active::after {
-  font-family: "Material Icons";
-  content: "\e166";
-  margin-left: 0.5em;
-}
-
 .played {
   color: white;
   background-color: #339950;
