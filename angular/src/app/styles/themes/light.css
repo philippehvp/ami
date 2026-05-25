@@ -73,19 +73,21 @@
     #312f3a
   ); /* Variable used for the sidenav scrim (container background shadow when opened) */
 
-  /* Custom app colors — brand palette (Violet d'Istres) */
+  /* CUSTOM APP COLOR VARIABLES */
+
+  /* Brand palette — Violet d'Istres */
   --app-color-violet: light-dark(#5a246a, #d4a8e2);
   --app-color-on-violet: light-dark(#ffffff, #2e0e3c);
   --app-color-violet-container: light-dark(#f2e0f7, #7a3a8e);
   --app-color-on-violet-container: light-dark(#2e0e3c, #f2e0f7);
 
-  /* Custom app colors — Jaune */
+  /* Brand palette — Jaune */
   --app-color-jaune: light-dark(#8a7a2e, #f8e69c);
   --app-color-on-jaune: light-dark(#ffffff, #4a4010);
   --app-color-jaune-container: light-dark(#f8e69c, #6b5a1e);
   --app-color-on-jaune-container: light-dark(#4a4010, #f8e69c);
 
-  /* Custom app colors — Bleu */
+  /* Brand palette — Bleu */
   --app-color-bleu-clair: light-dark(#3a7bc8, #a8d4ff);
   --app-color-on-bleu-clair: light-dark(#ffffff, #0a3260);
   --app-color-bleu-clair-container: light-dark(#e3effb, #1a5a9e);
@@ -95,7 +97,7 @@
   --app-color-bleu-fonce-container: light-dark(#6caee0, #2a6ab0);
   --app-color-on-bleu-fonce-container: light-dark(#0a2a50, #cce4f8);
 
-  /* Custom app colors — Vert */
+  /* Brand palette — Vert */
   --app-color-vert-clair: light-dark(#4a8a50, #b0d6b1);
   --app-color-on-vert-clair: light-dark(#ffffff, #0a3812);
   --app-color-vert-clair-container: light-dark(#b0d6b1, #2a6a32);
@@ -105,29 +107,31 @@
   --app-color-vert-fonce-container: light-dark(#89b591, #1e5a28);
   --app-color-on-vert-fonce-container: light-dark(#0a2a10, #b8e0bc);
 
-  /* Custom app colors — semantic: success */
-  --app-color-success: light-dark(#339950, #6dd58c);
-  --app-color-on-success: light-dark(#ffffff, #0a3818);
-  --app-color-success-container: light-dark(#c8f0cc, #1e5a2e);
-  --app-color-on-success-container: light-dark(#0a3818, #c8f0cc);
+  /* Success palette (used for played points, positive actions) */
+  --app-success: #339950;
+  --app-on-success: #ffffff;
+  --app-success-container: #c8e6c9;
+  --app-on-success-container: #1b5e20;
 
-  /* Custom app colors — semantic: warning */
-  --app-color-warning: light-dark(#b8860b, #ffd54f);
-  --app-color-on-warning: light-dark(#ffffff, #4a3500);
-  --app-color-warning-container: light-dark(#fff3c4, #6b4e0a);
-  --app-color-on-warning-container: light-dark(#4a3500, #fff3c4);
+  /* Info palette (used for informational elements, links) */
+  --app-info: #1976d2;
+  --app-on-info: #ffffff;
+  --app-info-container: #bbdefb;
+  --app-on-info-container: #0d47a1;
 
-  /* Custom app colors — semantic: info */
-  --app-color-info: light-dark(#0277bd, #4fc3f7);
-  --app-color-on-info: light-dark(#ffffff, #002f4a);
-  --app-color-info-container: light-dark(#e1f5fe, #004a6e);
-  --app-color-on-info-container: light-dark(#002f4a, #e1f5fe);
+  /* Warning palette (used for caution, pending states) */
+  --app-warning: #f57c00;
+  --app-on-warning: #ffffff;
+  --app-warning-container: #ffe0b2;
+  --app-on-warning-container: #e65100;
 
-  /* Custom app colors — points grid */
-  --app-color-point-played: light-dark(#339950, #4db870);
-  --app-color-on-point-played: light-dark(#ffffff, #ffffff);
-  --app-color-point-empty: light-dark(#f1f1f1, #2a282e);
-  --app-color-on-point-empty: light-dark(#1c1b20, #e6e1e8);
+  /* Neutral fill (used for empty cells, placeholder backgrounds) */
+  --app-neutral-fill: #f1f1f1;
+  --app-on-neutral-fill: #1c1b20;
+
+  /* Highlight (used for accented/selected items beyond primary) */
+  --app-highlight: #7c4dff;
+  --app-on-highlight: #ffffff;
 
   /* TYPOGRAPHY SYSTEM VARIABLES */
 

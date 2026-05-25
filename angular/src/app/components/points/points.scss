@@ -27,11 +27,11 @@
 }
 
 .played {
-  color: var(--app-color-on-point-played);
-  background-color: var(--app-color-point-played);
+  color: var(--app-on-success);
+  background-color: var(--app-success);
 }
 
 .empty {
-  background-color: var(--app-color-point-empty);
-  color: var(--app-color-on-point-empty);
+  background-color: var(--app-neutral-fill);
+  color: var(--app-on-neutral-fill);
 }
