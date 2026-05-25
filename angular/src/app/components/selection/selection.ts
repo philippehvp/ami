@@ -1,7 +1,7 @@
-import { Component, inject, model, OnInit } from '@angular/core';
+import { Component, inject, model, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { UmpireActions } from '../../store/action/umpire.action';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ICategory } from '../../models/category';
 import { UmpireState } from '../../store/state/umpire.state';
 
@@ -37,20 +37,21 @@ import { MatchService } from '../../services/match.service';
   templateUrl: './selection.html',
   styleUrl: './selection.scss',
 })
-export class Selection implements OnInit {
+export class Selection implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly playerOnCourtService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
   private readonly matchService: MatchService = inject(MatchService);
 
-  public currentCategory = model<ICategory>();
-  public leftPair = model<IPair>({} as IPair);
-  public rightPair = model<IPair>({} as IPair);
+  public category = model<ICategory>({} as ICategory);
+  public leftPair = model<IPair | undefined>();
+  public rightPair = model<IPair | undefined>();
 
   public categories$: Observable<ICategory[]>;
-
   public pairs$!: Observable<IPair[]>;
+
+  private destroy$!: Subject<boolean>;
 
   constructor() {
     this.categories$ = this.store.select(UmpireState.categories);
@@ -58,7 +59,15 @@ export class Selection implements OnInit {
   }
 
   public ngOnInit() {
+    this.destroy$ = new Subject<boolean>();
+
     this.store.dispatch([new UmpireActions.GetContests()]);
+  }
+
+  public ngOnDestroy() {
+    if (this.destroy$) {
+      this.destroy$.next(true);
+    }
   }
 
   public get courtModeLeftRight(): boolean {
@@ -71,15 +80,14 @@ export class Selection implements OnInit {
     );
   }
 
-  public onSelectionChangeCategory() {
-    // Sélection d'une série : on doit charger la liste des joueurs de la série
-    this.store.dispatch([
-      new UmpireActions.GetPlayers((this.currentCategory() as ICategory).id),
-    ]);
-
+  public onChangeCategory() {
     this.matchService.isMatchLaunched = false;
-    this.leftPair.set({} as IPair);
-    this.rightPair.set({} as IPair);
+
+    // Sélection d'une série : on doit charger la liste des joueurs de la série
+    this.store.dispatch([new UmpireActions.GetPlayers(this.category().id)]);
+
+    this.leftPair.set(undefined);
+    this.rightPair.set(undefined);
   }
 
   public launch() {
@@ -91,54 +99,58 @@ export class Selection implements OnInit {
   }
 
   public launchLeftRight() {
-    const config: MatDialogConfig<ILaunchMatchData> = {
-      data: {
-        leftPair: this.leftPair() as IPair,
-        rightPair: this.rightPair() as IPair,
-      },
-    };
-    this.dialog
-      .open(LaunchMatchLeftRight, config)
-      .afterClosed()
-      .subscribe((firstPoint: IFirstPoint) => {
-        if (firstPoint) {
-          this.playerOnCourtService.setCourtMode(COURT_MODE.LEFT_RIGHT);
-          this.setPlayersName();
-          this.setPairsPositionForAllSets(firstPoint);
-          this.matchService.isMatchLaunched = true;
+    if (this.leftPair && this.rightPair) {
+      const config: MatDialogConfig<ILaunchMatchData> = {
+        data: {
+          leftPair: this.leftPair() || ({} as IPair),
+          rightPair: this.rightPair() || ({} as IPair),
+        },
+      };
+      this.dialog
+        .open(LaunchMatchLeftRight, config)
+        .afterClosed()
+        .subscribe((firstPoint: IFirstPoint) => {
+          if (firstPoint) {
+            this.playerOnCourtService.setCourtMode(COURT_MODE.LEFT_RIGHT);
+            this.setPlayersName();
+            this.setPairsPositionForAllSets(firstPoint);
+            this.matchService.isMatchLaunched = true;
 
-          // Initialisation match
-          this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
-        }
-      });
+            // Initialisation match
+            this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
+          }
+        });
+    }
   }
 
   public launchUpDown() {
-    const config: MatDialogConfig<ILaunchMatchData> = {
-      data: {
-        leftPair: this.leftPair() as IPair,
-        rightPair: this.rightPair() as IPair,
-      },
-    };
-    this.dialog
-      .open(LaunchMatchUpDown, config)
-      .afterClosed()
-      .subscribe((firstPoint: IFirstPoint) => {
-        if (firstPoint) {
-          this.playerOnCourtService.setCourtMode(COURT_MODE.UP_DOWN);
-          this.setPlayersName();
-          this.setPairsPositionForAllSets(firstPoint);
-          this.matchService.isMatchLaunched = true;
+    if (this.leftPair && this.rightPair) {
+      const config: MatDialogConfig<ILaunchMatchData> = {
+        data: {
+          leftPair: this.leftPair() || ({} as IPair),
+          rightPair: this.rightPair() || ({} as IPair),
+        },
+      };
+      this.dialog
+        .open(LaunchMatchUpDown, config)
+        .afterClosed()
+        .subscribe((firstPoint: IFirstPoint) => {
+          if (firstPoint) {
+            this.playerOnCourtService.setCourtMode(COURT_MODE.UP_DOWN);
+            this.setPlayersName();
+            this.setPairsPositionForAllSets(firstPoint);
+            this.matchService.isMatchLaunched = true;
 
-          // Initialisation match
-          this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
-        }
-      });
+            // Initialisation match
+            this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
+          }
+        });
+    }
   }
 
   public isLaunchDisabled(): boolean {
-    return this.leftPair()?.id &&
-      this.rightPair()?.id &&
+    return this.leftPair() &&
+      this.rightPair() &&
       this.leftPair()?.id !== this.rightPair()?.id
       ? false
       : true;
@@ -155,12 +167,14 @@ export class Selection implements OnInit {
   }
 
   private setPlayersName() {
-    this.playerOnCourtService.setPlayersName([
-      this.leftPair()?.playerName1 || '',
-      this.leftPair()?.playerName2 || '',
-      this.rightPair()?.playerName1 || '',
-      this.rightPair()?.playerName2 || '',
-    ]);
+    if (this.leftPair && this.rightPair) {
+      this.playerOnCourtService.setPlayersName([
+        this.leftPair()?.playerName1 || '',
+        this.leftPair()?.playerName2 || '',
+        this.rightPair()?.playerName1 || '',
+        this.rightPair()?.playerName2 || '',
+      ]);
+    }
   }
 
   private setPairsPositionForAllSets(firstPoint: IFirstPoint) {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { Selection } from './components/selection/selection';
@@ -35,7 +35,7 @@ export interface ILogo {
     Footer,
   ],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   private readonly store: Store = inject(Store);
   private readonly matchService: MatchService = inject(MatchService);
 
@@ -52,6 +52,4 @@ export class AppComponent implements AfterViewInit {
   public get isMatchLaunched(): boolean {
     return this.matchService.isMatchLaunched;
   }
-
-  public ngAfterViewInit() {}
 }

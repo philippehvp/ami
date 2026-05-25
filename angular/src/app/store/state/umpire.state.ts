@@ -21,6 +21,7 @@ import {
   SWITCH_SCORE,
   THIRD_SET_ID,
 } from '../../models/constants';
+import { MatchService } from '../../services/match.service';
 
 export class UmpireStateModel {
   contests!: IContest[];
@@ -47,7 +48,7 @@ export class UmpireStateModel {
 }
 
 @State<UmpireStateModel>({
-  name: 'bet',
+  name: 'umpire',
   defaults: {
     contests: [],
     categories: [],
@@ -72,9 +73,10 @@ export class UmpireStateModel {
 })
 @Injectable()
 export class UmpireState {
-  private umpireService = inject(ContestService);
-  private playerService = inject(PairPlayerService);
-  private playerOnCourtService = inject(PlayerOnCourtService);
+  private readonly umpireService = inject(ContestService);
+  private readonly playerService = inject(PairPlayerService);
+  private readonly playerOnCourtService = inject(PlayerOnCourtService);
+  private readonly matchService = inject(MatchService);
 
   @Selector()
   static categories(state: UmpireStateModel) {

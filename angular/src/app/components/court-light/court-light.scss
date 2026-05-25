@@ -21,7 +21,6 @@
   font-family: "Material Icons";
   content: "\e7cd";
   margin-right: 0.5em;
-  padding: 0.3em;
   border-radius: 50%;
 }
 
@@ -31,8 +30,8 @@
   justify-items: center;
   align-items: center;
 
-  background-image: radial-gradient(var(--mat-sys-primary) 4px, transparent 0);
-  background-size: 6em 6em;
+  border-left: 4px solid;
+  border-right: 4px solid;
 }
 
 .north-east {
@@ -53,16 +52,20 @@
 
 .player1 {
   grid-area: p1;
+  border-bottom: 2px solid;
 }
 
 .player2 {
   grid-area: p2;
+  border-top: 2px solid;
 }
 
 .player3 {
   grid-area: p3;
+  border-bottom: 2px solid;
 }
 
 .player4 {
   grid-area: p4;
+  border-top: 2px solid;
 }
