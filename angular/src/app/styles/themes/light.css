@@ -73,6 +73,34 @@
     #312f3a
   ); /* Variable used for the sidenav scrim (container background shadow when opened) */
 
+  /* CUSTOM APP COLOR VARIABLES */
+
+  /* Success palette (used for played points, positive actions) */
+  --app-success: #339950;
+  --app-on-success: #ffffff;
+  --app-success-container: #c8e6c9;
+  --app-on-success-container: #1b5e20;
+
+  /* Info palette (used for informational elements, links) */
+  --app-info: #1976d2;
+  --app-on-info: #ffffff;
+  --app-info-container: #bbdefb;
+  --app-on-info-container: #0d47a1;
+
+  /* Warning palette (used for caution, pending states) */
+  --app-warning: #f57c00;
+  --app-on-warning: #ffffff;
+  --app-warning-container: #ffe0b2;
+  --app-on-warning-container: #e65100;
+
+  /* Neutral fill (used for empty cells, placeholder backgrounds) */
+  --app-neutral-fill: #f1f1f1;
+  --app-on-neutral-fill: #1c1b20;
+
+  /* Highlight (used for accented/selected items beyond primary) */
+  --app-highlight: #7c4dff;
+  --app-on-highlight: #ffffff;
+
   /* TYPOGRAPHY SYSTEM VARIABLES */
 
   /* Typography variables. Only used in the different typescale system variables. */
