@@ -27,10 +27,11 @@
 }
 
 .played {
-  color: white;
-  background-color: #339950;
+  color: var(--app-color-on-point-played);
+  background-color: var(--app-color-point-played);
 }
 
 .empty {
-  background-color: #f1f1f1;
+  background-color: var(--app-color-point-empty);
+  color: var(--app-color-on-point-empty);
 }
