@@ -1,7 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { ThemeService } from '../../services/theme.service';
-import { Store } from '@ngxs/store';
-import { UmpireActions } from '../../store/action/umpire.action';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'footer',
@@ -9,11 +6,4 @@ import { UmpireActions } from '../../store/action/umpire.action';
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
-export class Footer {
-  private readonly store: Store = inject(Store);
-  private readonly themeService: ThemeService = inject(ThemeService);
-
-  public switchThemeMode() {
-    this.themeService.switchThemeMode();
-  }
-}
+export class Footer {}

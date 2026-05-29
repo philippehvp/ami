@@ -23,14 +23,15 @@
 }
 
 .is-active {
-  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary);
+  background-color: var(--mat-sys-primary);
 }
 
 .played {
-  color: white;
-  background-color: #339950;
+  color: #c0efe5;
+  background-color: #474d52;
 }
 
 .empty {
-  background-color: #f1f1f1;
+  background-color: #2d2e40;
 }

@@ -1,7 +1,21 @@
+@use "@angular/material" as mat;
+
 .light,
 .dark {
   .server::before {
     color: var(--mat-sys-primary);
     background-color: var(--mat-sys-on-primary);
   }
+}
+
+.page {
+  background-color: light-dark(#ccc, #23232c);
+}
+
+.mat-mdc-unelevated-button:not(:disabled) {
+  background-color: light-dark(#555, #2d2e40);
+}
+
+.mdc-switch--selected .mdc-switch__track::after {
+  background-color: light-dark(#555, #2d2e40);
 }

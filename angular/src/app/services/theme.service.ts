@@ -11,7 +11,7 @@ export enum THEME_MODE {
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
 
-  private _currentMode: THEME_MODE = THEME_MODE.LIGHT;
+  private _currentMode: THEME_MODE = THEME_MODE.DARK;
 
   public switchThemeMode() {
     if (this._currentMode === THEME_MODE.LIGHT) {

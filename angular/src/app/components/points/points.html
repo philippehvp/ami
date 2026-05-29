@@ -4,9 +4,7 @@
     @for(cell of cells; track cell; let index = $index) {
     <span
       class="point"
-      [class.played]="cellHasPoint(points, $index)"
-      [class.empty]="!cellHasPoint(points, $index)"
-      [class.is-active]="$index === pointIndex"
+      [class]="getClass(points, $index)"
       (click)="showPoint(set, points, $index)"
     >
       @if(points[$index]) { {{displayScore(points[$index])}} }

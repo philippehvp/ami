@@ -100,6 +100,21 @@ export class Points implements OnInit, OnDestroy {
     return index < points.length;
   }
 
+  public getClass(points: IPoint[], index: number): string {
+    // Cas particulier du point actif : dans ce cas, on ne considère pas que le point a été joué
+    // pour que les propriétés du point actif priment sur celles du point joué
+    if (index === this.pointIndex) {
+      return 'is-active';
+    } else if (index < points.length) {
+      return 'played';
+    }
+    return 'empty';
+  }
+
+  public isActive(index: number) {
+    return index === this.pointIndex;
+  }
+
   public goBackToPoint(set: ISet) {
     this.store.dispatch(
       new UmpireActions.GoBackToPoint(set.setId, this.pointIndex),
