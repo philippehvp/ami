@@ -73,6 +73,66 @@
     #312f3a
   ); /* Variable used for the sidenav scrim (container background shadow when opened) */
 
+  /* CUSTOM APP COLOR VARIABLES */
+
+  /* Brand palette — Violet d'Istres */
+  --app-color-violet: light-dark(#5a246a, #d4a8e2);
+  --app-color-on-violet: light-dark(#ffffff, #2e0e3c);
+  --app-color-violet-container: light-dark(#f2e0f7, #7a3a8e);
+  --app-color-on-violet-container: light-dark(#2e0e3c, #f2e0f7);
+
+  /* Brand palette — Jaune */
+  --app-color-jaune: light-dark(#8a7a2e, #f8e69c);
+  --app-color-on-jaune: light-dark(#ffffff, #4a4010);
+  --app-color-jaune-container: light-dark(#f8e69c, #6b5a1e);
+  --app-color-on-jaune-container: light-dark(#4a4010, #f8e69c);
+
+  /* Brand palette — Bleu */
+  --app-color-bleu-clair: light-dark(#3a7bc8, #a8d4ff);
+  --app-color-on-bleu-clair: light-dark(#ffffff, #0a3260);
+  --app-color-bleu-clair-container: light-dark(#e3effb, #1a5a9e);
+  --app-color-on-bleu-clair-container: light-dark(#0a3260, #e3effb);
+  --app-color-bleu-fonce: light-dark(#1a5a9e, #8ec8f0);
+  --app-color-on-bleu-fonce: light-dark(#ffffff, #0a2a50);
+  --app-color-bleu-fonce-container: light-dark(#6caee0, #2a6ab0);
+  --app-color-on-bleu-fonce-container: light-dark(#0a2a50, #cce4f8);
+
+  /* Brand palette — Vert */
+  --app-color-vert-clair: light-dark(#4a8a50, #b0d6b1);
+  --app-color-on-vert-clair: light-dark(#ffffff, #0a3812);
+  --app-color-vert-clair-container: light-dark(#b0d6b1, #2a6a32);
+  --app-color-on-vert-clair-container: light-dark(#0a3812, #c8f0cc);
+  --app-color-vert-fonce: light-dark(#2a6a32, #a0cca6);
+  --app-color-on-vert-fonce: light-dark(#ffffff, #0a2a10);
+  --app-color-vert-fonce-container: light-dark(#89b591, #1e5a28);
+  --app-color-on-vert-fonce-container: light-dark(#0a2a10, #b8e0bc);
+
+  /* Success palette (used for played points, positive actions) */
+  --app-success: #339950;
+  --app-on-success: #ffffff;
+  --app-success-container: #c8e6c9;
+  --app-on-success-container: #1b5e20;
+
+  /* Info palette (used for informational elements, links) */
+  --app-info: #1976d2;
+  --app-on-info: #ffffff;
+  --app-info-container: #bbdefb;
+  --app-on-info-container: #0d47a1;
+
+  /* Warning palette (used for caution, pending states) */
+  --app-warning: #f57c00;
+  --app-on-warning: #ffffff;
+  --app-warning-container: #ffe0b2;
+  --app-on-warning-container: #e65100;
+
+  /* Neutral fill (used for empty cells, placeholder backgrounds) */
+  --app-neutral-fill: #f1f1f1;
+  --app-on-neutral-fill: #1c1b20;
+
+  /* Highlight (used for accented/selected items beyond primary) */
+  --app-highlight: #7c4dff;
+  --app-on-highlight: #ffffff;
+
   /* TYPOGRAPHY SYSTEM VARIABLES */
 
   /* Typography variables. Only used in the different typescale system variables. */
