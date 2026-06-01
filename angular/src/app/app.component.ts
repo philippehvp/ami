@@ -12,6 +12,7 @@ import { Points } from './components/points/points';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatchService } from './services/match.service';
 import { Footer } from './components/footer/footer';
+import { AsyncPipe } from '@angular/common';
 
 export interface ILogo {
   icon: string;
@@ -33,6 +34,7 @@ export interface ILogo {
     Live,
     Points,
     Footer,
+    AsyncPipe,
   ],
 })
 export class AppComponent {
@@ -51,5 +53,9 @@ export class AppComponent {
 
   public get isMatchLaunched(): boolean {
     return this.matchService.isMatchLaunched;
+  }
+
+  public isSetDisabled(set: ISet): boolean {
+    return !(set && set.points && set.points.length);
   }
 }

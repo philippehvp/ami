@@ -50,14 +50,16 @@
       </mat-radio-group>
     </div>
   </div>
-  <div class="label-area"><h2>Côté de l'équipe qui sert</h2></div>
+  <div class="label-area">
+    <h2>Par-rapport à moi, l'équipe qui sert est</h2>
+  </div>
   <mat-radio-group [(ngModel)]="serverSide">
     <div class="side-selection-area">
       <div>
-        <mat-radio-button [value]="1">Haut</mat-radio-button>
+        <mat-radio-button [value]="1">Eloignée</mat-radio-button>
       </div>
       <div>
-        <mat-radio-button [value]="2">Bas</mat-radio-button>
+        <mat-radio-button [value]="2">Proche</mat-radio-button>
       </div>
     </div>
   </mat-radio-group>

@@ -90,6 +90,10 @@ export class Selection implements OnInit, OnDestroy {
     this.rightPair.set(undefined);
   }
 
+  public get courtModeLabel(): string {
+    return this.courtModeLeftRight ? 'G/D' : 'H/B';
+  }
+
   public launch() {
     if (this.courtModeLeftRight) {
       this.launchLeftRight();

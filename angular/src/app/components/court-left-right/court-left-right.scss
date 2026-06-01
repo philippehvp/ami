@@ -4,7 +4,7 @@
     "p1 a p3"
     "p2 a p4";
 
-  grid-template-columns: 1fr 6em 1fr;
+  grid-template-columns: 1fr 0.5fr 1fr;
 
   height: 100%;
 }
@@ -29,8 +29,8 @@
   justify-items: center;
   align-items: center;
 
-  border-left: 4px solid;
-  border-right: 4px solid;
+  border-left: 2px solid;
+  border-right: 2px solid;
 }
 
 .north-east {
@@ -51,20 +51,20 @@
 
 .player1 {
   grid-area: p1;
-  border-bottom: 2px solid;
+  border-bottom: 1px solid;
 }
 
 .player2 {
   grid-area: p2;
-  border-top: 2px solid;
+  border-top: 1px solid;
 }
 
 .player3 {
   grid-area: p3;
-  border-bottom: 2px solid;
+  border-bottom: 1px solid;
 }
 
 .player4 {
   grid-area: p4;
-  border-top: 2px solid;
+  border-top: 1px solid;
 }
