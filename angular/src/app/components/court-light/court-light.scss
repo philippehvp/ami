@@ -17,6 +17,15 @@
   align-items: center;
 }
 
+.server {
+  display: flex;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #93aba0;
+}
+
 .server::before {
   font-family: "Material Icons";
   content: "\e7cd";

@@ -1,0 +1,85 @@
+.court {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  height: 100%;
+
+  div {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
+    width: 90%;
+    height: 90%;
+
+    padding: 5%;
+  }
+}
+
+table.left-right {
+  width: 100%;
+  height: 45.5%;
+  border-collapse: collapse;
+  border: 2px solid white;
+
+  .nw,
+  .ne,
+  .sw,
+  .se {
+    width: 34.5%;
+  }
+
+  .nw,
+  .ne {
+    border-bottom: 1px solid white;
+  }
+
+  .sw,
+  .se {
+    border-top: 1px solid white;
+  }
+
+  .cl,
+  .cr {
+    width: 15.5%;
+    border-spacing: 0;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+  }
+}
+
+table.up-down {
+  width: 45.5%;
+  height: 100%;
+  border-collapse: collapse;
+  border: 2px solid white;
+
+  .nw,
+  .ne,
+  .sw,
+  .se {
+    height: 34.5%;
+  }
+
+  .nw,
+  .sw {
+    border-right: 1px solid white;
+  }
+
+  .ne,
+  .sw {
+    border-left: 1px solid white;
+  }
+
+  .cl,
+  .cr {
+    height: 15.5%;
+    border-spacing: 0;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+  }
+}
+
+.server {
+  background-color: #93aba0;
+}

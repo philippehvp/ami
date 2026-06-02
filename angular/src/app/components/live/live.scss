@@ -1,6 +1,6 @@
-.live-left-right {
+.live {
   display: grid;
-  grid-template-rows: 5em 1fr;
+  grid-template-rows: 5em 5em 1fr;
   height: 100%;
 
   .score {
@@ -8,21 +8,13 @@
     align-items: center;
   }
 
-  .court {
+  .server-receiver {
     display: grid;
-  }
-}
-
-.live-up-down {
-  display: grid;
-  grid-template-columns: 5fr 1fr;
-  height: 100%;
-
-  .court {
-    display: grid;
+    justify-items: center;
+    align-items: center;
   }
 
-  .score {
+  .court {
     display: grid;
   }
 }

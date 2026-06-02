@@ -1,20 +1,16 @@
 @if(isMatchLaunched) {@if(justPlayedPoint$ | async; as justPlayedPoint) {
-@if(isCourtModeLeftRight) {
-<div class="live-left-right">
+
+<div class="live">
   <div class="score">
     <score-left-right [point]="justPlayedPoint"></score-left-right>
   </div>
+
+  <div class="server-receiver">
+    <server-receiver [point]="justPlayedPoint"></server-receiver>
+  </div>
   <div class="court">
-    <court-left-right [point]="justPlayedPoint"></court-left-right>
+    <court [point]="justPlayedPoint"></court>
   </div>
 </div>
-} @else {
-<div class="live-up-down">
-  <div class="court">
-    <court-up-down [point]="justPlayedPoint"></court-up-down>
-  </div>
-  <div class="score">
-    <score-up-down [point]="justPlayedPoint"></score-up-down>
-  </div>
-</div>
-} }}
+
+}}

@@ -5,7 +5,6 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { IPoint, SERVER_SIDE } from '../../models/point';
 import { UmpireState } from '../../store/state/umpire.state';
 import { AsyncPipe } from '@angular/common';
-import { CourtLeftRight } from '../court-left-right/court-left-right';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IFirstPoint, ILaunchSetData } from '../../models/launch-data';
 import {
@@ -15,20 +14,14 @@ import {
 import { IEndOfSet } from '../../models/end-of-set';
 import { PAIR_ALIAS } from '../../models/pair';
 import { LaunchSet } from '../launch-set/launch-set';
-import { CourtUpDown } from '../court-up-down/court-up-down';
 import { ScoreLeftRight } from '../score-left-right/score-left-right';
-import { ScoreUpDown } from '../score-up-down/score-up-down';
 import { MatchService } from '../../services/match.service';
+import { Court } from '../court/court';
+import { ServerReceiver } from '../server-receiver/server-receiver';
 
 @Component({
   selector: 'live',
-  imports: [
-    AsyncPipe,
-    CourtLeftRight,
-    CourtUpDown,
-    ScoreLeftRight,
-    ScoreUpDown,
-  ],
+  imports: [AsyncPipe, Court, ScoreLeftRight, ServerReceiver],
   templateUrl: './live.html',
   styleUrl: './live.scss',
 })

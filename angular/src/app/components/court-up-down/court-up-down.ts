@@ -53,33 +53,4 @@ export class CourtUpDown {
 
     return ret;
   }
-
-  public isReceiver(point: IPoint, areaPosition: number): boolean {
-    let ret = false;
-
-    switch (areaPosition) {
-      case 1:
-        ret =
-          point.serverSide === SERVER_SIDE.RIGHT &&
-          point.pointRightPair % 2 !== 0;
-        break;
-      case 2:
-        ret =
-          point.serverSide === SERVER_SIDE.RIGHT &&
-          point.pointRightPair % 2 === 0;
-        break;
-      case 3:
-        ret =
-          point.serverSide === SERVER_SIDE.LEFT &&
-          point.pointLeftPair % 2 === 0;
-        break;
-      case 4:
-        ret =
-          point.serverSide === SERVER_SIDE.LEFT &&
-          point.pointLeftPair % 2 !== 0;
-        break;
-    }
-
-    return ret;
-  }
 }

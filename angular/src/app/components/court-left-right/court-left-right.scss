@@ -9,20 +9,6 @@
   height: 100%;
 }
 
-.player {
-  display: flex;
-  font-size: 1.5em;
-  justify-content: center;
-  align-items: center;
-}
-
-.server::before {
-  font-family: "Material Icons";
-  content: "\e7cd";
-  margin-right: 0.5em;
-  border-radius: 50%;
-}
-
 .arrow {
   grid-area: a;
   display: grid;
@@ -47,6 +33,29 @@
 
 .south-west {
   transform: rotate(-135deg) scale(3);
+}
+
+.player {
+  display: flex;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+}
+
+.server {
+  display: flex;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #93aba0;
+}
+
+.server::before {
+  font-family: "Material Icons";
+  content: "\e7cd";
+  margin-right: 0.5em;
+  border-radius: 50%;
 }
 
 .player1 {

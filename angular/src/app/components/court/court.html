@@ -1,0 +1,46 @@
+<div class="court">
+  <div>
+    <table class="left-right">
+      <tbody>
+        <tr>
+          <td [class]="getClassLeftRight('nw', point, 1)">&nbsp;</td>
+          <td class="cl">&nbsp;</td>
+          <td class="cr">&nbsp;</td>
+          <td [class]="getClassLeftRight('ne', point, 3)">&nbsp;</td>
+        </tr>
+        <tr>
+          <td [class]="getClassLeftRight('sw', point, 2)">&nbsp;</td>
+          <td class="cl">&nbsp;</td>
+          <td class="cr">&nbsp;</td>
+          <td [class]="getClassLeftRight('se', point, 4)">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <table class="up-down">
+      <tbody>
+        <tr>
+          <td [class]="getClassLeftRight('nw', point, 2)">&nbsp;</td>
+          <td [class]="getClassLeftRight('ne', point, 1)">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td class="cl">&nbsp;</td>
+          <td class="cr">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td class="cl">&nbsp;</td>
+          <td class="cr">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td [class]="getClassLeftRight('sw', point, 4)">&nbsp;</td>
+          <td [class]="getClassLeftRight('se', point, 3)">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

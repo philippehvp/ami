@@ -21,11 +21,21 @@ export class CourtLight {
     return this.playerNameService.getPlayerName(playerNumber);
   }
 
+  public getClass(
+    baseClassName: string,
+    point: IPoint,
+    areaPosition: number,
+  ): string {
+    return this.isServer(point, areaPosition)
+      ? `${baseClassName} server`
+      : `${baseClassName} player`;
+  }
+
   public getArrow(point: IPoint): string {
     return ArrowService.getArrowLeftRight(point);
   }
 
-  public isServer(point: IPoint, areaPosition: number): boolean {
+  private isServer(point: IPoint, areaPosition: number): boolean {
     let ret = false;
 
     switch (areaPosition) {
@@ -48,35 +58,6 @@ export class CourtLight {
         ret =
           point.serverSide === SERVER_SIDE.RIGHT &&
           point.pointRightPair % 2 !== 0;
-        break;
-    }
-
-    return ret;
-  }
-
-  public isReceiver(point: IPoint, areaPosition: number): boolean {
-    let ret = false;
-
-    switch (areaPosition) {
-      case 1:
-        ret =
-          point.serverSide === SERVER_SIDE.RIGHT &&
-          point.pointRightPair % 2 !== 0;
-        break;
-      case 2:
-        ret =
-          point.serverSide === SERVER_SIDE.RIGHT &&
-          point.pointRightPair % 2 === 0;
-        break;
-      case 3:
-        ret =
-          point.serverSide === SERVER_SIDE.LEFT &&
-          point.pointLeftPair % 2 === 0;
-        break;
-      case 4:
-        ret =
-          point.serverSide === SERVER_SIDE.LEFT &&
-          point.pointLeftPair % 2 !== 0;
         break;
     }
 

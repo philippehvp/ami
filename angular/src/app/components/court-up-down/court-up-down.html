@@ -1,16 +1,8 @@
 <div class="court">
-  <div
-    class="player2 player"
-    [class.server]="isServer(point, 2)"
-    [class.receiver]="isReceiver(point, 2)"
-  >
+  <div class="player2 player" [class.server]="isServer(point, 2)">
     {{getPlayerName(point.playerPositionLeftPair.playerRight)}}
   </div>
-  <div
-    class="player1 player"
-    [class.server]="isServer(point, 1)"
-    [class.receiver]="isReceiver(point, 1)"
-  >
+  <div class="player1 player" [class.server]="isServer(point, 1)">
     {{getPlayerName(point.playerPositionLeftPair.playerLeft)}}
   </div>
 
@@ -18,18 +10,10 @@
     <span [class]="getArrow(point)"> navigation </span>
   </div>
 
-  <div
-    class="player4 player"
-    [class.server]="isServer(point, 4)"
-    [class.receiver]="isReceiver(point, 4)"
-  >
+  <div class="player4 player" [class.server]="isServer(point, 4)">
     {{getPlayerName(point.playerPositionRightPair.playerLeft)}}
   </div>
-  <div
-    class="player3 player"
-    [class.server]="isServer(point, 3)"
-    [class.receiver]="isReceiver(point, 3)"
-  >
+  <div class="player3 player" [class.server]="isServer(point, 3)">
     {{getPlayerName(point.playerPositionRightPair.playerRight)}}
   </div>
 </div>

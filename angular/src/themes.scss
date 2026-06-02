@@ -1,13 +1,5 @@
 @use "@angular/material" as mat;
 
-.light,
-.dark {
-  .server::before {
-    color: var(--mat-sys-primary);
-    background-color: var(--mat-sys-on-primary);
-  }
-}
-
 .page {
   background-color: light-dark(#ccc, #23232c);
 }
