@@ -17,11 +17,10 @@ import { LaunchSet } from '../launch-set/launch-set';
 import { ScoreLeftRight } from '../score-left-right/score-left-right';
 import { MatchService } from '../../services/match.service';
 import { Court } from '../court/court';
-import { ServerReceiver } from '../server-receiver/server-receiver';
 
 @Component({
   selector: 'live',
-  imports: [AsyncPipe, Court, ScoreLeftRight, ServerReceiver],
+  imports: [AsyncPipe, Court, ScoreLeftRight],
   templateUrl: './live.html',
   styleUrl: './live.scss',
 })

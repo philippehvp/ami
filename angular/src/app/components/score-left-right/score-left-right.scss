@@ -1,6 +1,6 @@
 .score {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 3em 1fr;
 
   text-align: center;
 }
@@ -27,7 +27,8 @@
   text-align: left;
 }
 
-.score-value {
+.score-value,
+.separator {
   font-size: 3em;
   font-weight: bold;
 }

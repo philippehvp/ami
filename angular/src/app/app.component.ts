@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { Selection } from './components/selection/selection';
@@ -11,7 +11,6 @@ import { Live } from './components/live/live';
 import { Points } from './components/points/points';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatchService } from './services/match.service';
-import { Footer } from './components/footer/footer';
 import { AsyncPipe } from '@angular/common';
 
 export interface ILogo {
@@ -33,7 +32,6 @@ export interface ILogo {
     Selection,
     Live,
     Points,
-    Footer,
     AsyncPipe,
   ],
 })

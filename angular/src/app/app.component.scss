@@ -1,18 +1,16 @@
 .page {
   display: grid;
-  grid-template-rows: 4em 1fr 4em;
+  grid-template-rows: 4em 1fr 1em;
 
   height: 100vh;
 
   padding: 0.5em;
+
+  background: linear-gradient(180deg, #7cc5b7, #102c2d);
 }
 
 .view {
   height: 100%;
-  background-color: #2d2e40;
-  border-bottom-left-radius: 2%;
-  border-bottom-right-radius: 2%;
-  border: 1px solid #2d2e40;
 }
 
 mat-tab-group {

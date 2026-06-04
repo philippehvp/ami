@@ -1,3 +1,5 @@
+@use "src/app/styles/variables.css";
+
 .court {
   display: grid;
 
@@ -6,6 +8,8 @@
     "p2 a p4";
 
   grid-template-columns: 1fr 0.5fr 1fr;
+
+  color: #efefef;
 
   height: 100%;
 }
@@ -23,7 +27,7 @@
   justify-content: center;
   align-items: center;
 
-  background-color: #93aba0;
+  background-color: var(--server-background-color);
 }
 
 .server::before {
