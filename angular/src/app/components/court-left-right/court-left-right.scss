@@ -1,79 +1,144 @@
+@use "src/app/styles/variables.css";
+
 .court {
   display: grid;
-  grid-template-areas:
-    "p1 a p3"
-    "p2 a p4";
-
-  grid-template-columns: 1fr 0.5fr 1fr;
 
   height: 100%;
-}
 
-.arrow {
-  grid-area: a;
-  display: grid;
   justify-items: center;
   align-items: center;
-
-  border-left: 2px solid;
-  border-right: 2px solid;
 }
 
-.north-east {
-  transform: rotate(45deg) scale(3);
+td {
+  text-align: center;
 }
 
-.south-east {
-  transform: rotate(135deg) scale(3);
-}
+.court-left-right {
+  --length: 13400px;
+  --width: 6100px;
 
-.north-west {
-  transform: rotate(-45deg) scale(3);
-}
+  width: 800px;
+  height: 364px;
+  border-collapse: collapse;
+  border: 2px solid white;
+  table-layout: fixed;
 
-.south-west {
-  transform: rotate(-135deg) scale(3);
-}
+  .p1,
+  .p6,
+  .p7,
+  .p12,
+  .p13,
+  .p18,
+  .p19,
+  .p24 {
+    width: calc(720px / var(--length) * 100%);
+  }
 
-.player {
-  display: flex;
-  font-size: 1.5em;
-  justify-content: center;
-  align-items: center;
+  .p2,
+  .p5,
+  .p8,
+  .p11,
+  .p14,
+  .p17,
+  .p20,
+  .p23 {
+    width: calc(3880px / var(--length) * 100%);
+  }
+
+  .p3,
+  .p4,
+  .p9,
+  .p10,
+  .p15,
+  .p16,
+  .p21,
+  .p22 {
+    width: calc(1980px / var(--length) * 100%);
+  }
+
+  .p1,
+  .p2,
+  .p3,
+  .p4,
+  .p5,
+  .p6,
+  .p19,
+  .p20,
+  .p21,
+  .p22,
+  .p23,
+  .p24 {
+    height: calc(420px / var(--width) * 100%);
+  }
+
+  .p7,
+  .p8,
+  .p9,
+  .p10,
+  .p11,
+  .p12,
+  .p13,
+  .p14,
+  .p15,
+  .p16,
+  .p17,
+  .p18 {
+    height: calc(2530px / var(--width) * 100%);
+  }
+
+  .p2,
+  .p3,
+  .p5,
+  .p6,
+  .p8,
+  .p9,
+  .p11,
+  .p12,
+  .p14,
+  .p15,
+  .p17,
+  .p18,
+  .p20,
+  .p21,
+  .p23,
+  .p24 {
+    border-left: 2px solid white;
+  }
+
+  .p1,
+  .p2,
+  .p3,
+  .p4,
+  .p5,
+  .p6,
+  .p7,
+  .p8,
+  .p11,
+  .p12,
+  .p13,
+  .p14,
+  .p15,
+  .p16,
+  .p17,
+  .p18 {
+    border-bottom: 2px solid white;
+  }
+
+  .p3,
+  .p9,
+  .p15,
+  .p21 {
+    border-right: 1px dotted white;
+  }
+
+  .p4,
+  .p10,
+  .p16,
+  .p22 {
+    border-left: 1px dotted white;
+  }
 }
 
 .server {
-  display: flex;
-  font-size: 1.5em;
-  justify-content: center;
-  align-items: center;
-
-  background-color: #93aba0;
-}
-
-.server::before {
-  font-family: "Material Icons";
-  content: "\e7cd";
-  margin-right: 0.5em;
-  border-radius: 50%;
-}
-
-.player1 {
-  grid-area: p1;
-  border-bottom: 1px solid;
-}
-
-.player2 {
-  grid-area: p2;
-  border-top: 1px solid;
-}
-
-.player3 {
-  grid-area: p3;
-  border-bottom: 1px solid;
-}
-
-.player4 {
-  grid-area: p4;
-  border-top: 1px solid;
+  background-color: var(--server-background-color);
 }

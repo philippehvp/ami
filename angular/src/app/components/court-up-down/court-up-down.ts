@@ -17,15 +17,78 @@ export class CourtUpDown {
   private readonly playerNameService: PlayerOnCourtService =
     inject(PlayerOnCourtService);
 
-  public getPlayerName(playerNumber: number): string {
-    return this.playerNameService.getPlayerName(playerNumber);
+  public getPlayerName(point: IPoint, areaPosition: number): string {
+    if (this.isServer(point, areaPosition)) {
+      return this.getServer();
+    } else if (this.isReceiver(point, areaPosition)) {
+      return this.getReceiver();
+    }
+
+    return '';
   }
 
-  public getArrow(point: IPoint): string {
-    return ArrowService.getArrowUpDown(point);
+  public getClassUpDown(
+    baseClassName: string,
+    point: IPoint,
+    areaPosition: number,
+  ): string {
+    if (this.isServer(point, areaPosition)) {
+      return `${baseClassName} server`;
+    } else if (this.isReceiver(point, areaPosition)) {
+      return `${baseClassName} receiver`;
+    }
+    return `${baseClassName} player`;
   }
 
-  public isServer(point: IPoint, areaPosition: number): boolean {
+  private getServer(): string {
+    if (this.point.serverSide === SERVER_SIDE.LEFT) {
+      if (this.isServer(this.point, 1)) {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionLeftPair.playerLeft,
+        );
+      } else {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionLeftPair.playerRight,
+        );
+      }
+    } else {
+      if (this.isServer(this.point, 3)) {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionRightPair.playerRight,
+        );
+      } else {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionRightPair.playerLeft,
+        );
+      }
+    }
+  }
+
+  private getReceiver(): string {
+    if (this.point.serverSide === SERVER_SIDE.LEFT) {
+      if (this.isReceiver(this.point, 3)) {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionRightPair.playerRight,
+        );
+      } else {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionRightPair.playerLeft,
+        );
+      }
+    } else {
+      if (this.isReceiver(this.point, 1)) {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionLeftPair.playerLeft,
+        );
+      } else {
+        return this.playerNameService.getPlayerName(
+          this.point.playerPositionLeftPair.playerRight,
+        );
+      }
+    }
+  }
+
+  private isServer(point: IPoint, areaPosition: number): boolean {
     let ret = false;
 
     switch (areaPosition) {
@@ -48,6 +111,35 @@ export class CourtUpDown {
         ret =
           point.serverSide === SERVER_SIDE.RIGHT &&
           point.pointRightPair % 2 !== 0;
+        break;
+    }
+
+    return ret;
+  }
+
+  private isReceiver(point: IPoint, areaPosition: number): boolean {
+    let ret = false;
+
+    switch (areaPosition) {
+      case 1:
+        ret =
+          point.serverSide === SERVER_SIDE.RIGHT &&
+          point.pointRightPair % 2 !== 0;
+        break;
+      case 2:
+        ret =
+          point.serverSide === SERVER_SIDE.RIGHT &&
+          point.pointRightPair % 2 === 0;
+        break;
+      case 3:
+        ret =
+          point.serverSide === SERVER_SIDE.LEFT &&
+          point.pointLeftPair % 2 === 0;
+        break;
+      case 4:
+        ret =
+          point.serverSide === SERVER_SIDE.LEFT &&
+          point.pointLeftPair % 2 !== 0;
         break;
     }
 

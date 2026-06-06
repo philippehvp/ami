@@ -1,71 +1,128 @@
 .court {
   display: grid;
-  grid-template-areas:
-    "p2 p1"
-    "a a"
-    "p4 p3";
-  grid-template-rows: 1fr 0.5fr 1fr;
-  grid-template-columns: repeat(2, 1fr);
 
   height: 100%;
-}
 
-.player {
-  display: flex;
-  font-size: 1.5em;
-  justify-content: center;
-  align-items: center;
-}
-
-.server::before {
-  font-family: "Material Icons";
-  content: "\e7cd";
-  margin-right: 0.5em;
-  border-radius: 50%;
-}
-
-.arrow {
-  grid-area: a;
-  display: grid;
   justify-items: center;
   align-items: center;
-
-  border-top: 2px solid;
-  border-bottom: 2px solid;
 }
 
-.north-east {
-  transform: rotate(45deg) scale(3);
+td {
+  text-align: center;
 }
 
-.south-east {
-  transform: rotate(135deg) scale(3);
+.court-up-down {
+  --length: 13400px;
+  --width: 6100px;
+
+  width: 282px;
+  height: 620px;
+  border-collapse: collapse;
+  border: 2px solid white;
+  table-layout: fixed;
+
+  .p1,
+  .p4,
+  .p5,
+  .p8,
+  .p9,
+  .p12,
+  .p13,
+  .p16,
+  .p17,
+  .p20,
+  .p21,
+  .p24 {
+    width: calc(420px / var(--width) * 100%);
+  }
+
+  .p2,
+  .p3,
+  .p6,
+  .p7,
+  .p10,
+  .p11,
+  .p14,
+  .p15,
+  .p18,
+  .p19,
+  .p22,
+  .p23 {
+    width: calc(2530px / var(--width) * 100%);
+  }
+
+  .p1,
+  .p2,
+  .p3,
+  .p4,
+  .p21,
+  .p22,
+  .p23,
+  .p24 {
+    height: calc(720px / var(--length) * 100%);
+  }
+
+  .p5,
+  .p6,
+  .p7,
+  .p8,
+  .p17,
+  .p18,
+  .p19,
+  .p20 {
+    height: calc(3880px / var(--length) * 100%);
+  }
+
+  .p9,
+  .p10,
+  .p11,
+  .p12,
+  .p13,
+  .p14,
+  .p15,
+  .p16 {
+    height: calc(1980px / var(--length) * 100%);
+  }
+
+  .p1,
+  .p2,
+  .p3,
+  .p4,
+  .p5,
+  .p6,
+  .p7,
+  .p8,
+  .p13,
+  .p14,
+  .p15,
+  .p16,
+  .p17,
+  .p18,
+  .p19,
+  .p20 {
+    border-bottom: 2px solid white;
+  }
+
+  .p2,
+  .p3,
+  .p4,
+  .p6,
+  .p7,
+  .p8,
+  .p10,
+  .p12,
+  .p14,
+  .p16,
+  .p18,
+  .p19,
+  .p20,
+  .p22,
+  .p23,
+  .p24 {
+    border-left: 2px solid white;
+  }
 }
 
-.north-west {
-  transform: rotate(-45deg) scale(3);
-}
-
-.south-west {
-  transform: rotate(-135deg) scale(3);
-}
-
-.player1 {
-  grid-area: p1;
-  border-left: 1px solid;
-}
-
-.player2 {
-  grid-area: p2;
-  border-right: 1px solid;
-}
-
-.player3 {
-  grid-area: p3;
-  border-left: 1px solid;
-}
-
-.player4 {
-  grid-area: p4;
-  border-right: 1px solid;
+.server {
+  background-color: var(--server-background-color);
 }

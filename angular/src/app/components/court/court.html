@@ -1,32 +1,52 @@
 <div class="court">
   <div>
-    <table class="court-left-right">
+    <table class="court-left-right-detailed">
       <tbody>
         <tr>
-          <td [class]="getClassLeftRight('nw', point, 1)">
-            {{getPlayerName(point, 1)}}
-          </td>
-          <td class="cl">&nbsp;</td>
-          <td class="cr">&nbsp;</td>
-          <td [class]="getClassLeftRight('ne', point, 3)">
-            {{getPlayerName(point, 3)}}
-          </td>
+          <td class="p1">&nbsp;</td>
+          <td class="p2">&nbsp;</td>
+          <td class="p3">&nbsp;</td>
+          <td class="p4">&nbsp;</td>
+          <td class="p5">&nbsp;</td>
+          <td class="p6">&nbsp;</td>
         </tr>
         <tr>
-          <td [class]="getClassLeftRight('sw', point, 2)">
+          <td class="p7"></td>
+          <td [class]="getClassLeftRight('p8', point, 1)">
+            {{getPlayerName(point, 1)}}
+          </td>
+          <td class="p9">&nbsp;</td>
+          <td class="p10">&nbsp;</td>
+          <td [class]="getClassLeftRight('p11', point, 3)">
+            {{getPlayerName(point, 3)}}
+          </td>
+          <td class="p12">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="p13">&nbsp;</td>
+          <td [class]="getClassLeftRight('p14', point, 2)">
             {{getPlayerName(point, 2)}}
           </td>
-          <td class="cl" data-server="cl">&nbsp;</td>
-          <td class="cr" data-server="cr">&nbsp;</td>
-          <td [class]="getClassLeftRight('se', point, 4)">
+          <td class="p15">&nbsp;</td>
+          <td class="p16">&nbsp;</td>
+          <td [class]="getClassLeftRight('p17', point, 4)">
             {{getPlayerName(point, 4)}}
           </td>
+          <td class="p18">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="p19">&nbsp;</td>
+          <td class="p20">&nbsp;</td>
+          <td class="p21">&nbsp;</td>
+          <td class="p22">&nbsp;</td>
+          <td class="p23">&nbsp;</td>
+          <td class="p24">&nbsp;</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div>
+  <!-- <div>
     <table class="court-up-down">
       <tbody>
         <tr>
@@ -58,5 +78,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
+  </div> -->
 </div>

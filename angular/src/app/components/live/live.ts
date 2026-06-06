@@ -16,11 +16,19 @@ import { PAIR_ALIAS } from '../../models/pair';
 import { LaunchSet } from '../launch-set/launch-set';
 import { ScoreLeftRight } from '../score-left-right/score-left-right';
 import { MatchService } from '../../services/match.service';
-import { Court } from '../court/court';
+import { CourtLeftRight } from '../court-left-right/court-left-right';
+import { ScoreUpDown } from '../score-up-down/score-up-down';
+import { CourtUpDown } from '../court-up-down/court-up-down';
 
 @Component({
   selector: 'live',
-  imports: [AsyncPipe, Court, ScoreLeftRight],
+  imports: [
+    AsyncPipe,
+    CourtLeftRight,
+    ScoreLeftRight,
+    ScoreUpDown,
+    CourtUpDown,
+  ],
   templateUrl: './live.html',
   styleUrl: './live.scss',
 })

@@ -1,27 +1,55 @@
 @use "src/app/styles/variables.css";
 
-.live {
+.live-left-right,
+.live-up-down {
   display: grid;
   height: 95%;
   margin-top: 2%;
+
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 30px;
 
-  background: linear-gradient(180deg, #2d7470, #133539);
   color: #efefef;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: linear-gradient(180deg, #2d7470, #133539);
 
   .score {
     display: grid;
-    align-items: center;
-  }
-
-  .server-receiver {
-    display: grid;
-    justify-items: center;
-    align-items: center;
+    position: relative;
   }
 
   .court {
     display: grid;
+  }
+}
+
+.live-left-right {
+  grid-template-rows: 5em 1fr;
+
+  .score {
+    align-items: center;
+  }
+
+  .score::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), transparent);
+  }
+}
+
+.live-up-down {
+  grid-template-columns: 5fr 1fr;
+
+  .score::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 70%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
   }
 }

@@ -2,7 +2,7 @@
 
 .court {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
 
   height: 100%;
 
@@ -15,47 +15,6 @@
 
 td {
   text-align: center;
-}
-
-.court-left-right {
-  width: 500px;
-  height: 227px;
-  border-collapse: collapse;
-  border: 1px solid white;
-  table-layout: fixed;
-
-  .nw,
-  .ne,
-  .sw,
-  .se {
-    width: 35.25%;
-  }
-
-  .nw,
-  .ne {
-    border-bottom: 1px solid white;
-  }
-
-  .sw,
-  .se {
-    border-top: 1px solid white;
-  }
-
-  .cl,
-  .cr {
-    width: 14.75%;
-    border-spacing: 0;
-  }
-
-  .cl {
-    border-left: 1px solid white;
-    border-right: 1px dashed white;
-  }
-
-  .cr {
-    border-left: 1px dashed white;
-    border-right: 1px solid white;
-  }
 }
 
 .court-up-down {
@@ -100,6 +59,132 @@ td {
   .dr {
     border-top: 1px dashed white;
     border-bottom: 1px solid white;
+  }
+}
+
+.court-left-right-detailed {
+  --length: 13400px;
+  --width: 6100px;
+
+  width: 800px;
+  height: 364px;
+  border-collapse: collapse;
+  border: 2px solid white;
+  table-layout: fixed;
+
+  .p1,
+  .p6,
+  .p7,
+  .p12,
+  .p13,
+  .p18,
+  .p19,
+  .p24 {
+    width: calc(720px / var(--length) * 100%);
+  }
+
+  .p2,
+  .p5,
+  .p8,
+  .p11,
+  .p14,
+  .p17,
+  .p20,
+  .p23 {
+    width: calc(3880px / var(--length) * 100%);
+  }
+
+  .p3,
+  .p4,
+  .p9,
+  .p10,
+  .p15,
+  .p16,
+  .p21,
+  .p22 {
+    width: calc(1980px / var(--length) * 100%);
+  }
+
+  .p1,
+  .p2,
+  .p3,
+  .p4,
+  .p5,
+  .p6,
+  .p19,
+  .p20,
+  .p21,
+  .p22,
+  .p23,
+  .p24 {
+    height: calc(420px / var(--width) * 100%);
+  }
+
+  .p7,
+  .p8,
+  .p9,
+  .p10,
+  .p11,
+  .p12,
+  .p13,
+  .p14,
+  .p15,
+  .p16,
+  .p17,
+  .p18 {
+    height: calc(2530px / var(--width) * 100%);
+  }
+
+  .p2,
+  .p3,
+  .p5,
+  .p6,
+  .p8,
+  .p9,
+  .p11,
+  .p12,
+  .p14,
+  .p15,
+  .p17,
+  .p18,
+  .p20,
+  .p21,
+  .p23,
+  .p24 {
+    border-left: 2px solid white;
+  }
+
+  .p1,
+  .p2,
+  .p3,
+  .p4,
+  .p5,
+  .p6,
+  .p7,
+  .p8,
+  .p11,
+  .p12,
+  .p13,
+  .p14,
+  .p15,
+  .p16,
+  .p17,
+  .p18 {
+    border-bottom: 2px solid white;
+  }
+
+  .p3,
+  .p9,
+  .p15,
+  .p21 {
+    border-right: 1px dotted white;
+  }
+
+  .p4,
+  .p10,
+  .p16,
+  .p22 {
+    border-left: 1px dotted white;
   }
 }
 
