@@ -16,3 +16,37 @@
 mat-tab-group {
   height: 100%;
 }
+
+.navigation {
+  position: absolute;
+  top: 50%;
+  left: 0;
+
+  .icon {
+    font-size: 2em;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #1c3d3c;
+    color: #efefef;
+    padding: 0.25em 0.25em 0.25em 0;
+  }
+}
+
+.disabled {
+  font-style: italic;
+  color: grey;
+}
+
+.menu-tab {
+  display: grid;
+  grid-template-rows: repeat(4, 3em);
+  align-items: center;
+}
+
+.menu-tab > span {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  padding-left: 0.5em;
+}

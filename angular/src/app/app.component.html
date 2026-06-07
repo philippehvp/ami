@@ -5,28 +5,33 @@
   <div class="content">
     @if (isMatchLaunched) {
       <div class="view">
-        <mat-tab-group>
-          <mat-tab label="Live">
-            <live></live>
-          </mat-tab>
-          <mat-tab label="Premier set">
-            <points [set$]="firstSet$" />
-          </mat-tab>
-          @if (secondSet$ | async; as secondSet) {
-            <mat-tab label="Deuxième set">
-              <points [set$]="secondSet$" />
-            </mat-tab>
-          } @else {
-            <mat-tab label="Deuxième set" disabled> </mat-tab>
-          }
-          @if (thirdSet$ | async; as thirdSet) {
-            <mat-tab label="Troisième set">
-              <points [set$]="thirdSet$" />
-            </mat-tab>
-          } @else {
-            <mat-tab label="Troisième set" disabled> </mat-tab>
-          }
-        </mat-tab-group>
+        <live [hidden]="isHidden(0)"></live>
+        <points [hidden]="isHidden(1)" [set$]="firstSet$" />
+        <points [hidden]="isHidden(2)" [set$]="secondSet$" />
+        <points [hidden]="isHidden(3)" [set$]="thirdSet$" />
+      </div>
+
+      <div class="navigation">
+        <span [matMenuTriggerFor]="menu" class="material-symbols-outlined icon">
+          menu
+        </span>
+        <mat-menu #menu="matMenu">
+          <div class="menu-tab">
+            <span (click)="goToView(0)">Live</span>
+            <span (click)="goToView(1)">Premier set</span>
+
+            @if (secondSet$ | async; as secondSet) {
+              <span (click)="goToView(2)">Deuxième set</span>
+            } @else {
+              <span class="disabled">Deuxième set</span>
+            }
+            @if (thirdSet$ | async; as thirdSet) {
+              <span (click)="goToView(3)">Troisième set</span>
+            } @else {
+              <span class="disabled">Troisième set</span>
+            }
+          </div>
+        </mat-menu>
       </div>
     }
   </div>

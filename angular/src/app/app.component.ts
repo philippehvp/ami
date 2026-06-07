@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { Selection } from './components/selection/selection';
@@ -9,9 +9,9 @@ import { Store } from '@ngxs/store';
 import { UmpireState } from './store/state/umpire.state';
 import { Live } from './components/live/live';
 import { Points } from './components/points/points';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatchService } from './services/match.service';
 import { AsyncPipe } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
 
 export interface ILogo {
   icon: string;
@@ -28,11 +28,11 @@ export interface ILogo {
   imports: [
     RouterModule,
     MatToolbarModule,
-    MatTabsModule,
     Selection,
     Live,
     Points,
     AsyncPipe,
+    MatMenuModule,
   ],
 })
 export class AppComponent {
@@ -42,6 +42,8 @@ export class AppComponent {
   public firstSet$: Observable<ISet>;
   public secondSet$: Observable<ISet>;
   public thirdSet$: Observable<ISet>;
+
+  public currentView = signal(0);
 
   constructor() {
     this.firstSet$ = this.store.select(UmpireState.firstSet);
@@ -55,5 +57,13 @@ export class AppComponent {
 
   public isSetDisabled(set: ISet): boolean {
     return !(set && set.points && set.points.length);
+  }
+
+  public isHidden(view: number): boolean {
+    return this.currentView() !== view;
+  }
+
+  public goToView(view: number) {
+    this.currentView.set(view);
   }
 }

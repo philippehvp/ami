@@ -1,73 +1,53 @@
-<!-- <div class="court">
-  <div class="player2 player" [class.server]="isServer(point, 2)">
-    {{getPlayerName(point.playerPositionLeftPair.playerRight)}}
-  </div>
-  <div class="player1 player" [class.server]="isServer(point, 1)">
-    {{getPlayerName(point.playerPositionLeftPair.playerLeft)}}
-  </div>
-
-  <div class="arrow">
-    <span [class]="getArrow(point)"> navigation </span>
-  </div>
-
-  <div class="player4 player" [class.server]="isServer(point, 4)">
-    {{getPlayerName(point.playerPositionRightPair.playerLeft)}}
-  </div>
-  <div class="player3 player" [class.server]="isServer(point, 3)">
-    {{getPlayerName(point.playerPositionRightPair.playerRight)}}
-  </div>
-</div> -->
-
 <div class="court">
   <table class="court-up-down">
     <tbody>
       <tr>
-        <td class="p1"></td>
-        <td class="p2"></td>
-        <td class="p3"></td>
-        <td class="p4"></td>
+        <td class="p1">&nbsp;</td>
+        <td class="p2">&nbsp;</td>
+        <td class="p3">&nbsp;</td>
+        <td class="p4">&nbsp;</td>
       </tr>
       <tr>
-        <td class="p5"></td>
+        <td class="p5">&nbsp;</td>
         <td [class]="getClassUpDown('p6', point, 2)">
           {{getPlayerName(point, 2)}}
         </td>
         <td [class]="getClassUpDown('p7', point, 1)">
           {{getPlayerName(point, 1)}}
         </td>
-        <td class="p8"></td>
+        <td class="p8">&nbsp;</td>
       </tr>
 
       <tr>
-        <td class="p9"></td>
-        <td class="p10"></td>
-        <td class="p11"></td>
-        <td class="p12"></td>
+        <td class="p9">&nbsp;</td>
+        <td class="p10">&nbsp;</td>
+        <td class="p11">&nbsp;</td>
+        <td class="p12">&nbsp;</td>
       </tr>
 
       <tr>
-        <td class="p13"></td>
-        <td class="p14"></td>
-        <td class="p15"></td>
-        <td class="p16"></td>
+        <td class="p13">&nbsp;</td>
+        <td class="p14">&nbsp;</td>
+        <td class="p15">&nbsp;</td>
+        <td class="p16">&nbsp;</td>
       </tr>
 
       <tr>
-        <td class="p17"></td>
+        <td class="p17">&nbsp;</td>
         <td [class]="getClassUpDown('p18', point, 4)">
           {{getPlayerName(point, 4)}}
         </td>
         <td [class]="getClassUpDown('p19', point, 3)">
           {{getPlayerName(point, 3)}}
         </td>
-        <td class="p20"></td>
+        <td class="p20">&nbsp;</td>
       </tr>
 
       <tr>
-        <td class="p21"></td>
-        <td class="p22"></td>
-        <td class="p23"></td>
-        <td class="p24"></td>
+        <td class="p21">&nbsp;</td>
+        <td class="p22">&nbsp;</td>
+        <td class="p23">&nbsp;</td>
+        <td class="p24">&nbsp;</td>
       </tr>
     </tbody>
   </table>

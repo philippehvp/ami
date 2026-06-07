@@ -5,6 +5,9 @@
 
   justify-items: center;
   align-items: center;
+
+  background: url("../../../assets/img/background/net_up_down.png") no-repeat
+    50% 50%;
 }
 
 td {
@@ -15,8 +18,8 @@ td {
   --length: 13400px;
   --width: 6100px;
 
-  width: 282px;
-  height: 620px;
+  width: 305px;
+  height: 670px;
   border-collapse: collapse;
   border: 2px solid white;
   table-layout: fixed;
@@ -33,7 +36,8 @@ td {
   .p20,
   .p21,
   .p24 {
-    width: calc(420px / var(--width) * 100%);
+    // width: calc(420px / var(--width) * 100%);
+    width: 6.88%;
   }
 
   .p2,
@@ -48,7 +52,8 @@ td {
   .p19,
   .p22,
   .p23 {
-    width: calc(2530px / var(--width) * 100%);
+    // width: calc(2530px / var(--width) * 100%);
+    width: 41.47%;
   }
 
   .p1,
@@ -59,7 +64,8 @@ td {
   .p22,
   .p23,
   .p24 {
-    height: calc(720px / var(--length) * 100%);
+    // height: calc(720px / var(--length) * 100%);
+    height: 5.37%;
   }
 
   .p5,
@@ -70,7 +76,8 @@ td {
   .p18,
   .p19,
   .p20 {
-    height: calc(3880px / var(--length) * 100%);
+    //height: calc(3880px / var(--length) * 100%);
+    height: 28.95%;
   }
 
   .p9,
@@ -81,7 +88,8 @@ td {
   .p14,
   .p15,
   .p16 {
-    height: calc(1980px / var(--length) * 100%);
+    // height: calc(1980px / var(--length) * 100%);
+    height: 14.77%;
   }
 
   .p1,

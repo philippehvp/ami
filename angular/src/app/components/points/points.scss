@@ -25,6 +25,15 @@
 .is-active {
   color: var(--mat-sys-on-primary);
   background-color: var(--mat-sys-primary);
+  position: relative;
+}
+
+.is-active::after {
+  font-family: "Material Icons";
+  content: "\e166";
+  top: -7px;
+  left: 80%;
+  position: absolute;
 }
 
 .played {
