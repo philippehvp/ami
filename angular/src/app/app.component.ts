@@ -11,7 +11,7 @@ import { Live } from './components/live/live';
 import { Points } from './components/points/points';
 import { MatchService } from './services/match.service';
 import { AsyncPipe } from '@angular/common';
-import { MatMenuModule } from '@angular/material/menu';
+import { PlayerOnCourtService } from './services/player-on-court.service';
 
 export interface ILogo {
   icon: string;
@@ -25,19 +25,13 @@ export interface ILogo {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [
-    RouterModule,
-    MatToolbarModule,
-    Selection,
-    Live,
-    Points,
-    AsyncPipe,
-    MatMenuModule,
-  ],
+  imports: [RouterModule, MatToolbarModule, Selection, Live, Points, AsyncPipe],
 })
 export class AppComponent {
   private readonly store: Store = inject(Store);
   private readonly matchService: MatchService = inject(MatchService);
+  private readonly playerOnCourtService: PlayerOnCourtService =
+    inject(PlayerOnCourtService);
 
   public firstSet$: Observable<ISet>;
   public secondSet$: Observable<ISet>;
@@ -65,5 +59,13 @@ export class AppComponent {
 
   public goToView(view: number) {
     this.currentView.set(view);
+  }
+
+  public isActive(view: number): boolean {
+    return this.currentView() === view;
+  }
+
+  public onChangeCourtMode() {
+    this.playerOnCourtService.switchCourtMode();
   }
 }

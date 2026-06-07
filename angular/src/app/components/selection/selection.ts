@@ -12,15 +12,13 @@ import { AsyncPipe } from '@angular/common';
 import { IPair, PAIR_ALIAS } from '../../models/pair';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LaunchMatchLeftRight } from '../launch-match-left-right/launch-match-left-right';
+import { LaunchMatch } from '../launch-match/launch-match';
 import { IFirstPoint, ILaunchMatchData } from '../../models/launch-data';
 import {
   COURT_MODE,
   PlayerOnCourtService,
 } from '../../services/player-on-court.service';
-import { LaunchMatchUpDown } from '../launch-match-up-down/launch-match-up-down';
 
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatchService } from '../../services/match.service';
 
 @Component({
@@ -32,7 +30,6 @@ import { MatchService } from '../../services/match.service';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatSlideToggleModule,
   ],
   templateUrl: './selection.html',
   styleUrl: './selection.scss',
@@ -70,16 +67,6 @@ export class Selection implements OnInit, OnDestroy {
     }
   }
 
-  public get courtModeLeftRight(): boolean {
-    return this.playerOnCourtService.getCourtMode() === COURT_MODE.LEFT_RIGHT;
-  }
-
-  public set courtModeLeftRight(courtModeLeftRight: boolean) {
-    this.playerOnCourtService.setCourtMode(
-      courtModeLeftRight ? COURT_MODE.LEFT_RIGHT : COURT_MODE.UP_DOWN,
-    );
-  }
-
   public onChangeCategory() {
     this.matchService.isMatchLaunched = false;
 
@@ -90,19 +77,7 @@ export class Selection implements OnInit, OnDestroy {
     this.rightPair.set(undefined);
   }
 
-  public get courtModeLabel(): string {
-    return this.courtModeLeftRight ? 'G/D' : 'H/B';
-  }
-
   public launch() {
-    if (this.courtModeLeftRight) {
-      this.launchLeftRight();
-    } else {
-      this.launchUpDown();
-    }
-  }
-
-  public launchLeftRight() {
     if (this.leftPair && this.rightPair) {
       const config: MatDialogConfig<ILaunchMatchData> = {
         data: {
@@ -111,36 +86,10 @@ export class Selection implements OnInit, OnDestroy {
         },
       };
       this.dialog
-        .open(LaunchMatchLeftRight, config)
+        .open(LaunchMatch, config)
         .afterClosed()
         .subscribe((firstPoint: IFirstPoint) => {
           if (firstPoint) {
-            this.playerOnCourtService.setCourtMode(COURT_MODE.LEFT_RIGHT);
-            this.setPlayersName();
-            this.setPairsPositionForAllSets(firstPoint);
-            this.matchService.isMatchLaunched = true;
-
-            // Initialisation match
-            this.store.dispatch(new UmpireActions.InitMatch(firstPoint));
-          }
-        });
-    }
-  }
-
-  public launchUpDown() {
-    if (this.leftPair && this.rightPair) {
-      const config: MatDialogConfig<ILaunchMatchData> = {
-        data: {
-          leftPair: this.leftPair() || ({} as IPair),
-          rightPair: this.rightPair() || ({} as IPair),
-        },
-      };
-      this.dialog
-        .open(LaunchMatchUpDown, config)
-        .afterClosed()
-        .subscribe((firstPoint: IFirstPoint) => {
-          if (firstPoint) {
-            this.playerOnCourtService.setCourtMode(COURT_MODE.UP_DOWN);
             this.setPlayersName();
             this.setPairsPositionForAllSets(firstPoint);
             this.matchService.isMatchLaunched = true;
@@ -158,16 +107,6 @@ export class Selection implements OnInit, OnDestroy {
       this.leftPair()?.id !== this.rightPair()?.id
       ? false
       : true;
-  }
-
-  public isLeftRightMode(): boolean {
-    return this.playerOnCourtService.getCourtMode() === COURT_MODE.LEFT_RIGHT;
-  }
-
-  public onChangeCourtMode() {
-    this.playerOnCourtService.switchCourtMode();
-    this.courtModeLeftRight =
-      this.playerOnCourtService.getCourtMode() === COURT_MODE.LEFT_RIGHT;
   }
 
   private setPlayersName() {

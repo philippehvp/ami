@@ -12,26 +12,49 @@
       </div>
 
       <div class="navigation">
-        <span [matMenuTriggerFor]="menu" class="material-symbols-outlined icon">
-          menu
-        </span>
-        <mat-menu #menu="matMenu">
-          <div class="menu-tab">
-            <span (click)="goToView(0)">Live</span>
-            <span (click)="goToView(1)">Premier set</span>
+        <div
+          class="material-symbols-outlined item"
+          [class.is-active]="isActive(0)"
+          (click)="goToView(0)"
+        >
+          tv
+        </div>
+        <div
+          class="material-symbols-outlined item"
+          [class.is-active]="isActive(1)"
+          (click)="goToView(1)"
+        >
+          looks_one
+        </div>
 
-            @if (secondSet$ | async; as secondSet) {
-              <span (click)="goToView(2)">Deuxième set</span>
-            } @else {
-              <span class="disabled">Deuxième set</span>
-            }
-            @if (thirdSet$ | async; as thirdSet) {
-              <span (click)="goToView(3)">Troisième set</span>
-            } @else {
-              <span class="disabled">Troisième set</span>
-            }
+        @if (secondSet$ | async; as secondSet) {
+          <div
+            class="material-symbols-outlined item"
+            [class.is-active]="isActive(2)"
+            (click)="goToView(2)"
+          >
+            looks_two
           </div>
-        </mat-menu>
+        } @else {
+          <div class="material-symbols-outlined item disabled">looks_two</div>
+        }
+        @if (thirdSet$ | async; as thirdSet) {
+          <div
+            class="material-symbols-outlined item"
+            [class.is-active]="isActive(3)"
+            (click)="goToView(3)"
+          >
+            looks_3
+          </div>
+        } @else {
+          <div class="material-symbols-outlined item disabled">looks_3</div>
+        }
+        <div
+          class="material-symbols-outlined item"
+          (click)="onChangeCourtMode()"
+        >
+          autorenew
+        </div>
       </div>
     }
   </div>

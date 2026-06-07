@@ -16,6 +16,10 @@ import { IFirstPoint, ILaunchMatchData } from '../../models/launch-data';
 import { IPlayerPosition } from '../../models/player-position';
 import { SERVER_SIDE } from '../../models/point';
 import { MatchService } from '../../services/match.service';
+import {
+  COURT_MODE,
+  PlayerOnCourtService,
+} from '../../services/player-on-court.service';
 @Component({
   selector: 'launch-match-left-right',
   imports: [
@@ -29,13 +33,17 @@ import { MatchService } from '../../services/match.service';
     MatRadioModule,
     MatRadioButton,
   ],
-  templateUrl: './launch-match-left-right.html',
-  styleUrl: './launch-match-left-right.scss',
+  templateUrl: './launch-match.html',
+  styleUrl: './launch-match.scss',
 })
-export class LaunchMatchLeftRight {
+export class LaunchMatch {
+  private readonly playerOnCourtService: PlayerOnCourtService =
+    inject(PlayerOnCourtService);
+
   public server = model<number>();
   public receiver = model<number>();
   public serverSide = model<number>();
+  public leftRightMode = model<number>();
 
   public launchMatchData: ILaunchMatchData = inject(MAT_DIALOG_DATA);
   private matDialogRef = inject(MatDialogRef<ILaunchMatchData>);
@@ -48,6 +56,13 @@ export class LaunchMatchLeftRight {
       playerPositionLeftPair: this.getPlayerPositionLeftPair(),
       playerPositionRightPair: this.getPlayerPositionRightPair(),
     } as IFirstPoint;
+
+    if (this.leftRightMode() === 1) {
+      this.playerOnCourtService.setCourtMode(COURT_MODE.LEFT_RIGHT);
+    } else {
+      this.playerOnCourtService.setCourtMode(COURT_MODE.UP_DOWN);
+    }
+
     this.matDialogRef.close(firstPoint);
   }
 
