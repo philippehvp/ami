@@ -12,6 +12,7 @@ import { Points } from './components/points/points';
 import { MatchService } from './services/match.service';
 import { AsyncPipe } from '@angular/common';
 import { PlayerOnCourtService } from './services/player-on-court.service';
+import { ViewService } from './services/view.service';
 
 export interface ILogo {
   icon: string;
@@ -37,8 +38,6 @@ export class AppComponent {
   public secondSet$: Observable<ISet>;
   public thirdSet$: Observable<ISet>;
 
-  public currentView = signal(0);
-
   constructor() {
     this.firstSet$ = this.store.select(UmpireState.firstSet);
     this.secondSet$ = this.store.select(UmpireState.secondSet);
@@ -54,15 +53,15 @@ export class AppComponent {
   }
 
   public isHidden(view: number): boolean {
-    return this.currentView() !== view;
+    return ViewService.view !== view;
   }
 
   public goToView(view: number) {
-    this.currentView.set(view);
+    ViewService.view = view;
   }
 
   public isActive(view: number): boolean {
-    return this.currentView() === view;
+    return ViewService.view === view;
   }
 
   public onChangeCourtMode() {

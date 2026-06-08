@@ -18,11 +18,13 @@ export class MatchService {
     server: number | undefined,
     receiver: number | undefined,
     serverSide: number | undefined,
+    leftRightMode: number | undefined,
   ): boolean {
     const allFieldsFilled: boolean =
       server !== undefined &&
       receiver !== undefined &&
-      serverSide !== undefined;
+      serverSide !== undefined &&
+      leftRightMode !== undefined;
 
     if (allFieldsFilled) {
       // Tous les champs sont remplis, à voir si le choix des joueurs est cohérent

@@ -147,6 +147,7 @@ export class LaunchMatch {
       this.server(),
       this.receiver(),
       this.serverSide(),
+      this.leftRightMode(),
     );
   }
 }

@@ -14,19 +14,20 @@ import {
   MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
 import { Confirmation } from '../confirmation/confirmation';
-import { CourtLight } from '../court-light/court-light';
+import { VIEW, ViewService } from '../../services/view.service';
+import { CourtLeftRight } from '../court-left-right/court-left-right';
 
 @Component({
   selector: 'points',
-  imports: [AsyncPipe, CourtLight, MatButtonModule, MatBottomSheetModule],
+  imports: [AsyncPipe, MatButtonModule, MatBottomSheetModule, CourtLeftRight],
   templateUrl: './points.html',
   styleUrl: './points.scss',
 })
 export class Points implements OnInit, OnDestroy {
-  private readonly store: Store = inject(Store);
-
   @Input()
   set$!: Observable<ISet>;
+
+  private readonly store: Store = inject(Store);
 
   public points$: Observable<IPoint[]>;
 
@@ -82,6 +83,7 @@ export class Points implements OnInit, OnDestroy {
         .subscribe((isGoBackConfirmation: boolean) => {
           if (isGoBackConfirmation) {
             this.goBackToPoint(set);
+            ViewService.view = VIEW.LIVE;
           }
         });
     } else {
