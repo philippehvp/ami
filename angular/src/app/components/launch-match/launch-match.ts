@@ -21,7 +21,7 @@ import {
   PlayerOnCourtService,
 } from '../../services/player-on-court.service';
 @Component({
-  selector: 'launch-match-left-right',
+  selector: 'launch-match',
   imports: [
     FormsModule,
     MatButtonModule,

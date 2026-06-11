@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
-  selector: 'bottom-sheet-overview-example-sheet',
+  selector: 'confirmation',
   templateUrl: 'confirmation.html',
   imports: [MatListModule, MatButtonModule],
 })

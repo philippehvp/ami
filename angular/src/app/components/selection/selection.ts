@@ -14,10 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LaunchMatch } from '../launch-match/launch-match';
 import { IFirstPoint, ILaunchMatchData } from '../../models/launch-data';
-import {
-  COURT_MODE,
-  PlayerOnCourtService,
-} from '../../services/player-on-court.service';
+import { PlayerOnCourtService } from '../../services/player-on-court.service';
 
 import { MatchService } from '../../services/match.service';
 

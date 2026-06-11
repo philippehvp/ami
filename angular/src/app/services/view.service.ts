@@ -5,6 +5,7 @@ export enum VIEW {
   FIRST_SET,
   SECOND_SET,
   THIRD_SET,
+  STATISTICS,
 }
 
 @Injectable({

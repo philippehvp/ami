@@ -5,7 +5,7 @@
   <div class="content">
     @if (isMatchLaunched) {
       <div class="view">
-        <live [hidden]="isHidden(0)"></live>
+        <live [hidden]="isHidden(0)" />
         <points [hidden]="isHidden(1)" [set$]="firstSet$" />
         <points [hidden]="isHidden(2)" [set$]="secondSet$" />
         <points [hidden]="isHidden(3)" [set$]="thirdSet$" />
@@ -56,6 +56,8 @@
           autorenew
         </div>
       </div>
+    } @else {
+      <div class="wait"></div>
     }
   </div>
 </div>

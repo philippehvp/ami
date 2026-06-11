@@ -22,7 +22,7 @@
 }
 
 .live-left-right {
-  grid-template-rows: 5em 1fr;
+  grid-template-rows: 6em 1fr;
 
   .score {
     align-items: center;
@@ -40,7 +40,7 @@
 }
 
 .live-up-down {
-  grid-template-columns: 5fr 1fr;
+  grid-template-columns: 5fr 7em;
 
   .score::before {
     content: "";

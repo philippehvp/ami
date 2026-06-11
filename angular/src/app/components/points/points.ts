@@ -1,8 +1,8 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { IPoint } from '../../models/point';
 import { ISet } from '../../models/set';
 import { UtilsService } from '../../services/utils.service';
-import { filter, map, Observable, of, Subject, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngxs/store';
@@ -23,50 +23,26 @@ import { CourtLeftRight } from '../court-left-right/court-left-right';
   templateUrl: './points.html',
   styleUrl: './points.scss',
 })
-export class Points implements OnInit, OnDestroy {
+export class Points implements OnInit {
   @Input()
   set$!: Observable<ISet>;
 
   private readonly store: Store = inject(Store);
-
-  public points$: Observable<IPoint[]>;
 
   public pointToShow: IPoint | undefined = undefined;
   public pointIndex: number | undefined = undefined;
 
   public cells!: IPoint[];
 
-  private destroy$!: Subject<boolean>;
-
   private goBackToConfirmation = inject(MatBottomSheet);
 
-  constructor() {
-    this.points$ = of();
-  }
+  constructor() {}
 
   public ngOnInit() {
-    this.destroy$ = new Subject<boolean>();
-
     // Création des cases pour affichage
     this.cells = [];
     for (let i: number = 0; i < 60; i++) {
       this.cells.push({} as IPoint);
-    }
-
-    this.set$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((set) => !!set),
-        map((set) => {
-          this.points$ = of(set.points);
-        }),
-      )
-      .subscribe();
-  }
-
-  public ngOnDestroy() {
-    if (this.destroy$) {
-      this.destroy$.next(true);
     }
   }
 
@@ -74,7 +50,7 @@ export class Points implements OnInit, OnDestroy {
     return UtilsService.isNotNullNorUndefined(obj);
   }
 
-  public showPoint(set: ISet, points: IPoint[], pointIndex: number) {
+  public showPoint(set: ISet, pointIndex: number) {
     // On considère que l'on veut revenir à ce point si on clique à nouveau dessus
     if (this.pointIndex === pointIndex) {
       this.goBackToConfirmation
@@ -87,8 +63,8 @@ export class Points implements OnInit, OnDestroy {
           }
         });
     } else {
-      if (points && pointIndex < points.length) {
-        this.pointToShow = points[pointIndex];
+      if (set.points && pointIndex < set.points.length) {
+        this.pointToShow = set.points[pointIndex];
         this.pointIndex = pointIndex;
       }
     }

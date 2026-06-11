@@ -14,14 +14,6 @@ import { AsyncPipe } from '@angular/common';
 import { PlayerOnCourtService } from './services/player-on-court.service';
 import { ViewService } from './services/view.service';
 
-export interface ILogo {
-  icon: string;
-  label: string;
-  isLightAndDark: boolean;
-  class: string;
-  link?: string;
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
